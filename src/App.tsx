@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import Layont from './components/Layont';
+import Layout from './components/Layout';
 
 function App() {
   return (
     <div>
       <BrowserRouter>
-        <Layont />
+        <Layout />
       </BrowserRouter>
     </div>
   );
