@@ -1,16 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
+import Layont from './components/Layont';
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <Switch>
-          
-        </Switch>
-      </Router>
+    <div>
+      <BrowserRouter>
+        <Layont />
+      </BrowserRouter>
     </div>
   );
 }
