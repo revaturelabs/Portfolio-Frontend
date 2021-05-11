@@ -1,10 +1,12 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
-import ModalComponent from './ModalComponent'
 import "./ProjectCard.css"
 
 function ProjectCard() {
+
+    var md2json = require('md-2-json');
+    console.log(md2json.parse('This is markdown content'));
 
     return (
         <div>
