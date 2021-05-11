@@ -1,15 +1,21 @@
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import { render } from 'react-dom';
+import React, { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import marked from "marked";
 
 function HelloWorld() {
 
-    return(
-        <ReactMarkdown>
-            # Hello, *world*!
-        </ReactMarkdown>
-    )
+    const [markdown, setMarkdown] = useState("");
 
+    useEffect(()=>{
+        document.title='markdown: ${markdown}';
+    })
+
+  return (
+        <div>
+            <ReactMarkdown>{markdown}</ReactMarkdown>
+            <button onClick={()=>setMarkdown("# test")}>generate markdown</button>
+        </div>
+    )
 }
 
-export default HelloWorld
+export default HelloWorld;
