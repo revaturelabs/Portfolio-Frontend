@@ -1,17 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import ProjectCard from './component/ProjectCard';
+import Layout from './components/Layout';
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <Switch>
-          <ProjectCard />
-        </Switch>
-      </Router>
+    <div>
+      <BrowserRouter>
+        <Layout />
+      </BrowserRouter>
     </div>
   );
 }
