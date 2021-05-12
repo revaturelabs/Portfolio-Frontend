@@ -5,7 +5,9 @@ import RevatureWorkExp from './RevatureWorkExperience';
 class Layout extends Component {
     render() {
         return (
-            <RevatureWorkExp/>
+            <div>
+                <RevatureWorkExp/>
+            </div>
         );
     }
 }
