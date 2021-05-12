@@ -172,6 +172,9 @@ function ProjectCard() {
             </Button>
           </Modal.Footer>
         </Modal>
+        <Card.Body>
+          <Card.Text className="project"></Card.Text>
+        </Card.Body>
       </Card>
     </div>
   );
