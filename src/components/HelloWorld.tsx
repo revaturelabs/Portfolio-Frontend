@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import MarkDown from 'markdown-to-jsx';
 
@@ -20,21 +20,21 @@ function HelloWorld() {
     useEffect(()=>{
         var md2json = require('md-2-json');
         console.log(md2json.parse('This is markdown content'));
-        // import(`./${file_name}`)
-        //     .then(res=>{
-        //         fetch(res.default)
-        //             .then(res=>res.text())
-        //             .then(res=>setMd(res))
-        //     })
-        //     .catch(err=>console.log(err))
+        import(`./${file_name}`)
+            .then(res=>{
+                fetch(res.default)
+                    .then(res=>res.text())
+                    .then(res=>setMd(res))
+            })
+            .catch(err=>console.log(err))
     });
 
   return (
         <div>
-            {/* <ReactMarkdown>{markdown}</ReactMarkdown>
+            <ReactMarkdown>{markdown}</ReactMarkdown>
             <button onClick={()=>setMarkdown("# test")}>generate markdown</button>
             <ReactMarkdown>{markdown2}</ReactMarkdown>
-            <MarkDown>{md}</MarkDown> */}
+            <MarkDown>{md}</MarkDown>
         </div>
     )
 }
