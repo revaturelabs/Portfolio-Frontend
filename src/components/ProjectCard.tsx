@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Card, Modal, ModalTitle } from "react-bootstrap";
 import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { Tooltip } from "reactstrap";
+import '../css/ProjectCard.css';
 
 function ProjectCard() {
   /**
@@ -81,7 +82,7 @@ function ProjectCard() {
   return (
     <div className="container">
       <Card id="card-container">
-        <Card.Header id="header">
+        <Card.Header id="header-project">
           <h4>
             Project
             <QuestionCircle
@@ -171,6 +172,9 @@ function ProjectCard() {
             </Button>
           </Modal.Footer>
         </Modal>
+        <Card.Body>
+          <Card.Text className="project"></Card.Text>
+        </Card.Body>
       </Card>
     </div>
   );
