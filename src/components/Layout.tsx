@@ -10,7 +10,6 @@ class Layout extends Component {
                 <Route path="/login" component={AccountLogin} />
                 <RevatureWorkExp />
             </div>
-            
         );
     }
 }
