@@ -22,18 +22,28 @@ const OtherWorkExperience = () => {
             jobTitle
         ]
 
+        // veryfying that data is being caught before rendered in the card
+        console.log(exp);
+
+
         let addWorkExperience = document.getElementById("addWorkExperience");
         let div = document.createElement('div');
 
-        for (let index = 0; index < exp.length; index++) { 
-            return (
-                <div>
-                    <h1> {exp[index]}</h1>
-                    <div>{exp[index+1]}</div>
-                    <div>{exp[index+2]}</div>
-                    <div>{exp[index+3]}</div>
-                </div>
-            );
+        for (let index = 0; index < exp.length; index++) {
+            let header = document.createElement('div');
+            div.appendChild(header);
+            header.innerHTML = exp[index];
+            header.classList.add("card");
+            addWorkExperience?.appendChild(div);
+
+            // return (
+            //     <div>
+            //         <h1> {exp[index]}</h1>
+            //         <div>{exp[index+1]}</div>
+            //         <div>{exp[index+2]}</div>
+            //         <div>{exp[index+3]}</div>
+            //     </div>
+            // );
         }
     }
     
@@ -65,7 +75,7 @@ const OtherWorkExperience = () => {
                 </Modal.Body>
                 <Modal.Footer className="">
                     <div className="mx-auto">
-                    <Button variant="primary" className="mx-1" onClick={()=>{ handleClose(); alert("Changes are saved!"); createWorkExperience()}}>Save</Button>
+                    <Button variant="primary" className="mx-1" onClick={()=>{ handleClose(); alert("Changes are saved!"); createWorkExperience();}}>Save</Button>
                     <Button variant="secondary" className="mx-1" onClick={handleClose}>Cancel</Button>
                     </div>
                 </Modal.Footer>
@@ -95,7 +105,7 @@ const OtherWorkExperience = () => {
             </div>
 
             <div className="card-footer">
-                {createWorkExperience()}
+                {/* {createWorkExperience()} */}
             </div>
             </div>
         </div>
