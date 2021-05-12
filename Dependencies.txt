@@ -1,9 +1,9 @@
 // React icons
-npm install react-bootstrap-icons
+npm i react-bootstrap-icons
 
 // Tooltip
 npm i bootstrap --> if already dont have
 npm i reactstrap react react-dom
 
 // Bootstrap
-npm install react-bootstrap bootstrap
+npm i react-bootstrap bootstrap
