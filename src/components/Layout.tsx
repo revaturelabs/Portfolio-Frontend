@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import ProjectCard from './ProjectCard';
 import { Route } from 'react-router';
 import AccountLogin from './AccountLogin';
-import RevatureWorkExp from './RevatureWorkExperience';
 import HelloWorld from './HelloWorld';
+import RevatureWorkExp from './RevatureWorkExperience';
 
 class Layout extends Component {
     render() {

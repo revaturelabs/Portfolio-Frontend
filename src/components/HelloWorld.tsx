@@ -20,8 +20,8 @@ function HelloWorld() {
         import(`./${file_name}`)
             .then(res=>{
                 fetch(res.default)
-                    .then(res=>res.text())
-                    .then(res=>setMd(res))
+                    .then(res=>console.log(res))
+                    // .then(res=>setMd(res))
             })
             .catch(err=>console.log(err))
     });
