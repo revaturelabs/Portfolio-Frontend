@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import MarkDown from 'markdown-to-jsx';
 
-// TODO: read markdown from file to render to page
-// TODO: convert markdown to json to render to page
+/**
+ * TODO:
+ * - [ ] share feature with team lead/team
+ * - [ ] identiy next step for implementation into project component
+ */
+
 function HelloWorld() {
 
     const [markdown, setMarkdown] = useState("");
