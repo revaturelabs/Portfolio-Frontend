@@ -5,6 +5,7 @@ import ProjectCard from "./ProjectCard";
 import RevatureWorkExperience from "./RevatureWorkExperience";
 import Landing from './Landing';
 import ViewPortfolio from './ViewPortfolio';
+import EditEmpPortfolio from './EditEmpPortfolio';
 
 function Layout() {
     return (
