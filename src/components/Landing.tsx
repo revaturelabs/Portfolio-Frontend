@@ -1,21 +1,37 @@
-// import React, { useState } from 'react';
+import React, { useState } from 'react';
 import AccountLogin from './AccountLogin';
+import '../css/Landing.css';
+import { Modal, Button } from 'react-bootstrap';
+import AccountRegistration from './AccountRegistration';
 
 const Landing = () => {
 
-/*     const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true); */
+    const handleShow = () => setShow(true);
 
     return (
-        <div className="mt-5">
-            <div className="container col-xl-10 col-xxl-8 px-4 py-5">
-                <div className="row align-items-center g-lg-5 py-5">
-                    <div className="col-lg-7 text-center text-lg-start">
-                        <h3 className="mb-3">Portfolio</h3>
-                        <p className="col-lg-10 fs-4">Welcome to Portfolio. if this is your first time here please register. Otherwise login to view your portfolios</p>
+        <div className="centering">
+            <div className="container col-xxl-12 col-xxl-12">
+                <div className="row align-items-center">
+                    <Modal show={show} onHide={handleClose} backdrop="static">
+                        <Modal.Header>
+                            <Modal.Title>Account Registration</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <AccountRegistration />
+                        </Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>Close</Button>
+                        <Button variant="primary">Save</Button>
+                        </Modal.Footer>
+                    </Modal>
+                    <div className="col-lg-5 text-center text-lg-start">
+                        <h3 className="mb-4">Portfolio</h3>
+                        <p className="col-lg-10 fs-4">Welcome to Portfolio. if this is your first time here please register. Otherwise login to view your portfolios.</p>
+                        <button onClick={handleShow} className="btn btn-primary">Register</button>
                     </div>
-                    <div className="col-md-10 mx-auto col-lg-5">
+                    <div className="col-md-10 col-lg-7">
                         <AccountLogin />
                     </div>
                 </div>
