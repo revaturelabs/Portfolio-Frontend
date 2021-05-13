@@ -37,6 +37,8 @@ h6::after {
     margin-bottom: 20px;
 }
 
+.work-experience-textarea {height: 100px;}
+
 form {
     margin: 20px;
     padding: 15px;
