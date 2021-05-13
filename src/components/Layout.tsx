@@ -8,7 +8,7 @@ class Layout extends Component {
         return (
             <div>
                 <Route path="/login" component={AccountLogin} />
-                <RevatureWorkExp />
+                <RevatureWorkExp/>
             </div>
         );
     }
