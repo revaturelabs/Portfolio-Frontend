@@ -1,7 +1,8 @@
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
-import { Card, Button, Modal} from 'react-bootstrap';
-import { QuestionCircle, PlusCircle, Pencil } from 'react-bootstrap-icons';
+import { Button, Modal} from 'react-bootstrap';
+import { QuestionCircle, PlusCircle } from 'react-bootstrap-icons';
 import '../css/OtherWorkExperience.css'
 
 const OtherWorkExperience = () => {
@@ -44,8 +45,21 @@ const OtherWorkExperience = () => {
             //         <div>{exp[index+3]}</div>
             //     </div>
             // );
-        }
+        }        
     }
+
+
+    const handleWorkExperience = async () => {
+
+        axios.get('http://3.236.213.150:8081/workhistory')
+        .then((resp) => {
+            console.log(resp.data); 
+        }).catch((e) => {
+            console.log(e + ': SOMETHING WENT WRONG!')
+        })
+    }
+
+    
     
     return (
         <div className="container">
@@ -55,23 +69,26 @@ const OtherWorkExperience = () => {
                     <Modal.Title>Add Other Experience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="form-group">
-                        <label className="">Employer Name</label>
-                        <input type="text" name="empName" id="" className="w-100" onChange={ (e)=> setEmpName(e.target.value) }/>
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>From</label> 
-                        <input type="date" name="fromDate" id="" className="w-100" placeholder="From" onChange={ (e) => setFromDate(e.target.value)}/> 
-                    </div>
-                    <div className="form-group">
-                        <label>To</label> 
-                        <input type="date" name="toDate" id="" className="w-100" placeholder="To" onChange={ (e) => setToDate(e.target.value)}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Job Title</label>
-                        <input type="text" name="jobTitle" id="" className="w-100" placeholder="" onChange={ (e) => setJobTitle(e.target.value)}/>
-                    </div>                
+                    <form action="">
+                        <div className="form-group">
+                            <label className="">Employer Name</label>
+                            <input type="text" name="empName" id="" className="w-100" onChange={ (e)=> setEmpName(e.target.value) }/>
+                        </div>
+                        
+                        <div className="form-group">
+                            <label>From</label> 
+                            <input type="date" name="fromDate" id="" className="w-100" placeholder="From" onChange={ (e) => setFromDate(e.target.value)}/> 
+                        </div>
+                        <div className="form-group">
+                            <label>To</label> 
+                            <input type="date" name="toDate" id="" className="w-100" placeholder="To" onChange={ (e) => setToDate(e.target.value)}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Job Title</label>
+                            <input type="text" name="jobTitle" id="" className="w-100" placeholder="" onChange={ (e) => setJobTitle(e.target.value)}/>
+                        </div> 
+                    </form>
+                                   
                 </Modal.Body>
                 <Modal.Footer className="">
                     <div className="mx-auto">
@@ -89,7 +106,7 @@ const OtherWorkExperience = () => {
                     <h4 className="text-light">Other Work Experience  
                         <span> </span>
                         <span>
-                        <QuestionCircle id="" onClick={() => (alert("hello world"))} />
+                        <QuestionCircle id="" onClick={() => {alert("getting data from API");}} />
                         </span>
                         <span> </span>
                         <span>
