@@ -6,6 +6,7 @@ import RevatureWorkExperience from "./RevatureWorkExperience";
 import Landing from './Landing';
 import ViewPortfolio from './ViewPortfolio';
 import EditEmpPortfolio from './EditEmpPortfolio';
+import AboutMe from "./AboutMe";
 
 function Layout() {
     return (
@@ -16,6 +17,7 @@ function Layout() {
           <Route path="/" exact component={Landing} />
           <Route path="/main" exact component={Landing} />
           <Route path="/portfolio" exact component={EditEmpPortfolio} />
+          <Route path="/aboutMe" exact component={AboutMe} />
           <Route path="/view" component={ViewPortfolio} />
         </div>
     );
