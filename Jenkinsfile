@@ -5,7 +5,9 @@ pipeline {
       steps {
         sh 'pwd'
         sh 'ls -al'
-        sh 'npm install'
+        withNPM{
+            sh 'npm install'
+        }
       }
     }
   }
