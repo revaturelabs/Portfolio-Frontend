@@ -5,7 +5,7 @@ pipeline {
       steps {
         sh 'pwd'
         sh 'ls -al'
-        nodejs() {
+        nodejs(nodeJSInstallationName: 'nodejs') {
             sh 'npm config ls'
         }
       }
