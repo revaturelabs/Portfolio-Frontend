@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AccountLogin from "./AccountLogin";
-import ProjectCard from "./ProjectCard";
+import Project from "./Project";
 import RevatureWorkExperience from "./RevatureWorkExperience";
 import Landing from './Landing';
 import ViewPortfolio from './ViewPortfolio';
