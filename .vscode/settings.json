@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "src",
+        "parsemd/app/src/main/java/parsemd"
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
+}
