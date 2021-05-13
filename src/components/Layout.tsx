@@ -11,7 +11,7 @@ function Layout() {
     return (
           <div>
           <Route path="/login" exact component={AccountLogin} />
-          <Route path="/projects" exact component={ProjectCard} />
+          <Route path="/projects" exact component={Project} />
           <Route path="/revature-work-experience" exact component={RevatureWorkExperience} />
           <Route path="/" exact component={Landing} />
           <Route path="/main" exact component={Landing} />
