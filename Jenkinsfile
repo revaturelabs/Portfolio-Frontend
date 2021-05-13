@@ -1,21 +1,16 @@
 pipeline {
   agent any
   stages {
-    stage('Build') {
+    stage('Install Dependencies') {
       steps {
         sh 'pwd'
         sh 'ls -al'
-        sh 'chmod +x gradlew'
-        withGradle {
-          sh './gradlew build'
-        }
+        sh 'npm install'
       }
     }
     stage('Test') {
       steps {
-        withGradle {
-          sh './gradlew test'
-        }
+        //run jest tests
       }
     }
   }
