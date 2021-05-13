@@ -5,8 +5,8 @@ pipeline {
       steps {
         sh 'pwd'
         sh 'ls -al'
-        withNPM(npmrcConfig:'joe_testing_node'){
-            sh 'npm install'
+        nodejs(nodeJSInstallationName: 'Node 6.x', configId: 'joe_testing_node') {
+            sh 'npm config ls'
         }
       }
     }
