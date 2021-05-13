@@ -10,5 +10,12 @@ pipeline {
         }
       }
     }
+    stage('Start Dev Server'){
+      steps{
+        nodejs(nodeJSInstallationName: 'nodejs'){
+          sh 'npm start'
+        }
+      }
+    }
   }
 }
