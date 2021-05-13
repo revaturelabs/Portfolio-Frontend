@@ -1,9 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, Trash } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
 import '../css/RevatureAboutMe.css';
+import axios from 'axios'
 
 
 const RevatureAboutMe = () => {
@@ -42,11 +43,7 @@ const RevatureAboutMe = () => {
     //Render about me on page (need to refactor to pull from database add update button if not empty)
     //*********************************************************************/
     const createAboutMe = () => {
-        let exp: Array<string> = [
-            bio,
-            email,
-            phone,
-        ]
+
         let aboutMe = document.querySelector('.about-me-content')
         let div = document.createElement('div')
 
@@ -55,9 +52,9 @@ const RevatureAboutMe = () => {
             let emailHeader = document.createElement('h6')
             let phoneHeader = document.createElement('h6')
             
-            bioHeader.innerHTML = exp[0]
-            emailHeader.innerHTML = "Email: " + exp[1]
-            phoneHeader.innerHTML = "Phone: " + exp[2]
+            bioHeader.innerHTML = bio
+            emailHeader.innerHTML = "Email: " + email
+            phoneHeader.innerHTML = "Phone: " + phone
 
             bioHeader.style.whiteSpace = "pre-wrap"
             bioHeader.style.marginBottom = "50px"
@@ -78,24 +75,58 @@ const RevatureAboutMe = () => {
 
     // Save data to database (update)
     //***************************************************/
-    const handleSave = () => {
-        let exp: Array<string> = [
-            bio,
-            email,
-            phone
-        ]
-        setShow(false)
-        console.log(exp)
-    }
+    // const handleSave = () => {
+    //     let exp: Array<string> = [
+    //         bio,
+    //         email,
+    //         phone
+    //     ]
+    //     setShow(false)
+    //     console.log(exp)
+    // }
 
-    const handleUpdate = () => {
+    // POST METHOD
+
+    const handleUpdate = async () => {
+        
+        axios.post("http://localhost:8081/aboutMe", {bio, email, phone})
+        .then(response => {
+            console.log("success") 
+            console.log(response.data)
+        })
+        .catch(error => {
+            console.log("error")
+        })
         setEditShow(false)
     }
+
+    //GET METHOD
+
+    const handleGet = async () =>{
+        axios.get("http://localhost:8081/aboutMe")
+        .then(response => {
+            console.log("got the data")
+            console.log(response.data)
+            response.data.map((data: any) => {
+                console.log(data)
+                setBio(data.bio)
+                setEmail(data.email)
+                setPhone(data.phone)
+                createAboutMe()
+            })
+        })
+        .catch(error => {
+            console.log("failure")
+        })
+    }
+
+    useEffect(()=> {handleGet();},[]);
+
+    // DELTE METHOD
 
     const handleDelete = () => {
         setDeleteShow(false)
     }
-    //***************************************************/
 
     // Information meassage
     const message: string = "This section is used to focus on your personal story and career goals. \n\n How did you first get started with coding? \n What was your favorite project to see come to completion?"
@@ -129,14 +160,14 @@ const RevatureAboutMe = () => {
                             <h6>Email</h6>
                             <input type="email" name="fromDate" className="form-input" id="" onChange={e => setEmail(e.target.value)}/><br />
                             <h6>Phone #</h6>
-                            <input type="tel" name="toDate" className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
+                            <input type="text" name="toDate" className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={() => {handleSave(); createAboutMe();}}>Save</Button>
+                        <Button variant="primary" onClick={() => {handleUpdate();}}>Save</Button>
                     </Modal.Footer>
                
                 </Modal>
