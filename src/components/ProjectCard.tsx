@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Card, Modal, ModalTitle } from "react-bootstrap";
 import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { Tooltip } from "reactstrap";
-import '../css/ProjectCard.css';
+import "../css/ProjectCard.css";
 
 function ProjectCard() {
   /**
@@ -55,6 +55,12 @@ function ProjectCard() {
       header.innerHTML = projects[index];
       project?.appendChild(div);
     }
+
+    setProjectName("");
+    setProjectRolesResponsibilities("");
+    setProjectEnvironmentTechnologies("");
+    setProjectRepoUrl("");
+    setProjectWorkProducts("");
 
     div.style.border = "2px solid black";
   };
