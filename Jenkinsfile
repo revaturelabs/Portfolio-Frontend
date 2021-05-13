@@ -8,10 +8,5 @@ pipeline {
         sh 'npm install'
       }
     }
-    stage('Test') {
-      steps {
-        //run jest tests
-      }
-    }
   }
 }
