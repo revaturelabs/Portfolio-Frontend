@@ -5,7 +5,7 @@ pipeline {
       steps {
         sh 'pwd'
         sh 'ls -al'
-        withNPM(npmrcConfig:'MyNpmrcConfig'){
+        withNPM(npmrcConfig:'joe_testing_node'){
             sh 'npm install'
         }
       }
