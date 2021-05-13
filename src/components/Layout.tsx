@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import ProjectCard from './ProjectCard';
+import AboutMe from './AboutMe';
 
 class Layout extends Component {
     render() {
         return (
             <div>
-                <ProjectCard />
+                <AboutMe />
             </div>
         );
     }
