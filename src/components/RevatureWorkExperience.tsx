@@ -48,6 +48,11 @@ const RevatureWorkExperience = () => {
             header.innerHTML = exp[index]
             workExperience?.appendChild(div)  
         }
+        
+        setEmployerName('');
+        setFromDate('');
+        setToDate('');
+        setJobTitle('');
 
         div.style.border = "2px solid black"
     }
