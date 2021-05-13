@@ -16,7 +16,6 @@ const AccountRegistration = () => {
                 <input type="password" name="password" id="passwrod" className="form-input" />
                 <h6>Confirm Password</h6>
                 <input type="password" name="confirmPassword" id="confirmPassword" className="form-input" />
-                <button type="submit" className="btn btn-primary">Register</button>
             </form>
         </div>
     );
