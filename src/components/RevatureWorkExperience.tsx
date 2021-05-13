@@ -1,18 +1,32 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
-import { Card, Button, Modal } from 'react-bootstrap';
-import { QuestionCircle, PlusCircle } from 'react-bootstrap-icons'
-import { Tooltip } from 'reactstrap';
-import '../css/RevatureWorkExperience.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import React, { useState } from 'react'
+import { Card, Button, Modal, ModalBody } from 'react-bootstrap'
+import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons'
+import { Tooltip } from 'reactstrap'
+import '../css/RevatureWorkExperience.css'
 
 
 const RevatureWorkExperience = () => {
-    // Model show and hide
-    //*********************************************/
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // Add work experience Modal show and hide
+    //*************************************************************/
+    const [showAddExperience, setShowExperience] = useState(false)
+    const handleCloseAddExperience = () => setShowExperience(false)
+    const handleShowAddExperience = () => setShowExperience(true)
+    //*************************************************************/
+
+    // Card details Modal show and hide
+    //****************************************************/
+    const [showDetails, setShowDetails] = useState(false);
+    const handleCloseDetails = () => setShowDetails(false);
+    const handleShowDetails= () => setShowDetails(true);
     //***************************************************/
+
+    // Update Modal show and hide
+    //**************************************************************************/
+    const[showUpdateExperience, setShowUpdateExperience] = useState(false)
+    const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
+    const handleShowUpdateExperience = () => setShowUpdateExperience(true)
+    //**************************************************************************/
 
     // Tooltip for add and details buttons
     //***********************************************************************/
@@ -33,28 +47,71 @@ const RevatureWorkExperience = () => {
     //Render work experience on page
     //*********************************************************************/
     const createWorkExperience = () => {
-        let exp: Array<string> = [
+        const months: Array<string> = [
+            "January", "February", 
+            "March", "April", "May", 
+            "June", "July", "August",
+            "September", "October", 
+            "November", "December"
+        ];
+        let startDate = new Date(fromDate)
+        let endDate = new Date(toDate)
+        let duration = months[startDate.getMonth()] + " " + startDate.getFullYear() + " - " + months[endDate.getMonth()] + ' ' + endDate.getFullYear()
+
+        let experienceDetails: Array<string> = [
             employerName,
-            fromDate,
-            toDate,
+            duration,
             jobTitle
         ]
-        let workExperience = document.querySelector('.work-experience')
-        let div = document.createElement('div')
+        let workExperience = document.querySelector(".work-experience")
+        let card = document.createElement("div")
+        let cardHeader = document.createElement("div")
+        let cardBody = document.createElement("div")
+        let editDiv = document.createElement("div")
+        let editButton = document.createElement("button")
 
-        for (let index = 0; index < exp.length; index++) {
-            let header = document.createElement('h1')
-            div.appendChild(header)
-            header.innerHTML = exp[index]
-            workExperience?.appendChild(div)  
+        card.setAttribute("class", "card")
+        cardHeader.setAttribute("class", "card-header")
+        cardBody.setAttribute("class", "card-body")
+        editButton.setAttribute("class", "btn btn-primary")
+
+        card.appendChild(cardHeader)
+        cardBody.innerHTML = "this will be the body of the card" // <--- this is temp
+        card.appendChild(cardBody)
+
+        editDiv.appendChild(editButton)
+        editButton.style.float = "right"
+        editButton.innerHTML = "Edit"
+        editButton.addEventListener("click", () => {
+            handleShowUpdateExperience()
+        })
+        cardHeader.appendChild(editDiv)
+
+        let headerNum: number = 1
+        for (const iterator of experienceDetails) {
+            let component = document.createElement("h" + headerNum)
+
+            cardHeader.appendChild(component)
+            component.innerHTML = iterator
+            if(headerNum === 1) {
+                component.style.fontWeight = "bold"
+            } else if(headerNum === 3) {
+                component.style.color = "rgb( 242, 105, 3)"
+            }
+            headerNum++
         }
-        
+        cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
+        cardHeader.style.backgroundColor = "white"
+        workExperience?.appendChild(card)  
+
         setEmployerName('');
         setFromDate('');
         setToDate('');
         setJobTitle('');
 
-        div.style.border = "2px solid black"
+        if(Number(workExperience?.childElementCount) > 1) {
+            card.style.marginTop = "50px"
+        }
     }
     //*********************************************************************/
 
@@ -67,54 +124,113 @@ const RevatureWorkExperience = () => {
             toDate,
             jobTitle
         ]
-        setShow(false)
+        setShowExperience(false)
         console.log(exp)
     }
     //***************************************************/
-
-    // Information meassage
-    const message: string = "This section is used to mention your work experience with the Revature’s Client after placement. As of now, the Work Experiences section should be blank.\n\nIf you any previous work experience, you can mention them under the Other Experiences section."
 
 
     return (
         <div className="container">
             <Card id="card-container">
-                <Card.Header id="header">
+                <Card.Header id="header-work-experience">
                     <h4>
                         Work Experience
-                        <QuestionCircle id="card-info" onClick={() => (alert(message))} />
-                        <PlusCircle id="add-experience" onClick={handleShow} />
-                        <Tooltip target="add-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
+                        <QuestionCircle id="card-info" onClick={handleShowDetails}/>
+                        <PlusCircle id="add-work-experience" onClick={handleShowAddExperience}/>
+                        <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                     </h4>
                 </Card.Header>
-                <Modal show={show} onHide={handleClose} backdrop="static">
+                <Card.Body id="card-body">
+                    <Card.Text className="work-experience"></Card.Text>
+                </Card.Body>
+            </Card>
+            <Modal show={showDetails} onHide={handleCloseDetails}>
+                <Modal.Header>
+                    <Modal.Title>Details</Modal.Title>
+                    <XCircle id="work-experience-details" onClick={handleCloseDetails}/>
+                </Modal.Header>
+                <ModalBody>
+                    <p>This section is used to mention your work experience with the Revature’s Client after placement. As of now, the Work Experiences section should be blank.
+                        <br/>
+                        <br/>
+                        If you any previous work experience, you can mention them under the Other Experiences section.
+                    </p>
+                </ModalBody>
+            </Modal>
+            <Modal show={showAddExperience} onHide={handleCloseAddExperience} backdrop="static">
                     <Modal.Header>
                         <Modal.Title>Add Work Experience</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form method="post">
+                        <form>
                             <h6>Employer Name</h6>
-                            <input type="email" name="employerName" className="form-input" id="" onChange={e => setEmployerName(e.target.value)} /><br />
+                            <input type="text" name="employerName" className="form-input" id="" onChange={e => setEmployerName(e.target.value)}/>
+                            <h6>From</h6>
+                            <input type="date" name="fromDate" className="form-input" id="" onChange={e => setFromDate(e.target.value)}/>
+                            <h6>To</h6>
+                            <input type="date" name="toDate" className="form-input" id="" onChange={e => setToDate(e.target.value)}/>
+                            <h6>Job Title</h6>
+                            <input type="text" name="jobTitle" className="form-input" id="" onChange={e => setJobTitle(e.target.value)}/>
+                            <h6>Project Title</h6>
+                            <input type="text" name="projectTitle" className="form-input" id="" /><br/>
+                            <h6>Project Duration</h6>
+                            <h6>From</h6>
+                            <input type="date" name="projectFromDate"  className="form-input" id="" />
+                            <h6>To</h6>
+                            <input type="date" name="projectToDate" className="form-input" id="" />
+                            <h6>Responsibilites</h6>
+                            <textarea name="projectResponsibilites" className="form-input work-experience-textarea" id=""></textarea>
+                            <h6>Project Details</h6>
+                            <textarea name="projectDetails" className="form-input work-experience-textarea" id=""></textarea>
+                            <h6>Tools / Technologies</h6>
+                            <textarea name="projectTools" className="form-input work-experience-textarea" id=""></textarea>
+                            <h6>Problem Desciption</h6>
+                            <textarea name="projectProblem" className="form-input work-experience-textarea" id=""></textarea>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
+                        <Button variant="primary" onClick={() => {handleSave(); createWorkExperience();}}>Add</Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={showUpdateExperience} onHide={handleCloseUpdateExperience} backdrop="static">
+                    <Modal.Header>
+                        <Modal.Title>Edit Work Experience</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form>
+                            <h6>Employer Name</h6>
+                            <input type="text" name="employerName" className="form-input" id="" onChange={e => setEmployerName(e.target.value)}/><br />
                             <h6>From</h6>
                             <input type="date" name="fromDate" className="form-input" id="" onChange={e => setFromDate(e.target.value)}/><br />
                             <h6>To</h6>
                             <input type="date" name="toDate" className="form-input" id="" onChange={e => setToDate(e.target.value)}/><br />
                             <h6>Job Title</h6>
                             <input type="text" name="jobTitle" className="form-input" id="" onChange={e => setJobTitle(e.target.value)}/>
+                            <h6>Project Title</h6>
+                            <input type="text" name="projectTitle" className="form-input" id="" /><br/>
+                            <h6>Project Duration</h6>
+                            <h6>From</h6>
+                            <input type="date" name="projectFromDate"  className="form-input" id="" />
+                            <h6>To</h6>
+                            <input type="date" name="projectToDate" className="form-input" id="" />
+                            <h6>Responsibilites</h6>
+                            <textarea name="projectResponsibilites" className="form-input work-experience-textarea" id=""></textarea>
+                            <h6>Project Details</h6>
+                            <textarea name="projectDetails" className="form-input work-experience-textarea" id=""></textarea>
+                            <h6>Tools / Technologies</h6>
+                            <textarea name="projectTools" className="form-input work-experience-textarea" id=""></textarea>
+                            <h6>Problem Desciption</h6>
+                            <textarea name="projectProblem" className="form-input work-experience-textarea" id=""></textarea>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={() => {handleSave(); createWorkExperience();}}>Save</Button>
+                        <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
+                        <Button variant="primary" onClick={() => {handleCloseUpdateExperience()}}>Update</Button>
                     </Modal.Footer>
                 </Modal>
-                <Card.Body>
-                    <Card.Text className="work-experience"></Card.Text>
-                </Card.Body>
-            </Card>
         </div>
     )
 }
