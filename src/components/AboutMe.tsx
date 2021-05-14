@@ -89,7 +89,7 @@ const RevatureAboutMe = () => {
 
     const handleUpdate = async () => {
         
-        axios.post("http://localhost:8081/aboutMe", {bio, email, phone})
+        axios.post("http://3.236.213.150:8081/aboutMe", {bio, email, phone})
         .then(response => {
             console.log("success") 
             console.log(response.data)
@@ -100,18 +100,23 @@ const RevatureAboutMe = () => {
         setEditShow(false)
     }
 
+    const updateState = (bio:string, email: string, phone: string) => {
+        setBio(bio);
+        setEmail(email);
+        setPhone(phone);
+    }
+
     //GET METHOD
 
     const handleGet = async () =>{
-        axios.get("http://localhost:8081/aboutMe")
+        axios.get("http://3.236.213.150:8081/aboutMe")
         .then(response => {
             console.log("got the data")
             console.log(response.data)
             response.data.map((data: any) => {
                 console.log(data)
-                setBio(data.bio)
-                setEmail(data.email)
-                setPhone(data.phone)
+                console.log(data.bio)
+                updateState(data.bio, data.email, data.phone)
                 createAboutMe()
             })
         })

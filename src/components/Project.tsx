@@ -1,11 +1,46 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Card, Modal, ModalTitle } from "react-bootstrap";
 import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { Tooltip } from "reactstrap";
 import "../css/Project.css";
 
 const Project = () => {
+  /**
+   * Render projects on load
+   */
+  useEffect(() => {});
+
+  /**
+   * Render project on page
+   */
+  const renderProject = () => {
+    let projects: Array<string> = [
+      projectName,
+      projectRolesResponsibilities,
+      projectEnvironmentTechnologies,
+      projectRepoUrl,
+      projectWorkProducts,
+    ];
+    let project = document.querySelector(".project");
+    let div = document.createElement("div");
+
+    for (let index = 0; index < projects.length; index++) {
+      let header = document.createElement("h1");
+      div.appendChild(header);
+      header.innerHTML = projects[index];
+      project?.appendChild(div);
+    }
+
+    setProjectName("");
+    setProjectRolesResponsibilities("");
+    setProjectEnvironmentTechnologies("");
+    setProjectRepoUrl("");
+    setProjectWorkProducts("");
+
+    div.style.border = "2px solid black";
+  };
+
   /**
    * Show/Hide Modal
    */
@@ -37,81 +72,28 @@ const Project = () => {
   const [projectWorkProducts, setProjectWorkProducts] = useState("");
 
   /**
-   * Render project on page
-   */
-  const createProject = () => {
-    let projects: Array<string> = [
-      projectName,
-      projectRolesResponsibilities,
-      projectEnvironmentTechnologies,
-      projectRepoUrl,
-      projectWorkProducts,
-    ];
-    let project = document.querySelector(".project");
-    let div = document.createElement("div");
-
-    for (let index = 0; index < projects.length; index++) {
-      let header = document.createElement("h1");
-      div.appendChild(header);
-      header.innerHTML = projects[index];
-      project?.appendChild(div);
-    }
-
-    setProjectName("");
-    setProjectRolesResponsibilities("");
-    setProjectEnvironmentTechnologies("");
-    setProjectRepoUrl("");
-    setProjectWorkProducts("");
-
-    div.style.border = "2px solid black";
-  };
-
-  /**
    * Get data from the database
    */
-  const handleGet = () => {};
 
   /**
    * Save data to database
    */
-  const handleSave = () => {
-    let newProject = {
-      projectName: projectName,
-      projectRolesResponsibilities: projectRolesResponsibilities,
-      projectEnvironmentTechnologies: projectEnvironmentTechnologies,
-      projectRepoUrl: projectRepoUrl,
-      projectWorkProducts: projectWorkProducts,
-    };
+  const handleSave = async () => {
     axios
-      .post("http://3.236.213.150:8081/projects", { newProject })
+      .post("http://3.236.213.150:8081/projects", {
+        projectName,
+        projectRolesResponsibilities,
+        projectEnvironmentTechnologies,
+        projectRepoUrl,
+        projectWorkProducts,
+      })
       .then((response) => {
-        console.log("success");
+        console.log("success: " + response.data);
       })
       .catch((error) => {
         console.log("error");
       });
-
     setShowModal(false);
-    console.log(newProject);
-  };
-
-  const handleUpdate = () => {
-    let newProject = {
-      projectName: projectName,
-      projectRolesResponsibilities: projectRolesResponsibilities,
-      projectEnvironmentTechnologies: projectEnvironmentTechnologies,
-      projectRepoUrl: projectRepoUrl,
-      projectWorkProducts: projectWorkProducts,
-    };
-    axios
-      .put("http://3.236.213.150:8081/projects", { newProject })
-      .then((response) => {
-        console.log("success");
-        console.log(newProject);
-      })
-      .catch((error) => {
-        console.log("error");
-      });
   };
 
   /**
@@ -205,7 +187,7 @@ const Project = () => {
               variant="primary"
               onClick={() => {
                 handleSave();
-                createProject();
+                renderProject();
               }}
             >
               Save
