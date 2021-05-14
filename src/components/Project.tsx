@@ -5,38 +5,46 @@ import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { Tooltip } from "reactstrap";
 import "../css/Project.css";
 
+//FIXME: coordinate with back end component owner to create all necessary fields
 const Project = () => {
   /**
    * Render projects on load
    */
-  useEffect(() => {});
+  useEffect(() => {
+    getAllProjects();
+  }, []);
 
   /**
-   * Render project on page
+   * Render projects on page
+   * FIXME: update this method to properly render data from getAllProjects()
    */
-  const renderProject = () => {
-    let projects: Array<string> = [
-      projectName,
-      projectRolesResponsibilities,
-      projectEnvironmentTechnologies,
-      projectRepoUrl,
-      projectWorkProducts,
-    ];
-    let project = document.querySelector(".project");
+  const renderProjects = (
+    id: string,
+    name: string,
+    description: string,
+    responsibilities: string,
+    technologies: string,
+    repositoryUrl: string,
+    workProducts: string
+  ) => {
+
+    let project = document.querySelector(".projects");
     let div = document.createElement("div");
 
-    for (let index = 0; index < projects.length; index++) {
-      let header = document.createElement("h1");
-      div.appendChild(header);
-      header.innerHTML = projects[index];
-      project?.appendChild(div);
-    }
+    setId(id);
+    
+    let nameHeader = document.createElement('h6');
+    nameHeader.innerHTML = name
+    setName(name);
 
-    setProjectName("");
-    setProjectRolesResponsibilities("");
-    setProjectEnvironmentTechnologies("");
-    setProjectRepoUrl("");
-    setProjectWorkProducts("");
+    setDescription(description);
+    setResponsibilities(responsibilities);
+    setTechnologies(technologies);
+    setRepositoryUrl(repositoryUrl);
+    setWorkProducts(workProducts);
+
+    div.appendChild(nameHeader);
+    project?.appendChild(div);
 
     div.style.border = "2px solid black";
   };
@@ -63,17 +71,40 @@ const Project = () => {
   /**
    * 'Add project' state handling
    */
-  const [projectName, setProjectName] = useState("");
-  const [projectRolesResponsibilities, setProjectRolesResponsibilities] =
-    useState("");
-  const [projectEnvironmentTechnologies, setProjectEnvironmentTechnologies] =
-    useState("");
-  const [projectRepoUrl, setProjectRepoUrl] = useState("");
-  const [projectWorkProducts, setProjectWorkProducts] = useState("");
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [responsibilities, setResponsibilities] = useState("");
+  const [technologies, setTechnologies] = useState("");
+  const [repositoryUrl, setRepositoryUrl] = useState("");
+  const [workProducts, setWorkProducts] = useState("");
 
   /**
    * Get data from the database
    */
+  const getAllProjects = async () => {
+    axios
+      .get("http://3.236.213.150:8081/projects")
+      .then((response) => {
+        console.log("got data");
+        console.log(response.data);
+        response.data.map((data: any) => {
+          renderProjects(
+            data.id,
+            data.name,
+            data.description,
+            data.responsibilities,
+            data.technologies,
+            data.repositoryUrl,
+            data.workProducts
+          )
+          console.log(data);
+        });
+      })
+      .catch((error) => {
+        console.log("did not get data");
+      });
+  };
 
   /**
    * Save data to database
@@ -81,14 +112,17 @@ const Project = () => {
   const handleSave = async () => {
     axios
       .post("http://3.236.213.150:8081/projects", {
-        projectName,
-        projectRolesResponsibilities,
-        projectEnvironmentTechnologies,
-        projectRepoUrl,
-        projectWorkProducts,
+        name,
+        description,
+        responsibilities,
+        technologies,
+        repositoryUrl,
+        workProducts,
       })
       .then((response) => {
-        console.log("success: " + response.data);
+        console.log("success");
+        console.log(response.data.name);
+        // window.location.reload();
       })
       .catch((error) => {
         console.log("error");
@@ -97,9 +131,22 @@ const Project = () => {
   };
 
   /**
+   * Delete data from database
+   */
+  const handleDelete = (id: number) => {
+    axios
+      .delete(`http://3.236.213.150:8081/projects/${id}`)
+      .then((response) => {
+        console.log(response);
+        console.log(response.data);
+      });
+  };
+
+  /**
    * Details message
    */
   const messageDetails: string = "BLah blha blah";
+  let rowLength = 5;
 
   return (
     <div className="container">
@@ -137,45 +184,49 @@ const Project = () => {
               <h6>Project Name</h6>
               <input
                 type="text"
-                name="projectName"
+                name="name"
                 className="form-input"
-                onChange={(e) => setProjectName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
               />
               <br />
-              <h6>Roles/Responsibilities</h6>
-              <input
-                type="text"
-                name="projectRolesResponsibilities"
-                className="form-input"
-                onChange={(e) =>
-                  setProjectRolesResponsibilities(e.target.value)
-                }
+              <h6>Project Description</h6>
+              <textarea
+                style={{ width: "100%" }}
+                rows={rowLength}
+                name="description"
+                onChange={(e) => setDescription(e.target.value)}
               />
               <br />
-              <h6>Environment/Technologies</h6>
+              <h6>Responsibilities</h6>
               <input
                 type="text"
-                name="projectEnvironmentTechnologies"
+                name="responsibilities"
                 className="form-input"
-                onChange={(e) =>
-                  setProjectEnvironmentTechnologies(e.target.value)
-                }
+                onChange={(e) => setResponsibilities(e.target.value)}
+              />
+              <br />
+              <h6>Technologies</h6>
+              <input
+                type="text"
+                name="technologies"
+                className="form-input"
+                onChange={(e) => setTechnologies(e.target.value)}
               />
               <br />
               <h6>Project Repo URL</h6>
               <input
                 type="text"
-                name="projectRepoUrl"
+                name="repositoryUrl"
                 className="form-input"
-                onChange={(e) => setProjectRepoUrl(e.target.value)}
+                onChange={(e) => setRepositoryUrl(e.target.value)}
               />
               <br />
               <h6>Project Work Products</h6>
               <input
                 type="text"
-                name="projectWorkProducts"
+                name="workProducts"
                 className="form-input"
-                onChange={(e) => setProjectWorkProducts(e.target.value)}
+                onChange={(e) => setWorkProducts(e.target.value)}
               />
             </form>
           </Modal.Body>
@@ -187,7 +238,6 @@ const Project = () => {
               variant="primary"
               onClick={() => {
                 handleSave();
-                renderProject();
               }}
             >
               Save
@@ -195,7 +245,7 @@ const Project = () => {
           </Modal.Footer>
         </Modal>
         <Card.Body>
-          <Card.Text className="project"></Card.Text>
+          <Card.Text className="projects"></Card.Text>
         </Card.Body>
       </Card>
     </div>
