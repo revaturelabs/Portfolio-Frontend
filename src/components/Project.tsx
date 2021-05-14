@@ -1,10 +1,11 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Button, Card, Modal, ModalTitle } from "react-bootstrap";
 import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { Tooltip } from "reactstrap";
-import "../css/ProjectCard.css";
+import "../css/Project.css";
 
-function ProjectCard() {
+const Project = () => {
   /**
    * Show/Hide Modal
    */
@@ -66,18 +67,51 @@ function ProjectCard() {
   };
 
   /**
+   * Get data from the database
+   */
+  const handleGet = () => {};
+
+  /**
    * Save data to database
    */
   const handleSave = () => {
-    let projects: Array<string> = [
-      projectName,
-      projectRolesResponsibilities,
-      projectEnvironmentTechnologies,
-      projectRepoUrl,
-      projectWorkProducts,
-    ];
+    let newProject = {
+      projectName: projectName,
+      projectRolesResponsibilities: projectRolesResponsibilities,
+      projectEnvironmentTechnologies: projectEnvironmentTechnologies,
+      projectRepoUrl: projectRepoUrl,
+      projectWorkProducts: projectWorkProducts,
+    };
+    axios
+      .post("http://3.236.213.150:8081/projects", { newProject })
+      .then((response) => {
+        console.log("success");
+      })
+      .catch((error) => {
+        console.log("error");
+      });
+
     setShowModal(false);
-    console.log(projects);
+    console.log(newProject);
+  };
+
+  const handleUpdate = () => {
+    let newProject = {
+      projectName: projectName,
+      projectRolesResponsibilities: projectRolesResponsibilities,
+      projectEnvironmentTechnologies: projectEnvironmentTechnologies,
+      projectRepoUrl: projectRepoUrl,
+      projectWorkProducts: projectWorkProducts,
+    };
+    axios
+      .put("http://3.236.213.150:8081/projects", { newProject })
+      .then((response) => {
+        console.log("success");
+        console.log(newProject);
+      })
+      .catch((error) => {
+        console.log("error");
+      });
   };
 
   /**
@@ -184,6 +218,6 @@ function ProjectCard() {
       </Card>
     </div>
   );
-}
+};
 
-export default ProjectCard;
+export default Project;
