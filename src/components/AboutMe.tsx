@@ -40,9 +40,9 @@ const RevatureAboutMe = () => {
     const [phone, setPhone] = useState('')
     //***************************************************/
 
-    //Render about me on page (need to refactor to pull from database add update button if not empty)
+    //Render about me on page
     //*********************************************************************/
-    const createAboutMe = () => {
+    const createAboutMe = (bio: string, email: string, phone: string) => {
 
         let aboutMe = document.querySelector('.about-me-content')
         let div = document.createElement('div')
@@ -53,8 +53,14 @@ const RevatureAboutMe = () => {
             let phoneHeader = document.createElement('h6')
             
             bioHeader.innerHTML = bio
+            setBio(bio)
+            console.log(bio)
             emailHeader.innerHTML = "Email: " + email
+            setEmail(email)
+            console.log(email)
             phoneHeader.innerHTML = "Phone: " + phone
+            setPhone(phone)
+            console.log(phone)
 
             bioHeader.style.whiteSpace = "pre-wrap"
             bioHeader.style.marginBottom = "50px"
@@ -65,7 +71,7 @@ const RevatureAboutMe = () => {
             div.appendChild(bioHeader)
             div.appendChild(emailHeader)
             div.appendChild(phoneHeader)
-            aboutMe?.appendChild(div)  
+            aboutMe?.appendChild(div) 
 
         div.style.padding = "5px"
         // div.style.border = "2px solid black"
@@ -89,30 +95,29 @@ const RevatureAboutMe = () => {
 
     const handleUpdate = async () => {
         
-        axios.post("http://localhost:8081/aboutMe", {bio, email, phone})
+        axios.post("http://3.236.213.150:8081/aboutMe", {bio, email, phone})
         .then(response => {
             console.log("success") 
             console.log(response.data)
+            window.location.reload()
         })
         .catch(error => {
             console.log("error")
         })
+        setShow(false)
         setEditShow(false)
     }
 
     //GET METHOD
 
     const handleGet = async () =>{
-        axios.get("http://localhost:8081/aboutMe")
+        axios.get("http://3.236.213.150:8081/aboutMe")
         .then(response => {
             console.log("got the data")
             console.log(response.data)
             response.data.map((data: any) => {
                 console.log(data)
-                setBio(data.bio)
-                setEmail(data.email)
-                setPhone(data.phone)
-                createAboutMe()
+                createAboutMe(data.bio, data.email, data.phone)
             })
         })
         .catch(error => {
@@ -120,11 +125,12 @@ const RevatureAboutMe = () => {
         })
     }
 
-    useEffect(()=> {handleGet();},[]);
+    useEffect(()=> {handleGet()},[]);
 
     // DELTE METHOD
 
     const handleDelete = () => {
+        axios.delete("http://3.236.213.150:8081/aboutMe/${aboutMe.id}")
         setDeleteShow(false)
     }
 
