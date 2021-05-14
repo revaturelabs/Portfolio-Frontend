@@ -82,7 +82,7 @@ const RevatureWorkExperience = () => {
 
         let headerNum: number = 1
         for (let index = 0; index < data.length; index++) {
-            let component = document.createElement("h1")
+            let component = document.createElement("h" + headerNum)
             let workExperience = document.querySelector(".work-experience")
             let card = document.createElement("div")
             let cardHeader = document.createElement("div")
