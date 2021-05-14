@@ -10,13 +10,6 @@ pipeline {
         }
       }
     }
-    stage('Start Dev Server'){
-      when { branch 'jenkins' }
-      steps{
-        nodejs(nodeJSInstallationName: 'nodejs'){
-          sh 'npm start'
-        }
-      }
-    }
+    
   }
 }
