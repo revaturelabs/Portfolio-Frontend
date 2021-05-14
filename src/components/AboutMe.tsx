@@ -108,6 +108,12 @@ const RevatureAboutMe = () => {
         setEditShow(false)
     }
 
+    const updateState = (bio:string, email: string, phone: string) => {
+        setBio(bio);
+        setEmail(email);
+        setPhone(phone);
+    }
+
     //GET METHOD
 
     const handleGet = async () =>{
