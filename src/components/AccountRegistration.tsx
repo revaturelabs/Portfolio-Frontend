@@ -26,43 +26,73 @@ const AccountRegistration = () => {
             return
         }
 
-        setDisabled(formValidation())
+        setDisabled(firstNameValidation())
+        setDisabled(lastNameValidation())
+        setDisabled(emailValidation())
+        setDisabled(passwordValidation())
+        setDisabled(confirmPasswordValidation())
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firstName, lastName, email, password, confirmPassword])
 
-    const formValidation = () => {
-
-        const atPosition = email.indexOf('@')
-        const dotPosition = email.indexOf('.')
+    const firstNameValidation = () => {
 
         if(firstName === "") {
             setFirstNameError('First Name cannot be blank!')
             return true
+        } else {
+            setFirstNameError(null)
+            return false
         }
-        else if(lastName === "") {
+    }
+
+    const lastNameValidation = () => {
+
+        if(lastName === "") {
             setLastNameError('Last name Caoont be blank!')
             return true
+        } else {
+            setLastNameError(null)
+            return false
         }
-        else if(atPosition < 1 || dotPosition < atPosition + 2 || dotPosition + 2 >= email.length) {
+    }
+
+    const emailValidation = () => {
+
+        const atPosition = email.indexOf('@')
+        const dotPosition = email.indexOf('.')
+
+        if(atPosition < 1 || dotPosition < atPosition + 2 || dotPosition + 2 >= email.length) {
             setEmailError('Please enter a valid email address')
             return true
+        } else {
+            setEmailError(null)
+            return false
         }
-        else if(password.length < 8) {
+    }
+
+    const passwordValidation = () => {
+
+        if(password.length < 8) {
             setPasswordError('Password must be at least 8 characters long')
             return true
+        } else {
+            setPasswordError(null)
+            return false
         }
-        else if(confirmPassword !== password) {
+
+    }
+
+    const confirmPasswordValidation = () => {
+
+        if(confirmPassword !== password) {
             setConfirmPasswordError('passwords must match')
             return true 
-        }
-        else {
-            setLastNameError(null)
-            setFirstNameError(null)
-            setEmailError(null)
-            setPasswordError(null)
+        } else {
             setConfirmPasswordError(null)
             return false
         }
+
     }
 
     return (
@@ -83,6 +113,7 @@ const AccountRegistration = () => {
                 <h6>Confirm Password</h6>
                 <input type="password" name="confirmPassword" value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} id="confirmPassword" className="form-input" />
                 {confrimPasswordError && <p>{confrimPasswordError}</p>}
+                <button type="submit" className="btn btn-primary" disabled={disabled}>Register</button>
             </form>
         </div>
     );
