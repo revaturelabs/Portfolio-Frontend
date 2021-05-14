@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Install Dependencies') {
+    stage('Installing Dependencies') {
       steps {
         sh 'pwd'
         sh 'ls -al'
@@ -10,13 +10,10 @@ pipeline {
         }
       }
     }
-    stage('Start Dev Server'){
-      when { branch 'backend_dev' }
-      steps{
-        nodejs(nodeJSInstallationName: 'nodejs'){
-          sh 'npm start'
+    stage('Testing'){
+      nodejs(nodeJSInstallationName: 'nodejs') {
+            sh 'npm test -- --watchAll=false'
         }
-      }
     }
   }
 }
