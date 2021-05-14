@@ -38,11 +38,19 @@ const RevatureAboutMe = () => {
     const [bio, setBio] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
+    const [id, setID] = useState('')
     //***************************************************/
+
+
+    const getButtons = () => {
+        return(
+            <Trash id="delete-aboutMe" onClick={handleDeleteShow}></Trash>
+        )
+    }
 
     //Render about me on page
     //*********************************************************************/
-    const createAboutMe = (bio: string, email: string, phone: string) => {
+    const createAboutMe = (id: string, bio: string, email: string, phone: string) => {
 
         let aboutMe = document.querySelector('.about-me-content')
         let div = document.createElement('div')
@@ -51,7 +59,11 @@ const RevatureAboutMe = () => {
             let bioHeader = document.createElement('p')
             let emailHeader = document.createElement('h6')
             let phoneHeader = document.createElement('h6')
+            let icon = document.createElement('svg')
             
+            
+            setID(id)
+            console.log(id)
             bioHeader.innerHTML = bio
             setBio(bio)
             console.log(bio)
@@ -61,18 +73,27 @@ const RevatureAboutMe = () => {
             phoneHeader.innerHTML = "Phone: " + phone
             setPhone(phone)
             console.log(phone)
+            
+            // <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
+            // <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+            // </svg>      
 
             bioHeader.style.whiteSpace = "pre-wrap"
             bioHeader.style.marginBottom = "50px"
             emailHeader.style.color = "grey"
             phoneHeader.style.color = "grey"
+            icon.style.color = "#42a5f5"
+            icon.setAttribute("class", "bi bi-pencil")
+            icon.setAttribute("value", id)
 
 
             div.appendChild(bioHeader)
             div.appendChild(emailHeader)
             div.appendChild(phoneHeader)
+            div.appendChild(icon)
             aboutMe?.appendChild(div) 
 
+        
         div.style.padding = "5px"
         // div.style.border = "2px solid black"
         div.style.marginBottom = "10px"
@@ -108,6 +129,12 @@ const RevatureAboutMe = () => {
         setEditShow(false)
     }
 
+    const updateState = (bio:string, email: string, phone: string) => {
+        setBio(bio);
+        setEmail(email);
+        setPhone(phone);
+    }
+
     //GET METHOD
 
     const handleGet = async () =>{
@@ -117,7 +144,7 @@ const RevatureAboutMe = () => {
             console.log(response.data)
             response.data.map((data: any) => {
                 console.log(data)
-                createAboutMe(data.bio, data.email, data.phone)
+                createAboutMe(data.id, data.bio, data.email, data.phone)
             })
         })
         .catch(error => {
@@ -129,8 +156,15 @@ const RevatureAboutMe = () => {
 
     // DELTE METHOD
 
-    const handleDelete = () => {
-        axios.delete("http://3.236.213.150:8081/aboutMe/${aboutMe.id}")
+    const handleDelete = (id: number) => {
+        console.log("this is the id " + id)
+        axios.delete("http://3.236.213.150:8081/aboutMe/${id}")
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log("delete failure")
+        })
         setDeleteShow(false)
     }
 
@@ -179,6 +213,10 @@ const RevatureAboutMe = () => {
                 </Modal>
                 <Card.Body>
                     <Card.Text>
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                        </svg>
                         <span className="about-me-content"></span>
                         <Trash id="delete-aboutMe" onClick={handleDeleteShow}></Trash>
                         <Pencil id="edit-aboutMe" onClick={handleEditShow}></Pencil>
@@ -219,7 +257,7 @@ const RevatureAboutMe = () => {
                                 <h2>This will permanantly delete this info. Are you Sure?</h2>
                             </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="danger" onClick={() => {handleDelete();}}>Yes, Permanantly Delete</Button>
+                                    <Button variant="danger" onClick={() => {handleDelete(1);}}>Yes, Permanantly Delete</Button>
                                     <Button variant="secondary" onClick={handleDeleteClose}>
                                         Close
                                     </Button>

@@ -7,6 +7,9 @@ import Landing from './Landing';
 import ViewPortfolio from './ViewPortfolio';
 import EditEmpPortfolio from './EditEmpPortfolio';
 import AboutMe from "./AboutMe";
+import OtherWorkExperience from "./OtherWorkExperience";
+import Education from "./Education";
+
 
 function Layout() {
     return (
@@ -19,7 +22,9 @@ function Layout() {
           <Route path="/portfolio" exact component={EditEmpPortfolio} />
           <Route path="/aboutMe" exact component={AboutMe} />
           <Route path="/view" component={ViewPortfolio} />
-        </div>
+          <Route path="/other-work-experience" exact component={OtherWorkExperience} />
+          <Route path="/education" component={Education} />
+          </div>
     );
 }
 
