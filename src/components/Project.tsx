@@ -1,7 +1,13 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Button, Card, Modal, ModalTitle } from "react-bootstrap";
-import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
+import {
+  Pencil,
+  PlusCircle,
+  QuestionCircle,
+  Trash,
+} from "react-bootstrap-icons";
+import ModalHeader from "react-bootstrap/esm/ModalHeader";
 import { Tooltip } from "reactstrap";
 import "../css/Project.css";
 
@@ -27,26 +33,61 @@ const Project = () => {
     repositoryUrl: string,
     workProducts: string
   ) => {
-
     let project = document.querySelector(".projects");
     let div = document.createElement("div");
 
     setId(id);
-    
-    let nameHeader = document.createElement('h6');
-    nameHeader.innerHTML = name
+
+    let nameHeader = document.createElement("h2");
+    let descriptionContent = document.createElement("p");
+    let responsibilitiesHeader = document.createElement("h3");
+    let responsibilitiesContent = document.createElement("p");
+    let technologiesHeader = document.createElement("h3");
+    let technologiesContent = document.createElement("p");
+    let repositoryUrlHeader = document.createElement("h5");
+    let repositoryUrlContent = document.createElement("p");
+    let workProductsHeader = document.createElement("h5");
+    let workProductsContent = document.createElement("p");
+
+    nameHeader.innerHTML = name;
     setName(name);
 
+    descriptionContent.innerHTML = description;
     setDescription(description);
+
+    responsibilitiesHeader.innerHTML = "Responsibilities";
+    responsibilitiesContent.innerHTML = responsibilities;
     setResponsibilities(responsibilities);
+
+    technologiesHeader.innerHTML = "Technologies";
+    technologiesContent.innerHTML = technologies;
     setTechnologies(technologies);
+
+    // TODO: make repositoryUrlContent link to repository
+    repositoryUrlHeader.innerHTML = "Repository URL";
+    repositoryUrlContent.innerHTML = repositoryUrl;
     setRepositoryUrl(repositoryUrl);
+
+    // TODO: make workProductsContent links to files in database (s3?)
+    workProductsHeader.innerHTML = "Work Products";
+    workProductsContent.innerHTML = workProducts;
     setWorkProducts(workProducts);
 
     div.appendChild(nameHeader);
+    div.appendChild(descriptionContent);
+    div.appendChild(responsibilitiesHeader);
+    div.appendChild(responsibilitiesContent);
+    div.appendChild(technologiesHeader);
+    div.appendChild(technologiesContent);
+    div.appendChild(repositoryUrlHeader);
+    div.appendChild(repositoryUrlContent);
+    div.appendChild(workProductsHeader);
+    div.appendChild(workProductsContent);
     project?.appendChild(div);
 
-    div.style.border = "2px solid black";
+    div.style.border = "1px solid grey";
+    div.style.padding = "1em";
+    div.style.margin = "1em";
   };
 
   /**
@@ -55,18 +96,19 @@ const Project = () => {
   const [showModal, setShowModal] = useState(false);
   const handleHideModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const handleHideModalEdit = () => setShowModalEdit(false);
+  const handleShowModalEdit = () => setShowModalEdit(true);
 
   /**
-   * Tooltip for add button
+   * Tooltips
    */
   const [showAddTooltip, setShowAddTooltip] = useState(false);
   const toggleAddTooltip = () => setShowAddTooltip(!showAddTooltip);
-
-  /**
-   * Tooltip for details button
-   */
   const [showDetailsTooltip, setShowDetailsTooltip] = useState(false);
   const toggleDetailsTooltip = () => setShowDetailsTooltip(!showDetailsTooltip);
+  const [showEditTooltip, setShowEditTooltip] = useState(false);
+  const toggleEditTooltip = () => setShowEditTooltip(!showEditTooltip);
 
   /**
    * 'Add project' state handling
@@ -97,7 +139,7 @@ const Project = () => {
             data.technologies,
             data.repositoryUrl,
             data.workProducts
-          )
+          );
           console.log(data);
         });
       })
@@ -128,6 +170,7 @@ const Project = () => {
         console.log("error");
       });
     setShowModal(false);
+    setShowModalEdit(false);
   };
 
   /**
@@ -197,6 +240,7 @@ const Project = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
               <br />
+              {/* TODO: make this a rich text field */}
               <h6>Responsibilities</h6>
               <input
                 type="text"
@@ -245,7 +289,94 @@ const Project = () => {
           </Modal.Footer>
         </Modal>
         <Card.Body>
-          <Card.Text className="projects"></Card.Text>
+          <Card.Text className="projects">
+            {/* TODO: trash and pencil buttons need to show in the footer of each project div/card */}
+            <Trash id="delete-project"></Trash>
+            <Pencil id="edit-project" onClick={handleShowModalEdit}></Pencil>
+            <Tooltip
+              target="edit-project"
+              isOpen={showEditTooltip}
+              toggle={toggleEditTooltip}
+            >
+              Edit
+            </Tooltip>
+
+            {/* 'Edit' Modal */}
+            <Modal
+              show={showModalEdit}
+              onHide={handleHideModalEdit}
+              backdrop="static"
+            >
+              <Modal.Header>
+                <Modal.Title>Edit Project</Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="modalBody">
+                <form method="post">
+                  <h6>Project Name</h6>
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-input"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <br />
+                  <h6>Project Description</h6>
+                  <textarea
+                    style={{ width: "100%" }}
+                    rows={rowLength}
+                    name="description"
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  <br />
+                  {/* TODO: make this a rich text field */}
+                  <h6>Responsibilities</h6>
+                  <input
+                    type="text"
+                    name="responsibilities"
+                    className="form-input"
+                    onChange={(e) => setResponsibilities(e.target.value)}
+                  />
+                  <br />
+                  <h6>Technologies</h6>
+                  <input
+                    type="text"
+                    name="technologies"
+                    className="form-input"
+                    onChange={(e) => setTechnologies(e.target.value)}
+                  />
+                  <br />
+                  <h6>Project Repo URL</h6>
+                  <input
+                    type="text"
+                    name="repositoryUrl"
+                    className="form-input"
+                    onChange={(e) => setRepositoryUrl(e.target.value)}
+                  />
+                  <br />
+                  <h6>Project Work Products</h6>
+                  <input
+                    type="text"
+                    name="workProducts"
+                    className="form-input"
+                    onChange={(e) => setWorkProducts(e.target.value)}
+                  />
+                </form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleHideModalEdit}>
+                  Close
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    handleSave();
+                  }}
+                >
+                  Update
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </Card.Text>
         </Card.Body>
       </Card>
     </div>
