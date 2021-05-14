@@ -29,4 +29,12 @@ test('counter increments', () => {
   expect(linkElement.innerHTML).toBe("Counter: 1");
 });
 
+test('counter decrements', () => {
+  render(<TestComponent />);
+  const button = screen.getByText(/Minus/i);
+  button.click();
+  const linkElement = screen.getByText(/Counter/i);
+  expect(linkElement.innerHTML).toBe("Counter: -1");
+});
+
 

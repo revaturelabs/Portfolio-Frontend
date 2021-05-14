@@ -7,15 +7,20 @@ const TestComponent = () => {
 
 
     
-    const onClick = () =>{
+    const plus = () =>{
         setTestVal(testVal+1)
+    }
+
+    const minus = () =>{
+        setTestVal(testVal-1)
     }
 
 
     return (
         <div className="container mt-5">
             <h1>Counter: {testVal}</h1>
-            <button name="testing" className="btn btn-primary" onClick={onClick}>Plus One</button>
+            <button className="btn btn-primary" onClick={plus}>Plus One</button>
+            <button style={{margin: "1em"}} className="btn btn-primary" onClick={minus}>Minus One</button>
         </div>
     );
 };
