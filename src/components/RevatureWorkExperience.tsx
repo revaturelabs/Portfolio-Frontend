@@ -1,8 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Button, Modal, ModalBody } from 'react-bootstrap'
 import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons'
 import { Tooltip } from 'reactstrap'
+import axios from 'axios'
 import '../css/RevatureWorkExperience.css'
 
 
@@ -38,15 +39,33 @@ const RevatureWorkExperience = () => {
 
     // Add work experience state handling
     //***************************************************/
-    const [employerName, setEmployerName] = useState('')
-    const [fromDate, setFromDate] = useState('')
-    const [toDate, setToDate] = useState('')
-    const [jobTitle, setJobTitle] = useState('')
+    const [employer, setEmployer] = useState('')
+    const [title, setTitle] = useState('')
+    const [responsibilities, setResponsibilities] = useState('')
+    const [description, setDescription] = useState('')
+    const [technologies, setTechnologies] = useState('')
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
     //***************************************************/
+
+    // Get data from data base
+    //***********************************************************/
+    const getData = async () => {
+        axios.get("http://3.236.213.150:8081/workexperience")
+        .then(resp => {
+            console.log(resp.data)
+            createWorkExperience(resp.data)
+        })
+        .catch(error => {
+            console.log("error")
+        })
+    }
+    useEffect(() => {getData()}, [])
+    //***********************************************************/
 
     //Render work experience on page
     //*********************************************************************/
-    const createWorkExperience = () => {
+    const createWorkExperience = (data: any) => {
         const months: Array<string> = [
             "January", "February", 
             "March", "April", "May", 
@@ -54,78 +73,86 @@ const RevatureWorkExperience = () => {
             "September", "October", 
             "November", "December"
         ];
-        let startDate = new Date(fromDate)
-        let endDate = new Date(toDate)
-        let duration = months[startDate.getMonth()] + " " + startDate.getFullYear() + " - " + months[endDate.getMonth()] + ' ' + endDate.getFullYear()
+        
+        /*let sDate = new Date(startDate)
+        let eDate = new Date(endDate)
+        let duration = months[sDate.getMonth()] + " " + sDate.getFullYear() + " - " + months[eDate.getMonth()] + ' ' + eDate.getFullYear()*/
 
-        let experienceDetails: Array<string> = [
-            employerName,
-            duration,
-            jobTitle
-        ]
-        let workExperience = document.querySelector(".work-experience")
-        let card = document.createElement("div")
-        let cardHeader = document.createElement("div")
-        let cardBody = document.createElement("div")
-        let editDiv = document.createElement("div")
-        let editButton = document.createElement("button")
 
-        card.setAttribute("class", "card")
-        cardHeader.setAttribute("class", "card-header")
-        cardBody.setAttribute("class", "card-body")
-        editButton.setAttribute("class", "btn btn-primary")
-
-        card.appendChild(cardHeader)
-        cardBody.innerHTML = "this will be the body of the card" // <--- this is temp
-        card.appendChild(cardBody)
-
-        editDiv.appendChild(editButton)
-        editButton.style.float = "right"
-        editButton.innerHTML = "Edit"
-        editButton.addEventListener("click", () => {
-            handleShowUpdateExperience()
-        })
-        cardHeader.appendChild(editDiv)
 
         let headerNum: number = 1
-        for (const iterator of experienceDetails) {
-            let component = document.createElement("h" + headerNum)
+        for (let index = 0; index < data.length; index++) {
+            let component = document.createElement("h1")
+            let workExperience = document.querySelector(".work-experience")
+            let card = document.createElement("div")
+            let cardHeader = document.createElement("div")
+            let cardBody = document.createElement("div")
+            let editDiv = document.createElement("div")
+            let editButton = document.createElement("button")
+
+            card.setAttribute("class", "card")
+            cardHeader.setAttribute("class", "card-header")
+            cardBody.setAttribute("class", "card-body")
+            editButton.setAttribute("class", "btn btn-primary")
+
+            card.appendChild(cardHeader)
+            cardBody.innerHTML = "this will be the body of the card" // <--- this is temp
+            card.appendChild(cardBody)
+
+            editDiv.appendChild(editButton)
+            editButton.style.float = "right"
+            editButton.innerHTML = "Edit"
+            editButton.addEventListener("click", () => {
+            handleShowUpdateExperience()
+            })
+            cardHeader.appendChild(editDiv)
 
             cardHeader.appendChild(component)
-            component.innerHTML = iterator
+            component.innerHTML = data[index].technologies
+
             if(headerNum === 1) {
                 component.style.fontWeight = "bold"
             } else if(headerNum === 3) {
                 component.style.color = "rgb( 242, 105, 3)"
             }
+
+            cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
+            cardHeader.style.backgroundColor = "white"
+            workExperience?.appendChild(card) 
+
+            if(Number(workExperience?.childElementCount) > 1) {
+                card.style.marginTop = "50px"
+            }
+
             headerNum++
-        }
-        cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
-        cardHeader.style.backgroundColor = "white"
-        workExperience?.appendChild(card)  
 
-        setEmployerName('');
-        setFromDate('');
-        setToDate('');
-        setJobTitle('');
-
-        if(Number(workExperience?.childElementCount) > 1) {
-            card.style.marginTop = "50px"
-        }
+        } 
     }
     //*********************************************************************/
 
     // Save data to database
     //***************************************************/
     const handleSave = () => {
-        let exp: Array<string> = [
-            employerName,
-            fromDate,
-            toDate,
-            jobTitle
-        ]
+        axios.post("http://3.236.213.150:8081/workexperience", {
+            employer,
+            startDate,
+            endDate,
+            title,
+            description,
+            responsibilities,
+            technologies
+        })
+        .then(resp => {
+            console.log("work Experience was saved successfully")
+        })
+        .catch(error => {
+            console.log("error")
+        })
+        setEmployer('');
+        setStartDate('');
+        setEndDate('');
+        setTitle('');
         setShowExperience(false)
-        console.log(exp)
     }
     //***************************************************/
 
@@ -164,35 +191,26 @@ const RevatureWorkExperience = () => {
                         <Modal.Title>Add Work Experience</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form>
+                        <form onSubmit={handleSave}>
                             <h6>Employer Name</h6>
-                            <input type="text" name="employerName" className="form-input" id="" onChange={e => setEmployerName(e.target.value)}/>
+                            <input type="text" name="employer" className="form-input" onChange={e => setEmployer(e.target.value)}/>
                             <h6>From</h6>
-                            <input type="date" name="fromDate" className="form-input" id="" onChange={e => setFromDate(e.target.value)}/>
+                            <input type="date" name="startDate" className="form-input" onChange={e => setStartDate(e.target.value)}/>
                             <h6>To</h6>
-                            <input type="date" name="toDate" className="form-input" id="" onChange={e => setToDate(e.target.value)}/>
+                            <input type="date" name="endDate" className="form-input" onChange={e => setEndDate(e.target.value)}/>
                             <h6>Job Title</h6>
-                            <input type="text" name="jobTitle" className="form-input" id="" onChange={e => setJobTitle(e.target.value)}/>
-                            <h6>Project Title</h6>
-                            <input type="text" name="projectTitle" className="form-input" id="" /><br/>
-                            <h6>Project Duration</h6>
-                            <h6>From</h6>
-                            <input type="date" name="projectFromDate"  className="form-input" id="" />
-                            <h6>To</h6>
-                            <input type="date" name="projectToDate" className="form-input" id="" />
-                            <h6>Responsibilites</h6>
-                            <textarea name="projectResponsibilites" className="form-input work-experience-textarea" id=""></textarea>
-                            <h6>Project Details</h6>
-                            <textarea name="projectDetails" className="form-input work-experience-textarea" id=""></textarea>
+                            <input type="text" name="title" className="form-input" onChange={e => setTitle(e.target.value)}/>
+                            <h6>Roles / Responsibilites</h6>
+                            <textarea name="responsibilites" className="form-input work-experience-textarea" onChange={e => setResponsibilities(e.target.value)}></textarea>
                             <h6>Tools / Technologies</h6>
-                            <textarea name="projectTools" className="form-input work-experience-textarea" id=""></textarea>
+                            <textarea name="technologies" className="form-input work-experience-textarea" onChange={e => setTechnologies(e.target.value)}></textarea>
                             <h6>Problem Desciption</h6>
-                            <textarea name="projectProblem" className="form-input work-experience-textarea" id=""></textarea>
+                            <textarea name="description" className="form-input work-experience-textarea" onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
-                        <Button variant="primary" onClick={() => {handleSave(); createWorkExperience();}}>Add</Button>
+                        <Button variant="primary" onClick={handleSave}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showUpdateExperience} onHide={handleCloseUpdateExperience} backdrop="static">
@@ -202,28 +220,19 @@ const RevatureWorkExperience = () => {
                     <Modal.Body>
                         <form>
                             <h6>Employer Name</h6>
-                            <input type="text" name="employerName" className="form-input" id="" onChange={e => setEmployerName(e.target.value)}/><br />
+                            <input type="text" name="employer" className="form-input" id="" onChange={e => setEmployer(e.target.value)}/>
                             <h6>From</h6>
-                            <input type="date" name="fromDate" className="form-input" id="" onChange={e => setFromDate(e.target.value)}/><br />
+                            <input type="date" name="startDate" className="form-input" id="" onChange={e => setStartDate(e.target.value)}/>
                             <h6>To</h6>
-                            <input type="date" name="toDate" className="form-input" id="" onChange={e => setToDate(e.target.value)}/><br />
+                            <input type="date" name="endDate" className="form-input" id="" onChange={e => setEndDate(e.target.value)}/>
                             <h6>Job Title</h6>
-                            <input type="text" name="jobTitle" className="form-input" id="" onChange={e => setJobTitle(e.target.value)}/>
-                            <h6>Project Title</h6>
-                            <input type="text" name="projectTitle" className="form-input" id="" /><br/>
-                            <h6>Project Duration</h6>
-                            <h6>From</h6>
-                            <input type="date" name="projectFromDate"  className="form-input" id="" />
-                            <h6>To</h6>
-                            <input type="date" name="projectToDate" className="form-input" id="" />
-                            <h6>Responsibilites</h6>
-                            <textarea name="projectResponsibilites" className="form-input work-experience-textarea" id=""></textarea>
-                            <h6>Project Details</h6>
-                            <textarea name="projectDetails" className="form-input work-experience-textarea" id=""></textarea>
+                            <input type="text" name="title" className="form-input" id="" onChange={e => setTitle(e.target.value)}/>
+                            <h6>Roles / Responsibilites</h6>
+                            <textarea name="responsibilites" className="form-input work-experience-textarea" id="" onChange={e => setResponsibilities(e.target.value)}></textarea>
                             <h6>Tools / Technologies</h6>
-                            <textarea name="projectTools" className="form-input work-experience-textarea" id=""></textarea>
+                            <textarea name="technologies" className="form-input work-experience-textarea" id="" onChange={e => setTechnologies(e.target.value)}></textarea>
                             <h6>Problem Desciption</h6>
-                            <textarea name="projectProblem" className="form-input work-experience-textarea" id=""></textarea>
+                            <textarea name="description" className="form-input work-experience-textarea" id="" onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
