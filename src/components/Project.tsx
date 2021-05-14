@@ -83,7 +83,7 @@ const Project = () => {
       projectWorkProducts: projectWorkProducts,
     };
     axios
-      .post("http://3.236.213.150:8081/projects", { newProject })
+      .post("localhost:8081/projects", { newProject })
       .then((response) => {
         console.log("success");
       })
