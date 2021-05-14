@@ -11,9 +11,13 @@ pipeline {
       }
     }
     stage('Testing'){
-      nodejs(nodeJSInstallationName: 'nodejs') {
+      steps{
+        nodejs(nodeJSInstallationName: 'nodejs') {
             sh 'npm test -- --watchAll=false'
         }
+
+      }
+      
     }
   }
 }
