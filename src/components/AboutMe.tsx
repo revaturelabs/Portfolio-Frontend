@@ -42,7 +42,7 @@ const RevatureAboutMe = () => {
 
     //Render about me on page (need to refactor to pull from database add update button if not empty)
     //*********************************************************************/
-    const createAboutMe = () => {
+    const createAboutMe = (bio:any, email:any, phone:any) => {
 
         let aboutMe = document.querySelector('.about-me-content')
         let div = document.createElement('div')
@@ -103,16 +103,15 @@ const RevatureAboutMe = () => {
     //GET METHOD
 
     const handleGet = async () =>{
-        axios.get("http://localhost:8081/aboutMe")
+        axios.get("http://3.236.213.150:8081//aboutMe")
         .then(response => {
             console.log("got the data")
             console.log(response.data)
             response.data.map((data: any) => {
-                console.log(data)
-                setBio(data.bio)
-                setEmail(data.email)
-                setPhone(data.phone)
-                createAboutMe()
+                return (setBio(data.bio),
+                setEmail(data.email),
+                setPhone(data.phone),
+                createAboutMe(bio, email, phone))
             })
         })
         .catch(error => {
@@ -120,7 +119,7 @@ const RevatureAboutMe = () => {
         })
     }
 
-    useEffect(()=> {handleGet();},[]);
+    useEffect(()=> {handleGet();}, []);
 
     // DELTE METHOD
 
