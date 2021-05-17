@@ -10,6 +10,7 @@ import AboutMe from "./AboutMe";
 import OtherWorkExperience from "./OtherWorkExperience";
 import Education from "./Education";
 import PortfolioList from "./PortfolioList";
+import HonorAward from "./HonorAward";
 
 
 function Layout() {
@@ -26,7 +27,9 @@ function Layout() {
           <Route path="/other-work-experience" exact component={OtherWorkExperience} />
           <Route path="/education" component={Education} />
           <Route path="/list" component={PortfolioList} />
-          </div>
+          <Route path="/honors" component={HonorAward} />
+        </div>
+          
     );
 }
 
