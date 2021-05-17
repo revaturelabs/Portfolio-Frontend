@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AccountLogin from './AccountLogin';
 import '../css/Landing.css';
 import { Modal, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import AccountRegistration from './AccountRegistration';
 
 const Landing = () => {
@@ -22,8 +23,7 @@ const Landing = () => {
                             <AccountRegistration />
                         </Modal.Body>
                         <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>Close</Button>
-                        <Button variant="primary">Save</Button>
+                            <Button variant="secondary" onClick={handleClose}>Close</Button>
                         </Modal.Footer>
                     </Modal>
                     <div className="col-lg-5 text-center text-lg-start">
