@@ -50,7 +50,7 @@ const Project = () => {
     let technologiesHeader = document.createElement("h3");
     let technologiesContent = document.createElement("p");
     let repositoryUrlHeader = document.createElement("h5");
-    let repositoryUrlContent = document.createElement("p");
+    let repositoryUrlContent = document.createElement("a");
     let workProductsHeader = document.createElement("h5");
     let workProductsContent = document.createElement("p");
     let deleteButton = document.createElement("button");
@@ -64,6 +64,8 @@ const Project = () => {
     card.setAttribute("class", "card");
     cardHeader.setAttribute("class", "card-header");
     cardBody.setAttribute("class", "card-body");
+    repositoryUrlContent.setAttribute("href", repositoryUrl);
+    repositoryUrlContent.setAttribute("target", "_blank");
 
     setId(id);
     setName(name);
@@ -113,7 +115,7 @@ const Project = () => {
     card.style.margin = "1em";
 
     deleteButton.addEventListener("click", () => {
-      handleDelete(id);
+      handleShowModalDelete();
     });
     editButton.addEventListener("click", () => {
       handleShowModalEdit();
@@ -129,6 +131,9 @@ const Project = () => {
   const [showModalEdit, setShowModalEdit] = useState(false);
   const handleHideModalEdit = () => setShowModalEdit(false);
   const handleShowModalEdit = () => setShowModalEdit(true);
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const handleHideModalDelete = () => setShowModalDelete(false);
+  const handleShowModalDelete = () => setShowModalDelete(true);
 
   /**
    * Tooltips
@@ -206,7 +211,7 @@ const Project = () => {
   /**
    * Delete data from database
    */
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     axios
       .delete(`http://3.236.213.150:8081/projects/${id}`)
       .then((response) => {
@@ -216,7 +221,7 @@ const Project = () => {
       });
   };
 
-  const handleUpdate = (id: string) => {
+  const handleUpdate = async (id: string) => {
     axios
       .post(`http://3.236.213.150:8081/projects/${id}`, {
         name,
@@ -342,6 +347,39 @@ const Project = () => {
         </Modal>
         <Card.Body>
           <Card.Text className="projects">
+            {/* 'Delete' Modal */}
+            <Modal
+              show={showModalDelete}
+              onHide={handleHideModalDelete}
+              backdrop="static"
+            >
+              <Modal.Header>
+                <Modal.Title>Delete Project?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="modalBody">
+                <div>
+                  <p>Are you sure?</p>
+                </div>
+                <div>
+                  <button
+                    className="btn btn-primary"
+                    style={{"margin": "0.25em 0.25em"}}
+                    onClick={() => {
+                      handleDelete(id);
+                    }}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    style={{"margin": "0.25em 0.25em"}}
+                    onClick={handleHideModalDelete}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </Modal.Body>
+            </Modal>
             {/* 'Edit' Modal */}
             <Modal
               show={showModalEdit}
@@ -357,6 +395,7 @@ const Project = () => {
                   <input
                     type="text"
                     name="name"
+                    value={name}
                     className="form-input"
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -366,6 +405,7 @@ const Project = () => {
                     style={{ width: "100%" }}
                     rows={rowLength}
                     name="description"
+                    value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
                   <br />
@@ -374,6 +414,7 @@ const Project = () => {
                   <input
                     type="text"
                     name="responsibilities"
+                    value={responsibilities}
                     className="form-input"
                     onChange={(e) => setResponsibilities(e.target.value)}
                   />
@@ -382,6 +423,7 @@ const Project = () => {
                   <input
                     type="text"
                     name="technologies"
+                    value={technologies}
                     className="form-input"
                     onChange={(e) => setTechnologies(e.target.value)}
                   />
