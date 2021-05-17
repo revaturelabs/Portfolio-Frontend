@@ -11,7 +11,13 @@ import ModalHeader from "react-bootstrap/esm/ModalHeader";
 import { Tooltip } from "reactstrap";
 import "../css/Project.css";
 
-//FIXME: coordinate with back end component owner to create all necessary fields
+/**
+ * FIXME: coordinate with back end component owner to create all necessary fields
+ * - [/] technologies field (text... unordered list)
+ * - [/] repositoryUrl (text... link to GitHub Repository)
+ * - [/] workProducts (upload... link to file in storage somewhere?)
+ *
+ */
 const Project = () => {
   /**
    * Render projects on load
@@ -24,7 +30,7 @@ const Project = () => {
    * Render projects on page
    * FIXME: update this method to properly render data from getAllProjects()
    */
-  const renderProjects = (
+  const renderProject = (
     id: string,
     name: string,
     description: string,
@@ -34,10 +40,9 @@ const Project = () => {
     workProducts: string
   ) => {
     let project = document.querySelector(".projects");
-    let div = document.createElement("div");
-
-    setId(id);
-
+    let card = document.createElement("div");
+    let cardHeader = document.createElement("div");
+    let cardBody = document.createElement("div");
     let nameHeader = document.createElement("h2");
     let descriptionContent = document.createElement("p");
     let responsibilitiesHeader = document.createElement("h3");
@@ -48,46 +53,71 @@ const Project = () => {
     let repositoryUrlContent = document.createElement("p");
     let workProductsHeader = document.createElement("h5");
     let workProductsContent = document.createElement("p");
+    let deleteButton = document.createElement("button");
+    let editButton = document.createElement("button");
+    let buttonDiv = document.createElement("div");
+
+    deleteButton.setAttribute("id", "delete-project");
+    deleteButton.setAttribute("class", "btn btn-danger");
+    editButton.setAttribute("id", "edit-button");
+    editButton.setAttribute("class", "btn btn-primary");
+    card.setAttribute("class", "card");
+    cardHeader.setAttribute("class", "card-header");
+    cardBody.setAttribute("class", "card-body");
+
+    setId(id);
+    setName(name);
+    setDescription(description);
+    setResponsibilities(responsibilities);
+    setTechnologies(technologies);
+    setRepositoryUrl(repositoryUrl);
+    setWorkProducts(workProducts);
 
     nameHeader.innerHTML = name;
-    setName(name);
-
     descriptionContent.innerHTML = description;
-    setDescription(description);
-
     responsibilitiesHeader.innerHTML = "Responsibilities";
     responsibilitiesContent.innerHTML = responsibilities;
-    setResponsibilities(responsibilities);
-
     technologiesHeader.innerHTML = "Technologies";
     technologiesContent.innerHTML = technologies;
-    setTechnologies(technologies);
-
     // TODO: make repositoryUrlContent link to repository
     repositoryUrlHeader.innerHTML = "Repository URL";
     repositoryUrlContent.innerHTML = repositoryUrl;
-    setRepositoryUrl(repositoryUrl);
-
     // TODO: make workProductsContent links to files in database (s3?)
     workProductsHeader.innerHTML = "Work Products";
     workProductsContent.innerHTML = workProducts;
-    setWorkProducts(workProducts);
+    deleteButton.innerHTML = "Delete";
+    editButton.innerHTML = "Edit";
 
-    div.appendChild(nameHeader);
-    div.appendChild(descriptionContent);
-    div.appendChild(responsibilitiesHeader);
-    div.appendChild(responsibilitiesContent);
-    div.appendChild(technologiesHeader);
-    div.appendChild(technologiesContent);
-    div.appendChild(repositoryUrlHeader);
-    div.appendChild(repositoryUrlContent);
-    div.appendChild(workProductsHeader);
-    div.appendChild(workProductsContent);
-    project?.appendChild(div);
+    card.appendChild(cardHeader);
+    card.appendChild(cardBody);
+    cardHeader.appendChild(nameHeader);
+    cardHeader.appendChild(buttonDiv);
+    buttonDiv.appendChild(editButton);
+    buttonDiv.appendChild(deleteButton);
+    card.appendChild(descriptionContent);
+    card.appendChild(responsibilitiesHeader);
+    card.appendChild(responsibilitiesContent);
+    card.appendChild(technologiesHeader);
+    card.appendChild(technologiesContent);
+    card.appendChild(repositoryUrlHeader);
+    card.appendChild(repositoryUrlContent);
+    card.appendChild(workProductsHeader);
+    card.appendChild(workProductsContent);
+    project?.appendChild(card);
 
-    div.style.border = "1px solid grey";
-    div.style.padding = "1em";
-    div.style.margin = "1em";
+    deleteButton.style.margin = "0.25em 0.25em";
+    editButton.style.margin = "0.25em 0.25em";
+
+    card.style.border = "1px solid grey";
+    card.style.padding = "1em";
+    card.style.margin = "1em";
+
+    deleteButton.addEventListener("click", () => {
+      handleDelete(id);
+    });
+    editButton.addEventListener("click", () => {
+      handleShowModalEdit();
+    });
   };
 
   /**
@@ -131,7 +161,7 @@ const Project = () => {
         console.log("got data");
         console.log(response.data);
         response.data.map((data: any) => {
-          renderProjects(
+          renderProject(
             data.id,
             data.name,
             data.description,
@@ -165,25 +195,46 @@ const Project = () => {
       .then((response) => {
         console.log("success");
         console.log(response.data.name);
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((error) => {
         console.log("error");
       });
     setShowModal(false);
-    setShowModalEdit(false);
   };
 
   /**
    * Delete data from database
    */
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     axios
       .delete(`http://3.236.213.150:8081/projects/${id}`)
       .then((response) => {
         console.log(response);
         console.log(response.data);
+        window.location.reload();
       });
+  };
+
+  const handleUpdate = (id: string) => {
+    axios
+      .post(`http://3.236.213.150:8081/projects/${id}`, {
+        name,
+        description,
+        responsibilities,
+        technologies,
+        repositoryUrl,
+        workProducts,
+      })
+      .then((response) => {
+        console.log("update: success");
+        console.log(response.data.name);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log("error");
+      });
+    setShowModalEdit(false);
   };
 
   /**
@@ -291,17 +342,6 @@ const Project = () => {
         </Modal>
         <Card.Body>
           <Card.Text className="projects">
-            {/* TODO: trash and pencil buttons need to show in the footer of each project div/card */}
-            <Trash id="delete-project"></Trash>
-            <Pencil id="edit-project" onClick={handleShowModalEdit}></Pencil>
-            <Tooltip
-              target="edit-project"
-              isOpen={showEditTooltip}
-              toggle={toggleEditTooltip}
-            >
-              Edit
-            </Tooltip>
-
             {/* 'Edit' Modal */}
             <Modal
               show={showModalEdit}
@@ -370,7 +410,7 @@ const Project = () => {
                 <Button
                   variant="primary"
                   onClick={() => {
-                    handleSave();
+                    handleUpdate(id);
                   }}
                 >
                   Update
