@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Card, Modal } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import '../css/RevatureWorkExperience.css';
-import RevatureWorkExperience from './RevatureWorkExperience';
 
 interface WorkExperience {
     id: number;
@@ -24,23 +23,23 @@ const RevatureWorkExperienceView = () => {
             console.log(response.data);
             setList(response.data);
         });
-    },[null]);
+    }, [null]);
 
     /*****Iterates through the work experience list to display*****/
     const renderWorkExperience = (experienceList: WorkExperience[]) => {
         return experienceList.map(data => {
-            console.log(data);
+            // console.log(data);
             return (
                 <div className="card">
                     <div className="card-header">
                         {data.employer}
                     </div>    
                     <div className="card-body">
-                        {data.title}
-                        <p>{data.startDate} - {data.endDate}</p>
-                        {data.responsibilities}
-                        {data.description}
-                        {data.technologies}
+                        {data.title}<br/>
+                        {data.description}<br/>
+                        {data.startDate} - {data.endDate}<br/>
+                        {data.responsibilities}<br/>
+                        {data.technologies}<br/>
 
                     </div>
                 </div>
