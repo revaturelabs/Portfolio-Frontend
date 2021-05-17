@@ -172,7 +172,7 @@ const IndustryEquivalency = () => {
     const prevExpOption: Array<Option> = [
         { value: "0", labelText: "None / I'd never heard of it", disabledStatus: false },
         { value: "1", labelText: "Cursory Study (No Hands-on Experience)", disabledStatus: false },
-        { value: "2", labelText: "Involved in at Least One PRoject (Minor Hands-on Experience)", disabledStatus: false },
+        { value: "2", labelText: "Involved in at Least One Project (Minor Hands-on Experience)", disabledStatus: false },
         { value: "4", labelText: "Involved in Multiple Projects (Substantial Hands-on Experience)", disabledStatus: false }
     ];
     const currExpOption: Array<Option> = [

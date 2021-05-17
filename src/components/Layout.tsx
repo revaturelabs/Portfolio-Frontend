@@ -11,24 +11,25 @@ import OtherWorkExperience from "./OtherWorkExperience";
 import Education from "./Education";
 import PortfolioList from "./PortfolioList";
 import HonorAward from "./HonorAward";
-
+import IndustryEquivalency from './IndustryEquivalency';
 
 function Layout() {
     return (
-          <div>
-          <Route path="/login" component={AccountLogin} />
-          <Route path="/projects" component={Project} />
-          <Route path="/revature-work-experience" component={RevatureWorkExperience} />
-          <Route exact path="/" component={Landing} />
-          <Route path="/main" component={Landing} />
-          <Route path="/portfolio" component={EditEmpPortfolio} />
-          <Route path="/aboutMe" component={AboutMe} />
-          <Route path="/view" component={ViewPortfolio} />
-          <Route path="/other-work-experience" exact component={OtherWorkExperience} />
-          <Route path="/education" component={Education} />
-          <Route path="/list" component={PortfolioList} />
-          <Route path="/honors" component={HonorAward} />
-        </div>
+          <>
+            <Route path="/login" component={AccountLogin} />
+            <Route path="/projects" component={Project} />
+            <Route path="/revature-work-experience" component={RevatureWorkExperience} />
+            <Route exact path="/" component={Landing} />
+            <Route path="/main" component={Landing} />
+            <Route path="/portfolio" component={EditEmpPortfolio} />
+            <Route path="/aboutMe" component={AboutMe} />
+            <Route path="/view" component={ViewPortfolio} />
+            <Route path="/other-work-experience" exact component={OtherWorkExperience} />
+            <Route path="/education" component={Education} />
+            <Route path="/list" component={PortfolioList} />
+            <Route path="/honors" component={HonorAward} />
+            <Route path="/equivalency" component={IndustryEquivalency} />
+        </>
           
     );
 }
