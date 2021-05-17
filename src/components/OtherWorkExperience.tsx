@@ -1,6 +1,6 @@
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Modal} from 'react-bootstrap';
 import { QuestionCircle, PlusCircle } from 'react-bootstrap-icons';
 import '../css/OtherWorkExperience.css'
@@ -10,57 +10,114 @@ const OtherWorkExperience = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [empName, setEmpName] = useState("");
-    const [fromDate, setFromDate] = useState("");
-    const [toDate, setToDate] = useState("");
-    const [jobTitle, setJobTitle] = useState("");
+    const [employer, setEmployer] = useState("");
+    const [title, setTitle] = useState("");
+    const [responsibilities, setResponsibilities] = useState("");
+    const [description, setDescription] = useState("");
+    const [tool, setTool] = useState("");
+    const [date, setDate] = useState("");    
 
-    const createWorkExperience = () => {
-        let exp: Array<string> = [
-            empName,
-            fromDate,
-            toDate,
-            jobTitle
-        ]
-
-        // veryfying that data is being caught before rendered in the card
-        console.log(exp);
-
-
-        let addWorkExperience = document.getElementById("addWorkExperience");
-        let div = document.createElement('div');
-
-        for (let index = 0; index < exp.length; index++) {
-            let header = document.createElement('div');
-            div.appendChild(header);
-            header.innerHTML = exp[index];
-            header.classList.add("card");
-            addWorkExperience?.appendChild(div);
-
-            // return (
-            //     <div>
-            //         <h1> {exp[index]}</h1>
-            //         <div>{exp[index+1]}</div>
-            //         <div>{exp[index+2]}</div>
-            //         <div>{exp[index+3]}</div>
-            //     </div>
-            // );
-        }        
-    }
-
-
-    const handleWorkExperience = async () => {
-
-        axios.get('http://3.236.213.150:8081/workhistory')
-        .then((resp) => {
-            console.log(resp.data); 
-        }).catch((e) => {
-            console.log(e + ': SOMETHING WENT WRONG!')
+        // Get data from data base
+    //***********************************************************/
+    const getData = async () => {
+        axios.get("http://3.236.213.150:8081/workhistory")
+        .then(resp => {
+            console.log(resp.data)
+        })
+        .catch(error => {
+            console.log(error)
         })
     }
+    useEffect(() => {getData()}, [])
+    //***********************************************************/
 
-    
-    
+    // Save data to database
+    //***************************************************/
+    const handleSave = () => {
+        axios.post("http://3.236.213.150:8081/workhistory", {
+            // employer,
+            title,
+            responsibilities,
+            description,
+            tool,
+            date
+        })
+        .then(resp => {
+            console.log(resp.data);
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
+        setEmployer("");
+        setTitle("");
+        setResponsibilities("");
+        setDescription("");
+        setTool("");
+        setDate("");
+        setShow(false);
+    }
+    //***************************************************/
+
+    //***************************************************/
+    const createWorkExperience = (data: any) => {
+        
+        /*let sDate = new Date(startDate)
+        let eDate = new Date(endDate)
+        let duration = months[sDate.getMonth()] + " " + sDate.getFullYear() + " - " + months[eDate.getMonth()] + ' ' + eDate.getFullYear()*/
+
+
+
+        let headerNum: number = 1
+        for (let index = 0; index < data.length; index++) {
+            let component = document.createElement("h1")
+            let workExperience = document.querySelector(".work-experience")
+            let card = document.createElement("div")
+            let cardHeader = document.createElement("div")
+            let cardBody = document.createElement("div")
+            let editDiv = document.createElement("div")
+            let editButton = document.createElement("button")
+
+            card.setAttribute("class", "card")
+            cardHeader.setAttribute("class", "card-header")
+            cardBody.setAttribute("class", "card-body")
+            editButton.setAttribute("class", "btn btn-primary")
+
+            card.appendChild(cardHeader)
+            cardBody.innerHTML = "this will be the body of the card" // <--- this is temp
+            card.appendChild(cardBody)
+
+            editDiv.appendChild(editButton)
+            editButton.style.float = "right"
+            editButton.innerHTML = "Edit"
+            editButton.addEventListener("click", () => {
+            })
+            cardHeader.appendChild(editDiv)
+
+            cardHeader.appendChild(component)
+            component.innerHTML = data[index].technologies
+
+            if(headerNum === 1) {
+                component.style.fontWeight = "bold"
+            } else if(headerNum === 3) {
+                component.style.color = "rgb( 242, 105, 3)"
+            }
+
+            cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
+            cardHeader.style.backgroundColor = "white"
+            workExperience?.appendChild(card) 
+
+            if(Number(workExperience?.childElementCount) > 1) {
+                card.style.marginTop = "50px"
+            }
+
+            headerNum++
+
+        } 
+    }
+
+
+
     return (
         <div className="container">
             
@@ -69,33 +126,35 @@ const OtherWorkExperience = () => {
                     <Modal.Title>Add Other Experience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form action="">
+                    <form onSubmit={handleSave}>
                         <div className="form-group">
-                            <label className="">Employer Name</label>
-                            <input type="text" name="empName" id="" className="w-100" onChange={ (e)=> setEmpName(e.target.value) }/>
+                            <label className="">title</label>
+                            <input type="text" name="empName" id="" className="w-100" onChange={ (e)=> setTitle(e.target.value) }/>
                         </div>
                         
                         <div className="form-group">
-                            <label>From</label> 
-                            <input type="date" name="fromDate" id="" className="w-100" placeholder="From" onChange={ (e) => setFromDate(e.target.value)}/> 
+                            <label>Responsibilities</label> 
+                            <input type="text" name="fromDate" id="" className="w-100" placeholder="" onChange={ (e) => setResponsibilities(e.target.value)}/> 
                         </div>
                         <div className="form-group">
-                            <label>To</label> 
-                            <input type="date" name="toDate" id="" className="w-100" placeholder="To" onChange={ (e) => setToDate(e.target.value)}/>
+                            <label>Description</label> 
+                            <input type="text" name="toDate" id="" className="w-100" placeholder="" onChange={ (e) => setDescription(e.target.value)}/>
                         </div>
                         <div className="form-group">
-                            <label>Job Title</label>
-                            <input type="text" name="jobTitle" id="" className="w-100" placeholder="" onChange={ (e) => setJobTitle(e.target.value)}/>
+                            <label>Tools</label>
+                            <input type="text" name="jobTitle" id="" className="w-100" placeholder="" onChange={ (e) => setTool(e.target.value)}/>
                         </div> 
+                        <div className="form-group">
+                            <label>Date</label>
+                            <input type="text" name="jobTitle" id="" className="w-100" placeholder="" onChange={ (e) => setDate(e.target.value)}/>
+                        </div> 
+                        <hr className="w-100 my-3"/>
+                        <div className="text-center">
+                        <Button variant="primary" className="mx-1" onClick={()=>{ handleClose(); handleSave();}}>Save</Button>
+                        <Button variant="secondary" className="mx-1" onClick={handleClose}>Cancel</Button>
+                        </div>
                     </form>
-                                   
                 </Modal.Body>
-                <Modal.Footer className="">
-                    <div className="mx-auto">
-                    <Button variant="primary" className="mx-1" onClick={()=>{ handleClose(); alert("Changes are saved!"); createWorkExperience();}}>Save</Button>
-                    <Button variant="secondary" className="mx-1" onClick={handleClose}>Cancel</Button>
-                    </div>
-                </Modal.Footer>
             </Modal>
 
             <div>
@@ -122,7 +181,7 @@ const OtherWorkExperience = () => {
             </div>
 
             <div className="card-footer">
-                {/* {createWorkExperience()} */}
+                
             </div>
             </div>
         </div>
