@@ -13,7 +13,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
         setErrors(validationErrors)
         if(noErros) {
             alert("Logged In")
-            window.location.reload()
+            window.location.pathname = "./list"
         } else {
             console.log("Errors, please try again", validationErrors)
         }

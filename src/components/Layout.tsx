@@ -9,6 +9,7 @@ import EditEmpPortfolio from './EditEmpPortfolio';
 import AboutMe from "./AboutMe";
 import OtherWorkExperience from "./OtherWorkExperience";
 import Education from "./Education";
+import PortfolioList from "./PortfolioList";
 
 
 function Layout() {
@@ -24,6 +25,7 @@ function Layout() {
           <Route path="/view" component={ViewPortfolio} />
           <Route path="/other-work-experience" exact component={OtherWorkExperience} />
           <Route path="/education" component={Education} />
+          <Route path="/list" component={PortfolioList} />
           </div>
     );
 }
