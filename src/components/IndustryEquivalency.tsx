@@ -1,13 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/IndustryEquivalency.css';
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useState, useEffect } from 'react';
-import { Card, Button, Modal} from 'react-bootstrap';
-import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons';
+import { Card, Button, Modal } from 'react-bootstrap';
+import { QuestionCircle, PlusCircle, Pencil, XCircle, Save } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
 
 // Define Skill data structure
-/* --------------------- */
+/* ------------------------ */
 export interface Skill {
     id: number;
     header: string;
@@ -27,43 +27,67 @@ export interface Skill {
         feedback: string;
     }
 }
-/* --------------------- */
+/* ------------------------ */
 
 // Create Option Object Type
-/* ---------------------- */
+/* ------------------------ */
 export interface Option {
     value: string;
     labelText: string;
     disabledStatus: boolean;
 }
-/* ---------------------- */
+/* ------------------------ */
 
 // Define Portfolio Number
-/* ---------------------- */
+/* ------------------------ */
 let portfolioID: number = 1;
-/* ---------------------- */
+/* ------------------------ */
 
 const IndustryEquivalency = () => {
 
     // Remove Add Button if Maximum Skill Number is reached
-    /* ---------------------------------------- */
+    /* ------------------------------------------------ */
     const [skillsAtMax, setSkillsAtMax] = useState(false);
-    /* ---------------------------------------- */
+    /* ------------------------------------------------ */
 
-    // Modal show and hide
-    /* ---------------------------------- */
-    const [show, setShow] = useState(false);
-    const handleClose = () => {
-        setShow(false);
+    // Modal Add show and hide
+    /* ---- */
+    const [showAdd, setShowAdd] = useState(false);
+    const handleAddClose = () => {
+        setShowAdd(false);
     };
-    const handleShow = () => {
+    const handleAddShow = () => {
         if (skillsAtMax) {
             alert("No more than 5 skills can be added to the Industry Equivalency Section.");
             return;
         };
-        setShow(true);
+        setShowAdd(true);
     };
-    /* ---------------------------------- */
+    /* ---- */
+
+    // Modal Edit show and hide
+    /* ---- */
+    const [showEdit, setShowEdit] = useState(false);
+    const [editSkillSet, setEditSkillSet] = useState<Array<Skill>>([]);
+    const handleEditClose = () => {
+        setShowEdit(false);
+        setEditSkillSet([]);
+    }
+    const handleEditShow = () => {
+        let tempSkillSet: Array<Skill> = [];
+        skillSet.forEach((s) => {
+            let tempSkill: Skill = {
+                id: s.id,
+                header: s.header,
+                value: s.value,
+                portfolio: s.portfolio
+            }
+            tempSkillSet.push(tempSkill);
+        });
+        setEditSkillSet(tempSkillSet);
+        setShowEdit(true);
+    };
+    /* ---- */
 
     // Tooltip for add and details buttons
     /* ---------------------------------------------------------------- */
@@ -74,50 +98,58 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
 
     // GET Skill Data
-    /* ---------------------------------------------------------- */
+    /* -------------------------------------------------------- */
     const [skillSet, setSkillSet] = useState<Array<Skill>>([]);
     useEffect(() => {
+        // Re-Calculate Max Equivalency Whenever skillSet is changed
+        let tempMax: number = 0;
+        skillSet.forEach((s) => {
+            if (s.value > tempMax) {
+                tempMax = s.value;
+            }
+        })
+        setMaxEquivalency(tempMax);
         setSkillsAtMax(skillSet.length >= 5);
     }, [skillSet]);
     const [maxEquivalency, setMaxEquivalency] = useState<number>(0);
-    useEffect(() => {
+    const aquireSkillSet = () => {
         axios.get('http://3.236.213.150:8081/equiv')
-        .then(resp => {
-            let tempSkillSet: Array<Skill> = [...resp.data];
-            let localSkillSet: Array<Skill> = [];
-            let tempMax: number = 0;
-            tempSkillSet.forEach(skill => {
-                if (skill.portfolio.id == portfolioID) {
-                    localSkillSet.push(skill);
-                    if (skill.value > tempMax) {
-                        tempMax = skill.value;
+            .then(resp => {
+                let copySkillSet: Array<Skill> = [...resp.data];
+                let tempSkillSet: Array<Skill> = [];
+                let tempMax: number = 0;
+                copySkillSet.forEach(skill => {
+                    if (skill.portfolio.id == portfolioID) {
+                        tempSkillSet.push(skill);
+                        if (skill.value > tempMax) {
+                            tempMax = skill.value;
+                        };
                     };
-                };
+                });
+                console.log(tempSkillSet);
+                console.log("Highest Equivalency is " + tempMax);
+                setSkillSet(tempSkillSet);
+            })
+            .catch(error => {
+                console.error(error);
             });
-            console.log(localSkillSet);
-            console.log("Highest Equivalency is " + tempMax);
-            setSkillSet(localSkillSet);
-            setMaxEquivalency(tempMax);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    }, []);
-    /* ---------------------------------------------------------- */
+    }
+    useEffect(() => { aquireSkillSet() }, []);
+    /* -------------------------------------------------------- */
 
     // Industry Equivalency State Variables
-    /* ------------------------------------------------------ */
+    /* -------------------------------------------------------- */
     const [skillName, setSkillName] = useState('');
     const [previousExp, setPreviousExp] = useState<string>('0');
     const [currentExp, setCurrentExp] = useState<string>('0');
     const [equivalency, setEquivalency] = useState<number>(0);
     useEffect(() => {
         setEquivalency(+previousExp + +currentExp);
-    }, [previousExp, currentExp,equivalency]);
-    /* ------------------------------------------------------ */
+    }, [previousExp, currentExp, equivalency]);
+    /* -------------------------------------------------------- */
 
     // Create SELECT options programmatically
-    /* ----------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------- */
     const titleOptions: Array<Option> = [
         { value: '', labelText: 'Select a skill', disabledStatus: true },
         { value: 'Java', labelText: 'Java', disabledStatus: false },
@@ -149,10 +181,10 @@ const IndustryEquivalency = () => {
         { value: "6", labelText: "I used it in about half of my projects", disabledStatus: false },
         { value: "12", labelText: "I worked directly with it in every project", disabledStatus: false }
     ];
-    /* ----------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------- */
 
     // Handle the Add functionality
-    /* -------------------------------------------------------------- */
+    /* ---------------------------------------------------------------- */
     const handleAdd = async () => {
         axios.get('http://3.236.213.150:8081/portfolios/' + portfolioID)
             .then(resp => {
@@ -170,22 +202,22 @@ const IndustryEquivalency = () => {
                         tempSkillSet.push(resp.data);
                         setSkillSet(tempSkillSet);
                     })
-                    .catch(error =>  {
+                    .catch(error => {
                         console.error(error);
                     })
             })
             .catch(error => {
                 console.error(error);
             });
-        setShow(false);
+        setShowAdd(false);
         setSkillName('');
         setPreviousExp('0');
         setCurrentExp('0');
     };
-    /* -------------------------------------------------------------- */
+    /* ---------------------------------------------------------------- */
 
     // Handle the Delete Functionality
-    /* ---- */
+    /* -------------------------------------------------------------------------------- */
     const handleDelete = async (remSkill: Skill) => {
         console.log('axios.delete(\'http://3.236.213.150:8081/equiv/' + remSkill.id + '\')');
         // axios.delete('http://3.236.213.150:8081/equiv/' + remSkill.id)
@@ -200,10 +232,45 @@ const IndustryEquivalency = () => {
         //         console.error(error);
         //     })
     };
+    /* -------------------------------------------------------------------------------- */
 
-    // Information meassage
+    // Handle the Edit Table Changes
+    /* -------------------------------------------------------------------------------- */
+    const handleEditChange = (changeType: number, changeSkill: number, newValue: string) => {
+        let tempSkillSet = [...editSkillSet];
+        tempSkillSet.forEach((s) => {
+            if (s.id == changeSkill) {
+                if (changeType == 1) {
+                    s.header = newValue;
+                }
+                if (changeType == 2) {
+                    s.value = +newValue;
+                }
+            }
+        });
+        setEditSkillSet(tempSkillSet);
+    }
+    /* -------------------------------------------------------------------------------- */
+
+    // Handle Saving the Edit Table
+    /* ---- */
+    const handleEdit = () => {
+        editSkillSet.forEach(async (s) => {
+            await axios.post('http://3.236.213.150:8081/equiv/portfolios/' + s.id, s)
+                .then((resp) => { })
+                .catch((error) => {
+                    console.error(error);
+                })
+        });
+        setSkillSet([...editSkillSet]);
+        handleEditClose();
+    }
+
+    // Section Description
+    /* ------------------------------------------------------------------------------------------------------------ */
     const message: string = "This section will show your industry equivalent level of experience in certain skills.\n"
-                            + "Select a skill and answer two questions to generate values for the section.";
+        + "Select a skill and answer two questions to generate values for the section.";
+    /* ------------------------------------------------------------------------------------------------------------ */
 
     return (
         <div className="container">
@@ -212,12 +279,13 @@ const IndustryEquivalency = () => {
                     <h4>
                         Industry Equivalency
                         <QuestionCircle id="card-info" onClick={() => (alert(message))} />
-                        <PlusCircle id="add-equivalency" onClick={handleShow} />
+                        <Pencil id="edit-equivalency" onClick={handleEditShow} />
+                        <PlusCircle id="add-equivalency" onClick={handleAddShow} />
                         <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                     </h4>
                 </Card.Header>
-                <Modal show={show} onHide={handleClose} backdrop="static">
+                <Modal show={showAdd} onHide={handleAddClose} backdrop="static">
                     <Modal.Header>
                         <Modal.Title>Add a Skill</Modal.Title>
                     </Modal.Header>
@@ -229,7 +297,7 @@ const IndustryEquivalency = () => {
                                     className="form-control"
                                     name="skillTitle"
                                     value={skillName}
-                                    onChange={ (ev) => { setSkillName(ev.target.value); } }>
+                                    onChange={(ev) => { setSkillName(ev.target.value); }}>
                                     {titleOptions.map((o) => (
                                         <option value={o.value} disabled={o.disabledStatus} key={o.value}>{o.labelText}</option>
                                     ))}
@@ -242,7 +310,7 @@ const IndustryEquivalency = () => {
                                     className="form-control"
                                     name="previousExperience"
                                     value={previousExp}
-                                    onChange={ (ev) => { setPreviousExp(ev.target.value); } }>
+                                    onChange={(ev) => { setPreviousExp(ev.target.value); }}>
                                     {prevExpOption.map((o) => (
                                         <option value={o.value} disabled={o.disabledStatus} key={o.value}>{o.labelText}</option>
                                     ))}
@@ -255,7 +323,7 @@ const IndustryEquivalency = () => {
                                     className="form-control"
                                     name="currentExperience"
                                     value={currentExp}
-                                    onChange={ (ev) => { setCurrentExp(ev.target.value); } }>
+                                    onChange={(ev) => { setCurrentExp(ev.target.value); }}>
                                     {currExpOption.map((o) => (
                                         <option value={o.value} disabled={o.disabledStatus} key={o.value}>{o.labelText}</option>
                                     ))}
@@ -265,23 +333,57 @@ const IndustryEquivalency = () => {
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
+                        <Button variant="secondary" onClick={handleAddClose}>Close</Button>
                         <Button variant="primary" onClick={handleAdd}>Save</Button>
                     </Modal.Footer>
                 </Modal>
-                {/* <Modal show={show} onHide={handleClose} backdrop="Static">
-                    <Modal.Header></Modal.Header>
-                    <Modal.Body></Modal.Body>
-                    <Modal.Footer></Modal.Footer>
-                </Modal> */}
+                <Modal show={showEdit} onHide={handleEditClose} backdrop="Static">
+                    <Modal.Header>
+                        <Modal.Title>Edit Your Skills</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form>
+                            <table>
+                                <tr>
+                                    <th>Skill Name</th>
+                                    <th>Industry Equivalency</th>
+                                </tr>
+                                {editSkillSet.map((s) => (
+                                    <tr key={s.id}>
+                                        <td>
+                                            <select
+                                                className="form-control"
+                                                value={s.header}
+                                                onChange={(ev) => { handleEditChange(1, s.id, ev.target.value) }}>
+                                                {titleOptions.map((o) => (
+                                                    <option value={o.value} disabled={o.disabledStatus} key={o.value}>{o.labelText}</option>
+                                                ))}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                step="1"
+                                                min="3"
+                                                value={s.value}
+                                                onChange={(ev) => { handleEditChange(2, s.id, ev.target.value) }} />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </table>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleEditClose}>Close</Button>
+                        <Button variant="primary" onClick={handleEdit}><Save /> Save</Button>
+                    </Modal.Footer>
+                </Modal>
                 <Card.Body>
                     <Card.Text>
-                        <div className="row" style={{height: "220px"}}>
+                        <div className="row" style={{ height: "220px" }}>
                             {skillSet.map((s) => (
                                 <div className="col-sm m-2 fill-box justify-content-center" key={s.id}>
-                                    <h5 className={"tall-text p-2 ring-" + Math.round(s.value * 10 / maxEquivalency) }>{s.value}</h5>
+                                    <h5 className={"tall-text p-2 ring-" + Math.round(s.value * 10 / maxEquivalency)}>{s.value}</h5>
                                     <h5>{s.header} <XCircle id="delete-equivalency" className="text-danger" onClick={() => handleDelete(s)} /></h5>
                                 </div>
                             ))}
