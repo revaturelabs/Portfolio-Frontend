@@ -9,6 +9,8 @@ import EditEmpPortfolio from './EditEmpPortfolio';
 import AboutMe from "./AboutMe";
 import OtherWorkExperience from "./OtherWorkExperience";
 import Education from "./Education";
+import HonorAward from "./HonorAward";
+
 
 
 function Layout() {
@@ -24,7 +26,10 @@ function Layout() {
           <Route path="/view" component={ViewPortfolio} />
           <Route path="/other-work-experience" exact component={OtherWorkExperience} />
           <Route path="/education" component={Education} />
-          </div>
+          <Route path="/honors" component={HonorAward} />
+
+        </div>
+          
     );
 }
 
