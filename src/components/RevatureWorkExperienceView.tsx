@@ -13,7 +13,12 @@ interface WorkExperience {
     responsibilities: String;
     title: String;
 }
-
+/*****
+ * Currently the data objects sent from backend for revature work experience 
+ * and other work experience are not the same. Once they have been changed on the backend
+ * to be the same. They can use the same component and just pass in a url for the different
+ * endpoints
+ * *****/
 const RevatureWorkExperienceView = () => {
     const [experienceList,setList] = useState<WorkExperience[]>();
 
@@ -40,7 +45,6 @@ const RevatureWorkExperienceView = () => {
                         {data.startDate} - {data.endDate}<br/>
                         {data.responsibilities}<br/>
                         {data.technologies}<br/>
-
                     </div>
                 </div>
             );

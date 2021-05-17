@@ -15,7 +15,7 @@ const AboutMeView = () => {
     const [aboutMe, setAboutMe] = useState<AboutMe>();
 
     useEffect(() => {
-        axios.get<AboutMe>(`http://3.236.213.150:8081/aboutMe/${1}`).then(response => {
+        axios.get<AboutMe>(`http://3.236.213.150:8081/aboutMe`).then(response => {
             console.log(response.data);
             setAboutMe(response.data);
         })
@@ -38,7 +38,9 @@ const AboutMeView = () => {
                     <h4>About Me</h4>
                 </Card.Header>
                 <Card.Body>
-                    {aboutMe && renderAboutMe(aboutMe)}
+                    <Card.Text>
+                        {aboutMe && renderAboutMe(aboutMe)}
+                    </Card.Text>
                 </Card.Body>
             </Card>
         </div>

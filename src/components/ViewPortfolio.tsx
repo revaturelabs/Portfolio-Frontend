@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import AboutMeView from "./AboutMeView";
+import OtherWorkExperienceView from "./OtherWorkExperienceView";
+import ProjectView from "./ProjectView";
 import RevatureWorkExperienceView from "./RevatureWorkExperienceView"
 
 const ViewPortfolio = () => {
@@ -10,8 +12,13 @@ const ViewPortfolio = () => {
                     <button className="btn btn-primary m-1">Back</button>
                 </Link>
             </div>
+            {/* industry equiv */}
             <AboutMeView />
-            <RevatureWorkExperienceView/>
+            {/* education */}
+            <RevatureWorkExperienceView />
+            <ProjectView />
+            <OtherWorkExperienceView />
+            {/* Honor */}
         </div>
     );
 }
