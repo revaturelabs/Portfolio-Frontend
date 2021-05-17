@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Button, Card, Modal, ModalTitle } from "react-bootstrap";
 import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { Tooltip } from "reactstrap";
+import { NumberLiteralType } from "typescript";
 import "../css/Project.css";
 
 const Education = () => {
@@ -20,7 +21,11 @@ const Education = () => {
     const [showModal, setShowModal] = useState(false);
     const handleHideModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
-
+    const [showUpdateModal,setShowUpdateModal] = useState(false);
+    const handleUpdateShowModal = () => {
+        setShowUpdateModal(true);
+    }
+    const handleUpdateHideModal = () => setShowUpdateModal(false);
     /**
      * Tooltip for add button
      */
@@ -36,76 +41,34 @@ const Education = () => {
     /**
      * 'Add education' state handling
      */
-    const [university, setUniversity] = useState("");
-    const [degree, setDegree] = useState("");
-    const [graduationDate, setGraduationDate] = useState("");
-    const [gpa, setGpa] = useState("");
-    const [logoUrl, setLogoUrl] = useState("");
+    const [university, setUniversity] = useState('');
+    const [degree, setDegree] = useState('');
+    const [graduationDate, setGraduationDate] = useState('');
+    const [gpa, setGpa] = useState('');
+    const [logoUrl, setLogoUrl] = useState('');
+    const [id, setId] = useState('');
 
-    /**
-     * Render education on page
-     */
-    const createProject = () => {
-        let educations: Array<string> = [
-            university,
-            degree,
-            graduationDate,
-            gpa,
-            logoUrl,
-        ];
-        let education = document.querySelector(".education");
-        let div = document.createElement("div");
 
-        for (let index = 0; index < educations.length; index++) {
-            let header = document.createElement("h1");
-            div.appendChild(header);
-            header.innerHTML = educations[index];
-            education?.appendChild(div);
-        }
 
-        setUniversity("");
-        setDegree("");
-        setGraduationDate("");
-        setGpa("");
-        setLogoUrl("");
-
-        div.style.border = "2px solid black";
-    };
-
-    // Get data from data base
-    //***********************************************************/
-    // const getData = async () => {
-    //     axios.get("localhost:8081/education")
-    //     .then(resp => {
-    //     console.log(resp.data)
-    //     createAllEducation(resp.data)
-    //     })
-    //     .catch(error => {
-    //     console.log("error")
-    //     })
-    //     }
-    //     useEffect(() => {getData()}, [])
-    //***********************************************************/
-
+    // Get all Education objects from the database
+    // I used fetch , as opposed to axios because i was having
+    // horrible CORS problems
+    // Load all education objects on load of the page
     useEffect(() => {
-        const getTasks = async () => {
-            const tasksFromServer = await fetchTasks();
-            //setTasks(tasksFromServer);
+        const getEducation = async () => {
+            const tasksFromServer = await fetchEducation();
         }
-
-        getTasks();
+        getEducation();
     }, [])
 
-
-    const fetchTasks = async () => {
-        const res = await fetch('http://localhost:8081/education');
+    const fetchEducation = async () => {
+        const res = await fetch("http://localhost:8081/education");
         const data = await res.json();
-        console.log(data)
         createAllEducation(data)
         return data;
     }
 
-
+// Create all html for the Education cards
     const createAllEducation = (data: any) => {
 
         let headerNum: number = 1
@@ -113,45 +76,71 @@ const Education = () => {
             let gpa = document.createElement("h5")
             let universityVariable = document.createElement("h3")
             let degree = document.createElement("h1")
+            let gradDate = document.createElement("h5")
             let educationParent = document.querySelector(".education")
             let card = document.createElement("div")
             let cardHeader = document.createElement("div")
             let cardBody = document.createElement("div")
             let editDiv = document.createElement("div")
             let editButton = document.createElement("button")
+            let deleteButton = document.createElement("button")
 
             card.setAttribute("class", "card")
             cardHeader.setAttribute("class", "card-header")
             cardBody.setAttribute("class", "card-body")
             editButton.setAttribute("class", "btn btn-primary")
+            deleteButton.setAttribute("class", "btn btn-danger")
 
             card.appendChild(cardHeader)
-            cardBody.innerHTML = "Here we can put more information on the degree" // <--- this is temp
+            //cardBody.innerHTML = "Here we can put more information on the degree" // <--- this is temp
             card.appendChild(cardBody)
 
             editDiv.appendChild(editButton)
             editButton.style.float = "right"
             editButton.innerHTML = "Edit"
+            editButton.setAttribute("id",data[index].id);
+            deleteButton.style.float = "right"
+            deleteButton.innerHTML = "Delete"
+
+            /* Define Event Listeners for the edit and delete buttons */
+            
+            // Event listener for edit education button
             editButton.addEventListener("click", () => {
-                handleShowUpdateExperience()
+                // Set all state so variables populate the edit Modal
+                setUniversity(data[index].university);
+                setDegree(data[index].degree);
+                setLogoUrl(data[index].logoUrl);
+                setGpa(data[index].gpa);
+                //needed to save into a temp variable here because
+                // setGraduationDate() wasnt working in the same way as for above
+                const tempDate = data[index].graduationDate;
+                setGraduationDate(tempDate);
+                setId(data[index].id)
+
+                //Pop up edit education Modal
+                handleUpdateShowModal()
             })
+
+            // Event Listener for the delete education functionality
+            deleteButton.addEventListener("click", () => {
+                handleDelete(data[index].id)
+            })
+
             cardHeader.appendChild(editDiv)
             cardHeader.appendChild(degree)
-            cardHeader.appendChild(universityVariable)
-            cardHeader.appendChild(gpa)
             
-            //universityTitle.innerHTML = "Name of University: " 
-            universityVariable.innerHTML = data[index].university
+            cardHeader.appendChild(universityVariable)
+            cardHeader.appendChild(gradDate)
+            cardHeader.appendChild(gpa)
+            cardHeader.appendChild(deleteButton)
+            
+           
+            gradDate.style.color = "rgb( 242, 105, 3)";
+            universityVariable.innerHTML = data[index].university 
+            gradDate.innerHTML = "Graduation Date: " + data[index].graduationDate
             degree.innerHTML = data[index].degree
             gpa.innerHTML = "GPA: " + data[index].gpa
-            //universityVariable.innerHTML = "Name of Degree: " + data[index].degree
-
-            // if (headerNum === 1) {
-            //     universityTitle.style.fontWeight = "bold"
-            // } else if (headerNum === 3) {
-            //     universityTitle.style.color = "rgb( 242, 105, 3)"
-            // }
-
+        
             cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
             cardHeader.style.backgroundColor = "white"
             educationParent?.appendChild(card)
@@ -169,13 +158,7 @@ const Education = () => {
      * Save data to database
      */
     const handleSave = () => {
-        // let newEducation = {
-        //     university:university,
-        //     degree:degree,
-        //     graduationDate:graduationDate,
-        //     gpa:gpa,
-        //     logoUrl:logoUrl,
-        // };
+    
         axios
             .post("http://localhost:8081/education", {
                 university,
@@ -185,8 +168,6 @@ const Education = () => {
                 logoUrl
             })
             .then((response) => {
-                console.log("success: newEducation");
-                //console.log(newEducation);
             })
             .catch((error) => {
                 console.log("error");
@@ -196,29 +177,45 @@ const Education = () => {
         window.location.reload();
     };
 
-    const handleUpdate = () => {
-        let newEducation = {
-            university: university,
-            degree: degree,
-            graduationDate: graduationDate,
-            gpa: gpa,
-            logoUrl: logoUrl,
-        };
+
+    // Delete an Education Card
+    const handleDelete = async (id:number) => {
+    
+        axios.delete('http://localhost:8081/education/' + id)
+            .then(res => {
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+      
+        window.location.reload();
+    }  
+
+    // POST request to update education details
+    const handleUpdate = (id:any) => {
+    
         axios
-            .put("http://3.236.213.150:8081/projects", { newEducation })
+            .post("http://localhost:8081/education/"+ id, {
+               university,
+               degree,
+               graduationDate,
+               gpa,
+               logoUrl
+
+            })
             .then((response) => {
                 console.log("success");
-                console.log(newEducation);
             })
             .catch((error) => {
                 console.log("error");
             });
+            window.location.reload();
     };
 
     /**
      * Details message
      */
-    const messageDetails: string = "BLah blha blah";
+    const messageDetails: string = "Add your education and certification history here";
 
     return (
         <div className="container">
@@ -247,6 +244,8 @@ const Education = () => {
                         </Tooltip>
                     </h4>
                 </Card.Header>
+
+                {/* Modal for adding a new education */}
                 <Modal show={showModal} onHide={handleHideModal} backdrop="static">
                     <Modal.Header>
                         <Modal.Title>Add Education</Modal.Title>
@@ -313,6 +312,78 @@ const Education = () => {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+            {/* Modal for updating and existing education */}
+                <Modal show={showUpdateModal} onHide={handleUpdateHideModal} backdrop="static">
+                    <Modal.Header>
+                        <Modal.Title>Update Education</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form method="post">
+                            <h6>University Name</h6>
+                            <input
+                                type="text"
+                                value = {university}
+                                className="form-input"
+                                onChange={(e) => setUniversity(e.target.value)}
+                            />
+                            <br />
+                            <h6>Degree Attained</h6>
+                            <input
+                                type="text"
+                                name="degree"
+                                value = {degree}
+                                className="form-input"
+                                onChange={(e) =>
+                                    setDegree(e.target.value)
+                                }
+                            />
+                            <br />
+                            <h6>Graduation Date</h6>
+                            <input
+                                type="text"
+                                name="graduationDate"
+                                value = {graduationDate}
+                                className="form-input"
+                                onChange={(e) =>
+                                    setGraduationDate(e.target.value)
+                                }
+                            />
+                            <br />
+                            <h6>GPA</h6>
+                            <input
+                                type="text"
+                                name="gpa"
+                                value = {gpa}
+                                className="form-input"
+                                onChange={(e) => setGpa(e.target.value)}
+                            />
+                            <br />
+                            <h6>Logo for the Url</h6>
+                            <input
+                                type="text"
+                                name="logoUrl"
+                                value = {logoUrl}
+                                className="form-input"
+                                onChange={(e) => setLogoUrl(e.target.value)}
+                            />
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleUpdateHideModal}>
+                            Close
+                        </Button>
+                        <Button
+                            variant="primary"
+                            onClick={() => {
+                                handleUpdate(id);
+                                handleUpdateHideModal();
+                            }}
+                        >
+                            Save
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
                 <Card.Body>
                     <Card.Text className="education"></Card.Text>
                 </Card.Body>
