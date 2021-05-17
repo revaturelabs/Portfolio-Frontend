@@ -39,75 +39,77 @@ const HonorAwards = () => {
 
     // Add honor awards  state handling
     //***************************************************/
-    const [awardTitle, setAwardTitle] = useState('')
-    const [desc, setDesc] = useState('')
-    const [rfrom, setRfrom] = useState('')
-    const [ron, setRon] = useState('')
+    const [title, setAwardTitle] = useState('')
+    const [description, setDesc] = useState('')
+    const [receivedFrom, setRecefrom] = useState('')
+    const [dateReceived, setReceon] = useState('')
     //***************************************************/
 
     
-
+    
     // Get data from data base
-    //***********************************************************/
-    const getData = async () => {
-        axios.get("http://3.236.213.150:8081/honors")
-        .then(response => {
-            console.log(response.data)
+    // //***********************************************************/
+     const getData = async () => {
+        axios.get("http://3.236.213.150:8081/honor")
+         .then(response => {
+             console.log(response.data)
             response.data.map((data: any) => {
-            createHonorAward(data.Atitle,data.desc,data.rfom,data.ron)
+           createHonorAward(response.data)
+            console.log("testing"+data.title,data.description,data.receivedFrom,data.dateReceived)
         })
-        })
+         })
     }
-    useEffect(() => {getData()}, [])
-    //***********************************************************/
+     useEffect(() => {getData()}, [])
+     
+    // //***********************************************************/
 
     //Render honor awards on page
     //*********************************************************************/
-    const createHonorAward = (awardTitle: string, desc: string, rfrom: string, ron:string) => {
-
-            let honoraward = document.querySelector('.honoraward')
-            let div = document.createElement('div')
-    
-            
-                let atitle = document.createElement('p')
-                let adesc = document.createElement('h6')
-                let refrom = document.createElement('h6')
-                let reOn = document.createElement('h6')
-
-                atitle.innerHTML = "Award Title: " + awardTitle
-                setAwardTitle(awardTitle)
-                console.log(awardTitle)
-                adesc.innerHTML = "Description: " + desc
-                setDesc(desc)
-                console.log(desc)
-                refrom.innerHTML = "Received From: " + rfrom
-                setRfrom(rfrom)
-                console.log(rfrom)
-                reOn.innerHTML = "Received On: " + ron
-                setRon(ron)
-                console.log(ron)
-
-                atitle.style.color = "grey"
-                atitle.style.whiteSpace = "pre-wrap"
-                atitle.style.marginBottom = "50px"
-                adesc.style.color = "grey"
-                refrom.style.color = "grey"
-                reOn.style.color = "grey"
-
-    
-    
-                div.appendChild(atitle)
-                div.appendChild(adesc)
-                div.appendChild(refrom)
-                div.appendChild(reOn)
-                honoraward?.appendChild(div) 
-    
-            div.style.padding = "5px"
-            // div.style.border = "2px solid black"
-            div.style.marginBottom = "10px"
+    const createHonorAward = (data:any) => {  
         
-        } 
-    
+        for (let index = 0; index < data.length; index++) {
+        let component = document.createElement("h1")
+        let workExperience = document.querySelector(".honoraward")
+        let card = document.createElement("div")
+        let cardHeader = document.createElement("div")
+        let cardBody = document.createElement("div")
+        let editDiv = document.createElement("div")
+        let editButton = document.createElement("button")
+
+        card.setAttribute("class", "card")
+        cardHeader.setAttribute("class", "card-header")
+        cardBody.setAttribute("class", "card-body")
+        editButton.setAttribute("class", "btn btn-primary")
+
+        card.appendChild(cardHeader)
+        cardBody.innerHTML = "this will be the body of the card" // <--- this is temp
+        card.appendChild(cardBody)
+
+        editDiv.appendChild(editButton)
+        editButton.style.float = "right"
+        editButton.innerHTML = "Edit"
+        editButton.addEventListener("click", () => {
+        handleShowUpdateExperience()
+        })
+        cardHeader.appendChild(editDiv)
+
+        cardHeader.appendChild(component)
+        component.innerHTML = data[index].title
+
+
+        cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
+        cardHeader.style.backgroundColor = "white"
+        honoraward?.appendChild(card) 
+
+        if(Number(honoraward?.childElementCount) > 1) {
+            card.style.marginTop = "50px"
+        }
+
+
+    } 
+}
+
+
     //*********************************************************************/
 
     // Save data to database
@@ -115,13 +117,13 @@ const HonorAwards = () => {
 
 
     const handleSave = () => {
-        console.log("awardtitle" + awardTitle);
+        console.log("awardtitle" + title);
 
-        axios.post("http://3.236.213.150:8081/honors", {
-            awardTitle,
-            desc,
-            rfrom,
-            ron
+        axios.post("http://3.236.213.150:8081/honor", {
+            title,
+            description,
+            receivedFrom,
+            dateReceived
  
         })
         .then(resp => {
@@ -133,8 +135,8 @@ const HonorAwards = () => {
         })
         setAwardTitle('');
         setDesc('');
-        setRfrom('');
-        setRon('');
+        setRecefrom('');
+        setReceon('');
         setShowExperience(false)
     }
     //***************************************************/
@@ -175,13 +177,13 @@ const HonorAwards = () => {
                     <Modal.Body>
                         <form onSubmit={handleSave}>
                             <h6>AwardTitle</h6>
-                            <input type="text" name="awardtitle" className="form-input" onChange={e => setAwardTitle(e.target.value)}/>
+                            <input type="text" name="title" className="form-input" onChange={e => setAwardTitle(e.target.value)}/>
                             <h6>Description</h6>
                             <input type="text" name="description" className="form-input honoraward-textarea" onChange={e => setDesc(e.target.value)}/>
                             <h6>ReceivedFrom</h6>
-                            <input type="text" name="receivedFrom" className="form-input" onChange={e => setRfrom(e.target.value)}/>
+                            <input type="text" name="receivedFrom" className="form-input" onChange={e => setRecefrom(e.target.value)}/>
                             <h6>Received On</h6>
-                            <input type="date" name="Received On" className="form-input" onChange={e => setRon(e.target.value)}/>
+                            <input type="date" name="dateReceived" className="form-input" onChange={e => setReceon(e.target.value)}/>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
@@ -200,9 +202,9 @@ const HonorAwards = () => {
                             <h6>Description</h6>
                             <input type="text" name="description" className="form-input honoraward-textarea" onChange={e => setDesc(e.target.value)}/>
                             <h6>ReceivedFrom</h6>
-                            <input type="text" name="receivedFrom" className="form-input" onChange={e => setRfrom(e.target.value)}/>
+                            <input type="text" name="receivedFrom" className="form-input" onChange={e => setRecefrom(e.target.value)}/>
                             <h6>Received On</h6>
-                            <input type="date" name="Received On" className="form-input" onChange={e => setRon(e.target.value)}/>
+                            <input type="date" name="Received On" className="form-input" onChange={e => setReceon(e.target.value)}/>
 
 
                         </form>

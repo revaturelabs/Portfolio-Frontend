@@ -8,6 +8,8 @@ import ViewPortfolio from './ViewPortfolio';
 import EditEmpPortfolio from './EditEmpPortfolio';
 import AboutMe from "./AboutMe";
 import Education from "./Education";
+import HonorAward from "./HonorAward";
+
 
 function Layout() {
     return (
@@ -21,6 +23,8 @@ function Layout() {
           <Route path="/aboutMe" exact component={AboutMe} />
           <Route path="/view" component={ViewPortfolio} />
           <Route path="/education" component={Education} />
+          <Route path="/honors" component={HonorAward} />
+
         </div>
     );
 }
