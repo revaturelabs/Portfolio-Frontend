@@ -48,6 +48,11 @@ form {
 
 .about-me-content{
     background-color: white;
+
+}
+
+.about-me-content::after{
+    content: "";
 }
 
 .buttonStyle{
@@ -55,3 +60,9 @@ form {
     background-color: black;
 
 }
+
+h6::after{
+    content: "";
+    color: white;
+}
+
