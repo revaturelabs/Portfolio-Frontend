@@ -1,18 +1,18 @@
-import {useState} from 'react';
+import { useState } from 'react';
+
 
 const useForm = (initialValues: any, loginValidate: any) => {
     const [inputs, setInputs] = useState(initialValues)
     const [errors, setErrors] = useState({})
-    
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
         const validationErrors = loginValidate(inputs)
         console.log(validationErrors)
-        const noErros = Object.keys(validationErrors).length === 0
+        const noErrors = Object.keys(validationErrors).length === 0
         setErrors(validationErrors)
-        if(noErros) {
-            alert("Logged In")
+        if (noErrors) {
+            alert("Login was successful")
             window.location.pathname = "./list"
         } else {
             console.log("Errors, please try again", validationErrors)
@@ -21,7 +21,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
 
     const handleInputChange = (event: any) => {
         event.persist()
-        setInputs((inputs: any) => ({...inputs, [event.target.name]: event.target.value}))
+        setInputs((inputs: any) => ({ ...inputs, [event.target.name]: event.target.value }))
     }
 
     return {

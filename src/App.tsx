@@ -4,11 +4,11 @@ import Layout from './components/Layout';
 
 function App() {
   return (
-    <div>
+    <>
       <BrowserRouter>
         <Layout />
       </BrowserRouter>
-    </div>
+    </>
   );
 }
 

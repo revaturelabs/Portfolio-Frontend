@@ -5,7 +5,6 @@ import ViewPortfolio from './ViewPortfolio';
 import EditEmpPortfolio from './EditEmpPortfolio';
 import PortfolioList from "./PortfolioList";
 
-
 function Layout() {
     return (
         <div>
