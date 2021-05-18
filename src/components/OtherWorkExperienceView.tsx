@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
-import '../css/RevatureWorkExperience.css';
+import '../css/OtherWorkExperience.css'
 
-interface WorkExperience {
+interface OtherWorkExperience {
     id: number;
     description: String;
     employer: String;
-    startDate: String;
-    endDate: String;
+    date: String;
     technologies: String;
     responsibilities: String;
     title: String;
@@ -19,30 +18,27 @@ interface WorkExperience {
  * to be the same. They can use the same component and just pass in a url for the different
  * endpoints
  * *****/
-const RevatureWorkExperienceView = () => {
-    const [experienceList,setList] = useState<WorkExperience[]>();
+const OtherWorkExperienceView = () => {
+    const [experienceList,setList] = useState<OtherWorkExperience[]>();
 
-    /*****Gets the work experience data and sets it to the state*****/
     useEffect(() => {
-        axios.get<WorkExperience[]>('http://3.236.213.150:8081/workexperience').then(response => {
+        axios.get<OtherWorkExperience[]>('http://3.236.213.150:8081/workhistory').then(response => {
             console.log(response.data);
-            setList(response.data);
-        });
+            setList(response.data)
+        })
     }, [null]);
 
-    /*****Iterates through the work experience list to display*****/
-    const renderWorkExperience = (experienceList: WorkExperience[]) => {
+    const renderOtherWorkExperience = (experienceList: OtherWorkExperience[]) =>{
         return experienceList.map(data => {
-            // console.log(data);
-            return (
+            return(
                 <div className="card">
                     <div className="card-header">
                         {data.employer}
-                    </div>    
-                    <div className="card-body">
+                    </div>
+                    <div>
                         {data.title}<br/>
                         {data.description}<br/>
-                        {data.startDate} - {data.endDate}<br/>
+                        {data.date}<br/>
                         {data.responsibilities}<br/>
                         {data.technologies}<br/>
                     </div>
@@ -51,15 +47,15 @@ const RevatureWorkExperienceView = () => {
         })
     }
 
-    return (
+    return(
         <div className="container">
             <Card id="card-container">
                 <Card.Header id="header">
-                    <h4>Work Experience</h4>
+                    <h4>Other Work Experience</h4>
                 </Card.Header>
                 <Card.Body>
-                    <Card.Text className="work-experience">
-                        {experienceList && renderWorkExperience(experienceList)}
+                    <Card.Text>
+                        {experienceList && renderOtherWorkExperience(experienceList)}
                     </Card.Text>
                 </Card.Body>
             </Card>
@@ -67,4 +63,4 @@ const RevatureWorkExperienceView = () => {
     );
 }
 
-export default RevatureWorkExperienceView;
+export default OtherWorkExperienceView;

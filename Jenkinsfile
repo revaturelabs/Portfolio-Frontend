@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Install Dependencies') {
+    stage('Installing Dependencies') {
       steps {
         sh 'pwd'
         sh 'ls -al'
@@ -10,6 +10,14 @@ pipeline {
         }
       }
     }
-    
+    stage('Testing'){
+      steps{
+        nodejs(nodeJSInstallationName: 'nodejs') {
+            sh 'npm test -- --watchAll=false'
+        }
+
+      }
+      
+    }
   }
 }
