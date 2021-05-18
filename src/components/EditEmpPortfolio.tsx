@@ -7,6 +7,7 @@ import Project from './Project';
 import OtherWorkExperience from './OtherWorkExperience';
 import Education from './Education';
 import HonorAwards from './HonorAward';
+import IndustryEquivalency from './IndustryEquivalency';
 
 
 const EditEmpPortfolio = () => {
@@ -19,6 +20,7 @@ const EditEmpPortfolio = () => {
                 </Link>
                 <button className="btn btn-primary m-1">Back</button>
             </div>
+            <IndustryEquivalency /> <br />
             <AboutMe /> <br/>
             <RevatureWorkExp /> <br/>
             <Project />
