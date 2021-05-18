@@ -4,6 +4,8 @@ import AboutMeView from "./AboutMeView";
 import OtherWorkExperienceView from "./OtherWorkExperienceView";
 import ProjectView from "./ProjectView";
 import RevatureWorkExperienceView from "./RevatureWorkExperienceView"
+import Education from "./Education";
+import HonorAwards from "./HonorAward";
 
 const ViewPortfolio = () => {
     return (
@@ -15,11 +17,11 @@ const ViewPortfolio = () => {
             </div>
             <IndustryEquivalency />
             <AboutMeView />
-            {/* education */}
+            <Education />
             <RevatureWorkExperienceView />
             <ProjectView />
             <OtherWorkExperienceView />
-            {/* Honor */}
+            <HonorAwards />
         </div>
     );
 }
