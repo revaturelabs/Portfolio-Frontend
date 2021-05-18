@@ -1,8 +1,9 @@
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
-import { Button, Modal} from 'react-bootstrap';
-import { QuestionCircle, PlusCircle } from 'react-bootstrap-icons';
+import { Card, Button, Modal} from 'react-bootstrap';
+import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons';
+import { Tooltip } from 'reactstrap'
 import '../css/OtherWorkExperience.css'
 
 const OtherWorkExperience = () => {
@@ -14,10 +15,25 @@ const OtherWorkExperience = () => {
     const [title, setTitle] = useState("");
     const [responsibilities, setResponsibilities] = useState("");
     const [description, setDescription] = useState("");
-    const [tool, setTool] = useState("");
+    const [tools, setTools] = useState("");
     const [date, setDate] = useState("");    
 
-        // Get data from data base
+    // Tooltip for add and details buttons
+    //***********************************************************************/
+    const [addTooltipOpen, setAddTooltipOpen] = useState(false)
+    const toggleAdd = () => setAddTooltipOpen(!addTooltipOpen)
+    const [detailsTooltipOpen, setDetailsTooltipOpen] = useState(false)
+    const toggleDetails = () => setDetailsTooltipOpen(!detailsTooltipOpen)
+    //***********************************************************************/
+
+    // Card details Modal show and hide
+    //****************************************************/
+    const [showDetails, setShowDetails] = useState(false);
+    const handleCloseDetails = () => setShowDetails(false);
+    const handleShowDetails= () => setShowDetails(true);
+    //***************************************************/
+
+    // Get data from data base
     //***********************************************************/
     const getData = async () => {
         axios.get("http://3.236.213.150:8081/workhistory")
@@ -35,11 +51,11 @@ const OtherWorkExperience = () => {
     //***************************************************/
     const handleSave = () => {
         axios.post("http://3.236.213.150:8081/workhistory", {
-            // employer,
+            employer,
             title,
             responsibilities,
             description,
-            tool,
+            tools,
             date
         })
         .then(resp => {
@@ -53,7 +69,7 @@ const OtherWorkExperience = () => {
         setTitle("");
         setResponsibilities("");
         setDescription("");
-        setTool("");
+        setTools("");
         setDate("");
         setShow(false);
     }
@@ -120,71 +136,63 @@ const OtherWorkExperience = () => {
 
     return (
         <div className="container">
-            
+
+            <Card id="card-container">
+                <Card.Header id="header-work-experience">
+                    <h4>
+                        Other Work Experience
+                        <QuestionCircle id="card-info" onClick={handleShowDetails}/>
+                        <PlusCircle id="add-work-experience" onClick={handleShow}/>
+                        <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
+                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+                    </h4>
+                </Card.Header>
+                <Card.Body id="card-body">
+                    <Card.Text className="work-experience"></Card.Text>
+                </Card.Body>
+            </Card>
+
+
+
             <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Header>
-                    <Modal.Title>Add Other Experience</Modal.Title>
+                    <Modal.Title>Add Other Work Experience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={handleSave}>
-                        <div className="form-group">
-                            <label className="">title</label>
-                            <input type="text" name="empName" id="" className="w-100" onChange={ (e)=> setTitle(e.target.value) }/>
-                        </div>
-                        
-                        <div className="form-group">
-                            <label>Responsibilities</label> 
-                            <input type="text" name="fromDate" id="" className="w-100" placeholder="" onChange={ (e) => setResponsibilities(e.target.value)}/> 
-                        </div>
-                        <div className="form-group">
-                            <label>Description</label> 
-                            <input type="text" name="toDate" id="" className="w-100" placeholder="" onChange={ (e) => setDescription(e.target.value)}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Tools</label>
-                            <input type="text" name="jobTitle" id="" className="w-100" placeholder="" onChange={ (e) => setTool(e.target.value)}/>
-                        </div> 
-                        <div className="form-group">
-                            <label>Date</label>
-                            <input type="text" name="jobTitle" id="" className="w-100" placeholder="" onChange={ (e) => setDate(e.target.value)}/>
-                        </div> 
-                        <hr className="w-100 my-3"/>
-                        <div className="text-center">
-                        <Button variant="primary" className="mx-1" onClick={()=>{ handleClose(); handleSave();}}>Save</Button>
-                        <Button variant="secondary" className="mx-1" onClick={handleClose}>Cancel</Button>
-                        </div>
+                        <h6>Employer Name</h6>
+                        <input type="text" name="employer" className="form-input" onChange={e => setEmployer(e.target.value)}/>
+                        <h6>Date</h6>
+                        <input type="text" name="jobTitle" id="" className="form-input" placeholder="" onChange={ (e) => setDate(e.target.value)}/>
+                        <h6>Job Title</h6>
+                        <input type="text" name="title" id="" className="form-input" onChange={ (e)=> setTitle(e.target.value) }/>
+                        <h6>Roles / Responsibilities</h6>
+                        <textarea name="responsibilities" id="" className="form-input" placeholder="" onChange={ (e) => setResponsibilities(e.target.value)}/> 
+                        <h6>Problem Description</h6> 
+                        <textarea name="description" id="" className="form-input" placeholder="" onChange={ (e) => setDescription(e.target.value)}/>
+                        <h6>Tools / Technologies</h6>
+                        <textarea name="tools" id="" className="form-input" placeholder="" onChange={ (e) => setTools(e.target.value)}/>
                     </form>
                 </Modal.Body>
+                <Modal.Footer>
+                        <Button variant="secondary" className="" onClick={handleClose}>Cancel</Button>
+                        <Button variant="primary" className="" onClick={()=>{ handleSave();}}>Save</Button>
+                </Modal.Footer>
             </Modal>
 
-            <div>
-            <div className="card mx-auto my-4 border-rounded">
-            <div className="card-header" id="header"> 
-                <div className="row">
-                    <div className="col">
-                    <h4 className="text-light">Other Work Experience  
-                        <span> </span>
-                        <span>
-                        <QuestionCircle id="" onClick={() => {alert("getting data from API");}} />
-                        </span>
-                        <span> </span>
-                        <span>
-                        <PlusCircle className="pt-2" id="add-experience" onClick={handleShow} />
-                        </span>
-                    </h4>
-                    </div>
-                </div>     
-            </div>
-                
-            <div className="card-body" id="addWorkExperience">
-                
-            </div>
-
-            <div className="card-footer">
-                
-            </div>
-            </div>
-        </div>
+            <Modal show={showDetails} onHide={handleCloseDetails}>
+                <Modal.Header>
+                    <Modal.Title>Details</Modal.Title>
+                    <XCircle id="work-experience-details" onClick={handleCloseDetails}/>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>This section is used to mention your relevant work experience prior to Revature.
+                        <br/>
+                        <br/>
+                        Please, ensure that your previous work experience relate to your curriculum at Revature.
+                    </p>
+                </Modal.Body>
+            </Modal>
 
         </div>
     )
