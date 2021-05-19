@@ -24,10 +24,17 @@ const RevatureWorkExperience = () => {
 
     // Update Modal show and hide
     //**************************************************************************/
-    const[showUpdateExperience, setShowUpdateExperience] = useState(false)
+    const [showUpdateExperience, setShowUpdateExperience] = useState(false)
     const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
     const handleShowUpdateExperience = () => setShowUpdateExperience(true)
     //**************************************************************************/
+
+    // Delete Modal show and hide
+    //*****************************************************/
+    const [showDelete, setShowDelete] = useState(false)
+    const handleCloseDelete = () => setShowDelete(false)
+    const handleShowDelete = () => setShowDelete(true)
+    //*****************************************************/
 
     // Tooltip for add and details buttons
     //***********************************************************************/
@@ -85,7 +92,6 @@ const RevatureWorkExperience = () => {
             let deleteButton = document.createElement("button")
 
             card.setAttribute("class", "card")
-            card.setAttribute("id", data[index].id)
             cardHeader.setAttribute("class", "card-header")
             cardBody.setAttribute("class", "card-body")
             editButton.setAttribute("class", "btn btn-primary")
@@ -144,7 +150,7 @@ const RevatureWorkExperience = () => {
                 deleteButton.innerHTML = "Delete"
                 deleteButton.addEventListener("click", () => {
                     setId(data[index].id)
-                    handleDelete(card)
+                    handleShowDelete()
                 })
                 
                 cardHeader.appendChild(component)
@@ -183,7 +189,7 @@ const RevatureWorkExperience = () => {
     // Delete work experience from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete("http://3.236.213.150:8081/workexperience/" + input.getAttribute("id"))
+        axios.delete("http://3.236.213.150:8081/workexperience/" + input)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -243,7 +249,6 @@ const RevatureWorkExperience = () => {
     }
     //***************************************************/
 
-
     return (
         <div className="container">
             <Card id="card-container">
@@ -279,25 +284,25 @@ const RevatureWorkExperience = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <form onSubmit={handleSave}>
-                            <h6>Employer Name</h6>
+                            <h6 className="work-experience-form-headers">Employer Name</h6>
                             <input type="text" name="employer" className="form-input" onChange={e => setEmployer(e.target.value)}/>
-                            <h6>From</h6>
+                            <h6 className="work-experience-form-headers">From</h6>
                             <input type="date" name="startDate" className="form-input" onChange={e => setStartDate(e.target.value)}/>
-                            <h6>To</h6>
+                            <h6 className="work-experience-create-form-headers">To</h6>
                             <input type="date" name="endDate" className="form-input" onChange={e => setEndDate(e.target.value)}/>
-                            <h6>Job Title</h6>
+                            <h6 className="work-experience-form-headers">Job Title</h6>
                             <input type="text" name="title" className="form-input" onChange={e => setTitle(e.target.value)}/>
-                            <h6>Roles / Responsibilites</h6>
-                            <textarea name="responsibilites" className="form-input work-experience-textarea" onChange={e => setResponsibilities(e.target.value)}></textarea>
-                            <h6>Tools / Technologies</h6>
-                            <textarea name="technologies" className="form-input work-experience-textarea" onChange={e => setTechnologies(e.target.value)}></textarea>
-                            <h6>Problem Desciption</h6>
-                            <textarea name="description" className="form-input work-experience-textarea" onChange={e => setDescription(e.target.value)}></textarea>
+                            <h6 className="work-experience-form-headers">Roles / Responsibilites</h6>
+                            <textarea name="responsibilites" className="form-input" style={{height: "100px"}} onChange={e => setResponsibilities(e.target.value)}></textarea>
+                            <h6 className="work-experience-form-headers">Tools / Technologies</h6>
+                            <textarea name="technologies" className="form-input" style={{height: "100px"}} onChange={e => setTechnologies(e.target.value)}></textarea>
+                            <h6 className="work-experience-form-headers">Problem Desciption</h6>
+                            <textarea name="description" className="form-input" style={{height: "100px"}} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
                         <Button variant="primary" onClick={handleSave}>Add</Button>
+                        <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showUpdateExperience} onHide={handleCloseUpdateExperience} backdrop="static">
@@ -306,25 +311,33 @@ const RevatureWorkExperience = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <form>
-                            <h6>Employer Name</h6>
+                            <h6 className="work-experience-update-form-headers">Employer Name</h6>
                             <input type="text" name="employer" className="form-input" value={employer} onChange={e => setEmployer(e.target.value)}/>
-                            <h6>From</h6>
+                            <h6 className="work-experience-update-form-headers">From</h6>
                             <input type="date" name="startDate" className="form-input" value={startDate} onChange={e => setStartDate(e.target.value)}/>
-                            <h6>To</h6>
+                            <h6 className="work-experience-update-form-headers">To</h6>
                             <input type="date" name="endDate" className="form-input" value={endDate} onChange={e => setEndDate(e.target.value)}/>
-                            <h6>Job Title</h6>
+                            <h6 className="work-experience-update-form-headers">Job Title</h6>
                             <input type="text" name="title" className="form-input" value={title} onChange={e => setTitle(e.target.value)}/>
-                            <h6>Roles / Responsibilites</h6>
-                            <textarea name="responsibilites" className="form-input work-experience-textarea" value={responsibilities} onChange={e => setResponsibilities(e.target.value)}></textarea>
-                            <h6>Tools / Technologies</h6>
-                            <textarea name="technologies" className="form-input work-experience-textarea" value={technologies} onChange={e => setTechnologies(e.target.value)}></textarea>
-                            <h6>Problem Desciption</h6>
-                            <textarea name="description" className="form-input work-experience-textarea" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                            <h6 className="work-experience-update-form-headers">Roles / Responsibilites</h6>
+                            <textarea name="responsibilites" className="form-input" style={{height: "100px"}} value={responsibilities} onChange={e => setResponsibilities(e.target.value)}></textarea>
+                            <h6 className="work-experience-update-form-headers">Tools / Technologies</h6>
+                            <textarea name="technologies" className="form-input" style={{height: "100px"}} value={technologies} onChange={e => setTechnologies(e.target.value)}></textarea>
+                            <h6 className="work-experience-update-form-headers">Problem Desciption</h6>
+                            <textarea name="description" className="form-input" style={{height: "100px"}} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
                         <Button variant="primary" onClick={() => {handleUpdate(id)}}>Update</Button>
+                        <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static">
+                    <Modal.Header>Delete Warning</Modal.Header>
+                    <Modal.Body><p>This will permanantly delete this info. Are you Sure?</p></Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={() => {handleDelete(id)}}>Yes, Permanantly Delete</Button>
+                        <Button variant="secondary" onClick={handleCloseDelete}>Close</Button>
                     </Modal.Footer>
                 </Modal>
         </div>
