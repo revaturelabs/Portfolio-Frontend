@@ -5,18 +5,21 @@ import '../css/OtherWorkExperience.css'
 
 interface OtherWorkExperience {
     id: number;
-    description: String;
-    employer: String;
-    date: String;
-    technologies: String;
-    responsibilities: String;
-    title: String;
+    description: string;
+    employer: string;
+    date: string;
+    technologies: string;
+    responsibilities: string;
+    title: string;
 }
 /*****
  * Currently the data objects sent from backend for revature work experience 
  * and other work experience are not the same. Once they have been changed on the backend
  * to be the same. They can use the same component and just pass in a url for the different
  * endpoints
+ * UPDATE: Talked with backend to change the data fields of other work experience to be the 
+ * same as revature work experience. Now RevatureWorkExperienceView is used for both work experiences.
+ * Currently this is only the case for viewing the portfolio. Further improvements can be made.
  * *****/
 const OtherWorkExperienceView = () => {
     const [experienceList,setList] = useState<OtherWorkExperience[]>();
