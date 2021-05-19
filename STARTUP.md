@@ -6,3 +6,8 @@ To edit the code do a `git clone https://github.com/javatures/Portfolio-Frontend
     - `npm install react-router-dom`
     - `npm install axios`
     - `npm install react-bootstrap bootstrap`
+    - `npm install react-cookie`
+    - `npm i react-bootstrap-icons`
+    - `npm i bootstrap`
+    - `npm i reactstrap react react-dom`
+    - `npm i react-bootstrap bootstrap`

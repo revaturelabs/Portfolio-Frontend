@@ -2,9 +2,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, Trash } from 'react-bootstrap-icons';
-import { Tooltip } from 'reactstrap';
+import { Input, Tooltip } from 'reactstrap';
 import '../css/RevatureAboutMe.css';
 import axios from 'axios'
+
 
 
 const RevatureAboutMe = () => {
@@ -42,12 +43,6 @@ const RevatureAboutMe = () => {
     //***************************************************/
 
 
-    const getButtons = () => {
-        return(
-            <Trash id="delete-aboutMe" onClick={handleDeleteShow}></Trash>
-        )
-    }
-
     //Render about me on page
     //*********************************************************************/
     const createAboutMe = (id: string, bio: string, email: string, phone: string) => {
@@ -59,38 +54,58 @@ const RevatureAboutMe = () => {
             let bioHeader = document.createElement('p')
             let emailHeader = document.createElement('h6')
             let phoneHeader = document.createElement('h6')
-            let icon = document.createElement('svg')
-            
+            let deleteButton = document.createElement('button')
+            let editButton = document.createElement('button')
             
             setID(id)
-            console.log(id)
             bioHeader.innerHTML = bio
             setBio(bio)
-            console.log(bio)
             emailHeader.innerHTML = "Email: " + email
             setEmail(email)
-            console.log(email)
             phoneHeader.innerHTML = "Phone: " + phone
             setPhone(phone)
-            console.log(phone)
             
-            // <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
-            // <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-            // </svg>      
-
             bioHeader.style.whiteSpace = "pre-wrap"
             bioHeader.style.marginBottom = "50px"
             emailHeader.style.color = "grey"
             phoneHeader.style.color = "grey"
-            icon.style.color = "#42a5f5"
-            icon.setAttribute("class", "bi bi-pencil")
-            icon.setAttribute("value", id)
 
+            emailHeader.setAttribute("class", "afterStyle")
+            phoneHeader.setAttribute("class", "afterStyle")
+
+            editButton.setAttribute("class", "btn btn-sm btn-secondary")
+            editButton.setAttribute("id", id)
+            editButton.style.float = "right"
+            editButton.innerHTML = "edit"
+
+            deleteButton.setAttribute("class", "btn btn-sm btn-danger")
+            deleteButton.setAttribute("id", id)
+            deleteButton.style.float = "right"
+            deleteButton.style.marginLeft = "5px"
+            deleteButton.innerHTML = "delete"
+
+            editButton.addEventListener("click", () => {
+                setID(id)
+                setBio(bio)
+                setEmail(email)
+                setPhone(phone)
+                handleEditShow()
+            })
+
+            deleteButton.addEventListener("click", () => {
+                setID(id)
+                handleDeleteShow()
+
+            })
+
+            phoneHeader.appendChild(deleteButton)
+            phoneHeader.appendChild(editButton)
+         
 
             div.appendChild(bioHeader)
             div.appendChild(emailHeader)
             div.appendChild(phoneHeader)
-            div.appendChild(icon)
+
             aboutMe?.appendChild(div) 
 
         
@@ -98,23 +113,10 @@ const RevatureAboutMe = () => {
         // div.style.border = "2px solid black"
         div.style.marginBottom = "10px"
     }
-    //*********************************************************************/
 
-    // Save data to database (update)
-    //***************************************************/
-    // const handleSave = () => {
-    //     let exp: Array<string> = [
-    //         bio,
-    //         email,
-    //         phone
-    //     ]
-    //     setShow(false)
-    //     console.log(exp)
-    // }
+    // POST METHOD FOR CREATING
 
-    // POST METHOD
-
-    const handleUpdate = async () => {
+    const handleSave = async () => {
         
         axios.post("http://3.236.213.150:8081/aboutMe", {bio, email, phone})
         .then(response => {
@@ -129,15 +131,26 @@ const RevatureAboutMe = () => {
         setEditShow(false)
     }
 
-    const updateState = (bio:string, email: string, phone: string) => {
-        setBio(bio);
-        setEmail(email);
-        setPhone(phone);
-    }
+    //POST METHOD FOR UPDATING
+
+    const handleUpdate = async (id: string) => {
+        axios.post("http://3.236.213.150:8081/aboutMe/" + id, {id, bio, email, phone})
+        .then(response => {
+            console.log("success")
+            console.log(response.data)
+            window.location.reload()
+        })
+        .catch(error => {
+            console.log("error")
+        })
+        setShow(false)
+        setEditShow(false)
+    } 
+
 
     //GET METHOD
 
-    const handleGet = async () =>{
+    const handleGet = async () => {
         axios.get("http://3.236.213.150:8081/aboutMe")
         .then(response => {
             console.log("got the data")
@@ -156,11 +169,13 @@ const RevatureAboutMe = () => {
 
     // DELTE METHOD
 
-    const handleDelete = (id: number) => {
+
+    const handleDelete = (id: any) => {
         console.log("this is the id " + id)
-        axios.delete("http://3.236.213.150:8081/aboutMe/${id}")
+        axios.delete("http://3.236.213.150:8081/aboutMe/" + id)
         .then(response => {
             console.log(response)
+            window.location.reload()
         })
         .catch(error => {
             console.log("delete failure")
@@ -207,21 +222,14 @@ const RevatureAboutMe = () => {
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={() => {handleUpdate();}}>Save</Button>
+                        <Button variant="primary" onClick={() => {handleSave();}}>Save</Button>
                     </Modal.Footer>
                
                 </Modal>
                 <Card.Body>
                     <Card.Text>
                         
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
-                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                        </svg>
                         <span className="about-me-content"></span>
-                        <Trash id="delete-aboutMe" onClick={handleDeleteShow}></Trash>
-                        <Pencil id="edit-aboutMe" onClick={handleEditShow}></Pencil>
-                        <Tooltip target="edit-aboutMe" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
-                        <Tooltip target="delete-aboutMe" isOpen={deleteToolTipOpen} toggle={toggleDelete}>Delete</Tooltip>
 
                         {/* Modal for Edit */}
 
@@ -229,7 +237,7 @@ const RevatureAboutMe = () => {
                             <Modal.Header>
                                 <Modal.Title>About Me</Modal.Title>
                             </Modal.Header>
-                            <Modal.Body className="modalBody">
+                            <Modal.Body>
                                 <form method="post">
                                     <h6>Bio</h6>
                                     <textarea style={{width: "100%"}} name="bioName" rows={rowLength} value={bio} onChange={e => setBio(e.target.value)}></textarea>
@@ -243,7 +251,7 @@ const RevatureAboutMe = () => {
                                     <Button variant="secondary" onClick={handleEditClose}>
                                         Close
                                     </Button>
-                                    <Button variant="primary" onClick={() => {handleUpdate();}}>Update</Button>
+                                    <Button variant="primary" onClick={() => {handleUpdate(id);}}>Update</Button>
                                 </Modal.Footer>
                         </Modal>
 
@@ -253,11 +261,12 @@ const RevatureAboutMe = () => {
                             <Modal.Header>
                                 <Modal.Title>Delete Warning</Modal.Title>
                             </Modal.Header>
-                            <Modal.Body className="modalBody">
-                                <h2>This will permanantly delete this info. Are you Sure?</h2>
+                            <Modal.Body >
+                                <h3>This will permanantly delete this info. Are you Sure?</h3>
                             </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="danger" onClick={() => {handleDelete(1);}}>Yes, Permanantly Delete</Button>
+                                    <Button variant="danger" onClick={() => {handleDelete(id);}}>Yes, Permanantly Delete</Button>
+
                                     <Button variant="secondary" onClick={handleDeleteClose}>
                                         Close
                                     </Button>
