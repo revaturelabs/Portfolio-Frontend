@@ -15,7 +15,7 @@ const AboutMeView = () => {
     const [aboutMe, setAboutMe] = useState<AboutMe>();
 
     useEffect(() => {
-        axios.get<AboutMe>(`http://3.236.213.150:8081/aboutMe`).then(response => {
+        axios.get<AboutMe>(`http://3.236.213.150:8081/aboutMe/${2}`).then(response => {
             console.log(response.data);
             setAboutMe(response.data);
         })
