@@ -16,7 +16,9 @@ const OtherWorkExperience = () => {
     const [responsibilities, setResponsibilities] = useState("");
     const [description, setDescription] = useState("");
     const [tools, setTools] = useState("");
-    const [date, setDate] = useState("");    
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");   
+    const [id, setId] = useState("");
 
     // Tooltip for add and details buttons
     //***********************************************************************/
@@ -33,12 +35,20 @@ const OtherWorkExperience = () => {
     const handleShowDetails= () => setShowDetails(true);
     //***************************************************/
 
+    // Update Modal show and hide
+    //**************************************************************************/
+    const[showUpdateExperience, setShowUpdateExperience] = useState(false)
+    const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
+    const handleShowUpdateExperience = () => setShowUpdateExperience(true)
+    //**************************************************************************/
+
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
         axios.get("http://3.236.213.150:8081/workhistory")
         .then(resp => {
-            console.log(resp.data)
+            console.log(resp.data);
+            createWorkExperience(resp.data);
         })
         .catch(error => {
             console.log(error)
@@ -46,6 +56,20 @@ const OtherWorkExperience = () => {
     }
     useEffect(() => {getData()}, [])
     //***********************************************************/
+
+    // Delete work experience from database
+    //*******************************************************************************************/
+    const handleDelete = (input: any) => {
+        axios.delete("http://3.236.213.150:8081/workhistory/" + input.getAttribute("id"))
+        .then(resp => {
+            console.log("Delete was successful");
+            window.location.reload()
+        })
+        .catch(error => {
+            console.log("error");
+        })
+    }
+    //*******************************************************************************************/
 
     // Save data to database
     //***************************************************/
@@ -56,7 +80,8 @@ const OtherWorkExperience = () => {
             responsibilities,
             description,
             tools,
-            date
+            startDate,
+            endDate
         })
         .then(resp => {
             console.log(resp.data);
@@ -70,90 +95,175 @@ const OtherWorkExperience = () => {
         setResponsibilities("");
         setDescription("");
         setTools("");
-        setDate("");
+        setStartDate("");
+        setEndDate("");
         setShow(false);
     }
     //***************************************************/
 
-    //***************************************************/
+    // Update work experience
+    //***********************************************************************/
+    const handleUpdate = (input: any) => {
+        console.log(input);
+        let id:any = input;
+        axios.put("http://3.236.213.150:8081/workhistory",{
+            id,
+            employer,
+            startDate,
+            endDate,
+            title,
+            description,
+            responsibilities,
+            tools
+        })
+        .then(resp => {
+            console.log("work experience was updated");
+            window.location.reload()
+        })
+        .catch(error => {
+            console.log("error: " + error)
+        })
+    }
+    //***********************************************************************/
+
+    //Render work experience on page
+    //*********************************************************************/
     const createWorkExperience = (data: any) => {
-        
-        /*let sDate = new Date(startDate)
-        let eDate = new Date(endDate)
-        let duration = months[sDate.getMonth()] + " " + sDate.getFullYear() + " - " + months[eDate.getMonth()] + ' ' + eDate.getFullYear()*/
+        const bodyHeaders: Array<string> = [
+            "Project Discription",
+            "Roles / Responsibilites",
+            "Tools"
+        ]
 
-
-
-        let headerNum: number = 1
         for (let index = 0; index < data.length; index++) {
-            let component = document.createElement("h1")
-            let workExperience = document.querySelector(".work-experience")
+            let headerNum: number = 1
+            let workExperience = document.querySelector(".other-work-experience")
+
             let card = document.createElement("div")
             let cardHeader = document.createElement("div")
             let cardBody = document.createElement("div")
+
             let editDiv = document.createElement("div")
             let editButton = document.createElement("button")
+            let deleteButton = document.createElement("button")
 
             card.setAttribute("class", "card")
+            card.setAttribute("id", data[index].id)
             cardHeader.setAttribute("class", "card-header")
             cardBody.setAttribute("class", "card-body")
             editButton.setAttribute("class", "btn btn-primary")
+            deleteButton.setAttribute("class", "btn btn-danger")
 
             card.appendChild(cardHeader)
-            cardBody.innerHTML = "this will be the body of the card" // <--- this is temp
             card.appendChild(cardBody)
-
-            editDiv.appendChild(editButton)
-            editButton.style.float = "right"
-            editButton.innerHTML = "Edit"
-            editButton.addEventListener("click", () => {
-            })
             cardHeader.appendChild(editDiv)
 
-            cardHeader.appendChild(component)
-            component.innerHTML = data[index].technologies
+            // Store header content
+            //***********************************************************************************************************************************/
+            let headerContent: Array<string> = []
+            const months: Array<string> = [
+                "January", "February", 
+                "March", "April", "May", 
+                "June", "July", "August",
+                "September", "October", 
+                "November", "December"
+            ]
+            let sDate = new Date(data[index].startDate)
+            let eDate = new Date(data[index].endDate)
+            let duration = months[sDate.getMonth()] + " " + sDate.getFullYear() + " - " + months[eDate.getMonth()] + ' ' + eDate.getFullYear()
+            headerContent.push(data[index].employer)
+            headerContent.push(duration)
+            headerContent.push(data[index].title)
+            //***********************************************************************************************************************************/
 
-            if(headerNum === 1) {
-                component.style.fontWeight = "bold"
-            } else if(headerNum === 3) {
-                component.style.color = "rgb( 242, 105, 3)"
+            //Store body content
+            //***********************************************/
+            let bodyContent: Array<string> = []
+            bodyContent.push(data[index].description)
+            bodyContent.push(data[index].responsibilities)
+            bodyContent.push(data[index].tools)
+            //***********************************************/
+
+            for (let element in headerContent) {
+                let component = document.createElement("h" + headerNum)
+                editDiv.appendChild(editButton)
+                editDiv.appendChild(deleteButton)
+                editDiv.style.float = "right"
+
+                editButton.innerHTML = "Edit"
+                editButton.addEventListener("click", () => {
+                    setEmployer(data[index].employer)
+                    setStartDate(data[index].startDate)
+                    setEndDate(data[index].endDate)
+                    setTitle(data[index].title)
+                    setDescription(data[index].description)
+                    setTools(data[index].tools)
+                    setResponsibilities(data[index].responsibilities)
+                    setId(data[index].id)
+                    handleShowUpdateExperience()
+                })
+                editButton.style.marginRight = "10px"
+
+                deleteButton.innerHTML = "Delete"
+                deleteButton.addEventListener("click", () => {
+                    setId(data[index].id)
+                    handleDelete(card)
+                })
+                
+                cardHeader.appendChild(component)
+                component.innerHTML = headerContent[element]
+                workExperience?.appendChild(card)
+
+                if(headerNum === 1) {
+                    component.style.fontWeight = "bold"
+                } else if(headerNum === 3) {
+                    component.style.color = "rgb( 242, 105, 3)"
+                }
+
+                cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
+                cardHeader.style.backgroundColor = "white" 
+
+                if(Number(workExperience?.childElementCount) > 1) {
+                    card.style.marginTop = "50px"
+                }
+                headerNum++
             }
 
-            cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
-            cardHeader.style.backgroundColor = "white"
-            workExperience?.appendChild(card) 
-
-            if(Number(workExperience?.childElementCount) > 1) {
-                card.style.marginTop = "50px"
+            for (const element in bodyContent) {
+                let bodyHeader = document.createElement("h5")
+                let para = document.createElement("p")
+                cardBody.appendChild(bodyHeader)
+                cardBody.appendChild(para)
+                bodyHeader.innerHTML = bodyHeaders[element]
+                bodyHeader.style.fontWeight = "bold"
+                para.innerHTML = bodyContent[element]
+                para.style.whiteSpace = "pre-line"
             }
-
-            headerNum++
-
         } 
     }
-
-
+    //*********************************************************************/
 
     return (
         <div className="container">
 
+        {/* this is the card for the other work experience component */}
             <Card id="card-container">
                 <Card.Header id="header-work-experience">
                     <h4>
                         Other Work Experience
                         <QuestionCircle id="card-info" onClick={handleShowDetails}/>
+                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                         <PlusCircle id="add-work-experience" onClick={handleShow}/>
                         <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
-                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                     </h4>
                 </Card.Header>
                 <Card.Body id="card-body">
-                    <Card.Text className="work-experience"></Card.Text>
+                    <Card.Text className="other-work-experience"></Card.Text>
                 </Card.Body>
             </Card>
 
 
-
+        {/* this is the form input to create a new work experience  */}
             <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Header>
                     <Modal.Title>Add Other Work Experience</Modal.Title>
@@ -162,8 +272,10 @@ const OtherWorkExperience = () => {
                     <form onSubmit={handleSave}>
                         <h6>Employer Name</h6>
                         <input type="text" name="employer" className="form-input" onChange={e => setEmployer(e.target.value)}/>
-                        <h6>Date</h6>
-                        <input type="text" name="jobTitle" id="" className="form-input" placeholder="" onChange={ (e) => setDate(e.target.value)}/>
+                        <h6>Start Date</h6>
+                        <input type="date" name="startDate" id="" className="form-input" placeholder="" onChange={ (e) => setStartDate(e.target.value)}/>
+                        <h6>End Date</h6>
+                        <input type="date" name="endDate" id="" className="form-input" placeholder="" onChange={ (e) => setEndDate(e.target.value)}/>
                         <h6>Job Title</h6>
                         <input type="text" name="title" id="" className="form-input" onChange={ (e)=> setTitle(e.target.value) }/>
                         <h6>Roles / Responsibilities</h6>
@@ -180,6 +292,7 @@ const OtherWorkExperience = () => {
                 </Modal.Footer>
             </Modal>
 
+        {/* this is for the text that shows up after clicking the question mark button */}
             <Modal show={showDetails} onHide={handleCloseDetails}>
                 <Modal.Header>
                     <Modal.Title>Details</Modal.Title>
@@ -193,6 +306,35 @@ const OtherWorkExperience = () => {
                     </p>
                 </Modal.Body>
             </Modal>
+
+        {/* this updates an existing entry for other work experience */}
+            <Modal show={showUpdateExperience} onHide={handleCloseUpdateExperience} backdrop="static">
+                    <Modal.Header>
+                        <Modal.Title>Edit Work Experience</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form>
+                            <h6>Employer Name</h6>
+                            <input type="text" name="employer" className="form-input" value={employer} onChange={e => setEmployer(e.target.value)}/>
+                            <h6>From</h6>
+                            <input type="date" name="startDate" className="form-input" value={startDate} onChange={e => setStartDate(e.target.value)}/>
+                            <h6>To</h6>
+                            <input type="date" name="endDate" className="form-input" value={endDate} onChange={e => setEndDate(e.target.value)}/>
+                            <h6>Job Title</h6>
+                            <input type="text" name="title" className="form-input" value={title} onChange={e => setTitle(e.target.value)}/>
+                            <h6>Roles / Responsibilites</h6>
+                            <textarea name="responsibilites" className="form-input work-experience-textarea" value={responsibilities} onChange={e => setResponsibilities(e.target.value)}></textarea>
+                            <h6>Tools / Technologies</h6>
+                            <textarea name="technologies" className="form-input work-experience-textarea" value={tools} onChange={e => setTools(e.target.value)}></textarea>
+                            <h6>Problem Desciption</h6>
+                            <textarea name="description" className="form-input work-experience-textarea" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
+                        <Button variant="primary" onClick={() => {handleUpdate(id)}}>Update</Button>
+                    </Modal.Footer>
+                </Modal>
 
         </div>
     )
