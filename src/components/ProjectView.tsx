@@ -5,11 +5,11 @@ import "../css/Project.css";
 
 interface Projects{
     id: number
-    description: String
+    description: string
     duration: number
     hours: number
-    name: String
-    responsibilites: String
+    name: string
+    responsibilites: string
 }
 
 const ProjectView = () => {
@@ -25,8 +25,14 @@ const ProjectView = () => {
     const renderProjects = ((projectList: Projects[]) => {
         return projectList.map(data => {
             return(
-                <div>
-
+                <div className="card">
+                    <div className="card-header">
+                        {data.name}
+                    </div>
+                    <div className="card-body">
+                        {data.description} <br/>
+                        {data.responsibilites} <br />
+                    </div>
                 </div>
             );
         })
@@ -39,9 +45,7 @@ const ProjectView = () => {
                     <h4>Projects</h4>
                 </Card.Header>
                 <Card.Body>
-                    <Card.Text className="projects">
-                        {projectList && renderProjects(projectList)}
-                    </Card.Text>
+                    {projectList && renderProjects(projectList)}
                 </Card.Body>
             </Card>
         </div>

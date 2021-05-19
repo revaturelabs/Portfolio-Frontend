@@ -127,7 +127,6 @@ const HonorAwards = () => {
         cardBody.appendChild( recefromc)
         receonc.innerHTML ="Received On :   "  + data[index].dateReceived
         cardBody.appendChild(receonc)
-
         recefromc.style.color = "grey"
         receonc.style.color = "grey"
 
