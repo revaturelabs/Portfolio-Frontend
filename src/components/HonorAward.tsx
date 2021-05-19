@@ -131,11 +131,11 @@ const HonorAwards = () => {
         recefromc.style.color = "grey"
         receonc.style.color = "grey"
 
-        honoraward?.appendChild(card) 
-
-        if(Number(honoraward?.childElementCount) > 1) {
-            card.style.marginTop = "50px"
-        }
+         
+         honoraward?.appendChild(card) 
+         if(Number(honoraward?.childElementCount) > 1) {
+             card.style.marginTop = "50px"
+         }
 
 
     } 

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import AccountLogin from './AccountLogin';
 import '../css/Landing.css';
 import { Modal, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import AccountRegistration from './AccountRegistration';
+import revlogo from '../images/rev-logo.png'
 
 const Landing = () => {
 
@@ -22,12 +24,12 @@ const Landing = () => {
                             <AccountRegistration />
                         </Modal.Body>
                         <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>Close</Button>
-                        <Button variant="primary">Save</Button>
+                            <Button variant="secondary" onClick={handleClose}>Close</Button>
                         </Modal.Footer>
                     </Modal>
                     <div className="col-lg-5 text-center text-lg-start">
-                        <h3 className="mb-4">Portfolio</h3>
+                        <img src={revlogo} alt="revlogo" /> 
+                        <h3 className="mb-4 mt-4">Portfolio</h3>
                         <p className="col-lg-10 fs-4">Welcome to Portfolio. if this is your first time here please register. Otherwise login to view your portfolios.</p>
                         <button onClick={handleShow} className="btn btn-primary">Register</button>
                     </div>
