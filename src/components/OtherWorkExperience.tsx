@@ -85,6 +85,7 @@ const OtherWorkExperience = () => {
         })
         .then(resp => {
             console.log(resp.data);
+            window.location.reload()
         })
         .catch(error => {
             console.log(error)
