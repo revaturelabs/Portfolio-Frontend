@@ -6,7 +6,10 @@ import { Card, Button, Modal } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle, Save } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
 
-// Define Skill data structure
+// JSON INTERFACES
+
+/* ------------------------ */
+// EQUIVALENCY DATA TYPE
 /* ------------------------ */
 export interface Skill {
     id: number;
@@ -28,8 +31,7 @@ export interface Skill {
     }
 }
 /* ------------------------ */
-
-// Create Option Object Type
+// <OPTION> DATA TYPE
 /* ------------------------ */
 export interface Option {
     value: string;
@@ -38,82 +40,117 @@ export interface Option {
 }
 /* ------------------------ */
 
-// Define Static Variables
-/* ------------------------ */
+// STATIC VARIABLES
+/* ---------------------------------------------------------------- */
 let portfolioID: number = 1;
 let back_end_url: string = 'http://3.236.213.150:8081';
-/* ------------------------ */
+/* ---------------------------------------------------------------- */
+// OPTION DATA
+// question: should this be stored in the database and editable by staff/admin?
+/* ---------------------------------------------------------------- */
+const titleOptions: Array<Option> = [
+    { value: '', labelText: 'Select a skill', disabledStatus: true },
+    { value: 'Java', labelText: 'Java', disabledStatus: false },
+    { value: 'SQL', labelText: 'SQL', disabledStatus: false },
+    { value: 'JavaScript', labelText: 'JavaScript', disabledStatus: false },
+    { value: 'TypeScript', labelText: 'TypeScript', disabledStatus: false },
+    { value: 'Angular 2+', labelText: 'Angular 2+', disabledStatus: false },
+    { value: 'Spring Framework', labelText: 'Spring Framework', disabledStatus: false },
+    { value: 'Spring Data', labelText: 'Spring Data', disabledStatus: false },
+    { value: 'Spring Boot', labelText: 'Spring Boot', disabledStatus: false },
+    { value: 'Spring MVC', labelText: 'Spring MVC', disabledStatus: false },
+    { value: 'Spring AOP', labelText: 'Spring AOP', disabledStatus: false },
+    { value: 'Hibernate', labelText: 'Hibernate', disabledStatus: false },
+    { value: 'JDBC', labelText: 'JDBC', disabledStatus: false },
+    { value: 'DevOps', labelText: 'DevOps', disabledStatus: false },
+    { value: 'Microservices', labelText: 'Microservices', disabledStatus: false },
+    { value: 'JUnit', labelText: 'JUnit', disabledStatus: false },
+    { value: 'AWS', labelText: 'AWS', disabledStatus: false }
+];
+const prevExpOption: Array<Option> = [
+    { value: "0", labelText: "None / I'd never heard of it", disabledStatus: false },
+    { value: "1", labelText: "Cursory Study (No Hands-on Experience)", disabledStatus: false },
+    { value: "2", labelText: "Involved in at Least One Project (Minor Hands-on Experience)", disabledStatus: false },
+    { value: "4", labelText: "Involved in Multiple Projects (Substantial Hands-on Experience)", disabledStatus: false }
+];
+const currExpOption: Array<Option> = [
+    { value: "0", labelText: "None", disabledStatus: false },
+    { value: "3", labelText: "I used it in at least one project", disabledStatus: false },
+    { value: "6", labelText: "I used it in about half of my projects", disabledStatus: false },
+    { value: "12", labelText: "I worked directly with it in every project", disabledStatus: false }
+];
+/* ---------------------------------------------------------------- */
 
 const IndustryEquivalency = () => {
 
-    // Remove Add Button if Maximum Skill Number is reached
-    /* ------------------------------------------------ */
-    const [skillsAtMax, setSkillsAtMax] = useState(false);
-    /* ------------------------------------------------ */
+    // STATE VARIABLES
 
-    // Modal Add show and hide
-    /* ---- */
-    const [showAdd, setShowAdd] = useState(false);
-    const handleAddClose = () => {
-        setShowAdd(false);
-    };
+    /* ---------------------------------------------------------------- */
+    // TOOLTIP STATES
+    /* ---------------------------------------------------------------- */
+    const [addTooltipOpen, setAddTooltipOpen] = useState<boolean>(false);
+    const [editTooltipOpen, setEditTooltipOpen] = useState<boolean>(false);
+    const [detailsTooltipOpen, setDetailsTooltipOpen] = useState<boolean>(false);
+    /* ---------------------------------------------------------------- */
+    // MODAL STATES
+    /* ---------------------------------------------------------------- */
+    const [showAdd, setShowAdd] = useState<boolean>(false);
+    const [showEdit, setShowEdit] = useState<boolean>(false);
+    /* ---------------------------------------------------------------- */
+    // INDUSTRY EQUIVALENCY STATES
+    /* ---------------------------------------------------------------- */
+    const [skillSet, setSkillSet] = useState<Array<Skill>>([]);
+    const [maxEquivalency, setMaxEquivalency] = useState<number>(0);
+    /* ---------------------------------------------------------------- */
+    // ADD SKILL STATES
+    /* ---------------------------------------------------------------- */
+    const [skillName, setSkillName] = useState<string>('');
+    const [previousExp, setPreviousExp] = useState<string>('0');
+    const [currentExp, setCurrentExp] = useState<string>('0');
+    const [equivalency, setEquivalency] = useState<number>(0);
+    /* ---------------------------------------------------------------- */
+
+    // TOOLTIP FUNCTIONS
+
+    /* ---------------------------------------------------------------- */
+    const toggleAdd = (() => setAddTooltipOpen(!addTooltipOpen));
+    const toggleEdit = (() => setEditTooltipOpen(!editTooltipOpen));
+    const toggleDetails = (() => setDetailsTooltipOpen(!detailsTooltipOpen));
+    /* ---------------------------------------------------------------- */
+
+    // MODAL FUNCTIONS
+
+    /* ---------------------------------------------------------------- */
+    // ADD MODAL SHOW/CLOSE
+    /* ---------------------------------------------------------------- */
     const handleAddShow = () => {
-        if (skillsAtMax) {
+        if (skillSet.length >= 5) {
             alert("No more than 5 skills can be added to the Industry Equivalency Section.");
             return;
         };
         setShowAdd(true);
     };
-    /* ---- */
-
-    // Modal Edit show and hide
-    /* ------------------------------------------------------------ */
-    const [showEdit, setShowEdit] = useState(false);
-    const [editSkillSet, setEditSkillSet] = useState<Array<Skill>>([]);
-    const handleEditClose = () => {
-        setShowEdit(false);
-        setEditSkillSet([]);
-    }
-    const handleEditShow = () => {
-        let tempSkillSet: Array<Skill> = [];
-        skillSet.forEach((s) => {
-            let tempSkill: Skill = {
-                id: s.id,
-                header: s.header,
-                value: s.value,
-                portfolio: s.portfolio
-            }
-            tempSkillSet.push(tempSkill);
-        });
-        setEditSkillSet(tempSkillSet);
-        setShowEdit(true);
+    const handleAddClose = () => {
+        setShowAdd(false);
     };
-    /* ------------------------------------------------------------ */
-
-    // Tooltip for add and details buttons
     /* ---------------------------------------------------------------- */
-    const [addTooltipOpen, setAddTooltipOpen] = useState(false);
-    const toggleAdd = () => setAddTooltipOpen(!addTooltipOpen);
-    const [detailsTooltipOpen, setDetailsTooltipOpen] = useState(false);
-    const toggleDetails = () => setDetailsTooltipOpen(!detailsTooltipOpen);
+    // EDIT MODAL SHOW/CLOSE
+    /* ---------------------------------------------------------------- */
+    const handleEditShow = (() => {
+        setShowEdit(true);
+    });
+    const handleEditClose = (() => {
+        aquireSkillSet();
+        setShowEdit(false);
+    });
     /* ---------------------------------------------------------------- */
 
-    // GET Skill Data
-    /* -------------------------------------------------------- */
-    const [skillSet, setSkillSet] = useState<Array<Skill>>([]);
-    useEffect(() => {
-        // Re-Calculate Max Equivalency Whenever skillSet is changed
-        let tempMax: number = 0;
-        skillSet.forEach((s) => {
-            if (s.value > tempMax) {
-                tempMax = s.value;
-            }
-        })
-        setMaxEquivalency(tempMax);
-        setSkillsAtMax(skillSet.length >= 5);
-    }, [skillSet]);
-    const [maxEquivalency, setMaxEquivalency] = useState<number>(0);
-    const aquireSkillSet = () => {
+    // AXIOS FUNCTIONS
+
+    /* ---------------------------------------------------------------- */
+    // GET EQUIVALENCY ARRAY
+    /* ---------------------------------------------------------------- */
+    const aquireSkillSet = (() => {
         axios.get(back_end_url + '/equiv/portfolios/all/' + portfolioID)
             .then(resp => {
                 let tempSkillSet: Array<Skill> = resp.data;
@@ -129,59 +166,11 @@ const IndustryEquivalency = () => {
             .catch(error => {
                 console.error(error);
             });
-    }
-    useEffect(() => { aquireSkillSet() }, []);
-    /* -------------------------------------------------------- */
-
-    // Industry Equivalency State Variables
-    /* -------------------------------------------------------- */
-    const [skillName, setSkillName] = useState('');
-    const [previousExp, setPreviousExp] = useState<string>('0');
-    const [currentExp, setCurrentExp] = useState<string>('0');
-    const [equivalency, setEquivalency] = useState<number>(0);
-    useEffect(() => {
-        setEquivalency(+previousExp + +currentExp);
-    }, [previousExp, currentExp, equivalency]);
-    /* -------------------------------------------------------- */
-
-    // Create SELECT options programmatically
+    });
     /* ---------------------------------------------------------------- */
-    const titleOptions: Array<Option> = [
-        { value: '', labelText: 'Select a skill', disabledStatus: true },
-        { value: 'Java', labelText: 'Java', disabledStatus: false },
-        { value: 'SQL', labelText: 'SQL', disabledStatus: false },
-        { value: 'JavaScript', labelText: 'JavaScript', disabledStatus: false },
-        { value: 'TypeScript', labelText: 'TypeScript', disabledStatus: false },
-        { value: 'Angular 2+', labelText: 'Angular 2+', disabledStatus: false },
-        { value: 'Spring Framework', labelText: 'Spring Framework', disabledStatus: false },
-        { value: 'Spring Data', labelText: 'Spring Data', disabledStatus: false },
-        { value: 'Spring Boot', labelText: 'Spring Boot', disabledStatus: false },
-        { value: 'Spring MVC', labelText: 'Spring MVC', disabledStatus: false },
-        { value: 'Spring AOP', labelText: 'Spring AOP', disabledStatus: false },
-        { value: 'Hibernate', labelText: 'Hibernate', disabledStatus: false },
-        { value: 'JDBC', labelText: 'JDBC', disabledStatus: false },
-        { value: 'DevOps', labelText: 'DevOps', disabledStatus: false },
-        { value: 'Microservices', labelText: 'Microservices', disabledStatus: false },
-        { value: 'JUnit', labelText: 'JUnit', disabledStatus: false },
-        { value: 'AWS', labelText: 'AWS', disabledStatus: false }
-    ];
-    const prevExpOption: Array<Option> = [
-        { value: "0", labelText: "None / I'd never heard of it", disabledStatus: false },
-        { value: "1", labelText: "Cursory Study (No Hands-on Experience)", disabledStatus: false },
-        { value: "2", labelText: "Involved in at Least One Project (Minor Hands-on Experience)", disabledStatus: false },
-        { value: "4", labelText: "Involved in Multiple Projects (Substantial Hands-on Experience)", disabledStatus: false }
-    ];
-    const currExpOption: Array<Option> = [
-        { value: "0", labelText: "None", disabledStatus: false },
-        { value: "3", labelText: "I used it in at least one project", disabledStatus: false },
-        { value: "6", labelText: "I used it in about half of my projects", disabledStatus: false },
-        { value: "12", labelText: "I worked directly with it in every project", disabledStatus: false }
-    ];
+    // ADD EQUIVALENCY SKILL
     /* ---------------------------------------------------------------- */
-
-    // Handle the Add functionality
-    /* ---------------------------------------------------------------- */
-    const handleAdd = async () => {
+    const addSkill = (async () => {
         axios.get(back_end_url + '/portfolios/' + portfolioID)
             .then(resp => {
                 // If portfolio with portfolioID exists, Create new Skill with data
@@ -209,31 +198,41 @@ const IndustryEquivalency = () => {
         setSkillName('');
         setPreviousExp('0');
         setCurrentExp('0');
-    };
+    });
     /* ---------------------------------------------------------------- */
-
-    // Handle the Delete Functionality
-    /* -------------------------------------------------------------------------------- */
+    // DELETE EQUIVALENCY SKILL
+    /* ---------------------------------------------------------------- */
     const handleDelete = async (remSkill: Skill) => {
         // console.log('axios.delete(back_end_url + \'/equiv/' + remSkill.id + '\')');
         axios.delete(back_end_url + '/equiv/' + remSkill.id)
             .then(resp => {
                 console.log(resp.data);
                 let tempSkillSet: Array<Skill> = [...skillSet];
-                tempSkillSet.splice(tempSkillSet.indexOf(remSkill),1);
+                tempSkillSet.splice(tempSkillSet.indexOf(remSkill), 1);
                 setSkillSet(tempSkillSet);
-                setSkillsAtMax(true);
             })
             .catch(error => {
                 console.error(error);
             })
     };
-    /* -------------------------------------------------------------------------------- */
-
-    // Handle the Edit Table Changes
-    /* -------------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------- */
+    // UPDATE EQUIVALENCY ARRAY
+    /* ---------------------------------------------------------------- */
+    const updateSkills = () => {
+        skillSet.forEach(async (s) => {
+            await axios.post(back_end_url + '/equiv/' + s.id, s)
+                .then((resp) => { })
+                .catch((error) => {
+                    console.error(error);
+                })
+        });
+        handleEditClose();
+    }
+    /* ---------------------------------------------------------------- */
+    // EDIT SKILL <input> CHANGE
+    /* ---------------------------------------------------------------- */
     const handleEditChange = (changeType: number, changeSkill: number, newValue: string) => {
-        let tempSkillSet = [...editSkillSet];
+        let tempSkillSet = [...skillSet];
         tempSkillSet.forEach((s) => {
             if (s.id == changeSkill) {
                 if (changeType == 1) {
@@ -244,25 +243,39 @@ const IndustryEquivalency = () => {
                 }
             }
         });
-        setEditSkillSet(tempSkillSet);
+        setSkillSet(tempSkillSet);
     }
-    /* -------------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------- */
 
-    // Handle Saving the Edit Table
-    /* ---- */
-    const handleEdit = () => {
-        editSkillSet.forEach(async (s) => {
-            await axios.post(back_end_url + '/equiv/' + s.id, s)
-                .then((resp) => { })
-                .catch((error) => {
-                    console.error(error);
-                })
-        });
-        setSkillSet([...editSkillSet]);
-        handleEditClose();
-    }
+    // STATE HOOKS
 
-    // Section Description
+    /* ---------------------------------------------------------------- */
+    // RUNS ONCE
+    /* ---------------------------------------------------------------- */
+    useEffect (() => { aquireSkillSet() }, []);
+    /* ---------------------------------------------------------------- */
+    // RE-CALCULATE MAX EQUIVALENCY
+    /* ---------------------------------------------------------------- */
+    useEffect (() => {
+        // Re-Calculate Max Equivalency Whenever skillSet is changed
+        let tempMax: number = 0;
+        skillSet.forEach((s) => {
+            if (s.value > tempMax) {
+                tempMax = s.value;
+            }
+        })
+        setMaxEquivalency(tempMax);
+    }, [skillSet]);
+    /* ---------------------------------------------------------------- */
+    // RE-CALCULATES EQUIVALENCY IN ADD MODAL
+    /* ---------------------------------------------------------------- */
+    useEffect (() => {
+        setEquivalency(+previousExp + +currentExp);
+        // console.log('Equivalency Re-calculated (' + equivalency + ')');
+    }, [previousExp, currentExp, equivalency]);
+    /* ---------------------------------------------------------------- */
+
+    // SECTION DESCRIPTION
     /* ------------------------------------------------------------------------------------------------------------ */
     const message: string = "This section will show your industry equivalent level of experience in certain skills.\n"
         + "Select a skill and answer two questions to generate values for the section.";
@@ -275,10 +288,11 @@ const IndustryEquivalency = () => {
                     <h4>
                         Industry Equivalency
                         <QuestionCircle id="card-info" onClick={() => (alert(message))} />
+                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                         <Pencil id="edit-equivalency" onClick={handleEditShow} />
+                        <Tooltip target="edit-equivalency" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
                         <PlusCircle id="add-equivalency" onClick={handleAddShow} />
                         <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
-                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                     </h4>
                 </Card.Header>
                 <Modal show={showAdd} onHide={handleAddClose} backdrop="static">
@@ -330,7 +344,7 @@ const IndustryEquivalency = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
-                        <Button variant="primary" onClick={handleAdd}>Save</Button>
+                        <Button variant="primary" onClick={addSkill}>Save</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showEdit} onHide={handleEditClose} backdrop="Static">
@@ -344,7 +358,7 @@ const IndustryEquivalency = () => {
                                     <th>Skill Name</th>
                                     <th>Industry Equivalency</th>
                                 </tr>
-                                {editSkillSet.map((s) => (
+                                {skillSet.map((s) => (
                                     <tr key={s.id}>
                                         <td>
                                             <select
@@ -371,7 +385,7 @@ const IndustryEquivalency = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleEditClose}>Close</Button>
-                        <Button variant="primary" onClick={handleEdit}><Save /> Save</Button>
+                        <Button variant="primary" onClick={updateSkills}><Save /> Save</Button>
                     </Modal.Footer>
                 </Modal>
                 <Card.Body>
