@@ -112,7 +112,6 @@ const RevatureAboutMe = () => {
 
             })
 
-            phoneHeader.appendChild(editIcon)
             phoneHeader.appendChild(deleteButton)
             phoneHeader.appendChild(editButton)
          

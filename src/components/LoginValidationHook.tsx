@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 
 
@@ -12,8 +13,15 @@ const useForm = (initialValues: any, loginValidate: any) => {
         const noErrors = Object.keys(validationErrors).length === 0
         setErrors(validationErrors)
         if (noErrors) {
-            alert("Login was successful")
-            window.location.pathname = "./list"
+            axios.get('http://3.236.213.150:8081/users/{inputs.email}')
+            .then(response => {
+                alert("Login was successful")
+                window.location.pathname = "./list"
+            })
+            .catch(error => {
+                alert('Error ' + error)
+            })
+            
         } else {
             console.log("Errors, please try again", validationErrors)
         }
