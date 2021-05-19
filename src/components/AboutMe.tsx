@@ -7,6 +7,7 @@ import '../css/RevatureAboutMe.css';
 import axios from 'axios'
 
 
+
 const RevatureAboutMe = () => {
     // Model show and hide
     //*********************************************/
@@ -56,55 +57,43 @@ const RevatureAboutMe = () => {
             let deleteButton = document.createElement('button')
             let editButton = document.createElement('button')
             
-            
             setID(id)
-            console.log(id)
-
-            
-            
-            setID(id)
-            console.log(id)
-      
             bioHeader.innerHTML = bio
             setBio(bio)
-            console.log(bio)
-
             emailHeader.innerHTML = "Email: " + email
             setEmail(email)
-            console.log(email)
-
             phoneHeader.innerHTML = "Phone: " + phone
             setPhone(phone)
-            console.log(phone)
             
-
             bioHeader.style.whiteSpace = "pre-wrap"
             bioHeader.style.marginBottom = "50px"
             emailHeader.style.color = "grey"
             phoneHeader.style.color = "grey"
 
-            editButton.setAttribute("class", "btn btn-secondary pButton")
+            emailHeader.setAttribute("class", "afterStyle")
+            phoneHeader.setAttribute("class", "afterStyle")
+
+            editButton.setAttribute("class", "btn btn-sm btn-secondary")
             editButton.setAttribute("id", id)
             editButton.style.float = "right"
-            deleteButton.setAttribute("class", "btn btn-danger")
+            editButton.innerHTML = "edit"
+
+            deleteButton.setAttribute("class", "btn btn-sm btn-danger")
             deleteButton.setAttribute("id", id)
             deleteButton.style.float = "right"
             deleteButton.style.marginLeft = "5px"
+            deleteButton.innerHTML = "delete"
 
             editButton.addEventListener("click", () => {
-                console.log("edit happened")
                 setID(id)
                 setBio(bio)
                 setEmail(email)
                 setPhone(phone)
-                console.log(id + " " + email)
                 handleEditShow()
             })
 
             deleteButton.addEventListener("click", () => {
-                console.log("delete happened")
                 setID(id)
-                console.log(id)
                 handleDeleteShow()
 
             })
@@ -124,21 +113,8 @@ const RevatureAboutMe = () => {
         // div.style.border = "2px solid black"
         div.style.marginBottom = "10px"
     }
-    //*********************************************************************/
 
-    // Save data to database (update)
-    //***************************************************/
-    // const handleSave = () => {
-    //     let exp: Array<string> = [
-    //         bio,
-    //         email,
-    //         phone
-    //     ]
-    //     setShow(false)
-    //     console.log(exp)
-    // }
-
-    // POST METHOD
+    // POST METHOD FOR CREATING
 
     const handleSave = async () => {
         
@@ -154,6 +130,8 @@ const RevatureAboutMe = () => {
         setShow(false)
         setEditShow(false)
     }
+
+    //POST METHOD FOR UPDATING
 
     const handleUpdate = async (id: string) => {
         axios.post("http://3.236.213.150:8081/aboutMe/" + id, {id, bio, email, phone})
@@ -284,7 +262,7 @@ const RevatureAboutMe = () => {
                                 <Modal.Title>Delete Warning</Modal.Title>
                             </Modal.Header>
                             <Modal.Body >
-                                <h2>This will permanantly delete this info. Are you Sure?</h2>
+                                <h3>This will permanantly delete this info. Are you Sure?</h3>
                             </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="danger" onClick={() => {handleDelete(id);}}>Yes, Permanantly Delete</Button>
