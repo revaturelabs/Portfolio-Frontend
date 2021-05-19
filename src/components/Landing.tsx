@@ -4,7 +4,7 @@ import '../css/Landing.css';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AccountRegistration from './AccountRegistration';
-import revlogo from '../images/rev-logo.png'
+// import revlogo from '../images/rev-logo.png'
 
 const Landing = () => {
 
@@ -28,7 +28,7 @@ const Landing = () => {
                         </Modal.Footer>
                     </Modal>
                     <div className="col-lg-5 text-center text-lg-start">
-                        <img src={revlogo} alt="revlogo" /> 
+                        {/* <img src={revlogo} alt="revlogo" />  */}
                         <h3 className="mb-4 mt-4">Portfolio</h3>
                         <p className="col-lg-10 fs-4">Welcome to Portfolio. if this is your first time here please register. Otherwise login to view your portfolios.</p>
                         <button onClick={handleShow} className="btn btn-primary">Register</button>
