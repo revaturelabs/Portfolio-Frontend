@@ -25,7 +25,7 @@ const EditEmpPortfolio = () => {
             <RevatureWorkExp /><br/>
             <Project />
             <OtherWorkExperience />
-            <Education /><br/>
+            <Education /> <br />
             <HonorAwards />
         </div>
     );

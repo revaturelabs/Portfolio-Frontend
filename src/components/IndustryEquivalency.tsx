@@ -38,9 +38,10 @@ export interface Option {
 }
 /* ------------------------ */
 
-// Define Portfolio Number
+// Define Static Variables
 /* ------------------------ */
 let portfolioID: number = 1;
+let back_end_url: string = 'http://3.236.213.150:8081';
 /* ------------------------ */
 
 const IndustryEquivalency = () => {
@@ -66,7 +67,7 @@ const IndustryEquivalency = () => {
     /* ---- */
 
     // Modal Edit show and hide
-    /* ---- */
+    /* ------------------------------------------------------------ */
     const [showEdit, setShowEdit] = useState(false);
     const [editSkillSet, setEditSkillSet] = useState<Array<Skill>>([]);
     const handleEditClose = () => {
@@ -87,7 +88,7 @@ const IndustryEquivalency = () => {
         setEditSkillSet(tempSkillSet);
         setShowEdit(true);
     };
-    /* ---- */
+    /* ------------------------------------------------------------ */
 
     // Tooltip for add and details buttons
     /* ---------------------------------------------------------------- */
@@ -113,22 +114,17 @@ const IndustryEquivalency = () => {
     }, [skillSet]);
     const [maxEquivalency, setMaxEquivalency] = useState<number>(0);
     const aquireSkillSet = () => {
-        axios.get('http://3.236.213.150:8081/equiv')
+        axios.get(back_end_url + '/equiv/portfolios/all/' + portfolioID)
             .then(resp => {
-                let copySkillSet: Array<Skill> = [...resp.data];
-                let tempSkillSet: Array<Skill> = [];
+                let tempSkillSet: Array<Skill> = resp.data;
                 let tempMax: number = 0;
-                copySkillSet.forEach(skill => {
-                    if (skill.portfolio.id == portfolioID) {
-                        tempSkillSet.push(skill);
-                        if (skill.value > tempMax) {
-                            tempMax = skill.value;
-                        };
-                    };
+                tempSkillSet.forEach(skill => {
+                    if (skill.value > tempMax) {
+                        tempMax = skill.value;
+                    }
                 });
-                console.log(tempSkillSet);
-                console.log("Highest Equivalency is " + tempMax);
-                setSkillSet(tempSkillSet);
+                // console.log("Highest Equivalency is " + tempMax);
+                setSkillSet(resp.data);
             })
             .catch(error => {
                 console.error(error);
@@ -186,7 +182,7 @@ const IndustryEquivalency = () => {
     // Handle the Add functionality
     /* ---------------------------------------------------------------- */
     const handleAdd = async () => {
-        axios.get('http://3.236.213.150:8081/portfolios/' + portfolioID)
+        axios.get(back_end_url + '/portfolios/' + portfolioID)
             .then(resp => {
                 // If portfolio with portfolioID exists, Create new Skill with data
                 let newSkill: Skill = {
@@ -195,7 +191,7 @@ const IndustryEquivalency = () => {
                     value: equivalency,
                     portfolio: resp.data
                 }
-                axios.post('http://3.236.213.150:8081/equiv', newSkill)
+                axios.post(back_end_url + '/equiv', newSkill)
                     .then(resp => {
                         // If POST is successful, add new Skill (with correct data) to the Skill Array
                         let tempSkillSet: Array<Skill> = [...skillSet];
@@ -219,18 +215,18 @@ const IndustryEquivalency = () => {
     // Handle the Delete Functionality
     /* -------------------------------------------------------------------------------- */
     const handleDelete = async (remSkill: Skill) => {
-        console.log('axios.delete(\'http://3.236.213.150:8081/equiv/' + remSkill.id + '\')');
-        // axios.delete('http://3.236.213.150:8081/equiv/' + remSkill.id)
-        //     .then(resp => {
-        //         console.log(resp.data);
-        //         let tempSkillSet: Array<Skill> = [...skillSet];
-        //         tempSkillSet.splice(tempSkillSet.indexOf(remSkill),1);
-        //         setSkillSet(tempSkillSet);
-        //         setMaxSkills(true);
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //     })
+        // console.log('axios.delete(back_end_url + \'/equiv/' + remSkill.id + '\')');
+        axios.delete(back_end_url + '/equiv/' + remSkill.id)
+            .then(resp => {
+                console.log(resp.data);
+                let tempSkillSet: Array<Skill> = [...skillSet];
+                tempSkillSet.splice(tempSkillSet.indexOf(remSkill),1);
+                setSkillSet(tempSkillSet);
+                setSkillsAtMax(true);
+            })
+            .catch(error => {
+                console.error(error);
+            })
     };
     /* -------------------------------------------------------------------------------- */
 
@@ -256,7 +252,7 @@ const IndustryEquivalency = () => {
     /* ---- */
     const handleEdit = () => {
         editSkillSet.forEach(async (s) => {
-            await axios.post('http://3.236.213.150:8081/equiv/portfolios/' + s.id, s)
+            await axios.post(back_end_url + '/equiv/' + s.id, s)
                 .then((resp) => { })
                 .catch((error) => {
                     console.error(error);
