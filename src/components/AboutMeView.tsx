@@ -5,9 +5,9 @@ import { Card } from 'react-bootstrap';
 
 interface AboutMe {
     id: number;
-    bio: String;
-    email: String;
-    phone: String;
+    bio: string;
+    email: string;
+    phone: string;
     // portfolio: portfolio object
 }
 
@@ -38,9 +38,9 @@ const AboutMeView = () => {
                     <h4>About Me</h4>
                 </Card.Header>
                 <Card.Body>
-                    <Card.Text>
+                    {/* <Card.Text> */}
                         {aboutMe && renderAboutMe(aboutMe)}
-                    </Card.Text>
+                    {/* </Card.Text> */}
                 </Card.Body>
             </Card>
         </div>

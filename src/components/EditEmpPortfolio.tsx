@@ -20,13 +20,13 @@ const EditEmpPortfolio = () => {
                 </Link>
                 <button className="btn btn-primary m-1">Back</button>
             </div>
-            <IndustryEquivalency /> <br />
-            <AboutMe /> <br/>
-            <RevatureWorkExp /> <br/>
+            <IndustryEquivalency /><br />
+            <AboutMe /><br/>
+            <RevatureWorkExp /><br/>
             <Project />
             <OtherWorkExperience />
             <Education /> <br />
-            <HonorAwards />
+            <HonorAwards /> <br />
         </div>
     );
 };
