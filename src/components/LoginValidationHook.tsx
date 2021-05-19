@@ -15,7 +15,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
         if (noErrors) {
             axios.get('http://3.236.213.150:8081/users/{inputs.email}')
             .then(response => {
-                alert("Login was successful")
+                alert("Login was successful " + inputs.email)
                 window.location.pathname = "./list"
             })
             .catch(error => {
