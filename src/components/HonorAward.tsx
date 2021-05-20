@@ -27,6 +27,13 @@ const HonorAwards = () => {
     const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
     const handleShowUpdateExperience = () => setShowUpdateExperience(true)
     //**************************************************************************/
+    // Delete Modal show and hide
+    //*****************************************************/
+    const [showDelete, setShowDelete] = useState(false)
+    const handleCloseDelete = () => setShowDelete(false)
+    const handleShowDelete = () => setShowDelete(true)
+    //*****************************************************/
+
     // Tooltip for add and details buttons
     //***********************************************************************/
     const [addTooltipOpen, setAddTooltipOpen] = useState(false)
@@ -120,15 +127,29 @@ const HonorAwards = () => {
         descc.style.whiteSpace = "pre-wrap"
         descc.style.marginBottom = "50px"
         
+
+        // Date formatiing 
+
+        let dateContent: Array<string> = []
+        const months: Array<string> = [
+            "January", "February", 
+            "March", "April", "May", 
+            "June", "July", "August",
+            "September", "October", 
+            "November", "December"
+        ]
+        let RecDate = new Date(data[index].dateReceived)
+        let RDate = RecDate.getDate()+" " +months[RecDate.getMonth()]  +" "+ RecDate.getFullYear() 
+
+
+
         
         recefromt.innerText ="Recived From  :  " 
         recefromc.innerHTML ="Received From :  "  + data[index].receivedFrom
         console.log("tesingrece"+ data[index].receivedFrom )
         cardBody.appendChild( recefromc)
-        receonc.innerHTML ="Received On :   "  + data[index].dateReceived
+        receonc.innerHTML ="Received On     :   "  + RDate
         cardBody.appendChild(receonc)
-        recefromc.style.color = "grey"
-        receonc.style.color = "grey"
 
          
          honoraward?.appendChild(card) 
@@ -280,6 +301,7 @@ const HonorAwards = () => {
                         <Button variant="primary" onClick={() => {handleCloseUpdateExperience();handleUpdate(id);}}>Update</Button>
                     </Modal.Footer>
                 </Modal>
+
         </div>
     )
 }
