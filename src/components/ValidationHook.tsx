@@ -12,9 +12,10 @@ const useForm = (initialValues: any, validate: any) => {
         const noErros = Object.keys(validationErrors).length === 0
         setErrors(validationErrors)
         if(noErros) {
-            axios.post('http://3.236.213.150:8081/users', {inputs})
+            axios.post('http://3.236.213.150:8081/users', inputs)
             .then(response => {
-                alert("Registered " + inputs)
+                console.log(inputs)
+                alert("Registered")
                 window.location.reload()
             })
             .catch(error => {
