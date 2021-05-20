@@ -17,7 +17,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
         if (noErrors) {
             let email = inputs.email
             let password = inputs.password
-            axios.post('http://3.236.213.150:8081/users/login', null, { params: { email: { email }, password: { password } } })
+            axios.post('http://3.236.213.150:8081/users/login', null, { headers: { email, password} })
                 .then(response => {
                     if (response.data.admin !== true) {
                         setCookies('user', response.data, { path: '/' })
