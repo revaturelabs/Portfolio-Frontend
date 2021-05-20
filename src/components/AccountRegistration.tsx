@@ -4,7 +4,7 @@ import useForm from './ValidationHook';
 
 const AccountRegistration = () => {
 
-    const {inputs, handleInputChange, handleSubmit, errors} = useForm({firstName:'', lastName:'', email:'', password:'', confirmPassword: ''}, validate)
+    const {inputs, handleInputChange, handleSubmit, errors} = useForm({fname:'', lname:'', email:'', password:'', confirmPassword: ''}, validate)
 
     const error: {[key: string]: any} = errors
 
@@ -12,11 +12,11 @@ const AccountRegistration = () => {
         <div>
             <form onSubmit={handleSubmit}>
                 <h6>First Name</h6>
-                <input type="text" name="firstName" id="firstName" className="form-input" onChange={handleInputChange} value={inputs.firstName} />
-                {error.firstName && <p>{error.firstName}</p>}
+                <input type="text" name="fname" id="fname" className="form-input" onChange={handleInputChange} value={inputs.fname} />
+                {error.fname && <p>{error.fname}</p>}
                 <h6>Last Name</h6>
-                <input type="text" name="lastName" id="lastName" className="form-input" onChange={handleInputChange} value={inputs.lastName} />
-                {error.lastName && <p>{error.lastName}</p>}
+                <input type="text" name="lname" id="lname" className="form-input" onChange={handleInputChange} value={inputs.lname} />
+                {error.lname && <p>{error.lname}</p>}
                 <h6>Email Address</h6>
                 <input type="text" name="email" id="email" className="form-input" onChange={handleInputChange} value={inputs.email} />
                 {error.email && <p>{error.email}</p>}

@@ -2,13 +2,13 @@ const validate = (inputs: any) => {
     const errors:{[key: string]: any} = {}
 
     //First Name errors
-    if (!inputs.firstName) {
-        errors.firstName = 'First Name cannot be left blank'
+    if (!inputs.fname) {
+        errors.fname = 'First Name cannot be left blank'
     }
 
     //Last Name errors
-    if (!inputs.lastName) {
-        errors.lastName = 'Last Name connot be left blank'
+    if (!inputs.lname) {
+        errors.lname = 'Last Name connot be left blank'
     }
 
     //Email errors
