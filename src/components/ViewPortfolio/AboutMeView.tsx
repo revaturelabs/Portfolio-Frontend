@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import '../css/RevatureAboutMe.css';
+import '../../css/RevatureAboutMe.css';
 import { Card } from 'react-bootstrap';
 
 interface AboutMe {

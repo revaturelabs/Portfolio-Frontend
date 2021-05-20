@@ -21,9 +21,26 @@ const EducationView = () => {
         });
     }, [null]);
 
+    const renderIndustryEquivalency = () => {
+        return educationList?.map(date => {
+            <div className="card">
+                <div>
+
+                </div>
+            </div>
+        });
+    }
+
     return (
-        <div>
-            
+        <div className="container">
+            <Card id="card-container">
+                <Card.Header id="header">
+                    <h4>Education</h4>
+                </Card.Header>
+                <Card.Body>
+                    
+                </Card.Body>
+            </Card>
         </div>
     );
 }

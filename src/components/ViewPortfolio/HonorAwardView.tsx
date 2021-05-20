@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
-import '../css/HonorAwards.css'
+import '../../css/HonorAwards.css'
 
 interface Honor {
     id: string;
@@ -25,7 +25,7 @@ const HonorAwardView = () => {
         return honorList.map(data => {
             const date = new Date(data.dateReceived).toLocaleString('default',{ day:"numeric", month: 'long', year: 'numeric'});
             return (
-                <div className="card">
+                <div className="card" key={data.id}>
                     <div className="card-body">
                         <h3>{data.title}</h3>
                         <p style={{ color: "rgb(144, 164, 175)"}}>{data.description}</p>

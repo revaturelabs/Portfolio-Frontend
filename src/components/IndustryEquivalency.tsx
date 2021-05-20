@@ -116,6 +116,7 @@ const IndustryEquivalency = () => {
     const aquireSkillSet = () => {
         axios.get(back_end_url + '/equiv/portfolios/all/' + portfolioID)
             .then(resp => {
+                console.log(resp.data);
                 let tempSkillSet: Array<Skill> = resp.data;
                 let tempMax: number = 0;
                 tempSkillSet.forEach(skill => {

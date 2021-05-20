@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
-import '../css/OtherWorkExperience.css'
+import '../../css/OtherWorkExperience.css'
 
 interface OtherWorkExperience {
     id: number;

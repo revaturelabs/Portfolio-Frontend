@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import Landing from './Landing';
-import ViewPortfolio from './ViewPortfolio';
+import ViewPortfolio from './ViewPortfolio/ViewPortfolio';
 import EditEmpPortfolio from './EditEmpPortfolio';
 import PortfolioList from "./PortfolioList";
 

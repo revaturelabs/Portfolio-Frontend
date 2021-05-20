@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
-import '../css/RevatureWorkExperience.css';
+import '../../css/RevatureWorkExperience.css';
 
 interface WorkExperience {
     id: number;

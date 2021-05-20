@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import IndustryEquivalency from './IndustryEquivalency';
+import IndustryEquivalencyView from './IndustryEquivalencyView';
 import AboutMeView from "./AboutMeView";
 import EducationView from "./EducationView";
 import HonorAwardView from "./HonorAwardView";
@@ -15,18 +15,18 @@ const ViewPortfolio = () => {
                     <button className="btn btn-primary m-1">Back</button>
                 </Link>
             </div>
-            <IndustryEquivalency />
-            <AboutMeView />
-            <EducationView />
+            <IndustryEquivalencyView /> <br />
+            <AboutMeView /> <br />
+            <EducationView /> <br />
             <RevatureWorkExperienceView
                 url="http://3.236.213.150:8081/workexperience" 
-                title = "Work Experience"/>
-            <ProjectView />
+                title = "Work Experience"/> <br />
+            <ProjectView /> <br />
             <RevatureWorkExperienceView
                 url="http://3.236.213.150:8081/workhistory"
-                title="Other Work Experience" />
+                title="Other Work Experience" /> <br />
             {/* <OtherWorkExperienceView /> */}
-            <HonorAwardView />
+            <HonorAwardView /> <br />
         </div>
     );
 }
