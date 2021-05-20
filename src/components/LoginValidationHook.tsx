@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 const useForm = (initialValues: any, loginValidate: any) => {
     const [inputs, setInputs] = useState(initialValues)
     const [errors, setErrors] = useState({})
-    const [cookies, setCookies] = useCookies(['user'])
+    const [cookies, setCookies] = useCookies()
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -21,7 +21,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
                 .then(response => {
                     if (response.data.admin !== true) {
                         setCookies('user', response.data, { path: '/' })
-                        alert("Login was successful. Welcome " + cookies.fname + " " + cookies.lname)
+                        alert("Login was successful. Welcome " + cookies['user'].fname + " " + cookies['user'].lname)
                         window.location.pathname = "./list"
                     } else if (response.data.admin === true) {
                         alert("Admin login was successful. Welcome " + response.data.fname + " " + response.data.lname)
