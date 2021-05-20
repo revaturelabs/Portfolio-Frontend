@@ -79,7 +79,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         onChange={(e) => setGpa(Number(e.target.value))}
                     />
                     <br />
-                    <h6>URL for University Logo</h6>
+                    <h6>URL for University Logo (Optional)</h6>
                     <input
                         type="text"
                         name="logoUrl"
