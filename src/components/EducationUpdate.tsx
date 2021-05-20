@@ -61,6 +61,8 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
             })        
     };
 
+    let dateForPrePop = graduationDate.substring(6)+"-"+graduationDate.substring(0,2)+"-"+graduationDate.substring(3,5);
+
     return (
         <div>
             <Modal.Body>
@@ -90,10 +92,10 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
                     <h6>Graduation Date</h6>
                     <input
                         required
-                        type="text"
+                        type="date"
                         name="graduationDate"
                         className="form-input"
-                        value={graduationDate}
+                        value={dateForPrePop}
                         onChange={(e) =>
                             setGraduationDate(e.target.value)
                         }
