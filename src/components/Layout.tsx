@@ -4,6 +4,7 @@ import Landing from './Landing';
 import ViewPortfolio from './ViewPortfolio';
 import EditEmpPortfolio from './EditEmpPortfolio';
 import PortfolioList from "./PortfolioList";
+import Adminpage from "./Adminpage";
 
 function Layout() {
     return (
@@ -13,6 +14,8 @@ function Layout() {
           <Route path="/portfolio" component={EditEmpPortfolio} />
           <Route path="/view" component={ViewPortfolio} />
           <Route path="/list" component={PortfolioList} />
+          <Route path="/admin" component={Adminpage} />
+
         </div>
           
     );
