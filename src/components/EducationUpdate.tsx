@@ -3,20 +3,47 @@ import React, { useState, FC } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../css/Project.css";
 
-const EducationCreation: FC<{hideModal: Function}>= (props) => {
+interface User {
+    id: number;
+    name: string;
+    password: string;
+    admin: boolean;
+}
+
+interface Portfolio {
+    id: number;
+    name: string;
+    user: User;
+    submitted: boolean;
+    approved: boolean;
+    reviewed: boolean;
+    feedback: string;
+}
+
+interface Education {
+    id: number;
+    portfolio: Portfolio;
+    university: string;
+    degree: string;
+    graduationDate: string;
+    gpa: number;
+    logoUrl: string;
+}
+
+const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (props) => {
     const backEndUrl = "http://3.236.213.150:8081/education";
 
-    const [university, setUniversity] = useState("");
-    const [degree, setDegree] = useState("");
-    const [graduationDate, setGraduationDate] = useState("");
-    const [gpa, setGpa] = useState(0.0);
-    const [logoUrl, setLogoUrl] = useState("");
+    const [id, setId] = useState(props.editEducation.id);
+    const [university, setUniversity] = useState(props.editEducation.university);
+    const [degree, setDegree] = useState(props.editEducation.degree);
+    const [graduationDate, setGraduationDate] = useState(props.editEducation.graduationDate);
+    const [gpa, setGpa] = useState(props.editEducation.gpa);
+    const [logoUrl, setLogoUrl] = useState(props.editEducation.logoUrl);
 
-    const handleSave = () => {
+    const handleUpdate= () => {
 
-        console.log("hello");
         axios
-            .post(backEndUrl, {
+            .post(backEndUrl+id, {
                 university,
                 degree,
                 graduationDate,
@@ -31,7 +58,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
             .then(() => {
                 props.hideModal();
                 window.location.reload();
-            });
+            })        
     };
 
     return (
@@ -44,6 +71,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         type="text"
                         name="university"
                         className="form-input"
+                        value={university}
                         onChange={(e) => setUniversity(e.target.value)}
                     />
                     <br />
@@ -53,6 +81,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         type="text"
                         name="degree"
                         className="form-input"
+                        value={degree}
                         onChange={(e) =>
                             setDegree(e.target.value)
                         }
@@ -64,6 +93,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         type="text"
                         name="graduationDate"
                         className="form-input"
+                        value={graduationDate}
                         onChange={(e) =>
                             setGraduationDate(e.target.value)
                         }
@@ -73,9 +103,9 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                     <input
                         required
                         type="number"
-                        step="0.01"
                         name="gpa"
                         className="form-input"
+                        value={gpa}
                         onChange={(e) => setGpa(Number(e.target.value))}
                     />
                     <br />
@@ -84,6 +114,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         type="text"
                         name="logoUrl"
                         className="form-input"
+                        value={logoUrl}
                         onChange={(e) => setLogoUrl(e.target.value)}
                     />
                 </form>
@@ -92,7 +123,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                 <Button variant="secondary" onClick={() => props.hideModal()}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => handleSave()} >
+                <Button variant="primary" onClick={() => handleUpdate()} >
                     Save
                 </Button>
             </Modal.Footer>
@@ -100,4 +131,4 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
     );
 };
 
-export default EducationCreation;
+export default EducationUpdate;
