@@ -77,7 +77,7 @@ const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function
     const handleDelete= () => {
 
         axios
-            .delete(backEndUrl+id)
+            .delete(backEndUrl+"/"+id)
             .then((response) => {
             })
             .catch((error) => {

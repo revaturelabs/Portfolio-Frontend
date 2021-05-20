@@ -43,7 +43,7 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
     const handleUpdate= () => {
 
         axios
-            .post(backEndUrl+id, {
+            .post(backEndUrl+"/"+id, {
                 university,
                 degree,
                 graduationDate,

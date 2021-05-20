@@ -61,7 +61,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                     <h6>Graduation Date</h6>
                     <input
                         required
-                        type="text"
+                        type="date"
                         name="graduationDate"
                         className="form-input"
                         onChange={(e) =>

@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import AboutMe from './AboutMe';
 import Project from './Project';
 import OtherWorkExperience from './OtherWorkExperience';
-import Education from './Education';
 import HonorAwards from './HonorAward';
 import IndustryEquivalency from './IndustryEquivalency';
+import EducationContainer from './EducationContainer';
 
 
 const EditEmpPortfolio = () => {
@@ -25,7 +25,7 @@ const EditEmpPortfolio = () => {
             <RevatureWorkExp /><br/>
             <Project />
             <OtherWorkExperience />
-            <Education /> <br />
+            <EducationContainer /> <br />
             <HonorAwards /> <br />
         </div>
     );

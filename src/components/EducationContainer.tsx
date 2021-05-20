@@ -39,26 +39,26 @@ const EducationContainer = () => {
     const backEndUrl = "http://3.236.213.150:8081/education";
 
     const [educations, setEducations] = useState(Array<Education>());
+
+    //Stores the education that the user wants to edit
     const [editEducation, setEditEducation] = useState(Object);
     const getEditEducation = (education: Education) => setEditEducation(education);
 
+    //State handlers for the creation modal
     const [showCreationModal, setShowCreationModal] = useState(false);
     const handleHideCreationModal = () => setShowCreationModal(false);
     const handleShowCreationModal = () => setShowCreationModal(true);
 
+    //State handlers for the edit modal
     const [showEditModal, setShowEditModal] = useState(false);
     const handleHideEditModal = () => setShowEditModal(false);
     const handleShowEditModal = () => setShowEditModal(true);
 
-    /**
-     * State handler for plus icon
-     */
+    //State handler for plus icon
     const [showAddTooltip, setShowAddTooltip] = useState(false);
     const toggleAddTooltip = () => setShowAddTooltip(!showAddTooltip);
 
-    /**
-     * State handler for details icon
-     */
+    //State handler for details icon
     const [showDetailsTooltip, setShowDetailsTooltip] = useState(false);
     const toggleDetailsTooltip = () => setShowDetailsTooltip(!showDetailsTooltip);
 
