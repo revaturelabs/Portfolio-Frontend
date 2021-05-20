@@ -37,7 +37,7 @@ const Project = () => {
     responsibilities: string,
     technologies: string,
     repositoryUrl: string,
-    workProducts: string
+    workProducts: File
   ) => {
     let project = document.querySelector(".projects");
     let card = document.createElement("div");
@@ -52,7 +52,7 @@ const Project = () => {
     let repositoryUrlHeader = document.createElement("h5");
     let repositoryUrlContent = document.createElement("a");
     let workProductsHeader = document.createElement("h5");
-    let workProductsContent = document.createElement("p");
+    let workProductsContent = document.createElement("img");
     let deleteButton = document.createElement("button");
     let editButton = document.createElement("button");
     let buttonDiv = document.createElement("div");
@@ -86,7 +86,7 @@ const Project = () => {
     repositoryUrlContent.innerHTML = repositoryUrl;
     // TODO: make workProductsContent links to files in database (s3?)
     workProductsHeader.innerHTML = "Work Products";
-    workProductsContent.innerHTML = workProducts;
+    //workProductsContent.innerHTML = workProducts;
     deleteButton.innerHTML = "Delete";
     editButton.innerHTML = "Edit";
 
@@ -154,7 +154,16 @@ const Project = () => {
   const [responsibilities, setResponsibilities] = useState("");
   const [technologies, setTechnologies] = useState("");
   const [repositoryUrl, setRepositoryUrl] = useState("");
-  const [workProducts, setWorkProducts] = useState("");
+  const [workProducts, setWorkProducts] = useState<File>();
+
+  const [isSelected, setIsSelected] = useState(false);
+  
+  const changeHandler = (event: any) => {
+    console.log("Joe testing: "+ event.target.files[0]);
+		setWorkProducts(event.target.files[0]);
+		setIsSelected(true);
+	};
+
 
   /**
    * Get data from the database
@@ -324,10 +333,16 @@ const Project = () => {
               <br />
               <h6>Project Work Products</h6>
               <input
-                type="text"
-                name="workProducts"
+                type="file"
+                accept="image/jpeg"
+                name="workproducts"
                 className="form-input"
-                onChange={(e) => setWorkProducts(e.target.value)}
+                onChange={(e) => {
+                  if (!e.target.files) return;
+                  setWorkProducts(e.target.files[0]);
+                  console.log(e.target.files[0]);
+                  console.log(workProducts);
+                }}
               />
             </form>
           </Modal.Body>
@@ -438,12 +453,15 @@ const Project = () => {
                   <br />
                   <h6>Project Work Products</h6>
                   <input
-                    type="text"
-                    name="workProducts"
+                    type="file"
+                    accept="image/*"
+                    name="workproducts"
                     className="form-input"
-                    onChange={(e) => setWorkProducts(e.target.value)}
-                  />
+                    onChange={changeHandler}
+                  />                 
                 </form>
+                
+                
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleHideModalEdit}>
