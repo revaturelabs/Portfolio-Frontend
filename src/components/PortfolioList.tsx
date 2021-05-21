@@ -12,7 +12,7 @@ const PortfolioList = () => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-    const [cookies] = useCookies()
+    const [cookies, removeCookie] = useCookies()
     const [open, setOpen] = useState(false)
     const [table, setTable] = useState([])
 
@@ -29,6 +29,7 @@ const PortfolioList = () => {
     const handleDelete = (id: any) => {
         axios.delete('http://3.236.213.150:8081/portfolios/' + id)
         .then(response => {
+            removeCookie('portfolio', cookies['portfolio'], {maxAge: 0})
             alert('portfolio deleted')
             window.location.reload()
         })
