@@ -51,9 +51,9 @@ const EducationDelete: FC<{ hideModal: Function, editEducation: Education }> = (
 
     return (
         <div>
-            <Modal.Body><p>This will permanantly delete this info. Are you Sure?</p></Modal.Body>
+            <Modal.Body><p>This will permanently delete this education. Are you sure?</p></Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={() => handleDelete()}>Yes, Permanantly Delete</Button>
+                <Button variant="danger" onClick={() => handleDelete()}>Yes, Permanently Delete</Button>
                 <Button variant="secondary" onClick={() => props.hideModal()}>Close</Button>
             </Modal.Footer>
         </div>
