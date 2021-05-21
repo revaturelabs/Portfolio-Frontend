@@ -1,13 +1,11 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Button, Card, Modal, ModalTitle } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Card, Modal } from "react-bootstrap";
 import {
-  Pencil,
   PlusCircle,
-  QuestionCircle,
-  Trash,
+  QuestionCircle
 } from "react-bootstrap-icons";
-import ModalHeader from "react-bootstrap/esm/ModalHeader";
+import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
 import "../css/Project.css";
 
@@ -21,7 +19,6 @@ const Project = () => {
 
   /**
    * Render projects on page
-   * FIXME: update this method to properly render data from getAllProjects()
    */
   const renderProject = (
     id: string,
@@ -45,12 +42,12 @@ const Project = () => {
     let repositoryUrlHeader = document.createElement("h5");
     let repositoryUrlContent = document.createElement("a");
     let workProductsHeader = document.createElement("h5");
-    // FIXME: make this conditional (what if no one uploads an img? if not null and not empty string, render, otherwise don't)
 
     let deleteButton = document.createElement("button");
     let editButton = document.createElement("button");
     let buttonDiv = document.createElement("div");
 
+    buttonDiv.style.float = "right";
     deleteButton.setAttribute("id", "delete-project");
     deleteButton.setAttribute("class", "btn btn-danger");
     editButton.setAttribute("id", "edit-button");
@@ -75,20 +72,16 @@ const Project = () => {
     responsibilitiesContent.innerHTML = responsibilities;
     technologiesHeader.innerHTML = "Technologies";
     technologiesContent.innerHTML = technologies;
-    // TODO: make repositoryUrlContent link to repository
     repositoryUrlHeader.innerHTML = "Repository URL";
     repositoryUrlContent.innerHTML = repositoryUrl;
-    // TODO: make workProductsContent links to files in database (s3?)
     workProductsHeader.innerHTML = "Work Products";
-    // FIXME: change from innerHTML to source attribute of link
-    // workProductsContent.innerHTML = workProducts;
     deleteButton.innerHTML = "Delete";
     editButton.innerHTML = "Edit";
 
     card.appendChild(cardHeader);
     card.appendChild(cardBody);
     cardHeader.appendChild(nameHeader);
-    cardHeader.appendChild(buttonDiv);
+    nameHeader.appendChild(buttonDiv);
     buttonDiv.appendChild(editButton);
     buttonDiv.appendChild(deleteButton);
     card.appendChild(descriptionContent);
@@ -155,6 +148,8 @@ const Project = () => {
   const [technologies, setTechnologies] = useState("");
   const [repositoryUrl, setRepositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
+
+  const [cookie] = useCookies();
 
   /**
    * Get data from the database
@@ -302,7 +297,6 @@ const Project = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
               <br />
-              {/* TODO: make this a rich text field */}
               <h6>Responsibilities</h6>
               <input
                 type="text"
@@ -414,7 +408,6 @@ const Project = () => {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                   <br />
-                  {/* TODO: make this a rich text field */}
                   <h6>Responsibilities</h6>
                   <input
                     type="text"
@@ -456,6 +449,7 @@ const Project = () => {
                 </Button>
                 <Button
                   variant="primary"
+                  className="yes-button"
                   onClick={() => {
                     handleUpdate(id);
                   }}
