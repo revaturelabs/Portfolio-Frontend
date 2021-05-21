@@ -24,15 +24,17 @@ h6 {font-weight: bold;}
 
 #edit-aboutMe{
     float: right;
+    float: top;
     cursor: pointer;
     color: #42a5f5;
 }
 
 #delete-aboutMe{
     float: right;
+    margin-top: 0;
     cursor: pointer;
     color: red;
-    margin-left: 3px;
+    margin-left: 10px;
 }
 
 .form-input {
@@ -65,5 +67,20 @@ form {
     content: "";
     color: white;
 }
+
+.oButton{
+    background-color:rgb( 242, 105, 3); 
+    border-color: rgb( 242, 105, 3);
+}
+
+.oButton:hover{
+    background-color: rgb( 210, 105, 3);
+    border-color: rgb(210, 105, 3);
+}
+
+.hide{
+    display: none;
+}
+
 
 
