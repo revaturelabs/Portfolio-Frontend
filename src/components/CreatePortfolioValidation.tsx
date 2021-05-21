@@ -2,8 +2,8 @@ const portfolioValidate = (inputs: any) => {
     const errors:{[key: string]: any} = {}
 
     //Portfolio name error
-    if (!inputs.portfolioName) {
-        errors.portfolioName = 'Portfolio Name cannot be left blank'
+    if (!inputs.name) {
+        errors.name = 'Portfolio Name cannot be left blank'
     }
 
     return errors
