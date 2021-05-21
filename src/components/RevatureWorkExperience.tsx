@@ -338,8 +338,8 @@ const RevatureWorkExperience = () => {
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={() => {handleUpdate(id)}}>Update</Button>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {handleUpdate(id)}}>Update</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static">
