@@ -71,7 +71,7 @@ const EducationContainer = () => {
     const [showDetailsTooltip, setShowDetailsTooltip] = useState(false);
     const toggleDetailsTooltip = () => setShowDetailsTooltip(!showDetailsTooltip);
 
-    const messageDetails: string = "Add your education and certification history here";
+    const messageDetails: string = "Add your education history here";
 
     useEffect(() => {
         fetch(backEndUrl + "/portfolio/all/" + portfolioId)
