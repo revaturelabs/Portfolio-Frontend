@@ -3,10 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import { Card, Button, Modal} from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons';
-import { Tooltip } from 'reactstrap'
+import { Tooltip } from 'reactstrap';
+import { useCookies } from 'react-cookie';
+
 import '../css/OtherWorkExperience.css'
 
 const OtherWorkExperience = () => {
+    const [cookies] = useCookies();
+    // console.log(cookies['portfolio']); 
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -45,9 +50,9 @@ const OtherWorkExperience = () => {
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
-        axios.get("http://3.236.213.150:8081/workhistory")
+        axios.get("http://3.236.213.150:8081/workhistory/portfolio/" + cookies["portfolio"].id)
         .then(resp => {
-            console.log(resp.data);
+            // console.log(resp.data);
             createWorkExperience(resp.data);
         })
         .catch(error => {
@@ -74,6 +79,8 @@ const OtherWorkExperience = () => {
     // Save data to database
     //***************************************************/
     const handleSave = () => {
+        let portfolio = cookies['portfolio'];
+        console.log(portfolio);
         axios.post("http://3.236.213.150:8081/workhistory", {
             employer,
             title,
@@ -81,10 +88,11 @@ const OtherWorkExperience = () => {
             description,
             tools,
             startDate,
-            endDate
+            endDate,
+            portfolio
         })
         .then(resp => {
-            console.log(resp.data);
+            // console.log(resp.data);
             window.location.reload()
         })
         .catch(error => {
@@ -105,7 +113,10 @@ const OtherWorkExperience = () => {
     // Update work experience
     //***********************************************************************/
     const handleUpdate = (input: any) => {
-        console.log(input);
+        // console.log(input);
+        let portfolio = cookies['portfolio'];
+        // console.log(portfolio);
+
         let id:any = input;
         axios.put("http://3.236.213.150:8081/workhistory",{
             id,
@@ -115,10 +126,11 @@ const OtherWorkExperience = () => {
             title,
             description,
             responsibilities,
-            tools
+            tools, 
+            portfolio
         })
         .then(resp => {
-            console.log("work experience was updated");
+            console.log(resp.data);
             window.location.reload()
         })
         .catch(error => {
@@ -152,7 +164,7 @@ const OtherWorkExperience = () => {
             card.setAttribute("id", data[index].id)
             cardHeader.setAttribute("class", "card-header")
             cardBody.setAttribute("class", "card-body")
-            editButton.setAttribute("class", "btn btn-primary")
+            editButton.setAttribute("class", "btn btn-secondary")
             deleteButton.setAttribute("class", "btn btn-danger")
 
             card.appendChild(cardHeader)
@@ -288,8 +300,8 @@ const OtherWorkExperience = () => {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                        <Button variant="secondary" className="" onClick={handleClose}>Cancel</Button>
-                        <Button variant="primary" className="" onClick={()=>{ handleSave();}}>Save</Button>
+                        <Button variant="secondary" className="" onClick={handleClose}>Close</Button>
+                        <Button variant="" className="oButton" onClick={()=>{ handleSave();}}>Add</Button>
                 </Modal.Footer>
             </Modal>
 
@@ -333,7 +345,7 @@ const OtherWorkExperience = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
-                        <Button variant="primary" onClick={() => {handleUpdate(id)}}>Update</Button>
+                        <Button variant="" className="oButton" onClick={() => {handleUpdate(id)}}>Update</Button>
                     </Modal.Footer>
                 </Modal>
 

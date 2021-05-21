@@ -1,10 +1,13 @@
 import axios from "axios";
-import React, { useState, FC } from 'react'
+import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
+import { useCookies } from "react-cookie";
 import "../css/Project.css";
 
 const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const backEndUrl = "http://3.236.213.150:8081/education";
+    const [cookies] = useCookies();
+    const portfolio = cookies['portfolio'];
 
     const [university, setUniversity] = useState("");
     const [degree, setDegree] = useState("");
@@ -17,6 +20,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
         console.log("hello");
         axios
             .post(backEndUrl, {
+                portfolio,
                 university,
                 degree,
                 graduationDate,
@@ -33,6 +37,11 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                 window.location.reload();
             });
     };
+
+    let addButtonStyles: CSSProperties = {
+        background: "rgb(242, 105, 3)",
+        borderColor: "rgb(242, 105, 3)"
+    }
 
     return (
         <div>
@@ -79,7 +88,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         onChange={(e) => setGpa(Number(e.target.value))}
                     />
                     <br />
-                    <h6>URL for University Logo (Optional)</h6>
+                    <h6 className="logoUrl">URL for University Logo (Optional)</h6>
                     <input
                         type="text"
                         name="logoUrl"
@@ -92,8 +101,8 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                 <Button variant="secondary" onClick={() => props.hideModal()}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => handleSave()} >
-                    Save
+                <Button variant="primary" style={addButtonStyles} onClick={() => handleSave()} >
+                    Add
                 </Button>
             </Modal.Footer>
         </div>
