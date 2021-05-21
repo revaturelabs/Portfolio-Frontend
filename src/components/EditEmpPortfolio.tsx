@@ -14,6 +14,7 @@ import { Button } from 'react-bootstrap';
 
 const EditEmpPortfolio = () => {
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookie, removeCookie] = useCookies()
 
     const handleBack = () => {
@@ -22,7 +23,9 @@ const EditEmpPortfolio = () => {
 
     return (
         <div>
-            <h1>{cookies['portfolio'].name}</h1>
+            <div className="container mt-4">
+                <h1>{cookies['portfolio'].name}</h1>
+            </div>
             <div className="container mb-5 mt-5" id="editPortfolioButtons">
                 <button className="btn btn-primary m-1">Submit for Review</button>
                 <Link to="/view">
