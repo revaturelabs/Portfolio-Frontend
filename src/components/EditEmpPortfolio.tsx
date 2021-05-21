@@ -8,17 +8,29 @@ import OtherWorkExperience from './OtherWorkExperience';
 import HonorAwards from './HonorAward';
 import IndustryEquivalency from './IndustryEquivalency';
 import EducationContainer from './EducationContainer';
+import { useCookies } from 'react-cookie';
+import { Button } from 'react-bootstrap';
 
 
 const EditEmpPortfolio = () => {
+
+    const [cookies, setCookie, removeCookie] = useCookies()
+
+    const handleBack = () => {
+        removeCookie('portfolio', {maxAge: 0})
+    }
+
     return (
         <div>
+            <h1>{cookies['portfolio'].name}</h1>
             <div className="container mb-5 mt-5" id="editPortfolioButtons">
                 <button className="btn btn-primary m-1">Submit for Review</button>
                 <Link to="/view">
                     <button className="btn btn-primary m-1">View Portfolio</button>
                 </Link>
-                <button className="btn btn-primary m-1">Back</button>
+                <Link to="/list">
+                    <Button variant="primary" className="m-1" onClick={() => handleBack()}>Back</Button>
+                </Link>
             </div>
             <IndustryEquivalency /> <br />
             <AboutMe /> <br/>

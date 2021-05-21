@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 const useForm = (initialValues: any, loginValidate: any) => {
     const [inputs, setInputs] = useState(initialValues)
     const [errors, setErrors] = useState({})
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookies] = useCookies()
 
     const handleSubmit = (event: any) => {
@@ -21,11 +22,12 @@ const useForm = (initialValues: any, loginValidate: any) => {
                 .then(response => {
                     if (response.data.admin !== true) {
                         setCookies('user', response.data, { path: '/' })
-                        alert("Login was successful. Welcome " + cookies['user'].fname + " " + cookies['user'].lname)
+                        alert("Login was successful. Welcome " + response.data.fname + " " + response.data.lname)
                         window.location.pathname = "./list"
                     } else if (response.data.admin === true) {
-                        alert("Admin login was successful. Welcome " + response.data.fname + " " + response.data.lname)
-                        window.location.reload()
+                        setCookies('admin', response.data, {path: "/"})
+                        alert("Admin login was successful. Welcome " + response.data.fname + " " + response.data.fname)
+                        window.location.pathname = "./admin"
                     }
                 })
                 .catch(error => {
