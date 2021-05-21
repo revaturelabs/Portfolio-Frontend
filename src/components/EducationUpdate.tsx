@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, FC } from 'react'
+import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../css/Project.css";
 
@@ -61,7 +61,10 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
             })        
     };
 
-    let dateForPrePop = graduationDate.substring(6)+"-"+graduationDate.substring(0,2)+"-"+graduationDate.substring(3,5);
+    let updateButtonStyles: CSSProperties = {
+        background: "rgb(242, 105, 3)",
+        borderColor: "rgb(242, 105, 3)"
+    }
 
     return (
         <div>
@@ -95,7 +98,7 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
                         type="date"
                         name="graduationDate"
                         className="form-input"
-                        value={dateForPrePop}
+                        value={graduationDate}
                         onChange={(e) =>
                             setGraduationDate(e.target.value)
                         }
@@ -111,7 +114,7 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
                         onChange={(e) => setGpa(Number(e.target.value))}
                     />
                     <br />
-                    <h6>URL for University Logo</h6>
+                    <h6 className="logoUrl">URL for University Logo (Optional)</h6>
                     <input
                         type="text"
                         name="logoUrl"
@@ -125,8 +128,8 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
                 <Button variant="secondary" onClick={() => props.hideModal()}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => handleUpdate()} >
-                    Save
+                <Button variant="primary" style={updateButtonStyles} onClick={() => handleUpdate()} >
+                    Update
                 </Button>
             </Modal.Footer>
         </div>

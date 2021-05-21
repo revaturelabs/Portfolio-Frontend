@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Modal } from "react-bootstrap";
 import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
+import { useCookies } from 'react-cookie';
 import { Tooltip } from "reactstrap";
-import "../css/Project.css";
+import "../css/Education.css";
 import Education from './Education';
 import EducationCreation from './EducationCreation';
+import EducationDelete from './EducationDelete';
 import EducationDisplay from "./EducationDisplay";
 import EducationUpdate from './EducationUpdate';
 
@@ -37,6 +39,8 @@ interface Education {
 
 const EducationContainer = () => {
     const backEndUrl = "http://3.236.213.150:8081/education";
+    const [cookies] = useCookies();
+    const portfolioId = cookies['portfolio'].id;
 
     const [educations, setEducations] = useState(Array<Education>());
 
@@ -54,6 +58,11 @@ const EducationContainer = () => {
     const handleHideEditModal = () => setShowEditModal(false);
     const handleShowEditModal = () => setShowEditModal(true);
 
+    //State handlers for the delete modal
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const handleHideDeleteModal = () => setShowDeleteModal(false);
+    const handleShowDeleteModal = () => setShowDeleteModal(true);
+
     //State handler for plus icon
     const [showAddTooltip, setShowAddTooltip] = useState(false);
     const toggleAddTooltip = () => setShowAddTooltip(!showAddTooltip);
@@ -65,43 +74,50 @@ const EducationContainer = () => {
     const messageDetails: string = "Add your education and certification history here";
 
     useEffect(() => {
-        fetch(backEndUrl)
+        fetch(backEndUrl + "/portfolio/all/" + portfolioId)
             .then(response => response.json())
             .then(json => setEducations(json));
     }, [])
 
     return (
         <div className="container mt-4">
-            
+
             <Modal show={showCreationModal} onHide={handleHideCreationModal} backdrop="static">
                 <Modal.Header>
                     <Modal.Title>Add Education</Modal.Title>
                 </Modal.Header>
-                <EducationCreation hideModal={handleHideCreationModal}/>
+                <EducationCreation hideModal={handleHideCreationModal} />
             </Modal>
 
             <Modal show={showEditModal} onHide={handleHideEditModal} backdrop="static">
                 <Modal.Header>
                     <Modal.Title>Edit Education</Modal.Title>
                 </Modal.Header>
-                <EducationUpdate hideModal={handleHideEditModal} editEducation={editEducation}/>
+                <EducationUpdate hideModal={handleHideEditModal} editEducation={editEducation} />
+            </Modal>
+
+            <Modal show={showDeleteModal} onHide={handleHideDeleteModal} backdrop="static">
+                <Modal.Header>
+                    <Modal.Title>Delete Warning</Modal.Title>
+                </Modal.Header>
+                <EducationDelete hideModal={handleHideDeleteModal} editEducation={editEducation} />
             </Modal>
 
             <Card id="card-container">
                 <Card.Header id="header-project">
                     <h4>
-                        Education and Certifications
-                        <QuestionCircle id="card-info" />
+                        Education
+                        <QuestionCircle id="card-info-education" />
                         <Tooltip
-                            target="card-info"
+                            target="card-info-education"
                             isOpen={showDetailsTooltip}
                             toggle={toggleDetailsTooltip} >
                             {messageDetails}
                         </Tooltip>
 
-                        <PlusCircle id="add-project" onClick={handleShowCreationModal} />
+                        <PlusCircle id="add-education" onClick={handleShowCreationModal} />
                         <Tooltip
-                            target="add-project"
+                            target="add-education"
                             isOpen={showAddTooltip}
                             toggle={toggleAddTooltip} >
                             Add Education
@@ -111,7 +127,7 @@ const EducationContainer = () => {
 
                 <Card.Body>
                     {educations.map((education, index) => (
-                        <EducationDisplay getEditEducation={getEditEducation} showEditModal={handleShowEditModal} currentEducation={education} index={index} key={index} />
+                        <EducationDisplay getEditEducation={getEditEducation} showEditModal={handleShowEditModal} showDeleteModal={handleShowDeleteModal} currentEducation={education} index={index} key={index} />
                     ))}
                     <Card.Text className="education"></Card.Text>
                 </Card.Body>
