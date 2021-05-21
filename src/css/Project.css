@@ -2,13 +2,18 @@ h4 {
   color: white;
 }
 
+h5,
 h6 {
   font-weight: bold;
 }
 
-h6::after {
+.project-create-form-header::after {
   content: "*";
   color: red;
+}
+
+.project-edit-form-header::after {
+  content: none;
 }
 
 #header-project {
@@ -37,7 +42,22 @@ h6::after {
   margin-bottom: 20px;
 }
 
+#card-body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
 form {
   margin: 20px;
   padding: 15px;
+}
+
+.yes-button {
+  background-color: rgb(242, 105, 3);
+  border-color: rgb(242, 105, 3);
+}
+
+.yes-button:hover {
+  background-color: rgb(210, 105, 3);
+  border-color: rgb(210, 105, 3);
 }

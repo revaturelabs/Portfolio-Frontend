@@ -5,9 +5,18 @@ import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons'
 import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/HonorAwards.css'
+import { useCookies } from 'react-cookie'
 
 
 const HonorAwards = () => {
+
+
+    // Cookies
+    //*****************************/
+    const [cookies] = useCookies()
+    const portfolio = cookies['portfolio']
+    //*****************************/
+
     // Add  Modal show and hide
     //*************************************************************/
     const [showAddExperience, setShowExperience] = useState(false)
@@ -50,10 +59,10 @@ const HonorAwards = () => {
     const [id, setId] = useState('')
 
     //***************************************************/
-    // Get data from data base
+    // Get data from database
     //***********************************************************/
      const getData = async() => {
-        axios.get("http://3.236.213.150:8081/honor")
+        axios.get("http://3.236.213.150:8081/honor"+cookies['portfolio'].id)
          .then(response => {
              createHonorAward(response.data)
   
@@ -68,6 +77,7 @@ const HonorAwards = () => {
     const createHonorAward = (data:any) => {  
         
         for (let index = 0; index < data.length; index++) {
+        let headerNum: number = 1
         let titlec = document.createElement("h5")
         let descc = document.createElement("p")
         let recefromc = document.createElement("h5")
@@ -75,6 +85,7 @@ const HonorAwards = () => {
         let receonc = document.createElement("h5")
         let honoraward = document.querySelector(".honoraward")
         let card = document.createElement("div")
+        let cardHeader = document.createElement("div")
         let cardBody = document.createElement("div")
         let cardFooter =document.createElement("div")
         let editDiv = document.createElement("div")
@@ -82,6 +93,7 @@ const HonorAwards = () => {
         let deleteButton = document.createElement("button")
 
         card.setAttribute("class", "card")
+        cardHeader.setAttribute("class", "card-header")
         cardBody.setAttribute("class", "card-body")
         cardFooter.setAttribute("class", "card-footer")
 
@@ -93,8 +105,8 @@ const HonorAwards = () => {
 
 
         card.appendChild(cardBody)
-        card.appendChild(cardFooter)
-        cardFooter.appendChild(editDiv)
+        card.appendChild(cardHeader)
+        cardHeader.appendChild(editDiv)
 
         editDiv.appendChild(editButton)
         editDiv.appendChild(deleteButton)
@@ -106,6 +118,7 @@ const HonorAwards = () => {
             handleDelete(card)
         })
    
+        let component = document.createElement("h" + headerNum)
         editButton.style.float = "right"
         editButton.innerHTML = "Edit"
         editButton.style.marginRight = "10px"
@@ -119,7 +132,8 @@ const HonorAwards = () => {
             handleShowUpdateExperience()
         })
 
-
+        card.appendChild(cardHeader)
+        cardHeader.appendChild(editDiv)
         titlec.innerHTML = data[index].title
         cardBody.appendChild(titlec)
         descc.innerHTML = data[index].description
@@ -130,7 +144,9 @@ const HonorAwards = () => {
 
         // Date formatiing 
 
-        let dateContent: Array<string> = []
+        
+        let headerContent: Array<string> = []
+
         const months: Array<string> = [
             "January", "February", 
             "March", "April", "May", 
@@ -140,7 +156,7 @@ const HonorAwards = () => {
         ]
         let RecDate = new Date(data[index].dateReceived)
         let RDate = RecDate.getDate()+" " +months[RecDate.getMonth()]  +" "+ RecDate.getFullYear() 
-
+        headerContent.push(data[index].title)
 
 
         
@@ -150,6 +166,17 @@ const HonorAwards = () => {
         cardBody.appendChild( recefromc)
         receonc.innerHTML ="Received On     :   "  + RDate
         cardBody.appendChild(receonc)
+
+
+        if(headerNum === 1) {
+            component.style.fontWeight = "bold"
+        } else if(headerNum === 3) {
+            component.style.color = "rgb( 242, 105, 3)"
+        }
+
+        cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
+        cardHeader.style.backgroundColor = "white" 
+
 
          
          honoraward?.appendChild(card) 
