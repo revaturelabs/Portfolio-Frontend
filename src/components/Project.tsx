@@ -11,13 +11,6 @@ import ModalHeader from "react-bootstrap/esm/ModalHeader";
 import { Tooltip } from "reactstrap";
 import "../css/Project.css";
 
-/**
- * FIXME: coordinate with back end component owner to create all necessary fields
- * - [/] technologies field (text... unordered list)
- * - [/] repositoryUrl (text... link to GitHub Repository)
- * - [/] workProducts (upload... link to file in storage somewhere?)
- *
- */
 const Project = () => {
   /**
    * Render projects on load
@@ -52,7 +45,8 @@ const Project = () => {
     let repositoryUrlHeader = document.createElement("h5");
     let repositoryUrlContent = document.createElement("a");
     let workProductsHeader = document.createElement("h5");
-    let workProductsContent = document.createElement("p");
+    // FIXME: make this conditional (what if no one uploads an img? if not null and not empty string, render, otherwise don't)
+
     let deleteButton = document.createElement("button");
     let editButton = document.createElement("button");
     let buttonDiv = document.createElement("div");
@@ -86,7 +80,8 @@ const Project = () => {
     repositoryUrlContent.innerHTML = repositoryUrl;
     // TODO: make workProductsContent links to files in database (s3?)
     workProductsHeader.innerHTML = "Work Products";
-    workProductsContent.innerHTML = workProducts;
+    // FIXME: change from innerHTML to source attribute of link
+    // workProductsContent.innerHTML = workProducts;
     deleteButton.innerHTML = "Delete";
     editButton.innerHTML = "Edit";
 
@@ -104,7 +99,12 @@ const Project = () => {
     card.appendChild(repositoryUrlHeader);
     card.appendChild(repositoryUrlContent);
     card.appendChild(workProductsHeader);
-    card.appendChild(workProductsContent);
+    let workProductsContent;
+    if (workProducts !== null && workProducts !== "") {
+      workProductsContent = document.createElement("img");
+      workProductsContent.setAttribute("src", workProducts);
+      card.appendChild(workProductsContent);
+    }
     project?.appendChild(card);
 
     deleteButton.style.margin = "0.25em 0.25em";
@@ -199,7 +199,12 @@ const Project = () => {
       })
       .then((response) => {
         console.log("success");
-        console.log(response.data.name);
+        setName("");
+        setDescription("");
+        setResponsibilities("");
+        setTechnologies("");
+        setRepositoryUrl("");
+        setWorkProducts("");
         window.location.reload();
       })
       .catch((error) => {
@@ -341,7 +346,7 @@ const Project = () => {
                 handleSave();
               }}
             >
-              Save
+              Add
             </Button>
           </Modal.Footer>
         </Modal>
@@ -363,7 +368,7 @@ const Project = () => {
                 <div>
                   <button
                     className="btn btn-primary"
-                    style={{"margin": "0.25em 0.25em"}}
+                    style={{ margin: "0.25em 0.25em" }}
                     onClick={() => {
                       handleDelete(id);
                     }}
@@ -372,7 +377,7 @@ const Project = () => {
                   </button>
                   <button
                     className="btn btn-secondary"
-                    style={{"margin": "0.25em 0.25em"}}
+                    style={{ margin: "0.25em 0.25em" }}
                     onClick={handleHideModalDelete}
                   >
                     Cancel
