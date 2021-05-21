@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 const useForm = (initialValues: any, portfolioValidate: any) => {
     const [inputs, setInputs] = useState(initialValues)
     const [errors, setErrors] = useState({})
-    const [cookie, setCookie] = useCookies(['name'])
+    const [cookies, setCookies] = useCookies()
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -15,12 +15,11 @@ const useForm = (initialValues: any, portfolioValidate: any) => {
         const noErrors = Object.keys(validationErrors).length === 0
         setErrors(validationErrors)
         if (noErrors) {
-            axios.post('http://3.236.213.150:8081/portfolios', inputs)
+            axios.post('http://3.236.213.150:8081/portfolios', inputs, cookies['user'])
             .then(response => {
                 alert("Portfolio Created")
-                setCookie('name', inputs, {path: "/"})
+                setCookies('portfolio', response.data, {path: "/"})
                 window.location.pathname = "./portfolio"
-                return cookie
             })
             .catch(error => {
                 alert('Error ' + error)
