@@ -1,23 +1,11 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Button, Card, Modal, ModalTitle } from "react-bootstrap";
-import {
-  Pencil,
-  PlusCircle,
-  QuestionCircle,
-  Trash,
-} from "react-bootstrap-icons";
-import ModalHeader from "react-bootstrap/esm/ModalHeader";
+import React, { useEffect, useState } from "react";
+import { Button, Card, Modal } from "react-bootstrap";
+import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
+import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
 import "../css/Project.css";
 
-/**
- * FIXME: coordinate with back end component owner to create all necessary fields
- * - [/] technologies field (text... unordered list)
- * - [/] repositoryUrl (text... link to GitHub Repository)
- * - [/] workProducts (upload... link to file in storage somewhere?)
- *
- */
 const Project = () => {
   /**
    * Render projects on load
@@ -28,7 +16,6 @@ const Project = () => {
 
   /**
    * Render projects on page
-   * FIXME: update this method to properly render data from getAllProjects()
    */
   const renderProject = (
     id: string,
@@ -36,43 +23,44 @@ const Project = () => {
     description: string,
     responsibilities: string,
     technologies: string,
-    repositoryUrl: string,
+    respositoryUrl: string,
     workProducts: string
   ) => {
     let project = document.querySelector(".projects");
     let card = document.createElement("div");
     let cardHeader = document.createElement("div");
     let cardBody = document.createElement("div");
-    let nameHeader = document.createElement("h2");
+    let nameHeader = document.createElement("h1");
     let descriptionContent = document.createElement("p");
-    let responsibilitiesHeader = document.createElement("h3");
+    let responsibilitiesHeader = document.createElement("h5");
     let responsibilitiesContent = document.createElement("p");
-    let technologiesHeader = document.createElement("h3");
+    let technologiesHeader = document.createElement("h5");
     let technologiesContent = document.createElement("p");
-    let repositoryUrlHeader = document.createElement("h5");
-    let repositoryUrlContent = document.createElement("a");
+    let respositoryUrlHeader = document.createElement("h5");
+    let respositoryUrlContent = document.createElement("a");
     let workProductsHeader = document.createElement("h5");
-    let workProductsContent = document.createElement("p");
+
     let deleteButton = document.createElement("button");
     let editButton = document.createElement("button");
     let buttonDiv = document.createElement("div");
 
+    buttonDiv.style.float = "right";
     deleteButton.setAttribute("id", "delete-project");
     deleteButton.setAttribute("class", "btn btn-danger");
     editButton.setAttribute("id", "edit-button");
-    editButton.setAttribute("class", "btn btn-primary");
+    editButton.setAttribute("class", "btn btn-primary yes-button");
     card.setAttribute("class", "card");
     cardHeader.setAttribute("class", "card-header");
     cardBody.setAttribute("class", "card-body");
-    repositoryUrlContent.setAttribute("href", repositoryUrl);
-    repositoryUrlContent.setAttribute("target", "_blank");
+    respositoryUrlContent.setAttribute("href", respositoryUrl);
+    respositoryUrlContent.setAttribute("target", "_blank");
 
     setId(id);
     setName(name);
     setDescription(description);
     setResponsibilities(responsibilities);
     setTechnologies(technologies);
-    setRepositoryUrl(repositoryUrl);
+    setrespositoryUrl(respositoryUrl);
     setWorkProducts(workProducts);
 
     nameHeader.innerHTML = name;
@@ -81,19 +69,16 @@ const Project = () => {
     responsibilitiesContent.innerHTML = responsibilities;
     technologiesHeader.innerHTML = "Technologies";
     technologiesContent.innerHTML = technologies;
-    // TODO: make repositoryUrlContent link to repository
-    repositoryUrlHeader.innerHTML = "Repository URL";
-    repositoryUrlContent.innerHTML = repositoryUrl;
-    // TODO: make workProductsContent links to files in database (s3?)
+    respositoryUrlHeader.innerHTML = "Repository URL";
+    respositoryUrlContent.innerHTML = respositoryUrl;
     workProductsHeader.innerHTML = "Work Products";
-    workProductsContent.innerHTML = workProducts;
     deleteButton.innerHTML = "Delete";
     editButton.innerHTML = "Edit";
 
     card.appendChild(cardHeader);
     card.appendChild(cardBody);
     cardHeader.appendChild(nameHeader);
-    cardHeader.appendChild(buttonDiv);
+    nameHeader.appendChild(buttonDiv);
     buttonDiv.appendChild(editButton);
     buttonDiv.appendChild(deleteButton);
     card.appendChild(descriptionContent);
@@ -101,18 +86,27 @@ const Project = () => {
     card.appendChild(responsibilitiesContent);
     card.appendChild(technologiesHeader);
     card.appendChild(technologiesContent);
-    card.appendChild(repositoryUrlHeader);
-    card.appendChild(repositoryUrlContent);
+    card.appendChild(respositoryUrlHeader);
+    card.appendChild(respositoryUrlContent);
     card.appendChild(workProductsHeader);
-    card.appendChild(workProductsContent);
+    let workProductsContent;
+    if (workProducts !== null && workProducts !== "") {
+      workProductsContent = document.createElement("img");
+      workProductsContent.setAttribute("src", workProducts);
+      card.appendChild(workProductsContent);
+    }
     project?.appendChild(card);
 
-    deleteButton.style.margin = "0.25em 0.25em";
-    editButton.style.margin = "0.25em 0.25em";
-
-    card.style.border = "1px solid grey";
-    card.style.padding = "1em";
-    card.style.margin = "1em";
+    cardBody.style.whiteSpace = "pre-line";
+    cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)";
+    cardHeader.style.backgroundColor = "white";
+    if (Number(project?.childElementCount) > 1) {
+      card.style.marginTop = "50px";
+    }
+    // card.style.padding = "1em";
+    // card.style.margin = "1em";
+    editButton.style.marginRight = "10px";
+    nameHeader.style.fontWeight = "bold";
 
     deleteButton.addEventListener("click", () => {
       handleShowModalDelete();
@@ -153,15 +147,16 @@ const Project = () => {
   const [description, setDescription] = useState("");
   const [responsibilities, setResponsibilities] = useState("");
   const [technologies, setTechnologies] = useState("");
-  const [repositoryUrl, setRepositoryUrl] = useState("");
+  const [respositoryUrl, setrespositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
-
+  
+  const [cookie] = useCookies();
   /**
    * Get data from the database
    */
   const getAllProjects = async () => {
     axios
-      .get("http://3.236.213.150:8081/projects")
+      .get("http://3.236.213.150:8081/projects/portfolio/all/"+cookie["portfolio"].id)
       .then((response) => {
         console.log("got data");
         console.log(response.data);
@@ -172,7 +167,7 @@ const Project = () => {
             data.description,
             data.responsibilities,
             data.technologies,
-            data.repositoryUrl,
+            data.respositoryUrl,
             data.workProducts
           );
           console.log(data);
@@ -187,19 +182,26 @@ const Project = () => {
    * Save data to database
    */
   const handleSave = async () => {
+    //let portfolio = cookie["portfolio"]
     axios
 
-      .post("http://3.236.213.150:8081/projects", {
+      .post("http://3.236.213.150:8081/projects/", {
         name,
         description,
         responsibilities,
         technologies,
-        repositoryUrl,
+        respositoryUrl,
         workProducts,
+        portfolio: cookie["portfolio"]
       })
       .then((response) => {
         console.log("success");
-        console.log(response.data.name);
+        setName("");
+        setDescription("");
+        setResponsibilities("");
+        setTechnologies("");
+        setrespositoryUrl("");
+        setWorkProducts("");
         window.location.reload();
       })
       .catch((error) => {
@@ -228,7 +230,7 @@ const Project = () => {
         description,
         responsibilities,
         technologies,
-        repositoryUrl,
+        respositoryUrl,
         workProducts,
       })
       .then((response) => {
@@ -281,7 +283,7 @@ const Project = () => {
           </Modal.Header>
           <Modal.Body>
             <form method="post">
-              <h6>Project Name</h6>
+              <h6 className="project-create-form-header">Project Name</h6>
               <input
                 type="text"
                 name="name"
@@ -289,7 +291,9 @@ const Project = () => {
                 onChange={(e) => setName(e.target.value)}
               />
               <br />
-              <h6>Project Description</h6>
+              <h6 className="project-create-form-header">
+                Project Description
+              </h6>
               <textarea
                 style={{ width: "100%" }}
                 rows={rowLength}
@@ -297,8 +301,7 @@ const Project = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
               <br />
-              {/* TODO: make this a rich text field */}
-              <h6>Responsibilities</h6>
+              <h6 className="project-create-form-header">Responsibilities</h6>
               <input
                 type="text"
                 name="responsibilities"
@@ -306,7 +309,7 @@ const Project = () => {
                 onChange={(e) => setResponsibilities(e.target.value)}
               />
               <br />
-              <h6>Technologies</h6>
+              <h6 className="project-create-form-header">Technologies</h6>
               <input
                 type="text"
                 name="technologies"
@@ -314,15 +317,17 @@ const Project = () => {
                 onChange={(e) => setTechnologies(e.target.value)}
               />
               <br />
-              <h6>Project Repo URL</h6>
+              <h6 className="project-create-form-header">Project Repo URL</h6>
               <input
                 type="text"
-                name="repositoryUrl"
+                name="respositoryUrl"
                 className="form-input"
-                onChange={(e) => setRepositoryUrl(e.target.value)}
+                onChange={(e) => setrespositoryUrl(e.target.value)}
               />
               <br />
-              <h6>Project Work Products</h6>
+              <h6 className="project-create-form-header">
+                Project Work Products
+              </h6>
               <input
                 type="text"
                 name="workProducts"
@@ -341,11 +346,11 @@ const Project = () => {
                 handleSave();
               }}
             >
-              Save
+              Add
             </Button>
           </Modal.Footer>
         </Modal>
-        <Card.Body>
+        <Card.Body id="card-body">
           <Card.Text className="projects">
             {/* 'Delete' Modal */}
             <Modal
@@ -363,7 +368,7 @@ const Project = () => {
                 <div>
                   <button
                     className="btn btn-primary"
-                    style={{"margin": "0.25em 0.25em"}}
+                    // style={{ margin: "0.25em 0.25em" }}
                     onClick={() => {
                       handleDelete(id);
                     }}
@@ -372,7 +377,7 @@ const Project = () => {
                   </button>
                   <button
                     className="btn btn-secondary"
-                    style={{"margin": "0.25em 0.25em"}}
+                    // style={{ margin: "0.25em 0.25em" }}
                     onClick={handleHideModalDelete}
                   >
                     Cancel
@@ -391,7 +396,7 @@ const Project = () => {
               </Modal.Header>
               <Modal.Body className="modalBody">
                 <form method="post">
-                  <h6>Project Name</h6>
+                  <h6 className="project-edit-form-header">Project Name</h6>
                   <input
                     type="text"
                     name="name"
@@ -409,7 +414,6 @@ const Project = () => {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                   <br />
-                  {/* TODO: make this a rich text field */}
                   <h6>Responsibilities</h6>
                   <input
                     type="text"
@@ -431,9 +435,9 @@ const Project = () => {
                   <h6>Project Repo URL</h6>
                   <input
                     type="text"
-                    name="repositoryUrl"
+                    name="respositoryUrl"
                     className="form-input"
-                    onChange={(e) => setRepositoryUrl(e.target.value)}
+                    onChange={(e) => setrespositoryUrl(e.target.value)}
                   />
                   <br />
                   <h6>Project Work Products</h6>
@@ -451,6 +455,7 @@ const Project = () => {
                 </Button>
                 <Button
                   variant="primary"
+                  className="yes-button"
                   onClick={() => {
                     handleUpdate(id);
                   }}
