@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Card } from "react-bootstrap";
-import "../css/Project.css";
+import "../css/Education.css";
 
 interface User {
     id: number;
@@ -30,7 +30,7 @@ interface Education {
     logoUrl: string;
 }
 
-const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function, currentEducation: Education, index: number }> = (props) => {
+const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function, showDeleteModal: Function, currentEducation: Education, index: number }> = (props) => {
     const backEndUrl = "http://3.236.213.150:8081/education";
 
     const [id, setId] = useState(props.currentEducation.id);
@@ -42,6 +42,11 @@ const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function
 
     const cardId = "education" + id;
 
+    const cardHeaderStyles: CSSProperties = {
+        background: "white",
+        borderBottom: "5px solid rgb(115, 165, 194)"
+    };
+
     const degreeStyles: CSSProperties = {
         display: 'inline'
     };
@@ -49,14 +54,14 @@ const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function
     const editButtonStyles: CSSProperties = {
         float: 'right',
         display: 'inline',
-        marginTop: '0.25em'
+        marginTop: '0.25em',
+        marginRight: '10px'
     };
 
     const deleteButtonStyles: CSSProperties = {
         float: 'right',
         display: 'inline',
-        marginTop: '0.25em',
-        marginRight: '1em'
+        marginTop: '0.25em'
     };
 
     const spanStyles: CSSProperties = {
@@ -75,7 +80,6 @@ const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function
     };
 
     const handleDelete= () => {
-
         axios
             .delete(backEndUrl+"/"+id)
             .then((response) => {
@@ -88,22 +92,27 @@ const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function
             })        
     };
 
+    let gradDateDisplay = graduationDate.substring(5,7)+"/"+graduationDate.substring(8)+"/"+graduationDate.substring(0,4);
+
     return (
         <div>
             <Card className="mb-3" id={cardId}>
-                <Card.Header>
+                <Card.Header style={cardHeaderStyles}>
                     <h1 style={degreeStyles}>Degree: {degree}</h1>
-                    <Button style={editButtonStyles} onClick={() => {
+                    <Button style={deleteButtonStyles} variant="danger" onClick={() => {
+                        props.getEditEducation(props.currentEducation);
+                        props.showDeleteModal();
+                    }}>Delete</Button>
+                    <Button style={editButtonStyles} variant="secondary" onClick={() => {
                         props.getEditEducation(props.currentEducation);
                         props.showEditModal();
                     }}>Edit</Button>
-                    <Button style={deleteButtonStyles} variant="danger" onClick={() => {handleDelete()}}>Delete</Button>
                 </Card.Header>
 
                 <Card.Body>
                     <span style={spanStyles}>
                         <h3>University: {university}</h3>
-                        <h5 style={gradDateStyles}>Graduation Date: {graduationDate}</h5>
+                        <h5 style={gradDateStyles}>Graduation Date: {gradDateDisplay}</h5>
                         <h5>GPA: {gpa}</h5>
                     </span>
                     {(logoUrl !== "" && logoUrl !== null) && 
