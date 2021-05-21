@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/IndustryEquivalency.css';
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useState, useEffect } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle, Save } from 'react-bootstrap-icons';
@@ -226,7 +226,7 @@ const IndustryEquivalency = () => {
                     console.error(error);
                 })
         });
-        handleEditClose();
+        setShowEdit(false);
     }
     /* ---------------------------------------------------------------- */
     // EDIT SKILL <input> CHANGE

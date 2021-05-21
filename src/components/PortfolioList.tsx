@@ -12,7 +12,7 @@ const PortfolioList = () => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-    const [cookies, removeCookie] = useCookies()
+    const [cookies, setCookie, removeCookie] = useCookies()
     const [open, setOpen] = useState(false)
     const [table, setTable] = useState([])
 
@@ -29,9 +29,28 @@ const PortfolioList = () => {
     const handleDelete = (id: any) => {
         axios.delete('http://3.236.213.150:8081/portfolios/' + id)
         .then(response => {
-            removeCookie('portfolio', cookies['portfolio'], {maxAge: 0})
+            removeCookie('portfolio', {maxAge: 0})
             alert('portfolio deleted')
             window.location.reload()
+        })
+        .catch(error => {
+            alert(error)
+        })
+    }
+
+    const handleLogOut = () => {
+        removeCookie('user', {maxAge: 0})
+        if (cookies['portfolio']) {
+            removeCookie('portfolio', {maxAge: 0})
+        }
+        window.location.pathname = "./"
+    }
+
+    const handlePortfolioEdit = (id: any) => {
+        axios.get('http://3.236.213.150:8081/portfolios/' + id)
+        .then(response => {
+            setCookie('portfolio', response.data, {path: "/"})
+            window.location.pathname = "./portfolio"
         })
         .catch(error => {
             alert(error)
@@ -46,18 +65,21 @@ const PortfolioList = () => {
                 <td>{t.submitted}</td>
                 <td>{t.approved}</td>
                 <td>{t.feedback}</td>
-                <td><Button variant="warning" onClick={() => handleDelete(t.id)}>Delete</Button></td>
+                <td><Button variant="danger" onClick={() => handleDelete(t.id)}>Delete</Button></td>
+                <td><Button variant="primary" onClick={() => handlePortfolioEdit(t.id)}>Edit</Button></td>
             </tr>)
     }
 
     let h1Tag = (<h1>Portfolio List</h1>)
     let callModal = (<Button variant="primary" disabled>Create new Portfolio</Button>)
     let callTable = (<Button variant="primary" disabled>Show List</Button>)
+    let logout = (<Button variant="primary" className="ms-2" disabled>Log out</Button>)
 
     if (cookies['user']) {
         h1Tag = (<h1>Portfolio List for {cookies['user'].fname} {cookies['user'].lname}</h1>)
         callModal = (<button onClick={handleShow} className="btn btn-primary">Create new Portfolio</button>)
         callTable = (<Button variant="primary" onClick={() => {setOpen(!open); handleTable()}} aria-controls="showList" aria-expanded={open} >Show List</Button>)
+        logout = (<Button variant="primary" className="ms-2" onClick={() => handleLogOut()} >Log out</Button>)
     }
 
     return (
@@ -75,6 +97,7 @@ const PortfolioList = () => {
                 </Modal.Footer>
             </Modal>
             {callModal}
+            {logout}
             <div className="mt-5">
                 <h5>List of Portfolios</h5>
                 {callTable}
