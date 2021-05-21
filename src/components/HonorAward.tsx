@@ -62,7 +62,7 @@ const HonorAwards = () => {
     // Get data from database
     //***********************************************************/
      const getData = async() => {
-        axios.get("http://3.236.213.150:8081/honor"+cookies['portfolio'].id)
+        axios.get("http://3.236.213.150:8081/honor/portfolio/"+cookies['portfolio'].id)
          .then(response => {
              createHonorAward(response.data)
   
@@ -200,7 +200,8 @@ const HonorAwards = () => {
             title,
             description,
             receivedFrom,
-            dateReceived
+            dateReceived,
+            portfolio: cookies['portfolio']
  
         })
         .then(resp => {
