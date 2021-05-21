@@ -5,7 +5,7 @@ import { QuestionCircle, PlusCircle, Pencil, Trash } from 'react-bootstrap-icons
 import { Input, Tooltip } from 'reactstrap';
 import '../css/RevatureAboutMe.css';
 import axios from 'axios'
-
+import { useCookies } from 'react-cookie'
 
 
 const RevatureAboutMe = () => {
@@ -42,6 +42,9 @@ const RevatureAboutMe = () => {
     const [id, setID] = useState('')
     //***************************************************/
 
+    //COOKIES!
+    const [cookies, setCookies] = useCookies()
+    //*************************************************** */
 
     //Render about me on page
     //*********************************************************************/
@@ -49,8 +52,9 @@ const RevatureAboutMe = () => {
 
         let aboutMe = document.querySelector('.about-me-content')
         let div = document.createElement('div')
-
         
+
+            let rowDiv = document.createElement('div')
             let bioHeader = document.createElement('p')
             let emailHeader = document.createElement('h6')
             let phoneHeader = document.createElement('h6')
@@ -73,16 +77,17 @@ const RevatureAboutMe = () => {
             emailHeader.setAttribute("class", "afterStyle")
             phoneHeader.setAttribute("class", "afterStyle")
 
-            editButton.setAttribute("class", "btn btn-sm btn-secondary")
+            editButton.setAttribute("class", "btn btn-secondary")
             editButton.setAttribute("id", id)
             editButton.style.float = "right"
-            editButton.innerHTML = "edit"
+            editButton.style.marginRight = "10px"
+            editButton.innerHTML = "Edit"
 
-            deleteButton.setAttribute("class", "btn btn-sm btn-danger")
+            deleteButton.setAttribute("class", "btn btn-danger")
             deleteButton.setAttribute("id", id)
             deleteButton.style.float = "right"
-            deleteButton.style.marginLeft = "5px"
-            deleteButton.innerHTML = "delete"
+            deleteButton.style.marginRight = "10px"
+            deleteButton.innerHTML = "Delete"
 
             editButton.addEventListener("click", () => {
                 setID(id)
@@ -98,11 +103,14 @@ const RevatureAboutMe = () => {
 
             })
 
-            phoneHeader.appendChild(deleteButton)
-            phoneHeader.appendChild(editButton)
+            rowDiv.appendChild(deleteButton)
+            rowDiv.appendChild(editButton)
          
+            div.setAttribute("class", "card")
+            div.style.border = "none"
 
-            div.appendChild(bioHeader)
+            rowDiv.appendChild(bioHeader)
+            div.appendChild(rowDiv)
             div.appendChild(emailHeader)
             div.appendChild(phoneHeader)
 
@@ -117,8 +125,8 @@ const RevatureAboutMe = () => {
     // POST METHOD FOR CREATING
 
     const handleSave = async () => {
-        
-        axios.post("http://3.236.213.150:8081/aboutMe", {bio, email, phone})
+        let portfolio = cookies['portfolio']
+        axios.post("http://3.236.213.150:8081/aboutMe", { portfolio, bio, email, phone})
         .then(response => {
             console.log("success") 
             console.log(response.data)
@@ -151,14 +159,16 @@ const RevatureAboutMe = () => {
     //GET METHOD
 
     const handleGet = async () => {
-        axios.get("http://3.236.213.150:8081/aboutMe")
+        axios.get("http://3.236.213.150:8081/aboutMe/portfolio/" + cookies['portfolio'].id)
         .then(response => {
             console.log("got the data")
             console.log(response.data)
-            response.data.map((data: any) => {
-                console.log(data)
-                createAboutMe(data.id, data.bio, data.email, data.phone)
-            })
+                if(response.data.bio != undefined){
+                    let kd = document.querySelector('#add-aboutMe')
+                    kd?.setAttribute("class", "hide") 
+                    createAboutMe(response.data.id, response.data.bio, response.data.email, response.data.phone)
+                }
+
         })
         .catch(error => {
             console.log("failure")
@@ -186,7 +196,7 @@ const RevatureAboutMe = () => {
     // Information meassage
     const message: string = "This section is used to focus on your personal story and career goals. \n\n How did you first get started with coding? \n What was your favorite project to see come to completion?"
     const editMessage: string = "this is the edit bio button"
-    let rowLength = 5
+    let rowLength = 10
     let columnLength = 47
 
     return (
@@ -222,7 +232,7 @@ const RevatureAboutMe = () => {
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={() => {handleSave();}}>Save</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {handleSave();}}>Add</Button>
                     </Modal.Footer>
                
                 </Modal>
@@ -251,7 +261,7 @@ const RevatureAboutMe = () => {
                                     <Button variant="secondary" onClick={handleEditClose}>
                                         Close
                                     </Button>
-                                    <Button variant="primary" onClick={() => {handleUpdate(id);}}>Update</Button>
+                                    <Button className="oButton" onClick={() => {handleUpdate(id);}}>Update</Button>
                                 </Modal.Footer>
                         </Modal>
 
