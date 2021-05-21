@@ -3,7 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import { Card, Button, Modal} from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons';
-import { Tooltip } from 'reactstrap'
+import { Tooltip } from 'reactstrap';
+import { useCookies } from 'react-cookie';
+
 import '../css/OtherWorkExperience.css'
 
 const OtherWorkExperience = () => {
@@ -47,7 +49,7 @@ const OtherWorkExperience = () => {
     const getData = async () => {
         axios.get("http://3.236.213.150:8081/workhistory")
         .then(resp => {
-            console.log(resp.data);
+            // console.log(resp.data);
             createWorkExperience(resp.data);
         })
         .catch(error => {
@@ -288,8 +290,8 @@ const OtherWorkExperience = () => {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
+                        <Button variant="primary" className="" onClick={()=>{ handleSave();}}>Add</Button>
                         <Button variant="secondary" className="" onClick={handleClose}>Cancel</Button>
-                        <Button variant="primary" className="" onClick={()=>{ handleSave();}}>Save</Button>
                 </Modal.Footer>
             </Modal>
 
@@ -332,8 +334,8 @@ const OtherWorkExperience = () => {
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
                         <Button variant="primary" onClick={() => {handleUpdate(id)}}>Update</Button>
+                        <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
                     </Modal.Footer>
                 </Modal>
 
