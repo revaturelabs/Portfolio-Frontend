@@ -1,10 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Modal } from "react-bootstrap";
-import {
-  PlusCircle,
-  QuestionCircle
-} from "react-bootstrap-icons";
+import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
 import "../css/Project.css";
@@ -33,11 +30,11 @@ const Project = () => {
     let card = document.createElement("div");
     let cardHeader = document.createElement("div");
     let cardBody = document.createElement("div");
-    let nameHeader = document.createElement("h2");
+    let nameHeader = document.createElement("h1");
     let descriptionContent = document.createElement("p");
-    let responsibilitiesHeader = document.createElement("h3");
+    let responsibilitiesHeader = document.createElement("h5");
     let responsibilitiesContent = document.createElement("p");
-    let technologiesHeader = document.createElement("h3");
+    let technologiesHeader = document.createElement("h5");
     let technologiesContent = document.createElement("p");
     let respositoryUrlHeader = document.createElement("h5");
     let respositoryUrlContent = document.createElement("a");
@@ -51,7 +48,7 @@ const Project = () => {
     deleteButton.setAttribute("id", "delete-project");
     deleteButton.setAttribute("class", "btn btn-danger");
     editButton.setAttribute("id", "edit-button");
-    editButton.setAttribute("class", "btn btn-primary");
+    editButton.setAttribute("class", "btn btn-primary yes-button");
     card.setAttribute("class", "card");
     cardHeader.setAttribute("class", "card-header");
     cardBody.setAttribute("class", "card-body");
@@ -100,12 +97,16 @@ const Project = () => {
     }
     project?.appendChild(card);
 
-    deleteButton.style.margin = "0.25em 0.25em";
-    editButton.style.margin = "0.25em 0.25em";
-
-    card.style.border = "1px solid grey";
-    card.style.padding = "1em";
-    card.style.margin = "1em";
+    cardBody.style.whiteSpace = "pre-line";
+    cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)";
+    cardHeader.style.backgroundColor = "white";
+    if (Number(project?.childElementCount) > 1) {
+      card.style.marginTop = "50px";
+    }
+    // card.style.padding = "1em";
+    // card.style.margin = "1em";
+    editButton.style.marginRight = "10px";
+    nameHeader.style.fontWeight = "bold";
 
     deleteButton.addEventListener("click", () => {
       handleShowModalDelete();
@@ -148,9 +149,8 @@ const Project = () => {
   const [technologies, setTechnologies] = useState("");
   const [respositoryUrl, setrespositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
-
+  
   const [cookie] = useCookies();
-
   /**
    * Get data from the database
    */
@@ -283,7 +283,7 @@ const Project = () => {
           </Modal.Header>
           <Modal.Body>
             <form method="post">
-              <h6>Project Name</h6>
+              <h6 className="project-create-form-header">Project Name</h6>
               <input
                 type="text"
                 name="name"
@@ -291,7 +291,9 @@ const Project = () => {
                 onChange={(e) => setName(e.target.value)}
               />
               <br />
-              <h6>Project Description</h6>
+              <h6 className="project-create-form-header">
+                Project Description
+              </h6>
               <textarea
                 style={{ width: "100%" }}
                 rows={rowLength}
@@ -299,7 +301,7 @@ const Project = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
               <br />
-              <h6>Responsibilities</h6>
+              <h6 className="project-create-form-header">Responsibilities</h6>
               <input
                 type="text"
                 name="responsibilities"
@@ -307,7 +309,7 @@ const Project = () => {
                 onChange={(e) => setResponsibilities(e.target.value)}
               />
               <br />
-              <h6>Technologies</h6>
+              <h6 className="project-create-form-header">Technologies</h6>
               <input
                 type="text"
                 name="technologies"
@@ -315,7 +317,7 @@ const Project = () => {
                 onChange={(e) => setTechnologies(e.target.value)}
               />
               <br />
-              <h6>Project Repo URL</h6>
+              <h6 className="project-create-form-header">Project Repo URL</h6>
               <input
                 type="text"
                 name="respositoryUrl"
@@ -323,7 +325,9 @@ const Project = () => {
                 onChange={(e) => setrespositoryUrl(e.target.value)}
               />
               <br />
-              <h6>Project Work Products</h6>
+              <h6 className="project-create-form-header">
+                Project Work Products
+              </h6>
               <input
                 type="text"
                 name="workProducts"
@@ -346,7 +350,7 @@ const Project = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-        <Card.Body>
+        <Card.Body id="card-body">
           <Card.Text className="projects">
             {/* 'Delete' Modal */}
             <Modal
@@ -364,7 +368,7 @@ const Project = () => {
                 <div>
                   <button
                     className="btn btn-primary"
-                    style={{ margin: "0.25em 0.25em" }}
+                    // style={{ margin: "0.25em 0.25em" }}
                     onClick={() => {
                       handleDelete(id);
                     }}
@@ -373,7 +377,7 @@ const Project = () => {
                   </button>
                   <button
                     className="btn btn-secondary"
-                    style={{ margin: "0.25em 0.25em" }}
+                    // style={{ margin: "0.25em 0.25em" }}
                     onClick={handleHideModalDelete}
                   >
                     Cancel
@@ -392,7 +396,7 @@ const Project = () => {
               </Modal.Header>
               <Modal.Body className="modalBody">
                 <form method="post">
-                  <h6>Project Name</h6>
+                  <h6 className="project-edit-form-header">Project Name</h6>
                   <input
                     type="text"
                     name="name"
