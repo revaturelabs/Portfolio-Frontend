@@ -1,23 +1,22 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { useCookies } from 'react-cookie'
 import { Card, Button, Modal, ModalBody } from 'react-bootstrap'
 import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons'
 import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/HonorAwards.css'
-import { useCookies } from 'react-cookie'
+import { CSSProperties } from 'react'
 
 
-const HonorAwards = () => {
-
-
+const HonorAward = () => {
     // Cookies
     //*****************************/
     const [cookies] = useCookies()
     const portfolio = cookies['portfolio']
     //*****************************/
 
-    // Add  Modal show and hide
+    // Add Honor&Award hide
     //*************************************************************/
     const [showAddExperience, setShowExperience] = useState(false)
     const handleCloseAddExperience = () => setShowExperience(false)
@@ -30,12 +29,14 @@ const HonorAwards = () => {
     const handleCloseDetails = () => setShowDetails(false);
     const handleShowDetails= () => setShowDetails(true);
     //***************************************************/
+
     // Update Modal show and hide
     //**************************************************************************/
-    const[showUpdateExperience, setShowUpdateExperience] = useState(false)
+    const [showUpdateExperience, setShowUpdateExperience] = useState(false)
     const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
     const handleShowUpdateExperience = () => setShowUpdateExperience(true)
     //**************************************************************************/
+
     // Delete Modal show and hide
     //*****************************************************/
     const [showDelete, setShowDelete] = useState(false)
@@ -49,8 +50,9 @@ const HonorAwards = () => {
     const toggleAdd = () => setAddTooltipOpen(!addTooltipOpen)
     const [detailsTooltipOpen, setDetailsTooltipOpen] = useState(false)
     const toggleDetails = () => setDetailsTooltipOpen(!detailsTooltipOpen)
-    //***********************************************************************/
-    // Add honor awards  state handling
+     //***********************************************************************/
+
+    // Add honor state handling
     //***************************************************/
     const [title, setAwardTitle] = useState('')
     const [description, setDesc] = useState('')
@@ -59,134 +61,152 @@ const HonorAwards = () => {
     const [id, setId] = useState('')
 
     //***************************************************/
-    // Get data from database
+
+    // Get data from data base
     //***********************************************************/
-     const getData = async() => {
+    const getData = async () => {
         axios.get("http://3.236.213.150:8081/honor/portfolio/"+cookies['portfolio'].id)
-         .then(response => {
-             createHonorAward(response.data)
-  
 
-         })
+        .then(response => {
+            createHonorAward(response.data)
+            console.log(response.data)
+
+        })
+        .catch(error => {
+            console.log("error")
+        })
     }
-     useEffect(() => {getData()}, [])
-     
+    useEffect(() => {getData()}, [])
+    //***********************************************************/
+
+    //Render Honor Award on page
     //*********************************************************************/
-    //Render honor awards on page
-    //*********************************************************************/
-    const createHonorAward = (data:any) => {  
-        
-        for (let index = 0; index < data.length; index++) {
-        let headerNum: number = 1
-        let titlec = document.createElement("h5")
-        let descc = document.createElement("p")
-        let recefromc = document.createElement("h5")
-        let recefromt = document.createElement("p")
-        let receonc = document.createElement("h5")
-        let honoraward = document.querySelector(".honoraward")
-        let card = document.createElement("div")
-        let cardHeader = document.createElement("div")
-        let cardBody = document.createElement("div")
-        let cardFooter =document.createElement("div")
-        let editDiv = document.createElement("div")
-        let editButton = document.createElement("button")
-        let deleteButton = document.createElement("button")
-
-        card.setAttribute("class", "card")
-        cardHeader.setAttribute("class", "card-header")
-        cardBody.setAttribute("class", "card-body")
-        cardFooter.setAttribute("class", "card-footer")
-
-        editButton.setAttribute("class", "btn btn-primary")
-        deleteButton.setAttribute("class", "btn btn-danger")
-
-        card.setAttribute("id", data[index].id)
-
-
-
-        card.appendChild(cardBody)
-        card.appendChild(cardHeader)
-        cardHeader.appendChild(editDiv)
-
-        editDiv.appendChild(editButton)
-        editDiv.appendChild(deleteButton)
-        deleteButton.innerHTML = "Delete"
-        deleteButton.style.float = "right"
-        deleteButton.style.marginRight ="10px"
-        deleteButton.addEventListener("click", () => {
-            setId(data[index].id)
-            handleDelete(card)
-        })
-   
-        let component = document.createElement("h" + headerNum)
-        editButton.style.float = "right"
-        editButton.innerHTML = "Edit"
-        editButton.style.marginRight = "10px"
-
-        editButton.addEventListener("click", () => {
-            setAwardTitle(data[index].title)
-            setDesc(data[index].description)
-            setRecefrom(data[index].receivedFrom)
-            setReceon(data[index].dateReceived)
-            setId(data[index].id)
-            handleShowUpdateExperience()
-        })
-
-        card.appendChild(cardHeader)
-        cardHeader.appendChild(editDiv)
-        titlec.innerHTML = data[index].title
-        cardBody.appendChild(titlec)
-        descc.innerHTML = data[index].description
-        cardBody.appendChild(descc)
-        descc.style.whiteSpace = "pre-wrap"
-        descc.style.marginBottom = "50px"
-        
-
-        // Date formatiing 
-
-        
-        let headerContent: Array<string> = []
-
-        const months: Array<string> = [
-            "January", "February", 
-            "March", "April", "May", 
-            "June", "July", "August",
-            "September", "October", 
-            "November", "December"
+    const createHonorAward = (data: any) => {
+        const bodyHeaders: Array<string> = [
+            "Description",
+            "Received From",
+            "Received On"
         ]
-        let RecDate = new Date(data[index].dateReceived)
-        let RDate = RecDate.getDate()+" " +months[RecDate.getMonth()]  +" "+ RecDate.getFullYear() 
-        headerContent.push(data[index].title)
 
+        for (let index = 0; index < data.length; index++) {
+            let headerNum: number = 1
+            let honorawards = document.querySelector(".honorawards")
 
-        
-        recefromt.innerText ="Recived From  :  " 
-        recefromc.innerHTML ="Received From :  "  + data[index].receivedFrom
-        console.log("tesingrece"+ data[index].receivedFrom )
-        cardBody.appendChild( recefromc)
-        receonc.innerHTML ="Received On     :   "  + RDate
-        cardBody.appendChild(receonc)
+            let card = document.createElement("div")
+            let cardHeader = document.createElement("div")
+            let cardBody = document.createElement("div")
 
+            let editDiv = document.createElement("div")
+            let editButton = document.createElement("button")
+            let deleteButton = document.createElement("button")
 
-        if(headerNum === 1) {
-            component.style.fontWeight = "bold"
-        } else if(headerNum === 3) {
-            component.style.color = "rgb( 242, 105, 3)"
-        }
+            card.setAttribute("class", "card")
+            cardHeader.setAttribute("class", "card-header")
+            cardBody.setAttribute("class", "card-body")
+            editButton.setAttribute("class", "btn btn-secondary")
+            deleteButton.setAttribute("class", "btn btn-danger")
 
-        cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
-        cardHeader.style.backgroundColor = "white" 
+            card.appendChild(cardHeader)
+            card.appendChild(cardBody)
+            cardHeader.appendChild(editDiv)
 
+            // Store header content
+            //***********************************************************************************************************************************/
+            let headerContent: Array<string> = []
+            headerContent.push(data[index].title)
+            console.log("headercontent" + data[index].title)
+            //***********************************************************************************************************************************/
 
-         
-         honoraward?.appendChild(card) 
-         if(Number(honoraward?.childElementCount) > 1) {
-             card.style.marginTop = "50px"
-         }
+            //Store body content
+            //***********************************************/
+            let bodyContent: Array<string> = []
+            bodyContent.push(data[index].description)
+            bodyContent.push(data[index].receivedFrom)
+            const months: Array<string> = [
+                "January", "February", 
+                "March", "April", "May", 
+                "June", "July", "August",
+                "September", "October", 
+                "November", "December"
+            ]
+            let RecDate = new Date(data[index].dateReceived)
+            let RDate = RecDate.getDate()+" " +months[RecDate.getMonth()]  +" "+ RecDate.getFullYear() 
+    
+            bodyContent.push(RDate)
+            //***********************************************/
 
+            for (let element in headerContent) {
+                let component = document.createElement("h" + headerNum)
+                editDiv.appendChild(editButton)
+                editDiv.appendChild(deleteButton)
+                editDiv.style.float = "right"
 
-    } 
-}
+                editButton.innerHTML = "Edit"
+                editButton.addEventListener("click", () => {
+                    setAwardTitle(data[index].title)
+                    setDesc(data[index].description)
+                    setRecefrom(data[index].receivedFrom)
+                    setReceon(data[index].dateReceived)
+                    setId(data[index].id)
+                    handleShowUpdateExperience()
+                })
+                editButton.style.marginRight = "10px"
+
+                deleteButton.innerHTML = "Delete"
+                deleteButton.addEventListener("click", () => {
+                    setId(data[index].id)
+                    handleShowDelete()
+                })
+                
+                cardHeader.appendChild(component)
+                component.innerHTML = headerContent[element]
+                honorawards?.appendChild(card)
+
+                if(headerNum === 1) {
+    //                component.style.fontWeight = "bold"
+                } else if(headerNum === 3) {
+                    component.style.color = "rgb( 242, 105, 3)"
+                }
+
+                cardHeader.style.borderBottom = "5px solid rgb(115, 165, 194)"
+                cardHeader.style.backgroundColor = "white" 
+
+                if(Number(honorawards?.childElementCount) > 1) {
+                    card.style.marginTop = "50px"
+                }
+                headerNum++
+            }
+
+            for (const element in bodyContent) {
+                let bodyHeader = document.createElement("h5")
+                let para = document.createElement("p")
+                cardBody.appendChild(bodyHeader)
+                cardBody.appendChild(para)
+                bodyHeader.innerHTML = bodyHeaders[element]
+                bodyHeader.style.fontWeight = "bold"
+                para.innerHTML = bodyContent[element]
+                para.style.whiteSpace = "pre-line"
+            }
+        } 
+    }
+    let addButtonStyles: CSSProperties = {
+        background: "rgb(242, 105, 3)",
+        borderColor: "rgb(242, 105, 3)"}
+
+    //*******************************************************************************************/
+    // Delete honor/award from database
+    //*******************************************************************************************/
+    const handleDelete = (input: any) => {
+        axios.delete("http://3.236.213.150:8081/honor/" + input)
+        .then(resp => {
+            console.log("Delete was successful");
+            window.location.reload()
+        })
+        .catch(error => {
+            console.log("error");
+        })
+    }
+
 
     //*********************************************************************/
     // Save data to database
@@ -239,23 +259,6 @@ const HonorAwards = () => {
             console.log("error")
         })
     }
-    //*******************************************************************************************/
-    // Delete honor/award from database
-    //*******************************************************************************************/
-    const handleDelete = (input: any) => {
-        axios.delete("http://3.236.213.150:8081/honor/" + input.getAttribute("id"))
-        .then(resp => {
-            console.log("Delete was successful");
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error");
-        })
-    }
-    //*******************************************************************************************/
-
-
-
 
     return (
         <div className="container">
@@ -266,72 +269,67 @@ const HonorAwards = () => {
                         <QuestionCircle id="card-info" onClick={handleShowDetails}/>
                         <PlusCircle id="add-honoraward" onClick={handleShowAddExperience}/>
                         <Tooltip target="add-honoraward" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
-                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Honors&Awards(if any)</Tooltip>
                     </h4>
                 </Card.Header>
                 <Card.Body id="card-body">
-                    <Card.Text className="honoraward"></Card.Text>
+                    <Card.Text className="honorawards"></Card.Text>
                 </Card.Body>
             </Card>
-            <Modal show={showDetails} onHide={handleCloseDetails}>
-                <Modal.Header>
-                    <Modal.Title>Details</Modal.Title>
-                    <XCircle id="honoraward-details" onClick={handleCloseDetails}/>
-                </Modal.Header>
-                <ModalBody>
-                    <p>Add Honors/Rewards (if any)
-                        <br/>
-                        <br/>
-                    </p>
-                </ModalBody>
-            </Modal>
             <Modal show={showAddExperience} onHide={handleCloseAddExperience} backdrop="static">
                     <Modal.Header>
-                        <Modal.Title>Honors and Awards</Modal.Title>
+                        <Modal.Title>Add Awards&Honors</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <form onSubmit={handleSave}>
                             <h6>AwardTitle</h6>
-                            <input type="text" name="title" className="form-input" onChange={e => setAwardTitle(e.target.value)}/>
+
+                            <input type="text" name="title" className="form-input" required onChange={e => setAwardTitle(e.target.value)}/>
                             <h6>Description</h6>
-                            <input type="text" name="description" className="form-input honoraward-textarea" onChange={e => setDesc(e.target.value)}/>
+                            <input type="text" name="description" className="form-input honoraward-textarea" required onChange={e => setDesc(e.target.value)}/>
                             <h6>ReceivedFrom</h6>
-                            <input type="text" name="receivedFrom" className="form-input" onChange={e => setRecefrom(e.target.value)}/>
+                            <input type="text" name="receivedFrom" className="form-input"  required onChange={e => setRecefrom(e.target.value)}/>
                             <h6>Received On</h6>
-                            <input type="date" name="dateReceived" className="form-input" onChange={e => setReceon(e.target.value)}/>
+                            <input type="date" name="dateReceived" className="form-input" required onChange={e => setReceon(e.target.value)}/>
+
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
-                        <Button variant="primary" onClick={handleSave}>Add</Button>
+                        <Button variant="primary" style={addButtonStyles} onClick={handleSave}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showUpdateExperience} onHide={handleCloseUpdateExperience} backdrop="static">
                     <Modal.Header>
-                        <Modal.Title>Edit Honors and Awards</Modal.Title>
+                        <Modal.Title>Edit Awards&Honors</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <form>
                         <h6>AwardTitle</h6>
-                            <input type="text" name="awardtitle" className="form-input" value ={title} onChange={e => setAwardTitle(e.target.value)}/>
+                            <input type="text" name="awardtitle" className="form-input"  required value ={title} onChange={e => setAwardTitle(e.target.value)}/>
                             <h6>Description</h6>
-                            <input type="text" name="description" className="form-input honoraward-textarea" value ={description} onChange={e => setDesc(e.target.value)}/>
+                            <input type="text" name="description" className="form-input honoraward-textarea" required value ={description} onChange={e => setDesc(e.target.value)}/>
                             <h6>ReceivedFrom</h6>
-                            <input type="text" name="receivedFrom" className="form-input" value ={receivedFrom} onChange={e => setRecefrom(e.target.value)}/>
+                            <input type="text" name="receivedFrom" className="form-input"  required value ={receivedFrom} onChange={e => setRecefrom(e.target.value)}/>
                             <h6>Received On</h6>
-                            <input type="date" name="Received On" className="form-input" value ={dateReceived} onChange={e => setReceon(e.target.value)}/>
-
-
+                            <input type="date" name="Received On" className="form-input"  required value ={dateReceived} onChange={e => setReceon(e.target.value)}/>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
-                        <Button variant="primary" onClick={() => {handleCloseUpdateExperience();handleUpdate(id);}}>Update</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {handleUpdate(id)}}>Update</Button>
                     </Modal.Footer>
                 </Modal>
-
+                <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static">
+                    <Modal.Header>Delete Warning</Modal.Header>
+                    <Modal.Body><p>This will  permanantly delete this info. Are you Sure?</p></Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={() => {handleDelete(id)}}>Yes, Permanantly Delete</Button>
+                        <Button variant="secondary" onClick={handleCloseDelete}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
         </div>
     )
 }
 
-export default HonorAwards
+export default HonorAward

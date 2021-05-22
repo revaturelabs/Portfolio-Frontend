@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import {Container , Table ,Row ,Col } from 'react-bootstrap'
 
-import '../css/HonorAwards.css'
 import { render } from 'react-dom'
 import {Link} from 'react-router-dom'
 
