@@ -1,22 +1,25 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { useCookies } from 'react-cookie';
 import "../../css/Project.css";
 
-interface Projects{
-    id: number
-    description: string
-    duration: number
-    hours: number
-    name: string
-    responsibilites: string
+interface Projects {
+    id: number;
+    name: string;
+    description: string;
+    responsibilities: string;
+    technologies: string;
+    respositoryUrl: string;
+    workProducts: string;
 }
 
 const ProjectView = () => {
-     const [projectList,setProjects] = useState<Projects[]>();
+    const [projectList, setProjects] = useState<Projects[]>();
+    const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get('http://3.236.213.150:8081/projects').then(response => {
+        axios.get<Projects[]>(`http://3.236.213.150:8081/projects/portfolio/all/${cookie['portfolio'].id}`).then(response => {
             console.log(response.data)
             setProjects(response.data);
         })
@@ -24,14 +27,21 @@ const ProjectView = () => {
 
     const renderProjects = ((projectList: Projects[]) => {
         return projectList.map(data => {
-            return(
+            return (
                 <div className="card">
-                    <div className="card-header">
-                        {data.name}
+                    <div className="card-header" id="bottom-border">
+                        <h1 style={{ fontWeight: 'bold' }}>{data.name}</h1>
                     </div>
                     <div className="card-body">
-                        {data.description} <br/>
-                        {data.responsibilites} <br />
+                        <p>{data.description}</p>
+                        <h5>Responsibilities</h5>
+                        <p>{data.responsibilities}</p>
+                        <h5>Technologoies</h5>
+                        <p>{data.technologies}</p>
+                        <h5>Repository URL</h5>
+                        <a href={data.respositoryUrl}>{data.respositoryUrl}</a>
+                        <h5>Work Products</h5>
+                        <img src={data.workProducts} />
                     </div>
                 </div>
             );
@@ -42,7 +52,7 @@ const ProjectView = () => {
         <div className="container">
             <Card id="card-container">
                 <Card.Header id="header">
-                    <h4>Projects</h4>
+                    <h4>Project</h4>
                 </Card.Header>
                 <Card.Body>
                     {projectList && renderProjects(projectList)}

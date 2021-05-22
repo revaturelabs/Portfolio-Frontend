@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { useCookies } from 'react-cookie';
+
 
 interface Education {
     id: number;
@@ -13,21 +15,33 @@ interface Education {
 
 const EducationView = () => {
     const [educationList, setList] = useState<Education[]>();
+    const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get('http://3.236.213.150:8081/education').then( response => {
-            console.log(response.data);
+        axios.get<Education[]>(`http://3.236.213.150:8081/education/portfolio/all/${cookie['portfolio'].id}`).then(response => {
             setList(response.data);
+            console.log(educationList);
         });
     }, [null]);
 
-    const renderIndustryEquivalency = () => {
-        return educationList?.map(date => {
-            <div className="card">
-                <div>
-
+    const renderEducation = (educationList: Education[]) => {
+        return educationList.map(data => {
+            let date = data.graduationDate.substring(5,7) + "/" + data.graduationDate.substring(8) + "/" + data.graduationDate.substring(0,4);
+            return (
+                <div className="card">
+                    <div className="card-header" id="bottom-border">
+                        <h1>Degre: {data.degree}</h1>
+                    </div>
+                    <div className="card-body" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ display: 'inline-block' }}>
+                            <h3>University: {data.university}</h3>
+                            <h5 style={{ color: "rgb(242, 105, 3)" }}>Graduation Date: {date}</h5> 
+                            <h5>GPA: {data.gpa}</h5>
+                        </span>
+                        <img src={data.logoUrl} style={{ height: '100px', width: '150px' }}/>
+                    </div>
                 </div>
-            </div>
+            );
         });
     }
 
@@ -38,7 +52,7 @@ const EducationView = () => {
                     <h4>Education</h4>
                 </Card.Header>
                 <Card.Body>
-                    
+                    {educationList && renderEducation(educationList)}
                 </Card.Body>
             </Card>
         </div>

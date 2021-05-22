@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
-import '../../css/RevatureWorkExperience.css';
+import '../../css/ViewPortfolio.css';
+import { useCookies } from 'react-cookie'
 
 interface WorkExperience {
     id: number;
@@ -11,6 +12,7 @@ interface WorkExperience {
     endDate: string;
     technologies: string;
     responsibilities: string;
+    tools: string;
     title: string;
 }
 
@@ -26,11 +28,11 @@ type props = {
  * *****/
 const RevatureWorkExperienceView :React.FC<props> = ({ url, title }) => {
     const [experienceList,setList] = useState<WorkExperience[]>();
+    const [cookie] = useCookies();
 
     /*****Gets the work experience data and sets it to the state*****/
     useEffect(() => {
-        axios.get<WorkExperience[]>(url).then(response => {
-        // axios.get<WorkExperience[]>('http://3.236.213.150:8081/workexperience').then(response => {
+        axios.get<WorkExperience[]>(url + cookie['portfolio'].id).then(response => {
             console.log(response.data);
             setList(response.data);
         });
@@ -44,7 +46,7 @@ const RevatureWorkExperienceView :React.FC<props> = ({ url, title }) => {
             const endDate = new Date(data.endDate).toLocaleString('default', {month: 'long', year: 'numeric'});
             return (
                 <div className="card" key={data.id}>
-                    <div className="card-header" style={{ borderBottom: "5px solid rgb(115, 165, 194)", backgroundColor: "white" }}>
+                    <div className="card-header" id="bottom-border">
                         <h1 style={{ fontWeight: "bold" }}>{data.employer}</h1>
                         <h2>{startDate} - {endDate}</h2>
                         <h3 style={{ color: "rgb(242, 105, 3)" }}>{data.title}</h3>
@@ -55,7 +57,7 @@ const RevatureWorkExperienceView :React.FC<props> = ({ url, title }) => {
                         <h5>Roles / Responsibilities</h5>
                         <p>{data.responsibilities}</p>
                         <h5>Technologies</h5>
-                        <p>{data.technologies}</p>
+                        <p>{data.technologies ? data.technologies: data.tools}</p>
                     </div>
                 </div>
             );

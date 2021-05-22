@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { useCookies } from 'react-cookie';
 import '../../css/HonorAwards.css'
 
 interface Honor {
@@ -13,9 +14,10 @@ interface Honor {
 
 const HonorAwardView = () => {
     const [honorList, setHonor] = useState<Honor[]>();
+    const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get('http://3.236.213.150:8081/honor').then(response => {
+        axios.get<Honor[]>(`http://3.236.213.150:8081/honor/portfolio/all/${cookie['portfolio'].id}`).then(response => {
             console.log(response.data);
             setHonor(response.data);
         })
@@ -30,7 +32,7 @@ const HonorAwardView = () => {
                         <h3>{data.title}</h3>
                         <p style={{ color: "rgb(144, 164, 175)"}}>{data.description}</p>
                         <h5 style={{ display: "inline" }}>Received From:</h5> {data.receivedFrom} <br />
-                        <h5 style={{ display: "inline" }}>Received On:</h5>{date}
+                        <h5 style={{ display: "inline" }}>Received On:</h5> {date}
                     </div>
                 </div>
             );
