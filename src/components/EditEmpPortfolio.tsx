@@ -10,6 +10,7 @@ import IndustryEquivalency from './IndustryEquivalency';
 import EducationContainer from './EducationContainer';
 import { useCookies } from 'react-cookie';
 import { Button } from 'react-bootstrap';
+import CertificationContainer from './CertificationContainer';
 
 
 const EditEmpPortfolio = () => {
@@ -38,6 +39,7 @@ const EditEmpPortfolio = () => {
             <Project /> <br />
             <OtherWorkExperience /> <br />
             <EducationContainer /> <br />
+            <CertificationContainer /> <br />
             <HonorAwards /> <br />
         </div>
     );
