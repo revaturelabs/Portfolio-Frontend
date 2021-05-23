@@ -9,6 +9,8 @@ COPY public/ /Portfolio-Frontend/public
 COPY src/ /Portfolio-Frontend/src
 COPY tsconfig.json /Portfolio-Frontend
 
+RUN ["npm", "cache", "clean", "-force"]
+
 RUN ["npm", "install"]
 
 CMD ["npm", "start"]
