@@ -9,7 +9,7 @@ import '../css/HonorAwards.css'
 import { CSSProperties } from 'react'
 
 
-const HonorAward = () => {
+const HonorAwards = () => {
     // Cookies
     //*****************************/
     const [cookies] = useCookies()
@@ -332,4 +332,4 @@ const HonorAward = () => {
     )
 }
 
-export default HonorAward
+export default HonorAwards
