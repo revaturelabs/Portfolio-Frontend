@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/IndustryEquivalency.css';
 import axios from "axios";
 import { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie'
 import { Card, Button, Modal } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle, Save } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
@@ -20,7 +21,9 @@ export interface Skill {
         name: string;
         user: {
             id: number;
-            name: string;
+            fName: string;
+            lName: string;
+            email: string;
             password: string;
             admin: boolean;
         }
@@ -42,7 +45,6 @@ export interface Option {
 
 // STATIC VARIABLES
 /* ---------------------------------------------------------------- */
-let portfolioID: number = 1;
 let back_end_url: string = 'http://3.236.213.150:8081';
 /* ---------------------------------------------------------------- */
 // OPTION DATA
@@ -102,6 +104,11 @@ const IndustryEquivalency = () => {
     const [skillSet, setSkillSet] = useState<Array<Skill>>([]);
     const [maxEquivalency, setMaxEquivalency] = useState<number>(0);
     /* ---------------------------------------------------------------- */
+    // COOKIE STATES
+    /* ---------------------------------------------------------------- */
+    const [cookies] = useCookies();
+    const portfolio = cookies['portfolio'];
+    /* ---------------------------------------------------------------- */
     // ADD SKILL STATES
     /* ---------------------------------------------------------------- */
     const [skillName, setSkillName] = useState<string>('');
@@ -151,7 +158,7 @@ const IndustryEquivalency = () => {
     // GET EQUIVALENCY ARRAY
     /* ---------------------------------------------------------------- */
     const aquireSkillSet = (() => {
-        axios.get(back_end_url + '/equiv/portfolios/all/' + portfolioID)
+        axios.get(back_end_url + '/equiv/portfolios/all/' + portfolio.id)
             .then(resp => {
                 let tempSkillSet: Array<Skill> = resp.data;
                 let tempMax: number = 0;
@@ -171,25 +178,18 @@ const IndustryEquivalency = () => {
     // ADD EQUIVALENCY SKILL
     /* ---------------------------------------------------------------- */
     const addSkill = (async () => {
-        axios.get(back_end_url + '/portfolios/' + portfolioID)
+        let newSkill: Skill = {
+            id: 0,
+            header: skillName,
+            value: equivalency,
+            portfolio: portfolio
+        }
+        axios.post(back_end_url + '/equiv', newSkill)
             .then(resp => {
-                // If portfolio with portfolioID exists, Create new Skill with data
-                let newSkill: Skill = {
-                    id: 0,
-                    header: skillName,
-                    value: equivalency,
-                    portfolio: resp.data
-                }
-                axios.post(back_end_url + '/equiv', newSkill)
-                    .then(resp => {
-                        // If POST is successful, add new Skill (with correct data) to the Skill Array
-                        let tempSkillSet: Array<Skill> = [...skillSet];
-                        tempSkillSet.push(resp.data);
-                        setSkillSet(tempSkillSet);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
+                // If POST is successful, add new Skill (with correct data) to the Skill Array
+                let tempSkillSet: Array<Skill> = [...skillSet];
+                tempSkillSet.push(resp.data);
+                setSkillSet(tempSkillSet);
             })
             .catch(error => {
                 console.error(error);
@@ -252,11 +252,11 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     // RUNS ONCE
     /* ---------------------------------------------------------------- */
-    useEffect (() => { aquireSkillSet() }, []);
+    useEffect(() => { aquireSkillSet() }, []);
     /* ---------------------------------------------------------------- */
     // RE-CALCULATE MAX EQUIVALENCY
     /* ---------------------------------------------------------------- */
-    useEffect (() => {
+    useEffect(() => {
         // Re-Calculate Max Equivalency Whenever skillSet is changed
         let tempMax: number = 0;
         skillSet.forEach((s) => {
@@ -269,7 +269,7 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     // RE-CALCULATES EQUIVALENCY IN ADD MODAL
     /* ---------------------------------------------------------------- */
-    useEffect (() => {
+    useEffect(() => {
         setEquivalency(+previousExp + +currentExp);
         // console.log('Equivalency Re-calculated (' + equivalency + ')');
     }, [previousExp, currentExp, equivalency]);
