@@ -10,10 +10,10 @@ import '../css/RevatureWorkExperience.css'
 
 const RevatureWorkExperience = () => {
     // Cookies
-    //*****************************/
+    //*************************************/
     const [cookies] = useCookies()
     const portfolio = cookies['portfolio']
-    //*****************************/
+    //*************************************/
 
     // Add work experience Modal show and hide
     //*************************************************************/
@@ -312,7 +312,7 @@ const RevatureWorkExperience = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
-                        <Button variant="primary" onClick={handleSave}>Add</Button>
+                        <Button variant="primary" className="oButton" onClick={handleSave}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showUpdateExperience} onHide={handleCloseUpdateExperience} backdrop="static">

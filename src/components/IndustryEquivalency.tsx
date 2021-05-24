@@ -3,8 +3,8 @@ import '../css/IndustryEquivalency.css';
 import axios from "axios";
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie'
-import { Card, Button, Modal } from 'react-bootstrap';
-import { QuestionCircle, PlusCircle, Pencil, XCircle, Save } from 'react-bootstrap-icons';
+import { Card, Button, Modal, ModalBody } from 'react-bootstrap';
+import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
 
 // JSON INTERFACES
@@ -98,6 +98,9 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const [showAdd, setShowAdd] = useState<boolean>(false);
     const [showEdit, setShowEdit] = useState<boolean>(false);
+    const [showDetails, setShowDetails] = useState(false);
+    const handleCloseDetails = () => setShowDetails(false);
+    const handleShowDetails= () => setShowDetails(true);
     /* ---------------------------------------------------------------- */
     // INDUSTRY EQUIVALENCY STATES
     /* ---------------------------------------------------------------- */
@@ -276,19 +279,13 @@ const IndustryEquivalency = () => {
     }, [previousExp, currentExp, equivalency]);
     /* ---------------------------------------------------------------- */
 
-    // SECTION DESCRIPTION
-    /* ------------------------------------------------------------------------------------------------------------ */
-    const message: string = "This section will show your industry equivalent level of experience in certain skills.\n"
-        + "Select a skill and answer two questions to generate values for the section.";
-    /* ------------------------------------------------------------------------------------------------------------ */
-
     return (
         <div className="container">
             <Card id="card-container">
                 <Card.Header id="header-industry-equivalence">
                     <h4>
                         Industry Equivalency
-                        <QuestionCircle id="card-info" onClick={() => (alert(message))} />
+                        <QuestionCircle id="card-info" onClick={handleShowDetails} />
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                         <Pencil id="edit-equivalency" onClick={handleEditShow} />
                         <Tooltip target="edit-equivalency" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
@@ -345,7 +342,7 @@ const IndustryEquivalency = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
-                        <Button variant="primary" onClick={addSkill}>Save</Button>
+                        <Button variant="primary" className="oButton" onClick={addSkill}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showEdit} onHide={handleEditClose} backdrop="Static">
@@ -386,8 +383,22 @@ const IndustryEquivalency = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleEditClose}>Close</Button>
-                        <Button variant="primary" onClick={updateSkills}><Save /> Save</Button>
+                        <Button variant="primary" className="oButton" onClick={updateSkills}>Update</Button>
                     </Modal.Footer>
+                </Modal>
+                <Modal show={showDetails} onHide={handleCloseDetails}>
+                    <Modal.Header>
+                        <Modal.Title>Details</Modal.Title>
+                        <XCircle id="work-experience-details" onClick={handleCloseDetails}/>
+                    </Modal.Header>
+                    <ModalBody>
+                        <p>
+                            This section will show your industry equivalent level of experience in certain skills."
+                            <br/>
+                            <br/>
+                            "Select a skill and answer two questions to generate values for the section.
+                        </p>
+                    </ModalBody>
                 </Modal>
                 <Card.Body>
                     <Card.Text>

@@ -48,7 +48,7 @@ const Project = () => {
     deleteButton.setAttribute("id", "delete-project");
     deleteButton.setAttribute("class", "btn btn-danger");
     editButton.setAttribute("id", "edit-button");
-    editButton.setAttribute("class", "btn btn-primary yes-button");
+    editButton.setAttribute("class", "btn btn-secondary");
     card.setAttribute("class", "card");
     cardHeader.setAttribute("class", "card-header");
     cardBody.setAttribute("class", "card-body");
@@ -341,6 +341,7 @@ const Project = () => {
               Close
             </Button>
             <Button
+              className="oButton"
               variant="primary"
               onClick={() => {
                 handleSave();
