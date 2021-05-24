@@ -5,6 +5,7 @@ import '../../css/ViewPortfolio.css';
 import { useCookies } from 'react-cookie'
 
 const CertificationView = () => {
+    const [certifications, setCertifications] = useState();
 
 
     return(
