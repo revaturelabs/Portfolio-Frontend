@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
+import '../../css/ViewPortfolio.css';
 
 interface Equivalency {
     id: number;
@@ -33,7 +34,7 @@ const IndustryEquivalencyView = () => {
             return (
                 <div className="col-sm m-2 fill-box justify-content-center" key={data.id}>
                     <h5 className={"tall-text p-2 ring-" + Math.round(data.value * 10 / maxValue)}>{data.value}</h5>
-                    <h5>{data.header}</h5>
+                    <h5 className="eq-label-text-view">{data.header}</h5>
                 </div>
             );
         });
