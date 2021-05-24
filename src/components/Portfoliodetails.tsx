@@ -4,11 +4,12 @@ import axios from 'axios'
 import {Container ,Row ,Col, Button } from 'react-bootstrap'
 
 import '../css/HonorAwards.css'
-
-
 import { useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { CSSProperties } from 'react'
+
+import PorfolioAboutMe from './PortfolioAboutMe'
+import PortfolioWorkHistory from './PortfolioWorkHistory'
 
 const Portfoliodetails = (props: any) => {
 
@@ -164,6 +165,9 @@ const Portfoliodetails = (props: any) => {
 
                         </Col>
                     </Row>
+
+                    <PorfolioAboutMe portId={id}/>
+                    <PortfolioWorkHistory portId={id}/>
                 </Container>
             </form>
         </div>
