@@ -8,6 +8,7 @@ import '../css/HonorAwards.css'
 
 import { useLocation } from 'react-router-dom'
 import queryString from 'query-string'
+import { CSSProperties } from 'react'
 
 const Portfoliodetails = (props: any) => {
 
@@ -22,6 +23,9 @@ const Portfoliodetails = (props: any) => {
     const { id } = queryString.parse(search)
     console.log("portfolio id=" + id)
 
+    let ButtonStyles: CSSProperties = {
+        background: "rgb(115, 165, 194)",
+        borderColor: "rgb(242, 105, 3)"}
 
   
 
@@ -41,12 +45,18 @@ const Portfoliodetails = (props: any) => {
 
     useEffect(() => {getData()}, [portId])
 
+    const onBacksub =()=>{
+
+        props.history.push('/admin')
+
+    }
+
     const onSubmit = (e:any) => {
          e.preventDefault()
 
          if (!approved && !feedback){
 
-            alert("Feedback must be provided if rejecting the portfolio")
+            alert("Feedback must be provided if rejecting the portfolio. Your changes are not saved")
          }
          else{
         // this will be axios put to update portfolios back end
@@ -142,8 +152,15 @@ const Portfoliodetails = (props: any) => {
                     </Row>
                     <Row>
                         <Col>
-                             <div>                       <input type ="submit"  value ="submit" className="btn btn-success" />
-                        </div>              
+                             <div>
+                                 
+                                 <input type ="submit"  value ="submit" style={ButtonStyles} />
+                                 <input type ="submit"   value ="Back to Adminpage"  onClick={onBacksub} style={ButtonStyles} />
+
+                             
+                             </div>  
+
+
 
                         </Col>
                     </Row>

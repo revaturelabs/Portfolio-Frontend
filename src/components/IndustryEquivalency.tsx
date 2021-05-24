@@ -395,7 +395,7 @@ const IndustryEquivalency = () => {
                             {skillSet.map((s) => (
                                 <div className="col-sm m-2 fill-box justify-content-center" key={s.id}>
                                     <h5 className={"tall-text p-2 ring-" + Math.round(s.value * 10 / maxEquivalency)}>{s.value}</h5>
-                                    <h5>{s.header} <XCircle id="delete-equivalency" className="text-danger" onClick={() => handleDelete(s)} /></h5>
+                                    <h5 className="eq-label-text">{s.header} <XCircle id="delete-equivalency" className="text-danger" onClick={() => handleDelete(s)} /></h5>
                                 </div>
                             ))}
                         </div>
