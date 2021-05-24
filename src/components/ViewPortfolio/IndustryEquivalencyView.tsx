@@ -10,21 +10,19 @@ interface Equivalency {
 }
 
 const IndustryEquivalencyView = () => {
-    const [industryList,setList] = useState<Equivalency[]>();
-    const [maxValue,setValue] = useState<number>(0);
+    const [industryList, setList] = useState<Equivalency[]>();
+    const [maxValue, setValue] = useState<number>(0);
     const [cookie] = useCookies();
 
     useEffect(() => {
         axios.get<Equivalency[]>(`http://3.236.213.150:8081/equiv/portfolios/all/${cookie['portfolio'].id}`).then(response => {
-            console.log(response.data);
             setList(response.data);
         })
     }, [null]);
 
     useEffect(() => {
         industryList?.map(data => {
-            if(data.value > maxValue){
-                console.log(data.value)
+            if (data.value > maxValue) {
                 setValue(data.value);
             }
         })
@@ -40,17 +38,19 @@ const IndustryEquivalencyView = () => {
             );
         });
     }
-    
+
     return (
         <div className="container">
-            <Card id="card-container">
-                <Card.Header id="header">
-                    <h4>Industry Equivalency</h4>
-                </Card.Header>
-                <Card.Body id="industry">
-                    {industryList && renderIndustry(industryList)}
-                </Card.Body>
-            </Card>
+            {industryList &&
+                <Card id="card-container">
+                    <Card.Header id="header">
+                        <h4>Industry Equivalency</h4>
+                    </Card.Header>
+                    <Card.Body id="industry">
+                        {renderIndustry(industryList)}
+                    </Card.Body>
+                </Card>
+            }
         </div>
     );
 }

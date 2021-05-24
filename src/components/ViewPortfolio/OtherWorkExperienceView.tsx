@@ -26,7 +26,6 @@ const OtherWorkExperienceView = () => {
 
     useEffect(() => {
         axios.get<OtherWorkExperience[]>('http://3.236.213.150:8081/workhistory').then(response => {
-            console.log(response.data);
             setList(response.data)
         })
     }, [null]);

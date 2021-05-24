@@ -20,6 +20,7 @@ const PortfolioList = () => {
         axios.get('http://3.236.213.150:8081/portfolios/users/all/' + cookies['user'].id)
             .then(response => {
                 setTable(response.data)
+                console.log(table);
             })
             .catch(error => {
                 console.log(error)
@@ -28,46 +29,50 @@ const PortfolioList = () => {
 
     const handleDelete = (id: any) => {
         axios.delete('http://3.236.213.150:8081/portfolios/' + id)
-        .then(response => {
-            removeCookie('portfolio', {maxAge: 0})
-            alert('portfolio deleted')
-            window.location.reload()
-        })
-        .catch(error => {
-            alert(error)
-        })
+            .then(response => {
+                removeCookie('portfolio', { maxAge: 0 })
+                alert('portfolio deleted')
+                window.location.reload()
+            })
+            .catch(error => {
+                alert(error)
+            })
     }
 
     const handleLogOut = () => {
-        removeCookie('user', {maxAge: 0})
+        removeCookie('user', { maxAge: 0 })
         if (cookies['portfolio']) {
-            removeCookie('portfolio', {maxAge: 0})
+            removeCookie('portfolio', { maxAge: 0 })
         }
         window.location.pathname = "./"
     }
 
-    const handlePortfolioEdit = (id: any) => {
+    const handlePortfolioEdit = (id: any, submitted: boolean) => {
+        let pathname = submitted ? "./view" : "./portfolio";
         axios.get('http://3.236.213.150:8081/portfolios/' + id)
-        .then(response => {
-            setCookie('portfolio', response.data, {path: "/"})
-            window.location.pathname = "./portfolio"
-        })
-        .catch(error => {
-            alert(error)
-        })
+            .then(response => {
+                setCookie('portfolio', response.data, { path: "/" });
+                window.location.pathname = pathname;
+            })
+            .catch(error => {
+                alert(error)
+            })
     }
 
     const showTableBody = () => {
-        return table.map((t: any) =>
-            <tr key={t.id}>
-                <td>{t.id}</td>
-                <td>{t.name}</td>
-                <td>{t.submitted}</td>
-                <td>{t.approved}</td>
-                <td>{t.feedback}</td>
-                <td><Button variant="danger" onClick={() => handleDelete(t.id)}>Delete</Button></td>
-                <td><Button variant="primary" onClick={() => handlePortfolioEdit(t.id)}>Edit</Button></td>
-            </tr>)
+        return table.map((t: any) => {
+            return (
+                <tr key={t.id}>
+                    <td>{t.id}</td>
+                    <td>{t.name}</td>
+                    <td>{t.submitted}</td>
+                    <td>{t.approved}</td>
+                    <td>{t.feedback}</td>
+                    <td><Button variant="danger" onClick={() => handleDelete(t.id)}>Delete</Button></td>
+                    <td><Button variant="primary" onClick={() => handlePortfolioEdit(t.id, t.submitted)}>{t.submitted ? "View" : "Edit"}</Button></td>
+                </tr>
+            )
+        })
     }
 
     let h1Tag = (<h1>Portfolio List</h1>)
@@ -78,7 +83,7 @@ const PortfolioList = () => {
     if (cookies['user']) {
         h1Tag = (<h1>Portfolio List for {cookies['user'].fname} {cookies['user'].lname}</h1>)
         callModal = (<button onClick={handleShow} className="btn btn-primary">Create new Portfolio</button>)
-        callTable = (<Button variant="primary" onClick={() => {setOpen(!open); handleTable()}} aria-controls="showList" aria-expanded={open} >Show List</Button>)
+        callTable = (<Button variant="primary" onClick={() => { setOpen(!open); handleTable() }} aria-controls="showList" aria-expanded={open} >Show List</Button>)
         logout = (<Button variant="primary" className="ms-2" onClick={() => handleLogOut()} >Log out</Button>)
     }
 

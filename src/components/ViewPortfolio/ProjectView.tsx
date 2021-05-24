@@ -20,7 +20,6 @@ const ProjectView = () => {
 
     useEffect(() => {
         axios.get<Projects[]>(`http://3.236.213.150:8081/projects/portfolio/all/${cookie['portfolio'].id}`).then(response => {
-            console.log(response.data)
             setProjects(response.data);
         })
     }, [null]);
@@ -50,14 +49,16 @@ const ProjectView = () => {
 
     return (
         <div className="container">
-            <Card id="card-container">
-                <Card.Header id="header">
-                    <h4>Project</h4>
-                </Card.Header>
-                <Card.Body>
-                    {projectList && renderProjects(projectList)}
-                </Card.Body>
-            </Card>
+            {projectList &&
+                <Card id="card-container">
+                    <Card.Header id="header">
+                        <h4>Project</h4>
+                    </Card.Header>
+                    <Card.Body>
+                        {renderProjects(projectList)}
+                    </Card.Body>
+                </Card>
+            }
         </div>
     );
 }

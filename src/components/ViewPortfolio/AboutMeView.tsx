@@ -17,7 +17,6 @@ const AboutMeView = () => {
 
     useEffect(() => {
         axios.get<AboutMe>(`http://3.236.213.150:8081/aboutMe/portfolio/${cookie['portfolio'].id}`).then(response => {
-            console.log(response.data);
             setAboutMe(response.data);
         })
     }, [null]);
@@ -34,16 +33,18 @@ const AboutMeView = () => {
 
     return (
         <div className="container">
-            <Card id="card-container">
+            { aboutMe &&
+                <Card id="card-container">
                 <Card.Header id="header">
                     <h4>About Me</h4>
                 </Card.Header>
                 <Card.Body>
                     {/* <Card.Text> */}
-                        {aboutMe && renderAboutMe(aboutMe)}
+                        {renderAboutMe(aboutMe)}
                     {/* </Card.Text> */}
                 </Card.Body>
             </Card>
+            }
         </div>
     );
 }

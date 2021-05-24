@@ -11,15 +11,28 @@ import EducationContainer from './EducationContainer';
 import { useCookies } from 'react-cookie';
 import { Button } from 'react-bootstrap';
 import CertificationContainer from './CertificationContainer';
+import axios from 'axios';
 
 
 const EditEmpPortfolio = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [cookies, setCookie, removeCookie] = useCookies()
+    const [cookies, setCookie, removeCookie] = useCookies();
 
     const handleBack = () => {
-        removeCookie('portfolio', {maxAge: 0})
+        removeCookie('portfolio', { maxAge: 0 })
+    }
+
+    const handleSubmit = () => {
+        let obj = {
+            ...cookies['portfolio'],
+            submitted: true
+        }
+        setCookie('portfolio', obj, { path: '/' });
+        axios.post(`http://3.236.213.150:8081/portfolios/portfolios/${cookies['portfolio'].id}`, { ...obj }).catch(error => {
+            console.log(error);
+        });
+        handleBack();
     }
 
     return (
@@ -28,7 +41,9 @@ const EditEmpPortfolio = () => {
                 <h1>{cookies['portfolio'].name}</h1>
             </div>
             <div className="container mb-5 mt-5" id="editPortfolioButtons">
-                <button className="btn btn-primary m-1">Submit for Review</button>
+                <Link to="/list">
+                    <button className="btn btn-primary m-1" onClick={() => handleSubmit()}>Submit for Review</button>
+                </Link>
                 <Link to="/view">
                     <button className="btn btn-primary m-1">View Portfolio</button>
                 </Link>
@@ -37,8 +52,8 @@ const EditEmpPortfolio = () => {
                 </Link>
             </div>
             <IndustryEquivalency /> <br />
-            <AboutMe /> <br/>
-            <RevatureWorkExp /> <br/>
+            <AboutMe /> <br />
+            <RevatureWorkExp /> <br />
             <Project /> <br />
             <OtherWorkExperience /> <br />
             <EducationContainer /> <br />

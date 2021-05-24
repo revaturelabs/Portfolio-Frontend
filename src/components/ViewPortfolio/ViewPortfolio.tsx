@@ -6,13 +6,26 @@ import HonorAwardView from "./HonorAwardView";
 import OtherWorkExperienceView from "./OtherWorkExperienceView";
 import ProjectView from "./ProjectView";
 import RevatureWorkExperienceView from "./RevatureWorkExperienceView"
+import { useCookies } from 'react-cookie';
+import { useEffect, useState } from "react";
 
 const ViewPortfolio = () => {
+    const [cookie,setCookie,removeCookie] = useCookies(['portfolio']);
+    const [pathname, setPath] = useState("/list");
+
+    useEffect(() => {
+        setPath(cookie.submitted ? "/list" : "/portfolio");
+    });
+
+    const handleBack = (submitted: boolean) => {
+        if(submitted) removeCookie('portfolio');
+    }
+
     return (
         <div>
             <div className="container mb-5 mt-5" id="editPortfolioButtons">
-                <Link to="/portfolio">
-                    <button className="btn btn-primary m-1">Back</button>
+                <Link to={pathname}>
+                    <button className="btn btn-primary m-1" onClick={() => handleBack(cookie.submitted)}>Back</button>
                 </Link>
             </div>
             <IndustryEquivalencyView /> <br />
