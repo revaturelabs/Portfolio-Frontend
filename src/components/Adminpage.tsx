@@ -31,10 +31,25 @@ const Adminpage = () => {
                 <td>{p.approved ? 'Approved': 'Rejected'}</td>
                 <td>{p.reviewed ? 'Review Completed' : 'Yet to be reviewed'}</td>
                 <td>{p.feedback}</td>
-                <td><button style={ButtonStyles}><Link to = {portid}>Edit </Link></button></td>
+                <td><button className = "btn" style={ButtonStyles}><Link to = {portid}>Edit </Link></button></td>
+                <td> <button className = "btn" style={ButtonStyles} onClick={()=>renderviewdetail(p.id)}>View Portfolio Details</button> </td>            
+
                
             </tr>
         )
+    }
+
+    const renderviewdetail = (id:any):void=>{
+        let pathname = "./view";
+        axios.get(`http://3.236.213.150:8081/portfolios/${id}`)
+            .then(response => {
+                setCookie('portfolio', response.data, { path: "/" });
+                window.location.pathname = pathname;
+            })
+            .catch(error => {
+                alert(error)
+            })
+
     }
 
     const handleLogOut = () => {
@@ -80,7 +95,7 @@ const Adminpage = () => {
 
                
                 <Row>
-                    <Col lg={8}>
+                    <Col lg={10}>
                         <Table striped table-bordered hover  >
                             <thead>
                                 <tr> 
@@ -90,6 +105,7 @@ const Adminpage = () => {
                                     <th>ReviewStatus </th>
                                     <th>Feedback</th>
                                     <th>Edit</th>
+                                    <th>View Portfolio Details</th>
                                 </tr>
                             </thead>
                             <tbody>

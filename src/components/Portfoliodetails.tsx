@@ -4,11 +4,10 @@ import axios from 'axios'
 import {Container ,Row ,Col, Button } from 'react-bootstrap'
 
 import '../css/HonorAwards.css'
-
-
 import { useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { CSSProperties } from 'react'
+import { useCookies } from 'react-cookie'
 
 const Portfoliodetails = (props: any) => {
 
@@ -18,6 +17,9 @@ const Portfoliodetails = (props: any) => {
     const[approved, setApproved] = useState(false)
     const[reviewed, setReviewed]  = useState(false)
     const[feedback, setFeedback] = useState("")
+    const[user,setUser] = useState({})
+    const [cookies, setCookie, removeCookie] = useCookies()
+
 
     const { search } = useLocation()
     const { id } = queryString.parse(search)
@@ -40,6 +42,7 @@ const Portfoliodetails = (props: any) => {
              setApproved(data.approved)
              setReviewed(data.reviewed)
              setFeedback(data.feedback)
+             setUser(data.user)
          })
     }
 
@@ -47,7 +50,7 @@ const Portfoliodetails = (props: any) => {
 
     const onBacksub =()=>{
 
-        props.history.push('/admin')
+     props.history.push('/admin')
 
     }
 
@@ -67,7 +70,8 @@ const Portfoliodetails = (props: any) => {
             submitted,
             approved,
             reviewed,
-            feedback
+            feedback,
+            user:user
     
         })
          }
@@ -90,11 +94,14 @@ const Portfoliodetails = (props: any) => {
     return (
         <div>
 
-        <h1>Approve/Reject/Review</h1>
 
             <form onSubmit = {onSubmit}> 
            
                 <Container>
+                <h3>Approve/Reject/Review</h3>
+    
+                <input type ="submit"   value ="Back to Admin Page"  onClick={onBacksub} style={ButtonStyles} />
+
                 <Row>
                         <Col lg={2}>
                            Portfolios id
@@ -154,8 +161,7 @@ const Portfoliodetails = (props: any) => {
                         <Col>
                              <div>
                                  
-                                 <input type ="submit"  value ="submit" style={ButtonStyles} />
-                                 <input type ="submit"   value ="Back to Adminpage"  onClick={onBacksub} style={ButtonStyles} />
+                                 <input type ="submit"  value ="Submit" style={ButtonStyles} />
 
                              
                              </div>  
@@ -164,6 +170,7 @@ const Portfoliodetails = (props: any) => {
 
                         </Col>
                     </Row>
+
                 </Container>
             </form>
         </div>
