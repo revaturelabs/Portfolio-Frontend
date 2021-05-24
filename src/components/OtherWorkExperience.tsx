@@ -163,7 +163,6 @@ const OtherWorkExperience = () => {
             let deleteButton = document.createElement("button")
 
             card.setAttribute("class", "card")
-            card.setAttribute("id", data[index].id)
             cardHeader.setAttribute("class", "card-header")
             cardBody.setAttribute("class", "card-body")
             editButton.setAttribute("class", "btn btn-secondary")

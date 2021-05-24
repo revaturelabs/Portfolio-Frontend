@@ -294,8 +294,16 @@ const RevatureAboutMe = () => {
                             This section is used to focus on your personal story and career goals.
                             <br/>
                             <br/>
-                            How did you first get started with coding?
-                            What was your favorite project to see come to completion?
+                            Focus on your personal story and educational background information, 
+                            career goals, relevant work experience, professional experience and skills, 
+                            and a summary of your Revature experience.
+                            <br/>
+                            <br/>
+                            Include your leadership qualities, problem-solving capabilities, 
+                            presentation skills, communication skills, and teamplayer skills.
+                            <br/>
+                            <br/>
+                            Don’t mention your hobbies or other non-relevant information.
                         </p>
                     </ModalBody>
                 </Modal>
