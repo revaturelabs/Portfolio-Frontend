@@ -28,8 +28,8 @@ const OtherWorkExperience = () => {
     //***********************************************************************/
     const [addTooltipOpen, setAddTooltipOpen] = useState(false)
     const toggleAdd = () => setAddTooltipOpen(!addTooltipOpen)
-    const [detailsTooltipOpen, setDetailsTooltipOpen] = useState(false)
-    const toggleDetails = () => setDetailsTooltipOpen(!detailsTooltipOpen)
+    const [detailsTooltipOpenOWE, setDetailsTooltipOpenOWE] = useState(false)
+    const toggleDetails = () => setDetailsTooltipOpenOWE(!detailsTooltipOpenOWE)
     //***********************************************************************/
 
     // Card details Modal show and hide
@@ -70,7 +70,7 @@ const OtherWorkExperience = () => {
     // Delete work experience from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete("http://3.236.213.150:8081/workhistory/" + id)
+        axios.delete("http://3.236.213.150:8081/workhistory/" + input)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -266,7 +266,7 @@ const OtherWorkExperience = () => {
                     <h4>
                         Other Work Experience
                         <QuestionCircle id="card-info" onClick={handleShowDetails}/>
-                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+                        <Tooltip target="card-info" isOpen={detailsTooltipOpenOWE} toggle={toggleDetails}>Details</Tooltip>
                         <PlusCircle id="add-work-experience" onClick={handleShow}/>
                         <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
                     </h4>

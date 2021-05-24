@@ -43,7 +43,7 @@ const CertificationContainer = () => {
 
     const [certifications, setCertifications] = useState(Array<Certification>());
 
-    //Stores the education that the user wants to edit
+    //Stores the certification that the user wants to edit
     const [editCertification, setEditCertification] = useState(Object);
     const getEditCertification = (certification: Certification) => setEditCertification(certification);
 
@@ -73,7 +73,7 @@ const CertificationContainer = () => {
     }, [])
 
     return (
-        <div className="container mt-4">
+        <div className="container">
 
             <Modal show={showCreationModal} onHide={handleHideCreationModal} backdrop="static">
                 <Modal.Header>

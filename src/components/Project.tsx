@@ -250,7 +250,7 @@ const Project = () => {
   /**
    * Details message
    */
-  const messageDetails: string = "BLah blha blah";
+  const messageDetails: string = "Enter information about your various projects here.";
   let rowLength = 5;
 
   return (

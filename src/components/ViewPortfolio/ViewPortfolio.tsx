@@ -10,14 +10,16 @@ import { useCookies } from 'react-cookie';
 import { useEffect, useState } from "react";
 
 const ViewPortfolio = () => {
-    const [cookie,setCookie,removeCookie] = useCookies(['portfolio']);
+    const [cookie,setCookie,removeCookie] = useCookies();
     const [pathname, setPath] = useState("/list");
 
     useEffect(() => {
-        setPath(cookie.submitted ? "/list" : "/portfolio");
+        console.log(cookie['portfolio'].submitted);
+        setPath(cookie['portfolio'].submitted ? "/list" : "/portfolio");
     });
 
     const handleBack = (submitted: boolean) => {
+        console.log(submitted);
         if(submitted) removeCookie('portfolio');
     }
 
@@ -25,7 +27,7 @@ const ViewPortfolio = () => {
         <div>
             <div className="container mb-5 mt-5" id="editPortfolioButtons">
                 <Link to={pathname}>
-                    <button className="btn btn-primary m-1" onClick={() => handleBack(cookie.submitted)}>Back</button>
+                    <button className="btn btn-primary m-1" onClick={() => handleBack(cookie['portfolio'].submitted)}>Back</button>
                 </Link>
             </div>
             <IndustryEquivalencyView /> <br />
