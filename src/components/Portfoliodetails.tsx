@@ -1,160 +1,156 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect  } from 'react'
 import axios from 'axios'
-import {Container , Table ,Row ,Col } from 'react-bootstrap'
+import {Container ,Row ,Col, Button } from 'react-bootstrap'
 
 import '../css/HonorAwards.css'
-import { render } from 'react-dom'
-import {Link} from 'react-router-dom'
-
-const portfoliolist = [
-
-    {id: 0, name: "portfoliosam", 
-    
-    user: {fname:"sam",lname:"g"},
-    
-    submitted: false,
-    approved: false, 
-    reviewed: false,
-    feedback: "testing"},
-
-    {id: 1, name: "portfoliojim", 
-    
-    user: {fname:"jimm",lname:"g"},
-    
-    submitted: false,
-    approved: false, 
-    reviewed: false,
-    feedback: "testing"}
 
 
+import { useLocation } from 'react-router-dom'
+import queryString from 'query-string'
 
-]
+const Portfoliodetails = (props: any) => {
 
-
-
-
-const Portfoliodetails = () => {
-
-
-    const[review , setReview] = useState(false)
-    const[approve, setApprove] = useState(false)
-    const[reject, setReject]  = useState(false)
+    const[portId, setPortId] = useState(0)
+    const[name, setPortName] = useState('')
+    const[submitted , setSubmitted] = useState(false)
+    const[approved, setApproved] = useState(false)
+    const[reviewed, setReviewed]  = useState(false)
     const[feedback, setFeedback] = useState("")
 
+    const { search } = useLocation()
+    const { id } = queryString.parse(search)
+    console.log("portfolio id=" + id)
 
-    const onSubmit = (e:any)=>{
 
-        e.preventDefault()
-        console.log ("button submit clicked" + review + approve + reject+ feedback)
+  
 
-        // this will be axios put 
-
+    const getData = async() => {
+        //http://3.236.213.150:8081/portfolios/6
+        axios.get(`http://3.236.213.150:8081/portfolios/${id}`)
+         .then(({data}) => {       
+             console.log("getData()", data)
+             setPortId(data.id)
+             setPortName(data.name)
+             setSubmitted(data.submitted)
+             setApproved(data.approved)
+             setReviewed(data.reviewed)
+             setFeedback(data.feedback)
+         })
     }
 
+    useEffect(() => {getData()}, [portId])
 
-    return<div>
+    const onSubmit = (e:any) => {
+         e.preventDefault()
 
+         if (!approved && !feedback){
+
+            alert("Feedback must be provided if rejecting the portfolio")
+         }
+         else{
+        // this will be axios put to update portfolios back end
+        console.log ("update" + portId+name+submitted+approved+reviewed+feedback)
+            axios.post(`http://3.236.213.150:8081/portfolios/portfolios/${id}`,{
+            portId,
+            name,
+            submitted,
+            approved,
+            reviewed,
+            feedback
     
-
-
-        <form onSubmit = {onSubmit}>
-
-            <Container>
-
-                <Row>
-
-                    
-                    <Col>
-                        <div>
-                            Potfolio name : name of the eportfolio
-
-                        </div>
-                    
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                        <div> Review
-
-                            <input type="checkbox" name = "review" checked = {review} onChange={(e)=>setReview(e.target.checked)} />
-
-                       </div>
-
-                                           
-                    </Col>
-
-                </Row>
-
-
-                <Row>
-                    <Col>
-                        <div> Approve
-
-                            <input type="checkbox" name = "approve" checked ={approve}  onChange={e=>setApprove(e.target.checked)}/>
-
-                       </div>
-
-                                           
-                    </Col>
-
-                </Row>
-
-                <Row>
-                    <Col>
-                        <div> Reject
-
-                            <input type="checkbox" name = "reject"  checked = {reject} onChange={e=>setReject(e.target.checked)} />
-
-                       </div>
-
-                                           
-                    </Col>
-
-                </Row>
-
-
-                <Row>
-                    <Col>
-                        <div> Feedback</div>
-
-                        <div> 
-
-                            <textarea name = "feedback"  cols={50} rows={6} value={feedback} onChange={e=>setFeedback(e.target.value)} > </textarea>
-
-                       </div>
-
-                                           
-                    </Col>
-
-                </Row>
-
-
-
-                <Row>
-                    <Col>
-
-                        <div> 
-
-                            <input type ="submit"  value ="submit"/>
-
-
-                       </div>
-
-                                           
-                    </Col>
-
-                </Row>
-
-
-            </Container>
-
-        </form>
-
+        })
+         }
+        // axios({
+        //     method: 'post',
+        //     url: `http://3.236.213.150:8081/portfolios/${id}`,
+        //     data: {
+        //         id: portId,
+        //         name: portName,
+        //         submitted: submitted,
+        //         approved: approved,
+        //         reviewed: reviewed,
+        //         feedback: feedback
+        //     }
+        // })
         
-    </div>
+       props.history.push('/admin')
+    }
 
+    return (
+        <div>
+
+        <h1>Approve/Reject/Review</h1>
+
+            <form onSubmit = {onSubmit}> 
+           
+                <Container>
+                <Row>
+                        <Col lg={2}>
+                           Portfolios id
+                        </Col>
+                        <Col lg={2}>
+                            {portId} 
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg={2}>
+                            Potfolio name
+                        </Col>
+                        <Col lg={2}>
+                            {name}   
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg={2}>
+                            Review
+                        </Col>
+                        <Col lg={2}>
+                            <input 
+                                type="checkbox" 
+                                name = "reviewed" 
+                                checked = {reviewed} 
+                                onChange={(e) => setReviewed(e.target.checked)} />
+                        </Col>
+                    </Row>
+                    <Row>
+                    <Row>
+                        <Col lg={2}>
+                            Approve  
+                        </Col>
+                        <Col lg={2}>
+                            <input 
+                                type="checkbox" 
+                                name = "approve" 
+                                checked ={approved}  
+                                onChange={e => setApproved(e.target.checked)}/>            
+                        </Col>
+                    </Row>
+                        <Col>
+                            <div> Feedback</div>
+                            <div> 
+
+                                <textarea 
+                                    name = "feedback"  
+                                    cols={50} 
+                                    rows={6} 
+                                    value={feedback} 
+                                    onChange={e=>setFeedback(e.target.value)} > 
+                                </textarea>
+                            </div>          
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                             <div>                       <input type ="submit"  value ="submit" className="btn btn-success" />
+                        </div>              
+
+                        </Col>
+                    </Row>
+                </Container>
+            </form>
+        </div>
+    )
 }
  
 export default Portfoliodetails
