@@ -10,6 +10,7 @@ const Adminpage = () => {
     // state variable for all portfolios
     const[portfolios,setPortfolios] = useState([])
 
+
     // function to display all portfolios that store in state variable "portfolios"
     const renderportfolio = (p:any,index:number)=> {
         //create a query string for url
@@ -20,22 +21,23 @@ const Adminpage = () => {
                 <td>{p.name}</td>
                 <td>{p.submitted ? 'Submitted' : 'Pending'}</td>
                 <td>{p.approved ? 'Approved': 'Rejected'}</td>
-                <td>{p.reviewed ? 'Under Review' : 'Yet to be reviewed'}</td>
+                <td>{p.reviewed ? 'Review Completed' : 'Yet to be reviewed'}</td>
                 <td>{p.feedback}</td>
-                <td>{p.submitted && <Link to = {portid}>Edit </Link>} </td>
+                <td><Link to = {portid}>Edit </Link></td>
                 <td><Link to ="/view">View Portfolio</Link></td>
             </tr>
         )
     }
 
     // function to fetch all portfolios from back end using axios
+    
+
     const getData = async() => {
         axios.get("http://3.236.213.150:8081/portfolios")
          .then(response => {
 
             setPortfolios(response.data)
-             
-             console.log (response.data)
+            console.log (response.data)
          })
     }
 
