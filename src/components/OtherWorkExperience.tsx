@@ -10,7 +10,6 @@ import '../css/OtherWorkExperience.css'
 
 const OtherWorkExperience = () => {
     const [cookies] = useCookies();
-    // console.log(cookies['portfolio']); 
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -52,7 +51,6 @@ const OtherWorkExperience = () => {
     const getData = async () => {
         axios.get("http://3.236.213.150:8081/workhistory/portfolio/" + cookies["portfolio"].id)
         .then(resp => {
-            // console.log(resp.data);
             createWorkExperience(resp.data);
         })
         .catch(error => {
@@ -92,7 +90,6 @@ const OtherWorkExperience = () => {
             portfolio
         })
         .then(resp => {
-            // console.log(resp.data);
             window.location.reload()
         })
         .catch(error => {
@@ -113,9 +110,7 @@ const OtherWorkExperience = () => {
     // Update work experience
     //***********************************************************************/
     const handleUpdate = (input: any) => {
-        // console.log(input);
         let portfolio = cookies['portfolio'];
-        // console.log(portfolio);
 
         let id:any = input;
         axios.put("http://3.236.213.150:8081/workhistory",{
@@ -286,22 +281,22 @@ const OtherWorkExperience = () => {
                         <h6>Employer Name</h6>
                         <input type="text" name="employer" className="form-input" onChange={e => setEmployer(e.target.value)}/>
                         <h6>Start Date</h6>
-                        <input type="date" name="startDate" id="" className="form-input" placeholder="" onChange={ (e) => setStartDate(e.target.value)}/>
+                        <input type="date" name="startDate" className="form-input" placeholder="" onChange={ (e) => setStartDate(e.target.value)}/>
                         <h6>End Date</h6>
-                        <input type="date" name="endDate" id="" className="form-input" placeholder="" onChange={ (e) => setEndDate(e.target.value)}/>
+                        <input type="date" name="endDate" className="form-input" placeholder="" onChange={ (e) => setEndDate(e.target.value)}/>
                         <h6>Job Title</h6>
-                        <input type="text" name="title" id="" className="form-input" onChange={ (e)=> setTitle(e.target.value) }/>
+                        <input type="text" name="title" className="form-input" onChange={ (e)=> setTitle(e.target.value) }/>
                         <h6>Roles / Responsibilities</h6>
-                        <textarea name="responsibilities" id="" className="form-input" placeholder="" onChange={ (e) => setResponsibilities(e.target.value)}/> 
+                        <textarea name="responsibilities" className="form-input" style={{height: "100px"}} onChange={ (e) => setResponsibilities(e.target.value)}/> 
                         <h6>Problem Description</h6> 
-                        <textarea name="description" id="" className="form-input" placeholder="" onChange={ (e) => setDescription(e.target.value)}/>
+                        <textarea name="description" className="form-input" style={{height: "100px"}} onChange={ (e) => setDescription(e.target.value)}/>
                         <h6>Tools / Technologies</h6>
-                        <textarea name="tools" id="" className="form-input" placeholder="" onChange={ (e) => setTools(e.target.value)}/>
+                        <textarea name="tools" className="form-input" style={{height: "100px"}} onChange={ (e) => setTools(e.target.value)}/>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
                         <Button variant="secondary" className="" onClick={handleClose}>Close</Button>
-                        <Button variant="" className="oButton" onClick={()=>{ handleSave();}}>Add</Button>
+                        <Button variant="primary" className="oButton" onClick={()=>{ handleSave();}}>Add</Button>
                 </Modal.Footer>
             </Modal>
 
@@ -336,16 +331,16 @@ const OtherWorkExperience = () => {
                             <h6>Job Title</h6>
                             <input type="text" name="title" className="form-input" value={title} onChange={e => setTitle(e.target.value)}/>
                             <h6>Roles / Responsibilites</h6>
-                            <textarea name="responsibilites" className="form-input work-experience-textarea" value={responsibilities} onChange={e => setResponsibilities(e.target.value)}></textarea>
+                            <textarea name="responsibilites" className="form-input work-experience-textarea" style={{height: "100px"}} value={responsibilities} onChange={e => setResponsibilities(e.target.value)}></textarea>
                             <h6>Tools / Technologies</h6>
-                            <textarea name="technologies" className="form-input work-experience-textarea" value={tools} onChange={e => setTools(e.target.value)}></textarea>
+                            <textarea name="technologies" className="form-input work-experience-textarea" style={{height: "100px"}} value={tools} onChange={e => setTools(e.target.value)}></textarea>
                             <h6>Problem Desciption</h6>
-                            <textarea name="description" className="form-input work-experience-textarea" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                            <textarea name="description" className="form-input work-experience-textarea" style={{height: "100px"}} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
-                        <Button variant="" className="oButton" onClick={() => {handleUpdate(id)}}>Update</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {handleUpdate(id)}}>Update</Button>
                     </Modal.Footer>
                 </Modal>
 
