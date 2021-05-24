@@ -5,11 +5,19 @@ import {Container , Table , Row , Col} from 'react-bootstrap'
 import '../css/HonorAwards.css'
 import { render } from 'react-dom'
 import {Link} from 'react-router-dom'
+import { CSSProperties } from 'react'
+import { useCookies } from 'react-cookie'
+
 
 const Adminpage = () => {
     // state variable for all portfolios
     const[portfolios,setPortfolios] = useState([])
+    const [cookies, setCookie, removeCookie] = useCookies()
 
+
+    let ButtonStyles: CSSProperties = {
+        background: "rgb(115, 165, 194)",
+        borderColor: "rgb(242, 105, 3)"}
 
     // function to display all portfolios that store in state variable "portfolios"
     const renderportfolio = (p:any,index:number)=> {
@@ -23,11 +31,20 @@ const Adminpage = () => {
                 <td>{p.approved ? 'Approved': 'Rejected'}</td>
                 <td>{p.reviewed ? 'Review Completed' : 'Yet to be reviewed'}</td>
                 <td>{p.feedback}</td>
-                <td><Link to = {portid}>Edit </Link></td>
-                <td><Link to ="/view">View Portfolio</Link></td>
+                <td><button style={ButtonStyles}><Link to = {portid}>Edit </Link></button></td>
+               
             </tr>
         )
     }
+
+    const handleLogOut = () => {
+        removeCookie('user', {maxAge: 0})
+        if (cookies['portfolio']) {
+            removeCookie('portfolio', {maxAge: 0})
+        }
+        window.location.pathname = "./"
+    }
+
 
     // function to fetch all portfolios from back end using axios
     
@@ -48,8 +65,20 @@ const Adminpage = () => {
         
         <div> 
 
-            <h1>Portfolios</h1>
+
+
             <Container>  
+
+            <div className="container mb-1 mt-1" id="editPortfolioButtons">
+                
+                <button  style={ButtonStyles} onClick={() => handleLogOut()}>Logout</button>
+            
+        </div>
+
+
+            <h3>   Portfolios  </h3>
+
+               
                 <Row>
                     <Col lg={8}>
                         <Table striped table-bordered hover  >
@@ -61,7 +90,6 @@ const Adminpage = () => {
                                     <th>ReviewStatus </th>
                                     <th>Feedback</th>
                                     <th>Edit</th>
-                                    <th>ViewPortfolio</th>
                                 </tr>
                             </thead>
                             <tbody>
