@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Card } from "react-bootstrap";
-import "../css/Education.css";
+import "../css/Certification.css";
 
 interface User {
     id: number;
@@ -20,32 +20,32 @@ interface Portfolio {
     feedback: string;
 }
 
-interface Education {
+interface Certification {
     id: number;
     portfolio: Portfolio;
-    university: string;
-    degree: string;
-    graduationDate: string;
-    gpa: number;
-    logoUrl: string;
+    name: string;
+    certId: string;
+    issuedBy: string;
+    issuedOn: string;
+    publicUrl: string;
 }
 
-const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function, showDeleteModal: Function, currentEducation: Education, index: number }> = (props) => {
-    const [id, setId] = useState(props.currentEducation.id);
-    const [university, setUniversity] = useState(props.currentEducation.university);
-    const [degree, setDegree] = useState(props.currentEducation.degree);
-    const [graduationDate, setGraduationDate] = useState(props.currentEducation.graduationDate);
-    const [gpa, setGpa] = useState(props.currentEducation.gpa);
-    const [logoUrl, setLogoUrl] = useState(props.currentEducation.logoUrl);
+const CertificationDisplay: FC<{ getEditCertification: Function, showEditModal: Function, showDeleteModal: Function, currentCertification: Certification, index: number }> = (props) => {
+    const [id, setId] = useState(props.currentCertification.id);
+    const [name, setName] = useState(props.currentCertification.name);
+    const [certId, setCertId] = useState(props.currentCertification.certId);
+    const [issuedBy, setIssuedBy] = useState(props.currentCertification.issuedBy);
+    const [issuedOn, setIssuedOn] = useState(props.currentCertification.issuedOn);
+    const [publicUrl, setPublicUrl] = useState(props.currentCertification.publicUrl);
 
-    const cardId = "education" + id;
+    const cardId = "certification" + id;
 
     const cardHeaderStyles: CSSProperties = {
         background: "white",
         borderBottom: "5px solid rgb(115, 165, 194)"
     };
 
-    const degreeStyles: CSSProperties = {
+    const nameStyles: CSSProperties = {
         display: 'inline'
     };
 
@@ -66,42 +66,42 @@ const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function
         display: 'inline-block'
     };
 
-    const gradDateStyles: CSSProperties = {
+    const certIdStyles: CSSProperties = {
         color: 'rgb(242, 105, 3)'
     };
 
-    const logoUrlStyles: CSSProperties = {
+    const publicUrlStyles: CSSProperties = {
         float: 'right',
         display: 'inline',
         height: '100px',
         width: '150px'
     };
 
-    let gradDateDisplay = graduationDate.substring(5,7)+"/"+graduationDate.substring(8)+"/"+graduationDate.substring(0,4);
+    let issuedOnDisplay = issuedOn.substring(5,7)+"/"+issuedOn.substring(8)+"/"+issuedOn.substring(0,4);
 
     return (
         <div>
             <Card className="mb-3" id={cardId}>
                 <Card.Header style={cardHeaderStyles}>
-                    <h1 style={degreeStyles}>Degree: {degree}</h1>
+                    <h1 style={nameStyles}>Certification Name: {name}</h1>
                     <Button style={deleteButtonStyles} variant="danger" onClick={() => {
-                        props.getEditEducation(props.currentEducation);
+                        props.getEditCertification(props.currentCertification);
                         props.showDeleteModal();
                     }}>Delete</Button>
                     <Button style={editButtonStyles} variant="secondary" onClick={() => {
-                        props.getEditEducation(props.currentEducation);
+                        props.getEditCertification(props.currentCertification);
                         props.showEditModal();
                     }}>Edit</Button>
                 </Card.Header>
 
                 <Card.Body>
                     <span style={spanStyles}>
-                        <h3>University: {university}</h3>
-                        <h5 style={gradDateStyles}>Graduation Date: {gradDateDisplay}</h5>
-                        <h5>GPA: {gpa}</h5>
+                        <h3>Issued By: {issuedBy}</h3>
+                        <h5 style={certIdStyles}>Certification ID: {certId}</h5>
+                        <h5>Issued On: {issuedOnDisplay}</h5>
                     </span>
-                    {(logoUrl !== "" && logoUrl !== null) && 
-                        <img style={logoUrlStyles} src={logoUrl}></img>
+                    {(publicUrl !== "" && publicUrl !== null) && 
+                        <img style={publicUrlStyles} src={publicUrl}></img>
                     }
                 </Card.Body>
             </Card>
@@ -109,4 +109,4 @@ const EducationDisplay: FC<{ getEditEducation: Function, showEditModal: Function
     );
 };
 
-export default EducationDisplay;
+export default CertificationDisplay;
