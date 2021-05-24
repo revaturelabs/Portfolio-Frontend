@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Modal } from "react-bootstrap";
-import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
+import { PlusCircle } from "react-bootstrap-icons";
 import { useCookies } from 'react-cookie';
 import { Tooltip } from "reactstrap";
 import CertificationCreation from './CertificationCreation';
@@ -66,12 +66,6 @@ const CertificationContainer = () => {
     const [showAddTooltip, setShowAddTooltip] = useState(false);
     const toggleAddTooltip = () => setShowAddTooltip(!showAddTooltip);
 
-    //State handler for details icon
-    const [showDetailsTooltip, setShowDetailsTooltip] = useState(false);
-    const toggleDetailsTooltip = () => setShowDetailsTooltip(!showDetailsTooltip);
-
-    const messageDetails: string = "Add your certifications here";
-
     useEffect(() => {
         fetch(backEndUrl + "/portfolio/all/" + portfolioId)
             .then(response => response.json())
@@ -106,14 +100,6 @@ const CertificationContainer = () => {
                 <Card.Header id="header-project">
                     <h4>
                         Certification
-                        <QuestionCircle id="card-info-certification" />
-                        <Tooltip
-                            target="card-info-certification"
-                            isOpen={showDetailsTooltip}
-                            toggle={toggleDetailsTooltip} >
-                            {messageDetails}
-                        </Tooltip>
-
                         <PlusCircle id="add-certification" onClick={handleShowCreationModal} />
                         <Tooltip
                             target="add-certification"

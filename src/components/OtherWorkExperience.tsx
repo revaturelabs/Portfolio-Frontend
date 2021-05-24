@@ -46,6 +46,13 @@ const OtherWorkExperience = () => {
     const handleShowUpdateExperience = () => setShowUpdateExperience(true)
     //**************************************************************************/
 
+    // Delete Modal show and hide
+    //*****************************************************/
+    const [showDeleteOWE, setShowDeleteOWE] = useState(false)
+    const handleCloseDeleteOWE = () => setShowDeleteOWE(false)
+    const handleShowDeleteOWE = () => setShowDeleteOWE(true)
+    //*****************************************************/
+
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
@@ -63,7 +70,7 @@ const OtherWorkExperience = () => {
     // Delete work experience from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete("http://3.236.213.150:8081/workhistory/" + input.getAttribute("id"))
+        axios.delete("http://3.236.213.150:8081/workhistory/" + id)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -156,7 +163,6 @@ const OtherWorkExperience = () => {
             let deleteButton = document.createElement("button")
 
             card.setAttribute("class", "card")
-            card.setAttribute("id", data[index].id)
             cardHeader.setAttribute("class", "card-header")
             cardBody.setAttribute("class", "card-body")
             editButton.setAttribute("class", "btn btn-secondary")
@@ -215,7 +221,7 @@ const OtherWorkExperience = () => {
                 deleteButton.innerHTML = "Delete"
                 deleteButton.addEventListener("click", () => {
                     setId(data[index].id)
-                    handleDelete(card)
+                    handleShowDeleteOWE();
                 })
                 
                 cardHeader.appendChild(component)
@@ -341,6 +347,15 @@ const OtherWorkExperience = () => {
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
                         <Button variant="primary" className="oButton" onClick={() => {handleUpdate(id)}}>Update</Button>
+                    </Modal.Footer>
+                </Modal>
+                {/* this will popup to make sure the user wants to delete a card */}
+                <Modal show={showDeleteOWE} onHide={handleCloseDeleteOWE} backdrop="static">
+                    <Modal.Header>Delete Warning</Modal.Header>
+                    <Modal.Body><p>This will permanantly delete this info. Are you Sure?</p></Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={() => {handleDelete(id)}}>Yes, Permanantly Delete</Button>
+                        <Button variant="secondary" onClick={handleCloseDeleteOWE}>Close</Button>
                     </Modal.Footer>
                 </Modal>
 

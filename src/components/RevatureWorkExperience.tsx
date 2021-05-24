@@ -81,7 +81,7 @@ const RevatureWorkExperience = () => {
     //*********************************************************************/
     const createWorkExperience = (data: any) => {
         const bodyHeaders: Array<string> = [
-            "Project Discription",
+            "Project Description",
             "Roles / Responsibilites",
             "Technologies"
         ]
@@ -267,7 +267,7 @@ const RevatureWorkExperience = () => {
                         Work Experience
                         <QuestionCircle id="card-info" onClick={handleShowDetails}/>
                         <PlusCircle id="add-work-experience" onClick={handleShowAddExperience}/>
-                        <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
+                        <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Work Experience</Tooltip>
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                     </h4>
                 </Card.Header>

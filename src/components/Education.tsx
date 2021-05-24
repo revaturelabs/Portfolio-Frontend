@@ -8,13 +8,6 @@ import { NumberLiteralType } from "typescript";
 import "../css/Project.css";
 
 const Education = () => {
-
-    // Update Modal show and hide
-    //**************************************************************************/
-    const [showUpdateExperience, setShowUpdateExperience] = useState(false)
-    const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
-    const handleShowUpdateExperience = () => setShowUpdateExperience(true)
-
     /**
      * Show/Hide Modal
      */
