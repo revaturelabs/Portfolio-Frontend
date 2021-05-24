@@ -14,8 +14,7 @@ const ViewPortfolio = () => {
     const [pathname, setPath] = useState("/list");
 
     useEffect(() => {
-        console.log(cookie['portfolio'].submitted);
-        setPath(cookie['portfolio'].submitted ? "/list" : "/portfolio");
+        setPath(cookie['user'].admin ? "/admin" : cookie['portfolio'].submitted ? "/list" : "/portfolio");
     });
 
     const handleBack = (submitted: boolean) => {
