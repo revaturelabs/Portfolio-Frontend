@@ -107,14 +107,6 @@ const EducationContainer = () => {
                 <Card.Header id="header-project">
                     <h4>
                         Education
-                        <QuestionCircle id="card-info-education" />
-                        <Tooltip
-                            target="card-info-education"
-                            isOpen={showDetailsTooltip}
-                            toggle={toggleDetailsTooltip} >
-                            {messageDetails}
-                        </Tooltip>
-
                         <PlusCircle id="add-education" onClick={handleShowCreationModal} />
                         <Tooltip
                             target="add-education"

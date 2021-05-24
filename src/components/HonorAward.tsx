@@ -266,10 +266,8 @@ const HonorAwards = () => {
                 <Card.Header id="header-honoraward">
                     <h4>
                         Honors & Awards
-                        <QuestionCircle id="card-info" onClick={handleShowDetails}/>
                         <PlusCircle id="add-honoraward" onClick={handleShowAddExperience}/>
-                        <Tooltip target="add-honoraward" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
-                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Honors&Awards(if any)</Tooltip>
+                        <Tooltip target="add-honoraward" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Honors & Awards</Tooltip>
                     </h4>
                 </Card.Header>
                 <Card.Body id="card-body">

@@ -289,8 +289,8 @@ const IndustryEquivalency = () => {
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                         <Pencil id="edit-equivalency" onClick={handleEditShow} />
                         <Tooltip target="edit-equivalency" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
-                        <PlusCircle id="add-equivalency" onClick={handleAddShow} />
-                        <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
+                        <PlusCircle id="add-equivalency" onClick={handleAddShow} style={{marginRight: "10px"}} />
+                        <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Industry Equivalency</Tooltip>
                     </h4>
                 </Card.Header>
                 <Modal show={showAdd} onHide={handleAddClose} backdrop="static">
