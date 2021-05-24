@@ -29,8 +29,8 @@ const OtherWorkExperience = () => {
     //***********************************************************************/
     const [addTooltipOpen, setAddTooltipOpen] = useState(false)
     const toggleAdd = () => setAddTooltipOpen(!addTooltipOpen)
-    const [detailsTooltipOpen, setDetailsTooltipOpen] = useState(false)
-    const toggleDetails = () => setDetailsTooltipOpen(!detailsTooltipOpen)
+    const [detailsTooltipOpenOWE, setDetailsTooltipOpenOWE] = useState(false)
+    const toggleDetails = () => setDetailsTooltipOpenOWE(!detailsTooltipOpenOWE)
     //***********************************************************************/
 
     // Card details Modal show and hide
@@ -46,6 +46,13 @@ const OtherWorkExperience = () => {
     const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
     const handleShowUpdateExperience = () => setShowUpdateExperience(true)
     //**************************************************************************/
+
+    // Delete Modal show and hide
+    //*****************************************************/
+    const [showDeleteOWE, setShowDeleteOWE] = useState(false)
+    const handleCloseDeleteOWE = () => setShowDeleteOWE(false)
+    const handleShowDeleteOWE = () => setShowDeleteOWE(true)
+    //*****************************************************/
 
     // Get data from data base
     //***********************************************************/
@@ -65,7 +72,7 @@ const OtherWorkExperience = () => {
     // Delete work experience from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete("http://3.236.213.150:8081/workhistory/" + input.getAttribute("id"))
+        axios.delete("http://3.236.213.150:8081/workhistory/" + input)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -220,7 +227,7 @@ const OtherWorkExperience = () => {
                 deleteButton.innerHTML = "Delete"
                 deleteButton.addEventListener("click", () => {
                     setId(data[index].id)
-                    handleDelete(card)
+                    handleShowDeleteOWE();
                 })
                 
                 cardHeader.appendChild(component)
@@ -265,7 +272,7 @@ const OtherWorkExperience = () => {
                     <h4>
                         Other Work Experience
                         <QuestionCircle id="card-info" onClick={handleShowDetails}/>
-                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+                        <Tooltip target="card-info" isOpen={detailsTooltipOpenOWE} toggle={toggleDetails}>Details</Tooltip>
                         <PlusCircle id="add-work-experience" onClick={handleShow}/>
                         <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
                     </h4>
@@ -346,6 +353,15 @@ const OtherWorkExperience = () => {
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
                         <Button variant="" className="oButton" onClick={() => {handleUpdate(id)}}>Update</Button>
+                    </Modal.Footer>
+                </Modal>
+                {/* this will popup to make sure the user wants to delete a card */}
+                <Modal show={showDeleteOWE} onHide={handleCloseDeleteOWE} backdrop="static">
+                    <Modal.Header>Delete Warning</Modal.Header>
+                    <Modal.Body><p>This will permanantly delete this info. Are you Sure?</p></Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={() => {handleDelete(id)}}>Yes, Permanantly Delete</Button>
+                        <Button variant="secondary" onClick={handleCloseDeleteOWE}>Close</Button>
                     </Modal.Footer>
                 </Modal>
 
