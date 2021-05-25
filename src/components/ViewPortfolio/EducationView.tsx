@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 
-
 interface Education {
     id: number;
     university: string;
@@ -29,15 +28,17 @@ const EducationView = () => {
             return (
                 <div className="card">
                     <div className="card-header" id="bottom-border">
-                        <h1>Degre: {data.degree}</h1>
+                        <h1>Degree: {data.degree}</h1>
                     </div>
-                    <div className="card-body" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div className="card-body" id="body-flex-content">
                         <span style={{ display: 'inline-block' }}>
                             <h3>University: {data.university}</h3>
                             <h5 style={{ color: "rgb(242, 105, 3)" }}>Graduation Date: {date}</h5>
                             <h5>GPA: {data.gpa}</h5>
                         </span>
-                        <img src={data.logoUrl} style={{ height: '100px', width: '150px' }} />
+                        {(data.logoUrl !== "" && data.logoUrl !== null) &&
+                            <img src={data.logoUrl} style={{ height: '100px', width: '150px' }} />
+                        }
                     </div>
                 </div>
             );

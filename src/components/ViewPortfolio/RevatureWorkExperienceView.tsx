@@ -55,7 +55,7 @@ const RevatureWorkExperienceView: React.FC<props> = ({ url, title }) => {
                         <p>{data.description}</p>
                         <h5>Roles / Responsibilities</h5>
                         <p>{data.responsibilities}</p>
-                        <h5>Technologies</h5>
+                        <h5>{title === "Work Experience" ? "Technologies" : "Tools"}</h5>
                         <p>{data.technologies ? data.technologies : data.tools}</p>
                     </div>
                 </div>

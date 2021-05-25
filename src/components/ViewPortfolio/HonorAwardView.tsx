@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
-import '../../css/HonorAwards.css'
+import '../../css/ViewPortfolio.css'
 
 interface Honor {
     id: string;
@@ -24,14 +24,20 @@ const HonorAwardView = () => {
 
     const renderHonors = ((honorList: Honor[]) => {
         return honorList.map(data => {
-            const date = new Date(data.dateReceived).toLocaleString('default', { day: "numeric", month: 'long', year: 'numeric' });
+            const date = new Date(data.dateReceived).toLocaleString('default', { month: 'long', year: 'numeric' });
+            const day = new Date(data.dateReceived).getDate();
             return (
                 <div className="card" key={data.id}>
+                    <div className="card-header" id="bottom-border">
+                        <h1>{data.title}</h1>
+                    </div>
                     <div className="card-body">
-                        <h3>{data.title}</h3>
-                        <p style={{ color: "rgb(144, 164, 175)" }}>{data.description}</p>
-                        <h5 style={{ display: "inline" }}>Received From:</h5> {data.receivedFrom} <br />
-                        <h5 style={{ display: "inline" }}>Received On:</h5> {date}
+                        <h5 style={{ fontWeight: "bold" }}>Description</h5>
+                        <p>{data.description}</p>
+                        <h5>Received From</h5>
+                        <p>{data.receivedFrom}</p>
+                        <h5>Received On</h5> 
+                        <p>{day} {date}</p>
                     </div>
                 </div>
             );

@@ -4,20 +4,60 @@ import { Card } from 'react-bootstrap';
 import '../../css/ViewPortfolio.css';
 import { useCookies } from 'react-cookie'
 
+interface Certification {
+    id: number;
+    name: string;
+    certId: string;
+    issuedBy: string;
+    issuedOn: string;
+    publicUrl: string;
+}
+
 const CertificationView = () => {
-    const [certifications, setCertifications] = useState();
+    const [certifications, setCertifications] = useState<Certification[]>();
+    const [cookie] = useCookies();
 
+    useEffect(() => {
+        axios.get<Certification[]>(`http://3.236.213.150:8081/certifications/portfolio/all/${cookie['portfolio'].id}`).then(response => {
+            setCertifications(response.data);
+        });
+    }, [null])
 
-    return(
+    const renderCertifications = (certifications: Certification[]) => {
+        return certifications.map(data => {
+            let date = data.issuedOn.substring(5, 7) + "/" + data.issuedOn.substring(8) + "/" + data.issuedOn.substring(0, 4);
+            return (
+                <div className="card">
+                    <div className="card-header" id="bottom-border">
+                        <h1>Certification Name: {data.name}</h1>
+                    </div>
+                    <div className="card-body">
+                        <span>
+                            <h3>Issued By: {data.issuedBy}</h3>
+                            <h5 style={{ color: "rgb(242, 105, 3)" }}>Certification ID: {data.certId}</h5>
+                            <h5>Issued On: {data.issuedOn}</h5>
+                        </span>
+                        {(data.publicUrl !== "" && data.publicUrl !== null) &&
+                            <img src={data.publicUrl} style={{ height: '100px', width: '150px' }} />
+                        }
+                    </div>
+                </div>
+            );
+        })
+    }
+
+    return (
         <div className="container">
-            <Card id="card-container">
-                <Card.Header id="header">
-                    <h4>Certification</h4>
-                </Card.Header>
-                <Card.Body>
-                    
-                </Card.Body>
-            </Card>
+            {certifications &&
+                <Card id="card-container">
+                    <Card.Header id="header">
+                        <h4>Certification</h4>
+                    </Card.Header>
+                    <Card.Body>
+                        {renderCertifications(certifications)}
+                    </Card.Body>
+                </Card>
+            }
         </div>
     );
 }
