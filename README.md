@@ -1,7 +1,8 @@
 # Overview
-
+- Users can create a Revature portfolio, save the portfolio, edit the portfolio, and submit the portfolio for review. Admins can view portfolios, review them, reject or approve portfolios, and provide feedback.
+___________________________________________________________________________________________________________________________________________________________________________________
 ## Components
-
+___________________________________________________________________________________________________________________________________________________________________________________
 ### Industry Equivalency
 - Users can add their top 5 technologies they are most proficient in. Users are asked two questions about their experience with the technologies they select, and a number is generated that represents their proficiency with the technologies.
 
@@ -22,5 +23,9 @@
 
 ### Honors and Awards
 - Users can add honors and awards that they have received. They can add details such as the name of the honor/award, a description of the honor/award, the date the honor/award was received, and who presented the honor/award to the user.
-
+____________________________________________________________________________________________________________________________________________________________________________________
 ## Technologies used
+- TypeScript
+- ReactJS
+- Axios
+- Bootstrap
