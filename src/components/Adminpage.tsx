@@ -17,7 +17,9 @@ const Adminpage = () => {
 
     let ButtonStyles: CSSProperties = {
         background: "rgb(115, 165, 194)",
-        borderColor: "rgb(242, 105, 3)"}
+        borderColor: "rgb(242, 105, 3)",
+        color: "black"
+    }
 
     // function to display all portfolios that store in state variable "portfolios"
     const renderportfolio = (p:any,index:number)=> {
