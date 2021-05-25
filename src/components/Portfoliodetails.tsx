@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { useState, useEffect  } from 'react'
 import axios from 'axios'
-import {Container ,Row ,Col, Button } from 'react-bootstrap'
+import {Container ,Row ,Col, Button, Form, FormCheck } from 'react-bootstrap'
 
 import '../css/HonorAwards.css'
 import { useLocation } from 'react-router-dom'
@@ -64,7 +64,7 @@ const Portfoliodetails = (props: any) => {
          else{
         // this will be axios put to update portfolios back end
         console.log ("update" + portId+name+submitted+approved+reviewed+feedback)
-            axios.post(`http://3.236.213.150:8081/portfolios/portfolios/${id}`,{
+            axios.post(`http://3.236.213.150:8081/portfolios/${id}`,{
             portId,
             name,
             submitted,
@@ -100,11 +100,11 @@ const Portfoliodetails = (props: any) => {
                 <Container>
                 <h3>Approve/Reject/Review</h3>
     
-                <input type ="submit"   value ="Back to Admin Page"  onClick={onBacksub} style={ButtonStyles} />
+                <input type ="submit"  className = "btn" value ="Back to Admin Page"  onClick={onBacksub} style={ButtonStyles} />
 
                 <Row>
                         <Col lg={2}>
-                           Portfolios id
+                            <Form.Label > Portfolios id </Form.Label>
                         </Col>
                         <Col lg={2}>
                             {portId} 
@@ -112,7 +112,7 @@ const Portfoliodetails = (props: any) => {
                     </Row>
                     <Row>
                         <Col lg={2}>
-                            Potfolio name
+                        <Form.Label > Portfolios Name </Form.Label>
                         </Col>
                         <Col lg={2}>
                             {name}   
@@ -120,23 +120,24 @@ const Portfoliodetails = (props: any) => {
                     </Row>
                     <Row>
                         <Col lg={2}>
-                            Review
+                            Review Completed
                         </Col>
                         <Col lg={2}>
-                            <input 
-                                type="checkbox" 
+                            <Form.Check
+                                type='checkbox'
                                 name = "reviewed" 
                                 checked = {reviewed} 
                                 onChange={(e) => setReviewed(e.target.checked)} />
+
                         </Col>
                     </Row>
                     <Row>
                     <Row>
                         <Col lg={2}>
-                            Approve  
+                            Approved  
                         </Col>
                         <Col lg={2}>
-                            <input 
+                            <Form.Check
                                 type="checkbox" 
                                 name = "approve" 
                                 checked ={approved}  
@@ -144,7 +145,8 @@ const Portfoliodetails = (props: any) => {
                         </Col>
                     </Row>
                         <Col>
-                            <div> Feedback</div>
+                        <Form.Label as="legend">Feedback</Form.Label>
+                             
                             <div> 
 
                                 <textarea 
@@ -161,7 +163,7 @@ const Portfoliodetails = (props: any) => {
                         <Col>
                              <div>
                                  
-                                 <input type ="submit"  value ="Submit" style={ButtonStyles} />
+                                 <input type ="submit" className="btn"  value ="Submit" style={ButtonStyles} />
 
                              
                              </div>  
