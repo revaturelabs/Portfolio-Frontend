@@ -8,7 +8,6 @@ import { useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { CSSProperties } from 'react'
 import { useCookies } from 'react-cookie'
-import { FORMERR } from 'dns'
 
 const Portfoliodetails = (props: any) => {
 
@@ -65,7 +64,7 @@ const Portfoliodetails = (props: any) => {
          else{
         // this will be axios put to update portfolios back end
         console.log ("update" + portId+name+submitted+approved+reviewed+feedback)
-            axios.post(`http://3.236.213.150:8081/portfolios/portfolios/${id}`,{
+            axios.post(`http://3.236.213.150:8081/portfolios/${id}`,{
             portId,
             name,
             submitted,
