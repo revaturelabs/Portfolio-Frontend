@@ -8,18 +8,23 @@ import ProjectView from "./ProjectView";
 import RevatureWorkExperienceView from "./RevatureWorkExperienceView"
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from "react";
+import CertificationView from "./CertificationView";
 
 const ViewPortfolio = () => {
-    const [cookie,setCookie,removeCookie] = useCookies();
+    const [cookie, setCookie, removeCookie] = useCookies();
     const [pathname, setPath] = useState("/list");
 
     useEffect(() => {
-        setPath(cookie['user'].admin ? "/admin" : cookie['portfolio'].submitted ? "/list" : "/portfolio");
+        if (cookie['admin'] && cookie['admin'].admin === true) {
+            setPath("/admin");
+        } else {
+            setPath(cookie['portfolio'].submitted ? "/list" : "/portfolio");
+        }
     });
 
     const handleBack = (submitted: boolean) => {
         console.log(submitted);
-        if(submitted) removeCookie('portfolio');
+        if (submitted) removeCookie('portfolio');
     }
 
     return (
@@ -31,15 +36,19 @@ const ViewPortfolio = () => {
             </div>
             <IndustryEquivalencyView /> <br />
             <AboutMeView /> <br />
-            <EducationView /> <br />
             <RevatureWorkExperienceView
-                url="http://3.236.213.150:8081/workexperience/portfolio/all/" 
-                title = "Work Experience"/> <br />
+                url="http://3.236.213.150:8081/workexperience/portfolio/all/"
+                title="Work Experience" /> <br />
             <ProjectView /> <br />
             <RevatureWorkExperienceView
                 url="http://3.236.213.150:8081/workhistory/portfolio/all/"
                 title="Other Work Experience" /> <br />
             {/* <OtherWorkExperienceView /> */}
+            <EducationView /> <br />
+            {/* <EducationView
+                url=""
+                title="Certification" /> <br /> */}
+            <CertificationView /> <br />
             <HonorAwardView /> <br />
         </div>
     );

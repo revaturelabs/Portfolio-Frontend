@@ -1,5 +1,5 @@
 .card:not(:first-child){
-    margin-top: 50px;
+    margin-top: 25px;
 }
 
 #bottom-border{
@@ -22,4 +22,9 @@
 
 .eq-label-text-view{
     width: 7em;
+}
+
+#body-flex-content{
+    display: flex;
+    justify-content: space-between;
 }
