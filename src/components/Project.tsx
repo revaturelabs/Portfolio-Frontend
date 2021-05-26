@@ -60,7 +60,7 @@ const Project = () => {
     setDescription(description);
     setResponsibilities(responsibilities);
     setTechnologies(technologies);
-    setrespositoryUrl(respositoryUrl);
+    setRespositoryUrl(respositoryUrl);
     setWorkProducts(workProducts);
 
     nameHeader.innerHTML = name;
@@ -150,7 +150,7 @@ const Project = () => {
   const [description, setDescription] = useState("");
   const [responsibilities, setResponsibilities] = useState("");
   const [technologies, setTechnologies] = useState("");
-  const [respositoryUrl, setrespositoryUrl] = useState("");
+  const [respositoryUrl, setRespositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
   
   const [cookie] = useCookies();
@@ -203,7 +203,7 @@ const Project = () => {
         setDescription("");
         setResponsibilities("");
         setTechnologies("");
-        setrespositoryUrl("");
+        setRespositoryUrl("");
         setWorkProducts("");
         window.location.reload();
       })
@@ -235,6 +235,7 @@ const Project = () => {
         technologies,
         respositoryUrl,
         workProducts,
+        portfolio: cookie["portfolio"]
       })
       .then((response) => {
         console.log("update: success");
@@ -325,7 +326,7 @@ const Project = () => {
                 type="text"
                 name="respositoryUrl"
                 className="form-input"
-                onChange={(e) => setrespositoryUrl(e.target.value)}
+                onChange={(e) => setRespositoryUrl(e.target.value)}
               />
               <br />
               <h6 className="project-create-form-header">
@@ -440,14 +441,16 @@ const Project = () => {
                   <input
                     type="text"
                     name="respositoryUrl"
+                    value={respositoryUrl}
                     className="form-input"
-                    onChange={(e) => setrespositoryUrl(e.target.value)}
+                    onChange={(e) => setRespositoryUrl(e.target.value)}
                   />
                   <br />
                   <h6>Project Work Products</h6>
                   <input
                     type="text"
                     name="workProducts"
+                    value={workProducts}
                     className="form-input"
                     onChange={(e) => setWorkProducts(e.target.value)}
                   />
