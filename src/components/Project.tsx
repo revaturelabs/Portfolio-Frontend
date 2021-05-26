@@ -81,14 +81,14 @@ const Project = () => {
     nameHeader.appendChild(buttonDiv);
     buttonDiv.appendChild(editButton);
     buttonDiv.appendChild(deleteButton);
-    card.appendChild(descriptionContent);
-    card.appendChild(responsibilitiesHeader);
-    card.appendChild(responsibilitiesContent);
-    card.appendChild(technologiesHeader);
-    card.appendChild(technologiesContent);
-    card.appendChild(respositoryUrlHeader);
-    card.appendChild(respositoryUrlContent);
-    card.appendChild(workProductsHeader);
+    cardBody.appendChild(descriptionContent);
+    cardBody.appendChild(responsibilitiesHeader);
+    cardBody.appendChild(responsibilitiesContent);
+    cardBody.appendChild(technologiesHeader);
+    cardBody.appendChild(technologiesContent);
+    cardBody.appendChild(respositoryUrlHeader);
+    cardBody.appendChild(respositoryUrlContent);
+    cardBody.appendChild(workProductsHeader);
     let workProductsContent;
     if (workProducts !== null && workProducts !== "") {
       workProductsContent = document.createElement("img");
