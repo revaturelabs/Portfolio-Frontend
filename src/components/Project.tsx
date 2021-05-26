@@ -93,6 +93,8 @@ const Project = () => {
     if (workProducts !== null && workProducts !== "") {
       workProductsContent = document.createElement("img");
       workProductsContent.setAttribute("src", workProducts);
+      workProductsContent.setAttribute("height", "100px");
+      workProductsContent.setAttribute("width", "150px");
       card.appendChild(workProductsContent);
     }
     project?.appendChild(card);
@@ -103,8 +105,6 @@ const Project = () => {
     if (Number(project?.childElementCount) > 1) {
       card.style.marginTop = "50px";
     }
-    // card.style.padding = "1em";
-    // card.style.margin = "1em";
     editButton.style.marginRight = "10px";
     nameHeader.style.fontWeight = "bold";
 
@@ -368,17 +368,17 @@ const Project = () => {
               </Modal.Header>
               <Modal.Body className="modalBody">
                 <div>
-                  <p>Are you sure?</p>
+                  <p>This will permanently delete this project. Are you sure?</p>
                 </div>
                 <div>
                   <button
-                    className="btn btn-primary"
-                    // style={{ margin: "0.25em 0.25em" }}
+                    className="btn btn-danger"
+                    style={{ marginRight: "10px" }}
                     onClick={() => {
                       handleDelete(id);
                     }}
                   >
-                    Yes
+                    Yes, Permanently Delete
                   </button>
                   <button
                     className="btn btn-secondary"
