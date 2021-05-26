@@ -54,9 +54,9 @@ const Adminpage = () => {
 
     const handleLogOut = () => {
         removeCookie('user', {maxAge: 0})
+        removeCookie('admin');
         if (cookies['portfolio']) {
             removeCookie('portfolio', {maxAge: 0})
-            removeCookie('admin');
         }
         window.location.pathname = "./"
     }
