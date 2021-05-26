@@ -65,16 +65,14 @@ const RevatureWorkExperienceView: React.FC<props> = ({ url, title }) => {
 
     return (
         <div className="container">
-            {experienceList &&
-                <Card id="card-container">
-                    <Card.Header id="header">
-                        <h4>{title}</h4>
-                    </Card.Header>
-                    <Card.Body>
-                        {renderWorkExperience(experienceList)}
-                    </Card.Body>
-                </Card>
-            }
+            <Card id="card-container">
+                <Card.Header id="header">
+                    <h4>{title}</h4>
+                </Card.Header>
+                <Card.Body>
+                    {experienceList && renderWorkExperience(experienceList)}
+                </Card.Body>
+            </Card>
         </div>
     );
 }

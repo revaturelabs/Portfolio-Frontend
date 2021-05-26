@@ -58,6 +58,7 @@ const Adminpage = () => {
         removeCookie('user', {maxAge: 0})
         if (cookies['portfolio']) {
             removeCookie('portfolio', {maxAge: 0})
+            removeCookie('admin');
         }
         window.location.pathname = "./"
     }

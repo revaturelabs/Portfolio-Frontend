@@ -33,18 +33,14 @@ const AboutMeView = () => {
 
     return (
         <div className="container">
-            { aboutMe &&
-                <Card id="card-container">
+            <Card id="card-container">
                 <Card.Header id="header">
                     <h4>About Me</h4>
                 </Card.Header>
                 <Card.Body>
-                    {/* <Card.Text> */}
-                        {renderAboutMe(aboutMe)}
-                    {/* </Card.Text> */}
+                    {aboutMe && renderAboutMe(aboutMe)}
                 </Card.Body>
             </Card>
-            }
         </div>
     );
 }

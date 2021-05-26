@@ -49,16 +49,14 @@ const ProjectView = () => {
 
     return (
         <div className="container">
-            {projectList &&
-                <Card id="card-container">
-                    <Card.Header id="header">
-                        <h4>Project</h4>
-                    </Card.Header>
-                    <Card.Body>
-                        {renderProjects(projectList)}
-                    </Card.Body>
-                </Card>
-            }
+            <Card id="card-container">
+                <Card.Header id="header">
+                    <h4>Project</h4>
+                </Card.Header>
+                <Card.Body>
+                    {projectList && renderProjects(projectList)}
+                </Card.Body>
+            </Card>
         </div>
     );
 }
