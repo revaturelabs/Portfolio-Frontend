@@ -114,7 +114,7 @@ const PortfolioList = () => {
                                     <tr>
                                         <th>#</th>
                                         <th>Portfolio Name</th>
-                                        <th>Submited</th>
+                                        <th>Submitted</th>
                                         <th>Approved</th>
                                         <th>Feedback</th>
                                         <th></th>
