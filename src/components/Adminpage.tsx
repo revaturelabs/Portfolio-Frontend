@@ -100,7 +100,7 @@ const Adminpage = () => {
                         <Table striped table-bordered hover  >
                             <thead>
                                 <tr> 
-                                    <th>Protfolio Name</th>
+                                    <th>Portfolio Name</th>
                                     <th>Submitted/Pending</th>
                                     <th>Approved/Rejected </th>
                                     <th>ReviewStatus </th>
