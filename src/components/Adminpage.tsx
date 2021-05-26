@@ -35,8 +35,6 @@ const Adminpage = () => {
                 <td>{p.feedback}</td>
                 <td><button className = "btn" style={ButtonStyles}><Link to = {portid}>Edit </Link></button></td>
                 <td> <button className = "btn" style={ButtonStyles} onClick={()=>renderviewdetail(p.id)}>View Portfolio Details</button> </td>            
-
-               
             </tr>
         )
     }
@@ -77,7 +75,7 @@ const Adminpage = () => {
     }
 
     // this will be call every time setState() is called
-    useEffect(() => {getData()}, [])
+    useEffect(() => {getData()}, [portfolios])
 
     return (
         
@@ -102,7 +100,7 @@ const Adminpage = () => {
                         <Table striped table-bordered hover  >
                             <thead>
                                 <tr> 
-                                    <th>ProtfolioName</th>
+                                    <th>Protfolio Name</th>
                                     <th>Submitted/Pending</th>
                                     <th>Approved/Rejected </th>
                                     <th>ReviewStatus </th>
