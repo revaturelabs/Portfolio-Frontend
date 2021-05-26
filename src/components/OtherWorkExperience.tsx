@@ -145,7 +145,7 @@ const OtherWorkExperience = () => {
     //*********************************************************************/
     const createWorkExperience = (data: any) => {
         const bodyHeaders: Array<string> = [
-            "Project Discription",
+            "Project Description",
             "Roles / Responsibilites",
             "Tools"
         ]
