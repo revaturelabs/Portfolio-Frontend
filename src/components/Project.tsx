@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Modal } from "react-bootstrap";
-import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
+import { Button, Card, Modal, ModalBody } from "react-bootstrap";
+import { PlusCircle, QuestionCircle, XCircle } from "react-bootstrap-icons";
 import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
 import "../css/Project.css";
@@ -23,7 +23,7 @@ const Project = () => {
     description: string,
     responsibilities: string,
     technologies: string,
-    repositoryUrl: string,
+    respositoryUrl: string,
     workProducts: string
   ) => {
     let project = document.querySelector(".projects");
@@ -36,8 +36,8 @@ const Project = () => {
     let responsibilitiesContent = document.createElement("p");
     let technologiesHeader = document.createElement("h5");
     let technologiesContent = document.createElement("p");
-    let repositoryUrlHeader = document.createElement("h5");
-    let repositoryUrlContent = document.createElement("a");
+    let respositoryUrlHeader = document.createElement("h5");
+    let respositoryUrlContent = document.createElement("a");
     let workProductsHeader = document.createElement("h5");
 
     let deleteButton = document.createElement("button");
@@ -48,19 +48,19 @@ const Project = () => {
     deleteButton.setAttribute("id", "delete-project");
     deleteButton.setAttribute("class", "btn btn-danger");
     editButton.setAttribute("id", "edit-button");
-    editButton.setAttribute("class", "btn btn-primary yes-button");
+    editButton.setAttribute("class", "btn btn-secondary");
     card.setAttribute("class", "card");
     cardHeader.setAttribute("class", "card-header");
     cardBody.setAttribute("class", "card-body");
-    repositoryUrlContent.setAttribute("href", repositoryUrl);
-    repositoryUrlContent.setAttribute("target", "_blank");
+    respositoryUrlContent.setAttribute("href", respositoryUrl);
+    respositoryUrlContent.setAttribute("target", "_blank");
 
     setId(id);
     setName(name);
     setDescription(description);
     setResponsibilities(responsibilities);
     setTechnologies(technologies);
-    setRepositoryUrl(repositoryUrl);
+    setrespositoryUrl(respositoryUrl);
     setWorkProducts(workProducts);
 
     nameHeader.innerHTML = name;
@@ -69,8 +69,8 @@ const Project = () => {
     responsibilitiesContent.innerHTML = responsibilities;
     technologiesHeader.innerHTML = "Technologies";
     technologiesContent.innerHTML = technologies;
-    repositoryUrlHeader.innerHTML = "Repository URL";
-    repositoryUrlContent.innerHTML = repositoryUrl;
+    respositoryUrlHeader.innerHTML = "Repository URL";
+    respositoryUrlContent.innerHTML = respositoryUrl;
     workProductsHeader.innerHTML = "Work Products";
     deleteButton.innerHTML = "Delete";
     editButton.innerHTML = "Edit";
@@ -81,14 +81,14 @@ const Project = () => {
     nameHeader.appendChild(buttonDiv);
     buttonDiv.appendChild(editButton);
     buttonDiv.appendChild(deleteButton);
-    cardBody.appendChild(descriptionContent);
-    cardBody.appendChild(responsibilitiesHeader);
-    cardBody.appendChild(responsibilitiesContent);
-    cardBody.appendChild(technologiesHeader);
-    cardBody.appendChild(technologiesContent);
-    cardBody.appendChild(repositoryUrlHeader);
-    cardBody.appendChild(repositoryUrlContent);
-    cardBody.appendChild(workProductsHeader);
+    card.appendChild(descriptionContent);
+    card.appendChild(responsibilitiesHeader);
+    card.appendChild(responsibilitiesContent);
+    card.appendChild(technologiesHeader);
+    card.appendChild(technologiesContent);
+    card.appendChild(respositoryUrlHeader);
+    card.appendChild(respositoryUrlContent);
+    card.appendChild(workProductsHeader);
     let workProductsContent;
     if (workProducts !== null && workProducts !== "") {
       workProductsContent = document.createElement("img");
@@ -128,6 +128,9 @@ const Project = () => {
   const [showModalDelete, setShowModalDelete] = useState(false);
   const handleHideModalDelete = () => setShowModalDelete(false);
   const handleShowModalDelete = () => setShowModalDelete(true);
+  const [showDetails, setShowDetails] = useState(false);
+  const handleCloseDetails = () => setShowDetails(false);
+  const handleShowDetails= () => setShowDetails(true);
 
   /**
    * Tooltips
@@ -147,15 +150,16 @@ const Project = () => {
   const [description, setDescription] = useState("");
   const [responsibilities, setResponsibilities] = useState("");
   const [technologies, setTechnologies] = useState("");
-  const [repositoryUrl, setRepositoryUrl] = useState("");
+  const [respositoryUrl, setrespositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
-
+  
+  const [cookie] = useCookies();
   /**
    * Get data from the database
    */
   const getAllProjects = async () => {
     axios
-      .get("http://3.236.213.150:8081/projects")
+      .get("http://3.236.213.150:8081/projects/portfolio/all/"+cookie["portfolio"].id)
       .then((response) => {
         console.log("got data");
         console.log(response.data);
@@ -166,7 +170,7 @@ const Project = () => {
             data.description,
             data.responsibilities,
             data.technologies,
-            data.repositoryUrl,
+            data.respositoryUrl,
             data.workProducts
           );
           console.log(data);
@@ -181,15 +185,17 @@ const Project = () => {
    * Save data to database
    */
   const handleSave = async () => {
+    //let portfolio = cookie["portfolio"]
     axios
 
-      .post("http://3.236.213.150:8081/projects", {
+      .post("http://3.236.213.150:8081/projects/", {
         name,
         description,
         responsibilities,
         technologies,
-        repositoryUrl,
+        respositoryUrl,
         workProducts,
+        portfolio: cookie["portfolio"]
       })
       .then((response) => {
         console.log("success");
@@ -197,7 +203,7 @@ const Project = () => {
         setDescription("");
         setResponsibilities("");
         setTechnologies("");
-        setRepositoryUrl("");
+        setrespositoryUrl("");
         setWorkProducts("");
         window.location.reload();
       })
@@ -227,7 +233,7 @@ const Project = () => {
         description,
         responsibilities,
         technologies,
-        repositoryUrl,
+        respositoryUrl,
         workProducts,
       })
       .then((response) => {
@@ -244,7 +250,7 @@ const Project = () => {
   /**
    * Details message
    */
-  const messageDetails: string = "BLah blha blah";
+  const messageDetails: string = "Enter information about your various projects here.";
   let rowLength = 5;
 
   return (
@@ -255,7 +261,7 @@ const Project = () => {
             Project
             <QuestionCircle
               id="card-info"
-              onClick={() => alert(messageDetails)}
+              onClick={handleShowDetails}
             />
             <PlusCircle id="add-project" onClick={handleShowModal} />
             <Tooltip
@@ -317,9 +323,9 @@ const Project = () => {
               <h6 className="project-create-form-header">Project Repo URL</h6>
               <input
                 type="text"
-                name="repositoryUrl"
+                name="respositoryUrl"
                 className="form-input"
-                onChange={(e) => setRepositoryUrl(e.target.value)}
+                onChange={(e) => setrespositoryUrl(e.target.value)}
               />
               <br />
               <h6 className="project-create-form-header">
@@ -338,6 +344,7 @@ const Project = () => {
               Close
             </Button>
             <Button
+              className="oButton"
               variant="primary"
               onClick={() => {
                 handleSave();
@@ -432,9 +439,9 @@ const Project = () => {
                   <h6>Project Repo URL</h6>
                   <input
                     type="text"
-                    name="repositoryUrl"
+                    name="respositoryUrl"
                     className="form-input"
-                    onChange={(e) => setRepositoryUrl(e.target.value)}
+                    onChange={(e) => setrespositoryUrl(e.target.value)}
                   />
                   <br />
                   <h6>Project Work Products</h6>
@@ -460,6 +467,38 @@ const Project = () => {
                   Update
                 </Button>
               </Modal.Footer>
+            </Modal>
+            <Modal show={showDetails} onHide={handleCloseDetails}>
+                <Modal.Header>
+                    <Modal.Title>Details</Modal.Title>
+                    <XCircle id="work-experience-details" onClick={handleCloseDetails}/>
+                </Modal.Header>
+                <ModalBody>
+                    <p>
+                      <b>Roles/Responsibilities</b> - Mention your Roles in the Project and add at least 8 bulleted responsibilities
+                      Talk about how you used different libraries, tools, and APIs (e.g. “Used the Collections framework and Stream API to store unique users and filter them by status”)
+                      Include any metrics you have, like code coverage, code quality grades, build time, lines of code, etc (“Added unit tests to increase code coverage from 20% to 70%”)
+                      Also, start your bullet points with the active past verbs (“built, created, implemented, etc…”).
+                      <br/>
+                      <br/>
+                      <b>Project Repo URL</b> - Include Github Repo Links for your projects.
+                      <br/>
+                      <br/>
+                      Your Project Repo Should be Public and the Repo name should be your Project Name.
+                      <br/>
+                      <br/>
+                      Push your properly documented project code to the repo.
+                      <br/>
+                      <br/>
+                      <b>Repo must have a README file with at least with</b> - Title of the Project, An Explanation and Overview of the project, List of features implemented, Technologies used, How to set up / get started using it, Usage of the project, Contributors, and License information.
+                      <br/>
+                      <br/>
+                      Project architecture should be documented in a wiki.
+                      <br/>
+                      <br/>
+                      You can have a look at the Sample README.md file template for your project documentation.
+                    </p>
+                </ModalBody>
             </Modal>
           </Card.Text>
         </Card.Body>

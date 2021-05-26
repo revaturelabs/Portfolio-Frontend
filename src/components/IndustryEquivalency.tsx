@@ -2,8 +2,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/IndustryEquivalency.css';
 import axios from "axios";
 import { useState, useEffect } from 'react';
-import { Card, Button, Modal } from 'react-bootstrap';
-import { QuestionCircle, PlusCircle, Pencil, XCircle, Save } from 'react-bootstrap-icons';
+import { useCookies } from 'react-cookie'
+import { Card, Button, Modal, ModalBody } from 'react-bootstrap';
+import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
 
 // JSON INTERFACES
@@ -20,7 +21,9 @@ export interface Skill {
         name: string;
         user: {
             id: number;
-            name: string;
+            fName: string;
+            lName: string;
+            email: string;
             password: string;
             admin: boolean;
         }
@@ -42,7 +45,6 @@ export interface Option {
 
 // STATIC VARIABLES
 /* ---------------------------------------------------------------- */
-let portfolioID: number = 1;
 let back_end_url: string = 'http://3.236.213.150:8081';
 /* ---------------------------------------------------------------- */
 // OPTION DATA
@@ -96,11 +98,19 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const [showAdd, setShowAdd] = useState<boolean>(false);
     const [showEdit, setShowEdit] = useState<boolean>(false);
+    const [showDetails, setShowDetails] = useState(false);
+    const handleCloseDetails = () => setShowDetails(false);
+    const handleShowDetails= () => setShowDetails(true);
     /* ---------------------------------------------------------------- */
     // INDUSTRY EQUIVALENCY STATES
     /* ---------------------------------------------------------------- */
     const [skillSet, setSkillSet] = useState<Array<Skill>>([]);
     const [maxEquivalency, setMaxEquivalency] = useState<number>(0);
+    /* ---------------------------------------------------------------- */
+    // COOKIE STATES
+    /* ---------------------------------------------------------------- */
+    const [cookies] = useCookies();
+    const portfolio = cookies['portfolio'];
     /* ---------------------------------------------------------------- */
     // ADD SKILL STATES
     /* ---------------------------------------------------------------- */
@@ -151,8 +161,9 @@ const IndustryEquivalency = () => {
     // GET EQUIVALENCY ARRAY
     /* ---------------------------------------------------------------- */
     const aquireSkillSet = (() => {
-        axios.get(back_end_url + '/equiv/portfolios/all/' + portfolioID)
+        axios.get(back_end_url + '/equiv/portfolios/all/' + portfolio.id)
             .then(resp => {
+                console.log(resp.data);
                 let tempSkillSet: Array<Skill> = resp.data;
                 let tempMax: number = 0;
                 tempSkillSet.forEach(skill => {
@@ -171,25 +182,18 @@ const IndustryEquivalency = () => {
     // ADD EQUIVALENCY SKILL
     /* ---------------------------------------------------------------- */
     const addSkill = (async () => {
-        axios.get(back_end_url + '/portfolios/' + portfolioID)
+        let newSkill: Skill = {
+            id: 0,
+            header: skillName,
+            value: equivalency,
+            portfolio: portfolio
+        }
+        axios.post(back_end_url + '/equiv', newSkill)
             .then(resp => {
-                // If portfolio with portfolioID exists, Create new Skill with data
-                let newSkill: Skill = {
-                    id: 0,
-                    header: skillName,
-                    value: equivalency,
-                    portfolio: resp.data
-                }
-                axios.post(back_end_url + '/equiv', newSkill)
-                    .then(resp => {
-                        // If POST is successful, add new Skill (with correct data) to the Skill Array
-                        let tempSkillSet: Array<Skill> = [...skillSet];
-                        tempSkillSet.push(resp.data);
-                        setSkillSet(tempSkillSet);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
+                // If POST is successful, add new Skill (with correct data) to the Skill Array
+                let tempSkillSet: Array<Skill> = [...skillSet];
+                tempSkillSet.push(resp.data);
+                setSkillSet(tempSkillSet);
             })
             .catch(error => {
                 console.error(error);
@@ -252,11 +256,11 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     // RUNS ONCE
     /* ---------------------------------------------------------------- */
-    useEffect (() => { aquireSkillSet() }, []);
+    useEffect(() => { aquireSkillSet() }, []);
     /* ---------------------------------------------------------------- */
     // RE-CALCULATE MAX EQUIVALENCY
     /* ---------------------------------------------------------------- */
-    useEffect (() => {
+    useEffect(() => {
         // Re-Calculate Max Equivalency Whenever skillSet is changed
         let tempMax: number = 0;
         skillSet.forEach((s) => {
@@ -269,17 +273,11 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     // RE-CALCULATES EQUIVALENCY IN ADD MODAL
     /* ---------------------------------------------------------------- */
-    useEffect (() => {
+    useEffect(() => {
         setEquivalency(+previousExp + +currentExp);
         // console.log('Equivalency Re-calculated (' + equivalency + ')');
     }, [previousExp, currentExp, equivalency]);
     /* ---------------------------------------------------------------- */
-
-    // SECTION DESCRIPTION
-    /* ------------------------------------------------------------------------------------------------------------ */
-    const message: string = "This section will show your industry equivalent level of experience in certain skills.\n"
-        + "Select a skill and answer two questions to generate values for the section.";
-    /* ------------------------------------------------------------------------------------------------------------ */
 
     return (
         <div className="container">
@@ -287,12 +285,12 @@ const IndustryEquivalency = () => {
                 <Card.Header id="header-industry-equivalence">
                     <h4>
                         Industry Equivalency
-                        <QuestionCircle id="card-info" onClick={() => (alert(message))} />
+                        <QuestionCircle id="card-info" onClick={handleShowDetails} />
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                         <Pencil id="edit-equivalency" onClick={handleEditShow} />
                         <Tooltip target="edit-equivalency" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
-                        <PlusCircle id="add-equivalency" onClick={handleAddShow} />
-                        <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
+                        <PlusCircle id="add-equivalency" onClick={handleAddShow} style={{marginRight: "10px"}} />
+                        <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Industry Equivalency</Tooltip>
                     </h4>
                 </Card.Header>
                 <Modal show={showAdd} onHide={handleAddClose} backdrop="static">
@@ -344,7 +342,7 @@ const IndustryEquivalency = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
-                        <Button variant="primary" onClick={addSkill}>Save</Button>
+                        <Button variant="primary" className="oButton" onClick={addSkill}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showEdit} onHide={handleEditClose} backdrop="Static">
@@ -385,8 +383,22 @@ const IndustryEquivalency = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleEditClose}>Close</Button>
-                        <Button variant="primary" onClick={updateSkills}><Save /> Save</Button>
+                        <Button variant="primary" className="oButton" onClick={updateSkills}>Update</Button>
                     </Modal.Footer>
+                </Modal>
+                <Modal show={showDetails} onHide={handleCloseDetails}>
+                    <Modal.Header>
+                        <Modal.Title>Details</Modal.Title>
+                        <XCircle id="work-experience-details" onClick={handleCloseDetails}/>
+                    </Modal.Header>
+                    <ModalBody>
+                        <p>
+                            This section will show your industry equivalent level of experience in certain skills."
+                            <br/>
+                            <br/>
+                            "Select a skill and answer two questions to generate values for the section.
+                        </p>
+                    </ModalBody>
                 </Modal>
                 <Card.Body>
                     <Card.Text>
@@ -394,7 +406,7 @@ const IndustryEquivalency = () => {
                             {skillSet.map((s) => (
                                 <div className="col-sm m-2 fill-box justify-content-center" key={s.id}>
                                     <h5 className={"tall-text p-2 ring-" + Math.round(s.value * 10 / maxEquivalency)}>{s.value}</h5>
-                                    <h5>{s.header} <XCircle id="delete-equivalency" className="text-danger" onClick={() => handleDelete(s)} /></h5>
+                                    <h5 className="eq-label-text">{s.header} <XCircle id="delete-equivalency" className="text-danger" onClick={() => handleDelete(s)} /></h5>
                                 </div>
                             ))}
                         </div>

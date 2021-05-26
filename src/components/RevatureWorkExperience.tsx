@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useState, useEffect } from 'react'
+import { useCookies } from 'react-cookie'
 import { Card, Button, Modal, ModalBody } from 'react-bootstrap'
 import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons'
 import { Tooltip } from 'reactstrap'
@@ -8,6 +9,12 @@ import '../css/RevatureWorkExperience.css'
 
 
 const RevatureWorkExperience = () => {
+    // Cookies
+    //*************************************/
+    const [cookies] = useCookies()
+    const portfolio = cookies['portfolio']
+    //*************************************/
+
     // Add work experience Modal show and hide
     //*************************************************************/
     const [showAddExperience, setShowExperience] = useState(false)
@@ -59,7 +66,7 @@ const RevatureWorkExperience = () => {
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
-        axios.get("http://3.236.213.150:8081/workexperience")
+        axios.get("http://3.236.213.150:8081/workexperience/portfolio/" + cookies['portfolio'].id)
         .then(resp => {
             createWorkExperience(resp.data)
         })
@@ -74,7 +81,7 @@ const RevatureWorkExperience = () => {
     //*********************************************************************/
     const createWorkExperience = (data: any) => {
         const bodyHeaders: Array<string> = [
-            "Project Discription",
+            "Project Description",
             "Roles / Responsibilites",
             "Technologies"
         ]
@@ -94,7 +101,7 @@ const RevatureWorkExperience = () => {
             card.setAttribute("class", "card")
             cardHeader.setAttribute("class", "card-header")
             cardBody.setAttribute("class", "card-body")
-            editButton.setAttribute("class", "btn btn-primary")
+            editButton.setAttribute("class", "btn btn-secondary")
             deleteButton.setAttribute("class", "btn btn-danger")
 
             card.appendChild(cardHeader)
@@ -203,7 +210,9 @@ const RevatureWorkExperience = () => {
     // Update work experience
     //***********************************************************************/
     const handleUpdate = (input: any) => {
+
         axios.post("http://3.236.213.150:8081/workexperience/" + input,{
+            portfolio,
             employer,
             startDate,
             endDate,
@@ -226,6 +235,7 @@ const RevatureWorkExperience = () => {
     //***************************************************/
     const handleSave = () => {
         axios.post("http://3.236.213.150:8081/workexperience", {
+            portfolio,
             employer,
             startDate,
             endDate,
@@ -257,7 +267,7 @@ const RevatureWorkExperience = () => {
                         Work Experience
                         <QuestionCircle id="card-info" onClick={handleShowDetails}/>
                         <PlusCircle id="add-work-experience" onClick={handleShowAddExperience}/>
-                        <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
+                        <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Work Experience</Tooltip>
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                     </h4>
                 </Card.Header>
@@ -301,8 +311,8 @@ const RevatureWorkExperience = () => {
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={handleSave}>Add</Button>
                         <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
+                        <Button variant="primary" className="oButton" onClick={handleSave}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showUpdateExperience} onHide={handleCloseUpdateExperience} backdrop="static">
@@ -328,8 +338,8 @@ const RevatureWorkExperience = () => {
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={() => {handleUpdate(id)}}>Update</Button>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {handleUpdate(id)}}>Update</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static">

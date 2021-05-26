@@ -1,10 +1,11 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route} from "react-router-dom";
 import Landing from './Landing';
-import ViewPortfolio from './ViewPortfolio';
+import ViewPortfolio from './ViewPortfolio/ViewPortfolio';
 import EditEmpPortfolio from './EditEmpPortfolio';
 import PortfolioList from "./PortfolioList";
 import Adminpage from "./Adminpage";
+import Portfoliodetails from "./Portfoliodetails";
 
 function Layout() {
     return (
@@ -15,7 +16,8 @@ function Layout() {
           <Route path="/view" component={ViewPortfolio} />
           <Route path="/list" component={PortfolioList} />
           <Route path="/admin" component={Adminpage} />
-
+          <Route path="/portfoliodetails" component={Portfoliodetails} />
+ 
         </div>
           
     );

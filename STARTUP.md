@@ -10,4 +10,4 @@ To edit the code do a `git clone https://github.com/javatures/Portfolio-Frontend
     - `npm i react-bootstrap-icons`
     - `npm i bootstrap`
     - `npm i reactstrap react react-dom`
-    - `npm i react-bootstrap bootstrap`
+    - `npm i query-string`

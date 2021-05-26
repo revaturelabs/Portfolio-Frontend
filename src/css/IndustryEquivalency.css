@@ -15,7 +15,11 @@
 .ring-10 { background: radial-gradient(circle, rgba(0,191,0,0) 48%, rgba(0,191,0,1) 50%, rgba(0,191,0,1) 60%, rgba(0,191,0,0) 62%); }
 
 .tall-text {
+    width: 7em;
     line-height: 7em;
+}
+.eq-label-text {
+    width: 6.5em;
 }
 
 #header-industry-equivalence { background: linear-gradient(to right, rgb( 242, 105, 3), rgb(115, 165, 194), rgb(253, 181, 21)); }

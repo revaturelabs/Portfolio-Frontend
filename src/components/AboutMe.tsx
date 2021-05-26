@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Modal } from 'react-bootstrap';
-import { QuestionCircle, PlusCircle, Pencil, Trash } from 'react-bootstrap-icons';
+import { Card, Button, Modal, ModalBody} from 'react-bootstrap';
+import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons';
 import { Input, Tooltip } from 'reactstrap';
 import '../css/RevatureAboutMe.css';
 import axios from 'axios'
@@ -20,6 +20,9 @@ const RevatureAboutMe = () => {
     const [deleteShow, setDeleteShow] = useState(false)
     const handleDeleteShow = () => setDeleteShow(true)
     const handleDeleteClose = () => setDeleteShow(false)
+    const [showDetails, setShowDetails] = useState(false);
+    const handleCloseDetails = () => setShowDetails(false);
+    const handleShowDetails= () => setShowDetails(true);
     //***************************************************/
 
     // Tooltip for add and details buttons
@@ -194,7 +197,6 @@ const RevatureAboutMe = () => {
     }
 
     // Information meassage
-    const message: string = "This section is used to focus on your personal story and career goals. \n\n How did you first get started with coding? \n What was your favorite project to see come to completion?"
     const editMessage: string = "this is the edit bio button"
     let rowLength = 10
     let columnLength = 47
@@ -205,7 +207,7 @@ const RevatureAboutMe = () => {
                 <Card.Header id="header">
                     <h4>
                         About Me
-                        <QuestionCircle id="card-info" onClick={() => (alert(message))} />
+                        <QuestionCircle id="card-info" onClick={handleShowDetails} />
                         <PlusCircle id="add-aboutMe" onClick={handleShow} />
                         <Tooltip target="add-aboutMe" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
@@ -282,7 +284,29 @@ const RevatureAboutMe = () => {
                                     </Button>
                                 </Modal.Footer>
                         </Modal>
-
+                        <Modal show={showDetails} onHide={handleCloseDetails}>
+                    <Modal.Header>
+                        <Modal.Title>Details</Modal.Title>
+                        <XCircle id="work-experience-details" onClick={handleCloseDetails}/>
+                    </Modal.Header>
+                    <ModalBody>
+                        <p>
+                            This section is used to focus on your personal story and career goals.
+                            <br/>
+                            <br/>
+                            Focus on your personal story and educational background information, 
+                            career goals, relevant work experience, professional experience and skills, 
+                            and a summary of your Revature experience.
+                            <br/>
+                            <br/>
+                            Include your leadership qualities, problem-solving capabilities, 
+                            presentation skills, communication skills, and teamplayer skills.
+                            <br/>
+                            <br/>
+                            Don’t mention your hobbies or other non-relevant information.
+                        </p>
+                    </ModalBody>
+                </Modal>
                     </Card.Text>
                 </Card.Body>
             </Card>

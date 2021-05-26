@@ -1,0 +1,30 @@
+.card:not(:first-child){
+    margin-top: 25px;
+}
+
+#bottom-border{
+    border-bottom: 5px solid rgb(115, 165, 194);
+    background-color: white;
+}
+
+#aboutMe-h6{
+    color: grey;
+}
+
+#aboutMe-h6::after{
+    content: "";
+}
+
+#industry{
+    display: flex;
+    flex-direction: row;
+}
+
+.eq-label-text-view{
+    width: 7em;
+}
+
+#body-flex-content{
+    display: flex;
+    justify-content: space-between;
+}

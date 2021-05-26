@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Modal } from "react-bootstrap";
-import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
+import { PlusCircle } from "react-bootstrap-icons";
 import { useCookies } from 'react-cookie';
 import { Tooltip } from "reactstrap";
-import "../css/Education.css";
-import Education from './Education';
-import EducationCreation from './EducationCreation';
-import EducationDelete from './EducationDelete';
-import EducationDisplay from "./EducationDisplay";
-import EducationUpdate from './EducationUpdate';
+import CertificationCreation from './CertificationCreation';
+import CertificationDelete from './CertificationDelete';
+import CertificationDisplay from './CertificationDisplay';
+import CertificationUpdate from './CertificationUpdate';
+import "../css/Certification.css";
 
 interface User {
     id: number;
@@ -27,26 +26,26 @@ interface Portfolio {
     feedback: string;
 }
 
-interface Education {
+interface Certification {
     id: number;
     portfolio: Portfolio;
-    university: string;
-    degree: string;
-    graduationDate: string;
-    gpa: number;
-    logoUrl: string;
+    name: string;
+    certId: string;
+    issuedBy: string;
+    issuedOn: string;
+    publicUrl: string;
 }
 
-const EducationContainer = () => {
-    const backEndUrl = "http://3.236.213.150:8081/education";
+const CertificationContainer = () => {
+    const backEndUrl = "http://3.236.213.150:8081/certifications";
     const [cookies] = useCookies();
     const portfolioId = cookies['portfolio'].id;
 
-    const [educations, setEducations] = useState(Array<Education>());
+    const [certifications, setCertifications] = useState(Array<Certification>());
 
-    //Stores the education that the user wants to edit
-    const [editEducation, setEditEducation] = useState(Object);
-    const getEditEducation = (education: Education) => setEditEducation(education);
+    //Stores the certification that the user wants to edit
+    const [editCertification, setEditCertification] = useState(Object);
+    const getEditCertification = (certification: Certification) => setEditCertification(certification);
 
     //State handlers for the creation modal
     const [showCreationModal, setShowCreationModal] = useState(false);
@@ -67,16 +66,10 @@ const EducationContainer = () => {
     const [showAddTooltip, setShowAddTooltip] = useState(false);
     const toggleAddTooltip = () => setShowAddTooltip(!showAddTooltip);
 
-    //State handler for details icon
-    const [showDetailsTooltip, setShowDetailsTooltip] = useState(false);
-    const toggleDetailsTooltip = () => setShowDetailsTooltip(!showDetailsTooltip);
-
-    const messageDetails: string = "Add your education history here";
-
     useEffect(() => {
         fetch(backEndUrl + "/portfolio/all/" + portfolioId)
             .then(response => response.json())
-            .then(json => setEducations(json));
+            .then(json => setCertifications(json));
     }, [])
 
     return (
@@ -84,48 +77,49 @@ const EducationContainer = () => {
 
             <Modal show={showCreationModal} onHide={handleHideCreationModal} backdrop="static">
                 <Modal.Header>
-                    <Modal.Title>Add Education</Modal.Title>
+                    <Modal.Title>Add Certification</Modal.Title>
                 </Modal.Header>
-                <EducationCreation hideModal={handleHideCreationModal} />
+                <CertificationCreation hideModal={handleHideCreationModal} />
             </Modal>
 
             <Modal show={showEditModal} onHide={handleHideEditModal} backdrop="static">
                 <Modal.Header>
-                    <Modal.Title>Edit Education</Modal.Title>
+                    <Modal.Title>Edit Certification</Modal.Title>
                 </Modal.Header>
-                <EducationUpdate hideModal={handleHideEditModal} editEducation={editEducation} />
+                <CertificationUpdate hideModal={handleHideEditModal} editCertification={editCertification} />
             </Modal>
 
             <Modal show={showDeleteModal} onHide={handleHideDeleteModal} backdrop="static">
                 <Modal.Header>
                     <Modal.Title>Delete Warning</Modal.Title>
                 </Modal.Header>
-                <EducationDelete hideModal={handleHideDeleteModal} editEducation={editEducation} />
+                <CertificationDelete hideModal={handleHideDeleteModal} editCertification={editCertification} />
             </Modal>
 
             <Card id="card-container">
                 <Card.Header id="header-project">
                     <h4>
-                        Education
-                        <PlusCircle id="add-education" onClick={handleShowCreationModal} />
+                        Certification
+                        <PlusCircle id="add-certification" onClick={handleShowCreationModal} />
                         <Tooltip
-                            target="add-education"
+                            target="add-certification"
                             isOpen={showAddTooltip}
                             toggle={toggleAddTooltip} >
-                            Add Education
+                            Add Certification
                         </Tooltip>
                     </h4>
                 </Card.Header>
 
                 <Card.Body>
-                    {educations.map((education, index) => (
-                        <EducationDisplay getEditEducation={getEditEducation} showEditModal={handleShowEditModal} showDeleteModal={handleShowDeleteModal} currentEducation={education} index={index} key={index} />
+                    {certifications.map((certification, index) => (
+                        <CertificationDisplay getEditCertification={getEditCertification} showEditModal={handleShowEditModal} 
+                        showDeleteModal={handleShowDeleteModal} currentCertification={certification} index={index} key={index} />
                     ))}
-                    <Card.Text className="education"></Card.Text>
+                    <Card.Text className="certification"></Card.Text>
                 </Card.Body>
             </Card>
         </div>
     );
 };
 
-export default EducationContainer;
+export default CertificationContainer;
