@@ -26,8 +26,8 @@ const OtherWorkExperience = () => {
 
     // Tooltip for add and details buttons
     //***********************************************************************/
-    const [addTooltipOpen, setAddTooltipOpen] = useState(false)
-    const toggleAdd = () => setAddTooltipOpen(!addTooltipOpen)
+    const [addTooltipOpenOWE, setAddTooltipOpenOWE] = useState(false)
+    const toggleAddOWE = () => setAddTooltipOpenOWE(!addTooltipOpenOWE)
     const [detailsTooltipOpenOWE, setDetailsTooltipOpenOWE] = useState(false)
     const toggleDetails = () => setDetailsTooltipOpenOWE(!detailsTooltipOpenOWE)
     //***********************************************************************/
@@ -267,8 +267,8 @@ const OtherWorkExperience = () => {
                         Other Work Experience
                         <QuestionCircle id="card-info" onClick={handleShowDetails}/>
                         <Tooltip target="card-info" isOpen={detailsTooltipOpenOWE} toggle={toggleDetails}>Details</Tooltip>
-                        <PlusCircle id="add-work-experience" onClick={handleShow}/>
-                        <Tooltip target="add-work-experience" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
+                        <PlusCircle id="add-other-work-experience" onClick={handleShow}/>
+                        <Tooltip target="add-other-work-experience" isOpen={addTooltipOpenOWE} toggle={toggleAddOWE}>Add Other Work Experience</Tooltip>
                     </h4>
                 </Card.Header>
                 <Card.Body id="card-body">
