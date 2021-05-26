@@ -47,16 +47,14 @@ const EducationView = () => {
 
     return (
         <div className="container">
-            {educationList &&
-                <Card id="card-container">
-                    <Card.Header id="header">
-                        <h4>Education</h4>
-                    </Card.Header>
-                    <Card.Body>
-                        {renderEducation(educationList)}
-                    </Card.Body>
-                </Card>
-            }
+            <Card id="card-container">
+                <Card.Header id="header">
+                    <h4>Education</h4>
+                </Card.Header>
+                <Card.Body>
+                    {educationList && renderEducation(educationList)}
+                </Card.Body>
+            </Card>
         </div>
     );
 }

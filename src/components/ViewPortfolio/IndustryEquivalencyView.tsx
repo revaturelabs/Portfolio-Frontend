@@ -42,16 +42,14 @@ const IndustryEquivalencyView = () => {
 
     return (
         <div className="container">
-            {industryList &&
-                <Card id="card-container">
-                    <Card.Header id="header">
-                        <h4>Industry Equivalency</h4>
-                    </Card.Header>
-                    <Card.Body id="industry">
-                        {renderIndustry(industryList)}
-                    </Card.Body>
-                </Card>
-            }
+            <Card id="card-container">
+                <Card.Header id="header">
+                    <h4>Industry Equivalency</h4>
+                </Card.Header>
+                <Card.Body id="industry">
+                    {industryList && renderIndustry(industryList)}
+                </Card.Body>
+            </Card>
         </div>
     );
 }

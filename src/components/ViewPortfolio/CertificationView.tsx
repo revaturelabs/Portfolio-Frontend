@@ -48,16 +48,14 @@ const CertificationView = () => {
 
     return (
         <div className="container">
-            {certifications &&
-                <Card id="card-container">
-                    <Card.Header id="header">
-                        <h4>Certification</h4>
-                    </Card.Header>
-                    <Card.Body>
-                        {renderCertifications(certifications)}
-                    </Card.Body>
-                </Card>
-            }
+            <Card id="card-container">
+                <Card.Header id="header">
+                    <h4>Certification</h4>
+                </Card.Header>
+                <Card.Body>
+                    {certifications && renderCertifications(certifications)}
+                </Card.Body>
+            </Card>
         </div>
     );
 }

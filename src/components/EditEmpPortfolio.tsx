@@ -29,7 +29,7 @@ const EditEmpPortfolio = () => {
             submitted: true
         }
         setCookie('portfolio', obj, { path: '/' });
-        axios.post(`http://3.236.213.150:8081/portfolios/portfolios/${cookies['portfolio'].id}`, { ...obj }).catch(error => {
+        axios.post(`http://3.236.213.150:8081/portfolios/${cookies['portfolio'].id}`, { ...obj }).catch(error => {
             console.log(error);
         });
         handleBack();

@@ -36,7 +36,7 @@ const HonorAwardView = () => {
                         <p>{data.description}</p>
                         <h5>Received From</h5>
                         <p>{data.receivedFrom}</p>
-                        <h5>Received On</h5> 
+                        <h5>Received On</h5>
                         <p>{day} {date}</p>
                     </div>
                 </div>
@@ -46,16 +46,14 @@ const HonorAwardView = () => {
 
     return (
         <div className="container">
-            {honorList &&
-                <Card id="card-container">
-                    <Card.Header id="header-honoraward">
-                        <h4>Honors and Awards</h4>
-                    </Card.Header>
-                    <Card.Body>
-                        {renderHonors(honorList)}
-                    </Card.Body>
-                </Card>
-            }
+            <Card id="card-container">
+                <Card.Header id="header-honoraward">
+                    <h4>Honors and Awards</h4>
+                </Card.Header>
+                <Card.Body>
+                    {honorList && renderHonors(honorList)}
+                </Card.Body>
+            </Card>
         </div>
     );
 }
