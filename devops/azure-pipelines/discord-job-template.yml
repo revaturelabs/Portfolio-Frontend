@@ -6,18 +6,14 @@ jobs:
       inputs:
         channelId: '856587514218545203'
         webhookKey: 'OmVq23OAAKWh6VQGfoiFE-DRlGwtDst19OLHedR9HaQ7eONnVdlBJlc1i8OiAUpz4hqd'
-        name: 'Team4-P2'
+        name: 'Team2-P3'
         messageType: 'content'
         content: |
-          **Team 4 Project 2**: $(Build.SourceVersionMessage)
+          **Team 2 Project 3 Frontend**: $(Build.SourceVersionMessage)
           ```
           Build Number: $(Build.BuildNumber)
           Build Branch: $(Build.SourceBranch)
           Build Reason: $(Build.Reason)
+          Build Image: frontend-$(Build.SourceVersion)
           ```
           **Result**: $(Agent.JobStatus)
-          ```
-          Image: "$(service)-$(Build.SourceVersion)"
-          Pushed to Azure Container Registry
-          Pushed to Docker Hub Repository
-          ```
