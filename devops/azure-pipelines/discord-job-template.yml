@@ -1,7 +1,4 @@
-jobs:
-  - job: DiscordMessage
-
-    steps: 
+steps: 
     - task: ado-discord-webhook@1
       inputs:
         channelId: '856587514218545203'
@@ -16,4 +13,4 @@ jobs:
           Build Reason: $(Build.Reason)
           Build Image: frontend-$(Build.SourceVersion)
           ```
-          **Result**: $(Agent.JobStatus)
+          **Result**: $(Agent.JobStatus)    
