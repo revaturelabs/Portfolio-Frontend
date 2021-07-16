@@ -13,7 +13,3 @@ stages:
 - template: ./build-stage-template.yml
   parameters:
     displayName: 'Frontend Build'
-
-- template: ./discord-job-template.yml
-
-
