@@ -1,7 +1,3 @@
-paramaters:
-  name: 'dependOn'
-  type: string
-
 jobs:
   - job: DiscordMessage
     dependsOn: ${{ paramaters.dependOn }}

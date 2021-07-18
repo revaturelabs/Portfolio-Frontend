@@ -1,7 +1,3 @@
-paramaters:
-  name: 'displayName'
-  type: string
-  
 stages:
 - stage: Build
   displayName: ${{ parameters.displayName }}
