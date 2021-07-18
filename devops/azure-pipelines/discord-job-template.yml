@@ -1,6 +1,6 @@
 jobs:
   - job: DiscordMessage
-    dependsOn: ${{ paramaters.dependOn }}
+    dependsOn: ${{ parameters.dependOn }}
     variables: 
     - group: Discord-Webhook-Info
     steps: 
