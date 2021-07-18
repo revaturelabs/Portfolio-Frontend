@@ -3,8 +3,10 @@ jobs:
     dependsOn: ${{ parameters.dependOn }}
     variables: 
     - group: Discord-Webhook-Info
-      discord_id: $(discordid)
-      discord_key: $(discordkey)
+    - name: discord_id
+      value: $[variables.discordid]
+    - name: discord_key
+      value: $[variables.discordkey]
     steps: 
     - task: ado-discord-webhook@1
       inputs:
