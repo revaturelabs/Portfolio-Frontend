@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: forge-frontend-backend
-  templates:
+  template:
     metadata:
       labels:
         app: forge-frontend-backend
