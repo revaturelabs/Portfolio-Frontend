@@ -1,0 +1,16 @@
+parameters:
+  - name: 'jobName'
+    type: string
+  - name: 'serviceConnection'
+    type: string
+  - name: 'manifestPath'
+    type: string
+jobs:
+  - job: ${{ parameters.jobName }}
+    steps:
+      - task: KubernetesManifest@0
+        inputs:
+          action: 'deploy'
+          kubernetesServiceConnection: '${{ parameters.serviceConnection }}'
+          manifests: '${{ parameters.manifestPath }}'
+          rolloutStatusTimeout: '10'

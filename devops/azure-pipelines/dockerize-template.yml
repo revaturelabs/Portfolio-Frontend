@@ -1,0 +1,21 @@
+parameters:
+  - name: 'jobName'
+    type: string
+  - name: 'containerRegistry'
+    type: string
+  - name: 'repository'
+    type: string
+  - name: 'dockerPath'
+    type: string
+jobs:
+- job:
+  displayName: ${{ parameters.jobName }}
+  steps:
+  - task: Docker@2
+    inputs:
+      containerRegistry: '${{ parameters.containterRegistry }}'
+      repository: '${{ parameters.repository }}'
+      command: 'buildAndPush'
+      Dockerfile: '${{ parameters.dockerPath }}'
+      tags: '$(Build.SourceVersion)'
+      buildContext: $(Build.Repository.LocalPath)

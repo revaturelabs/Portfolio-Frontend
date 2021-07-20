@@ -18,9 +18,24 @@ stages:
         parameters:
           jobName: 'Build'
           nodeVersion: '14.x'
+  - stage: Dockerize
+    jobs:
+      - template: ./docker-template.yml
+        parameters:
+          jobName: 'Dockerize'
+          containterRegistry: 'project-3-docker-hub'
+          repository: 'dajpearl/forge-backend'
+          dockerPath: '**/gradle.Dockerfile'
+  - stage: Deploy
+    jobs:
+      - template: ./kubernetes-template.yml
+        parameters:
+          jobName: Deploy
+          serviceConnection: 'Alex-Dev-Cluster'
+          manifestPath: '**/monolith-manifest.yml'
       - template: ./discord-job-template.yml
         parameters:
-          dependOn: Build
+          dependOn: Deploy
           name: 'Team2-P3'
           title: 'Team 2 Project 3 Frontend'
           discordVarGroup: Discord-Webhook-Info
