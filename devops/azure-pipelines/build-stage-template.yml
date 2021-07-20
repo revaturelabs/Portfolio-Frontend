@@ -3,7 +3,6 @@ parameters:
     type: string
   - name: 'nodeVersion'
     type: string
-
 jobs:
   - job: ${{ parameters.jobName }}
     steps:
