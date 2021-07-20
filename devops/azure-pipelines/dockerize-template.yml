@@ -8,14 +8,14 @@ parameters:
   - name: 'dockerPath'
     type: string
 jobs:
-- job:
-  displayName: ${{ parameters.jobName }}
-  steps:
-  - task: Docker@2
-    inputs:
-      containerRegistry: '${{ parameters.containerRegistry }}'
-      repository: '${{ parameters.repository }}'
-      command: 'buildAndPush'
-      Dockerfile: '${{ parameters.dockerPath }}'
-      tags: '$(Build.SourceVersion)'
-      buildContext: $(Build.Repository.LocalPath)
+  - job:
+    displayName: ${{ parameters.jobName }}
+    steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: '${{ parameters.containerRegistry }}'
+          repository: '${{ parameters.repository }}'
+          command: 'buildAndPush'
+          Dockerfile: '${{ parameters.dockerPath }}'
+          tags: '$(Build.SourceVersion)'
+          buildContext: $(Build.Repository.LocalPath)
