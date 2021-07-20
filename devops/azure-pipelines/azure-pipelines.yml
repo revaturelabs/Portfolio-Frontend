@@ -1,0 +1,26 @@
+
+trigger:
+  - main
+  - staging
+  - dev
+pr:
+  - main
+  - staging
+  - dev
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: Build_and_Test
+    jobs:
+      - template: ./build-job-template.yml
+        parameters:
+          jobName: 'Build'
+          nodeVersion: '14.x'
+      - template: ./discord-job-template.yml
+        parameters:
+          dependOn: Build
+          name: 'Team2-P3'
+          title: 'Team 2 Project 3 Frontend'
+          discordVarGroup: Discord-Webhook-Info
