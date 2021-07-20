@@ -1,4 +1,3 @@
-
 trigger:
   - main
   - staging
@@ -20,7 +19,7 @@ stages:
           nodeVersion: '14.x'
   - stage: Dockerize
     jobs:
-      - template: ./docker-template.yml
+      - template: ./dockerize-template.yml
         parameters:
           jobName: 'Dockerize'
           containterRegistry: 'project-3-docker-hub'
