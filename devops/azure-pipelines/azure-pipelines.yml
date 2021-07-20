@@ -22,7 +22,7 @@ stages:
       - template: ./dockerize-template.yml
         parameters:
           jobName: 'Dockerize'
-          containterRegistry: 'project-3-docker-hub'
+          containerRegistry: 'project-3-docker-hub'
           repository: 'dajpearl/forge-backend'
           dockerPath: '**/gradle.Dockerfile'
   - stage: Deploy
