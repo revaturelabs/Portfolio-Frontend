@@ -1,25 +1,30 @@
+parameters:
+  - name: 'dependOn'
+    type: string
+  - name: 'name'
+    type: string
+  - name: 'title'
+    type: string
+  - name: 'discordVarGroup'
+    type: string
 jobs:
-  - job: DiscordMessage
-    dependsOn: ${{ parameters.dependOn }}
-    variables: 
-    - group: Discord-Webhook-Info
-    - name: discord_id
-      value: $[variables.discordid]
-    - name: discord_key
-      value: $[variables.discordkey]
-    steps: 
-    - task: ado-discord-webhook@1
-      inputs:
-        channelId: $(discord_id)
-        webhookKey: $(discord_key)
-        name: 'Team2-P3'
-        messageType: 'content'
-        content: |
-          **Team 2 Project 3 Frontend**: $(Build.SourceVersionMessage)
-          ```
-          Build Number: $(Build.BuildNumber)
-          Build Branch: $(Build.SourceBranch)
-          Build Reason: $(Build.Reason)
-          Build Image: frontend-$(Build.SourceVersion)
-          ```
-          **Result**: $(Agent.JobStatus)
+- job: DiscordMessage
+  variables: 
+    - group: ${{parameters.discordVarGroup}}
+  dependsOn: ${{ parameters.dependOn }}
+  steps:  
+  - task: ado-discord-webhook@1
+    inputs:
+      channelId: '$(discordid)'
+      webhookKey: '$(discordkey)'
+      name: ${{ parameters.name }}
+      messageType: 'content'
+      content: |
+        **${{ parameters.title }}**: $(Build.SourceVersionMessage)
+        ```
+        Build Number: $(Build.BuildNumber)
+        Build Branch: $(Build.SourceBranch)
+        Build Reason: $(Build.Reason)
+        Commit Id: $(Build.SourceVersion)
+        ```
+        **Result**: $(Agent.JobStatus)
