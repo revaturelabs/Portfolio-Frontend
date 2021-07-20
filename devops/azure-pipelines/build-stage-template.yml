@@ -1,23 +1,17 @@
-stages:
-- stage: Build
-  displayName: ${{ parameters.displayName }}
-  jobs:
-  - job: Build
+parameters:
+  - name: 'jobName'
+    type: string
+  - name: 'nodeVersion'
+    type: string
+
+jobs:
+  - job: ${{ parameters.jobName }}
     steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '14.x'
-      displayName: 'Install Node.js'
-
-    - script: npm ci
-      displayName: 'npm install'
-
-    - script: npm run build
-      displayName: 'npm build'
-  
-  - template: ./discord-job-template.yml
-    parameters:
-      dependOn: Build
-      name: 'Team2-P3'
-      title: 'Team 2 Project 3 Frontend'
-      discordVarGroup: Discord-Webhook-Info
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '${{ parameters.nodeVersion }}'
+        displayName: 'Install Node.js'
+      - script: npm ci
+        displayName: 'npm install'
+      - script: npm run build
+        displayName: 'npm build'

@@ -12,6 +12,15 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- template: ./build-stage-template.yml
-  parameters:
-    displayName: 'Frontend Build'
+  - stage: Build_and_Test
+    jobs:
+      - template: ./build-stage-template.yml
+        parameters:
+          jobName: 'Build'
+          nodeVersion: '14.x'
+      - template: ./discord-job-template.yml
+        parameters:
+          dependOn: Build
+          name: 'Team2-P3'
+          title: 'Team 2 Project 3 Frontend'
+          discordVarGroup: Discord-Webhook-Info
