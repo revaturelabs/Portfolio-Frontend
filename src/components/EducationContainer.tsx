@@ -4,39 +4,12 @@ import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { useCookies } from 'react-cookie';
 import { Tooltip } from "reactstrap";
 import "../css/Education.css";
-import Education from './Education';
 import EducationCreation from './EducationCreation';
 import EducationDelete from './EducationDelete';
 import EducationDisplay from "./EducationDisplay";
 import EducationUpdate from './EducationUpdate';
 import {url} from "../api/api";
-
-interface User {
-    id: number;
-    name: string;
-    password: string;
-    admin: boolean;
-}
-
-interface Portfolio {
-    id: number;
-    name: string;
-    user: User;
-    submitted: boolean;
-    approved: boolean;
-    reviewed: boolean;
-    feedback: string;
-}
-
-interface Education {
-    id: number;
-    portfolio: Portfolio;
-    university: string;
-    degree: string;
-    graduationDate: string;
-    gpa: number;
-    logoUrl: string;
-}
+import Education from "../interfaces/Education";
 
 const EducationContainer = () => {
     const backEndUrl = url + "/education";

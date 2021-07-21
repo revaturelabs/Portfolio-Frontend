@@ -9,33 +9,7 @@ import CertificationDisplay from './CertificationDisplay';
 import CertificationUpdate from './CertificationUpdate';
 import "../css/Certification.css";
 import {url} from "../api/api";
-
-interface User {
-    id: number;
-    name: string;
-    password: string;
-    admin: boolean;
-}
-
-interface Portfolio {
-    id: number;
-    name: string;
-    user: User;
-    submitted: boolean;
-    approved: boolean;
-    reviewed: boolean;
-    feedback: string;
-}
-
-interface Certification {
-    id: number;
-    portfolio: Portfolio;
-    name: string;
-    certId: string;
-    issuedBy: string;
-    issuedOn: string;
-    publicUrl: string;
-}
+import Certification from "../interfaces/Certification";
 
 const CertificationContainer = () => {
     const backEndUrl = url + "/certifications";
