@@ -175,7 +175,7 @@ const Education = () => {
     // Delete an Education Card
     const handleDelete = async (id:number) => {
     
-        axios.delete(`${educationUrl}/id`)
+        axios.delete(`${educationUrl}/${id}`)
             .then(res => {
             })
             .catch((err) => {
