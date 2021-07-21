@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 import "../../css/Project.css";
+import {url} from "../../api/api";
 
 interface Projects {
     id: number;
@@ -19,7 +20,7 @@ const ProjectView = () => {
     const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get<Projects[]>(`http://3.236.213.150:8081/projects/portfolio/all/${cookie['portfolio'].id}`).then(response => {
+        axios.get<Projects[]>(url + `/projects/portfolio/all/${cookie['portfolio'].id}`).then(response => {
             setProjects(response.data);
         })
     }, [null]);

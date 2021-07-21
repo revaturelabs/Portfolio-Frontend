@@ -9,6 +9,7 @@ import RevatureWorkExperienceView from "./RevatureWorkExperienceView"
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from "react";
 import CertificationView from "./CertificationView";
+import {url} from "../../api/api";
 
 const ViewPortfolio = () => {
     const [cookie, setCookie, removeCookie] = useCookies();
@@ -37,11 +38,11 @@ const ViewPortfolio = () => {
             <IndustryEquivalencyView /> <br />
             <AboutMeView /> <br />
             <RevatureWorkExperienceView
-                url="http://3.236.213.150:8081/workexperience/portfolio/all/"
+                url={url + "/workexperience/portfolio/all/"}
                 title="Work Experience" /> <br />
             <ProjectView /> <br />
             <RevatureWorkExperienceView
-                url="http://3.236.213.150:8081/workhistory/portfolio/all/"
+                url={url + "/workhistory/portfolio/all/"}
                 title="Other Work Experience" /> <br />
             {/* <OtherWorkExperienceView /> */}
             <EducationView /> <br />

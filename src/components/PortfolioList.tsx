@@ -4,6 +4,7 @@ import { Button, Collapse, Modal, Table } from 'react-bootstrap';
 import CreatePortfolio from './CreatePortfolio';
 import { useCookies } from 'react-cookie'
 import axios from 'axios';
+import { url } from '../api/api';
 
 
 
@@ -17,7 +18,7 @@ const PortfolioList = () => {
     const [table, setTable] = useState([])
 
     const handleTable = () => {
-        axios.get('http://3.236.213.150:8081/portfolios/users/all/' + cookies['user'].id)
+        axios.get(url + '/portfolios/users/all/' + cookies['user'].id)
             .then(response => {
                 setTable(response.data)
                 console.log(table);
@@ -28,7 +29,7 @@ const PortfolioList = () => {
     }
 
     const handleDelete = (id: any) => {
-        axios.delete('http://3.236.213.150:8081/portfolios/' + id)
+        axios.delete(url +'/portfolios/' + id)
             .then(response => {
                 removeCookie('portfolio', { maxAge: 0 })
                 alert('portfolio deleted')
@@ -49,7 +50,7 @@ const PortfolioList = () => {
 
     const handlePortfolioEdit = (id: any, submitted: boolean) => {
         let pathname = submitted ? "./view" : "./portfolio";
-        axios.get('http://3.236.213.150:8081/portfolios/' + id)
+        axios.get(url + '/portfolios/' + id)
             .then(response => {
                 setCookie('portfolio', response.data, { path: "/" });
                 window.location.pathname = pathname;
