@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {useState} from 'react';
+import {url} from '../api/api'
 
 const useForm = (initialValues: any, validate: any) => {
     const [inputs, setInputs] = useState(initialValues)
@@ -12,7 +13,7 @@ const useForm = (initialValues: any, validate: any) => {
         const noErros = Object.keys(validationErrors).length === 0
         setErrors(validationErrors)
         if(noErros) {
-            axios.post('http://3.236.213.150:8081/users', inputs)
+            axios.post(url + '/users', inputs)
             .then(response => {
                 console.log(inputs)
                 alert("Registered")
