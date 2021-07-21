@@ -8,6 +8,7 @@ import CertificationDelete from './CertificationDelete';
 import CertificationDisplay from './CertificationDisplay';
 import CertificationUpdate from './CertificationUpdate';
 import "../css/Certification.css";
+import {url} from "../api/api";
 
 interface User {
     id: number;
@@ -37,7 +38,7 @@ interface Certification {
 }
 
 const CertificationContainer = () => {
-    const backEndUrl = "http://3.236.213.150:8081/certifications";
+    const backEndUrl = url + "/certifications";
     const [cookies] = useCookies();
     const portfolioId = cookies['portfolio'].id;
 

@@ -6,6 +6,7 @@ import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { Tooltip } from "reactstrap";
 import { NumberLiteralType } from "typescript";
 import "../css/Project.css";
+import {url} from "../api/api";
 
 const Education = () => {
     /**
@@ -55,7 +56,7 @@ const Education = () => {
     }, [])
 
     const fetchEducation = async () => {
-        const res = await fetch("http://localhost:8081/education");
+        const res = await fetch(url + "/education");
         const data = await res.json();
         createAllEducation(data)
         return data;
@@ -153,7 +154,7 @@ const Education = () => {
     const handleSave = () => {
     
         axios
-            .post("http://localhost:8081/education", {
+            .post(url + "/education", {
                 university,
                 degree,
                 graduationDate,
@@ -174,7 +175,7 @@ const Education = () => {
     // Delete an Education Card
     const handleDelete = async (id:number) => {
     
-        axios.delete('http://localhost:8081/education/' + id)
+        axios.delete(url + '/education/' + id)
             .then(res => {
             })
             .catch((err) => {
@@ -188,7 +189,7 @@ const Education = () => {
     const handleUpdate = (id:any) => {
     
         axios
-            .post("http://localhost:8081/education/"+ id, {
+            .post(url + "/education/"+ id, {
                university,
                degree,
                graduationDate,

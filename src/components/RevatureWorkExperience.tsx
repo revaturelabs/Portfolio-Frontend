@@ -6,6 +6,7 @@ import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons'
 import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/RevatureWorkExperience.css'
+import { url } from '../api/api'
 
 
 const RevatureWorkExperience = () => {
@@ -66,7 +67,7 @@ const RevatureWorkExperience = () => {
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
-        axios.get("http://3.236.213.150:8081/workexperience/portfolio/" + cookies['portfolio'].id)
+        axios.get(url +"/workexperience/portfolio/" + cookies['portfolio'].id)
         .then(resp => {
             createWorkExperience(resp.data)
         })
@@ -196,7 +197,7 @@ const RevatureWorkExperience = () => {
     // Delete work experience from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete("http://3.236.213.150:8081/workexperience/" + input)
+        axios.delete(url + "/workexperience/" + input)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -211,7 +212,7 @@ const RevatureWorkExperience = () => {
     //***********************************************************************/
     const handleUpdate = (input: any) => {
 
-        axios.post("http://3.236.213.150:8081/workexperience/" + input,{
+        axios.post(url + "/workexperience/" + input,{
             portfolio,
             employer,
             startDate,
@@ -234,7 +235,7 @@ const RevatureWorkExperience = () => {
     // Save data to database
     //***************************************************/
     const handleSave = () => {
-        axios.post("http://3.236.213.150:8081/workexperience", {
+        axios.post(url + "/workexperience", {
             portfolio,
             employer,
             startDate,

@@ -9,6 +9,7 @@ import EducationCreation from './EducationCreation';
 import EducationDelete from './EducationDelete';
 import EducationDisplay from "./EducationDisplay";
 import EducationUpdate from './EducationUpdate';
+import {url} from "../api/api";
 
 interface User {
     id: number;
@@ -38,7 +39,7 @@ interface Education {
 }
 
 const EducationContainer = () => {
-    const backEndUrl = "http://3.236.213.150:8081/education";
+    const backEndUrl = url + "/education";
     const [cookies] = useCookies();
     const portfolioId = cookies['portfolio'].id;
 

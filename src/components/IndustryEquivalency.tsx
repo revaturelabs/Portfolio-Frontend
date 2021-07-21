@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie'
 import { Card, Button, Modal, ModalBody } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
+import {url} from "../api/api";
 
 // JSON INTERFACES
 
@@ -44,8 +45,6 @@ export interface Option {
 /* ------------------------ */
 
 // STATIC VARIABLES
-/* ---------------------------------------------------------------- */
-let back_end_url: string = 'http://3.236.213.150:8081';
 /* ---------------------------------------------------------------- */
 // OPTION DATA
 // question: should this be stored in the database and editable by staff/admin?
@@ -161,7 +160,7 @@ const IndustryEquivalency = () => {
     // GET EQUIVALENCY ARRAY
     /* ---------------------------------------------------------------- */
     const aquireSkillSet = (() => {
-        axios.get(back_end_url + '/equiv/portfolios/all/' + portfolio.id)
+        axios.get(url + '/equiv/portfolios/all/' + portfolio.id)
             .then(resp => {
                 console.log(resp.data);
                 let tempSkillSet: Array<Skill> = resp.data;
@@ -188,7 +187,7 @@ const IndustryEquivalency = () => {
             value: equivalency,
             portfolio: portfolio
         }
-        axios.post(back_end_url + '/equiv', newSkill)
+        axios.post(url + '/equiv', newSkill)
             .then(resp => {
                 // If POST is successful, add new Skill (with correct data) to the Skill Array
                 let tempSkillSet: Array<Skill> = [...skillSet];
@@ -208,7 +207,7 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const handleDelete = async (remSkill: Skill) => {
         // console.log('axios.delete(back_end_url + \'/equiv/' + remSkill.id + '\')');
-        axios.delete(back_end_url + '/equiv/' + remSkill.id)
+        axios.delete(url + '/equiv/' + remSkill.id)
             .then(resp => {
                 console.log(resp.data);
                 let tempSkillSet: Array<Skill> = [...skillSet];
@@ -224,7 +223,7 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const updateSkills = () => {
         skillSet.forEach(async (s) => {
-            await axios.post(back_end_url + '/equiv/' + s.id, s)
+            await axios.post(url + '/equiv/' + s.id, s)
                 .then((resp) => { })
                 .catch((error) => {
                     console.error(error);

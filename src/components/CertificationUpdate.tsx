@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../css/Certification.css";
+import {url} from "../api/api";
 
 interface User {
     id: number;
@@ -31,7 +32,7 @@ interface Certification {
 }
 
 const EducationUpdate: FC<{ hideModal: Function, editCertification: Certification }> = (props) => {
-    const backEndUrl = "http://3.236.213.150:8081/certifications";
+    const backEndUrl = url + "/certifications";
 
     const [id, setId] = useState(props.editCertification.id);
     const [name, setName] = useState(props.editCertification.name);
