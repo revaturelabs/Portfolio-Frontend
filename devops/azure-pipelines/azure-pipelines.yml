@@ -35,6 +35,6 @@ stages:
       - template: ./discord-job-template.yml
         parameters:
           dependOn: Deploy
-          name: 'Team2-P3'
-          title: 'Team 2 Project 3 Frontend'
+          name: 'Team2-P3-Frontend'
+          title: 'Forge Portfolio Management System DevOps'
           discordVarGroup: Discord-Webhook-Info
