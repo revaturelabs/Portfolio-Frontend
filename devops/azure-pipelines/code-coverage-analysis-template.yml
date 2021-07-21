@@ -1,0 +1,20 @@
+parameters:
+  - name: 'serviceConnection'
+    type: string
+  - name: 'organization'
+    type: string
+  - name: 'projectKey'
+    type: string
+  - name: 'projectName'
+    type: string
+jobs:
+  - job: Static_Analysis
+    steps:
+      - task: SonarCloudPrepare@1
+        inputs:
+          SonarCloud: '${{ parameters.serviceConnection }}'
+          organization: '${{ parameters.organization }}'
+          scannerMode: 'MSBuild'
+          projectKey: '${{ parameters.projectKey }}'
+          projectName: '${{ parameters.projectName }}'
+      - task: SonarCloudAnalyze@1

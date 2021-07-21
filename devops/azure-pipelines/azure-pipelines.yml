@@ -11,12 +11,20 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: Build_and_Test
+  - stage: Build
     jobs:
       - template: ./build-job-template.yml
         parameters:
           jobName: 'Build'
           nodeVersion: '14.x'
+  - stage: Analyze
+    jobs:
+      - template: ./code-coverage-analysis-template.yml
+        parameters:
+          serviceConnection: 'Forge-SonarCloud'
+          organization: '1058-sophia-gavrila-forge'
+          projectKey: '1058-Sophia-Gavrila-Forge_Portfolio-Frontend'
+          projectName: 'Portfolio-Frontend'
   - stage: Dockerize
     jobs:
       - template: ./dockerize-template.yml
