@@ -7,6 +7,7 @@ import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/HonorAwards.css'
 import { CSSProperties } from 'react'
+import {url} from "../api/api";
 
 
 const HonorAwards = () => {
@@ -65,7 +66,7 @@ const HonorAwards = () => {
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
-        axios.get("http://3.236.213.150:8081/honor/portfolio/"+cookies['portfolio'].id)
+        axios.get(url + "/honor/portfolio/"+cookies['portfolio'].id)
 
         .then(response => {
             createHonorAward(response.data)
@@ -197,7 +198,7 @@ const HonorAwards = () => {
     // Delete honor/award from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete("http://3.236.213.150:8081/honor/" + input)
+        axios.delete(url + "/honor/" + input)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -216,7 +217,7 @@ const HonorAwards = () => {
     const handleSave = () => {
         console.log("awardtitle" + title);
 
-        axios.post("http://3.236.213.150:8081/honor", {
+        axios.post(url + "/honor", {
             title,
             description,
             receivedFrom,
@@ -243,7 +244,7 @@ const HonorAwards = () => {
     // Update honor/award from database
     //***********************************************************************/
     const handleUpdate = (input: any) => {
-        axios.put("http://3.236.213.150:8081/honor",{
+        axios.put(url + "/honor",{
         id,
         title,
         description,

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 import '../../css/ViewPortfolio.css'
+import {url} from "../../api/api";
 
 interface Honor {
     id: string;
@@ -17,7 +18,7 @@ const HonorAwardView = () => {
     const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get<Honor[]>(`http://3.236.213.150:8081/honor/portfolio/all/${cookie['portfolio'].id}`).then(response => {
+        axios.get<Honor[]>(url + `/honor/portfolio/all/${cookie['portfolio'].id}`).then(response => {
             setHonor(response.data);
         })
     }, [null]);

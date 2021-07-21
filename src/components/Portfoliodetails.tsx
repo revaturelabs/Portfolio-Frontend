@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { CSSProperties } from 'react'
 import { useCookies } from 'react-cookie'
+import { url } from '../api/api'
 
 const Portfoliodetails = (props: any) => {
 
@@ -32,8 +33,7 @@ const Portfoliodetails = (props: any) => {
   
 
     const getData = async() => {
-        //http://3.236.213.150:8081/portfolios/6
-        axios.get(`http://3.236.213.150:8081/portfolios/${id}`)
+        axios.get(url + `/portfolios/${id}`)
          .then(({data}) => {       
              console.log("getData()", data)
              setPortId(data.id)
@@ -64,7 +64,7 @@ const Portfoliodetails = (props: any) => {
          else{
         // this will be axios put to update portfolios back end
         console.log ("update" + portId+name+submitted+approved+reviewed+feedback)
-            axios.post(`http://3.236.213.150:8081/portfolios/${id}`,{
+            axios.post(url + `/portfolios/${id}`,{
             portId,
             name,
             submitted,
@@ -75,19 +75,7 @@ const Portfoliodetails = (props: any) => {
     
         })
          }
-        // axios({
-        //     method: 'post',
-        //     url: `http://3.236.213.150:8081/portfolios/${id}`,
-        //     data: {
-        //         id: portId,
-        //         name: portName,
-        //         submitted: submitted,
-        //         approved: approved,
-        //         reviewed: reviewed,
-        //         feedback: feedback
-        //     }
-        // })
-        
+
        props.history.push('/admin')
     }
 

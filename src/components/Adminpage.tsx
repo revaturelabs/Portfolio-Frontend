@@ -7,6 +7,7 @@ import { render } from 'react-dom'
 import {Link} from 'react-router-dom'
 import { CSSProperties } from 'react'
 import { useCookies } from 'react-cookie'
+import {url} from "../api/api";
 
 
 const Adminpage = () => {
@@ -41,7 +42,7 @@ const Adminpage = () => {
 
     const renderviewdetail = (id:any):void=>{
         let pathname = "./view";
-        axios.get(`http://3.236.213.150:8081/portfolios/${id}`)
+        axios.get(url + `/portfolios/${id}`)
             .then(response => {
                 setCookie('portfolio', response.data, { path: "/" });
                 window.location.pathname = pathname;
@@ -66,7 +67,7 @@ const Adminpage = () => {
     
 
     const getData = async() => {
-        axios.get("http://3.236.213.150:8081/portfolios")
+        axios.get(url + "/portfolios")
          .then(response => {
 
             setPortfolios(response.data)
