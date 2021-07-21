@@ -13,7 +13,7 @@ const ImportJsonPortfolio = () => {
     console.log(json);
 
     // … do something with the 'json' …
-    const res = await axios.post('https://httpbin.org/post', { answer: 42 });
+    const res = await axios.post('placeholder', json);
 
     if (res.status == 200) {
       //do the good good!
