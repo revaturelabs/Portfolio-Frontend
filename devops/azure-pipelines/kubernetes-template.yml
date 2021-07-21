@@ -1,9 +1,9 @@
 parameters:
   - name: 'jobName'
     type: string
-  - name: 'serviceConnection'
+  - name: 'serviceConnection' #Kubernetes service connection name
     type: string
-  - name: 'manifestPath'
+  - name: 'manifestPath' #Kubernetes manifest file path
     type: string
 jobs:
   - job: ${{ parameters.jobName }}

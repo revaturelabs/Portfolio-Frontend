@@ -1,11 +1,11 @@
 parameters:
   - name: 'jobName'
     type: string
-  - name: 'containerRegistry'
+  - name: 'containerRegistry' #service connection name
     type: string
-  - name: 'repository'
+  - name: 'repository' #dockerhub repository name
     type: string
-  - name: 'dockerPath'
+  - name: 'dockerPath' #docker file path
     type: string
 jobs:
   - job:
