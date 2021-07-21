@@ -3,9 +3,10 @@ import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import "../css/Certification.css";
+import {url} from "../api/api";
 
 const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
-    const backEndUrl = "http://3.236.213.150:8081/certifications";
+    const backEndUrl = url + "/certifications";
     const [cookies] = useCookies();
     const portfolio = cookies['portfolio'];
 
