@@ -13,6 +13,6 @@ jobs:
       - script: npm ci
         displayName: 'npm install'
       - script: npm run test
-        displayName: 'npm test --coverage'
+        displayName: 'npm test'
       - script: npm run build
         displayName: 'npm build'
