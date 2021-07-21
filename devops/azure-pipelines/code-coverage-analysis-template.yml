@@ -16,7 +16,7 @@ jobs:
           organization: '${{ parameters.organization }}'
           scannerMode: 'CLI'
           configMode: 'manual'
-          cliProjectKey: '{{ parameters.projectKey }}'
+          cliProjectKey: '${{ parameters.projectKey }}'
           cliProjectName: '${{ parameters.projectName }}'
           cliSources: '.'
       - task: SonarCloudAnalyze@1
