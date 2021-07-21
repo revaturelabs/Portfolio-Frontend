@@ -12,5 +12,7 @@ jobs:
         displayName: 'Install Node.js'
       - script: npm ci
         displayName: 'npm install'
+      - script: npm run test
+        displayName: 'npm test --coverage'
       - script: npm run build
         displayName: 'npm build'
