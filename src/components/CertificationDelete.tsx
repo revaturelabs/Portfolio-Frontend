@@ -32,11 +32,13 @@ interface Certification {
 }
 
 const CertificationDelete: FC<{ hideModal: Function, editCertification: Certification }> = (props) => {
+    const backEndUrl = url + "/certifications";
+
     const [id, setId] = useState(props.editCertification.id);
 
     const handleDelete = () => {
         axios
-            .delete(url + "/certifications/" + id)
+            .delete(backEndUrl + "/" + id)
             .then((response) => {
             })
             .catch((error) => {

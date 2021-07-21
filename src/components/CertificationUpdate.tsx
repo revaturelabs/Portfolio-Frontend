@@ -32,6 +32,8 @@ interface Certification {
 }
 
 const EducationUpdate: FC<{ hideModal: Function, editCertification: Certification }> = (props) => {
+    const backEndUrl = url + "/certifications";
+
     const [id, setId] = useState(props.editCertification.id);
     const [name, setName] = useState(props.editCertification.name);
     const [certId, setCertId] = useState(props.editCertification.certId);
@@ -42,7 +44,7 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
     const handleUpdate = () => {
 
         axios
-            .post(url + "/certifications/" + id, {
+            .post(backEndUrl + "/" + id, {
                 name,
                 certId,
                 issuedBy,

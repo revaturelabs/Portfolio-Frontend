@@ -32,6 +32,8 @@ interface Education {
 }
 
 const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (props) => {
+    const backEndUrl = url + "/education";
+
     const [id, setId] = useState(props.editEducation.id);
     const [university, setUniversity] = useState(props.editEducation.university);
     const [degree, setDegree] = useState(props.editEducation.degree);
@@ -42,7 +44,7 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
     const handleUpdate= () => {
 
         axios
-            .post(url+"/education/"+id, {
+            .post(backEndUrl+"/"+id, {
                 university,
                 degree,
                 graduationDate,
