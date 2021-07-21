@@ -14,7 +14,9 @@ jobs:
         inputs:
           SonarCloud: '${{ parameters.serviceConnection }}'
           organization: '${{ parameters.organization }}'
-          scannerMode: 'MSBuild'
-          projectKey: '${{ parameters.projectKey }}'
-          projectName: '${{ parameters.projectName }}'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: '{{ parameters.projectKey }}'
+          cliProjectName: '${{ parameters.projectName }}'
+          cliSources: '.'
       - task: SonarCloudAnalyze@1
