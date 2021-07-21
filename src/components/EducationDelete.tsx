@@ -32,13 +32,11 @@ interface Education {
 }
 
 const EducationDelete: FC<{ hideModal: Function, editEducation: Education }> = (props) => {
-    const backEndUrl = url + "/education";
-
     const [id, setId] = useState(props.editEducation.id);
 
     const handleDelete = () => {
         axios
-            .delete(backEndUrl + "/" + id)
+            .delete(url + "/education/" + id)
             .then((response) => {
             })
             .catch((error) => {
