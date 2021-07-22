@@ -130,7 +130,7 @@ const RevatureAboutMe = () => {
 
     const handleSave = async () => {
         let portfolio = cookies['portfolio']
-        if(aboutMeValidate(bio,email,phone)){
+        if(aboutMeValidate(bio,phone,email)){
         axios.post(url + "/aboutMe", { portfolio, bio, email, phone})
         .then(response => {
             console.log("success") 
@@ -151,7 +151,7 @@ const RevatureAboutMe = () => {
     //POST METHOD FOR UPDATING
 
     const handleUpdate = async (id: string) => {
-        if(aboutMeValidate(bio,email,phone)){
+        if(aboutMeValidate(bio,phone,email)){
         axios.post(url + "/aboutMe/" + id, {id, bio, email, phone})
         .then(response => {
             console.log("success")
@@ -205,36 +205,6 @@ const RevatureAboutMe = () => {
         })
         setDeleteShow(false)
     }
-
-    /**
-     * Checks to see if the information is valid prior to allowing it to update.
-     * 
-     * FIXME this might need to be broken down into validation for EACH part. This way we can return whether a particular part of the bio is invalid.
-     * @param bio The string that represents the bio, this will need to be a certain length to be valid.
-     * @param phoneNumber The phone number inputted by the user, FIXME this might need to have RegEx to see if its valid
-     * @param email The email that is inputted by the user, it needs to match an email's structure to be valid
-     * @returns true if the information is valid, false if ANY of the following is invalid.
-     */
-    const aboutMeValidate =(bio:string, phoneNumber:string, email:string) =>{
-        console.log("Attempting to validate an about me bio.")
-        //Check to see if they are truthy.
-        console.log(`The bio's length ${bio.length}`);
-        if(bio && phoneNumber && email){
-            //Check to see if the bio is a certain length.
-            if(bio.length < 100){ //FIXME, this might need a dynamic variable for size.
-                console.log("The bio's length was too short to be valid.")
-                return false;
-            } else {
-                console.log("All information is valid.")
-                return true;
-            }
-            //Check to see if the phonNumber matches a regex.
-            //Check to see if the email matches a regex.
-        } else {
-            console.log("A field was not filled in.")
-            return false;
-        }
-    } 
     
     // Information meassage
     const editMessage: string = "this is the edit bio button"
@@ -353,5 +323,50 @@ const RevatureAboutMe = () => {
         </div>
     )
 }
+
+    /**
+     * Checks to see if the information is valid prior to allowing it to update.
+     * 
+     * FIXME this might need to be broken down into validation for EACH part. This way we can return whether a particular part of the bio is invalid.
+     * @param bio The string that represents the bio, this will need to be a certain length to be valid.
+     * @param phoneNumber The phone number inputted by the user, FIXME this might need to have RegEx to see if its valid
+     * @param email The email that is inputted by the user, it needs to match an email's structure to be valid
+     * @returns true if the information is valid, false if ANY of the following is invalid.
+     */
+     export const aboutMeValidate =(bio:string, phoneNumber:string, email:string) =>{
+        
+        console.log("Attempting to validate an about me bio.")
+        console.log(`The bio's length ${bio.length}`);
+        console.log(`The email address ${email}`)
+        console.log(`The phone number ${phoneNumber}`)
+
+        //Check to see if they are truthy.
+        if(bio && phoneNumber && email){
+            //Check to see if the bio is a certain length.
+            if(bio.length < 100){ //FIXME, this might need a dynamic variable for size.
+                console.log("The bio's length was too short to be valid.")
+                return false;
+            
+            //Check to see if the email actually looks like an email.
+            }else if(!/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email)){
+                console.log("The email is invalid.")
+                return false;
+            
+            //check to see if the phone number is structured like a phone number.
+            } else if(!/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(phoneNumber)){
+                console.log("The phone number is invalid")
+                return false;
+            
+            //All is well, the bio, phone number, and email are all valid.
+            } else {
+                console.log("All information is valid.")
+                return true;
+            }
+        //A value was not filled in correctly, return false.
+        } else {
+            console.log("A field was not filled in.")
+            return false;
+        }
+    } 
 
 export default RevatureAboutMe

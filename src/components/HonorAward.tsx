@@ -8,7 +8,8 @@ import axios from 'axios'
 import '../css/HonorAwards.css'
 import { CSSProperties } from 'react'
 import {url} from "../api/api";
-
+import awardValidation from './validation/AwardValidation'
+import styleInvalidElements from "./validation/InvalidFormHandling";
 
 const HonorAwards = () => {
     // Cookies
@@ -215,50 +216,59 @@ const HonorAwards = () => {
 
 
     const handleSave = () => {
-        console.log("awardtitle" + title);
+        if (awardValidation("true", title, description, receivedFrom, dateReceived, portfolio)){
+            console.log("awardtitle" + title);
 
-        axios.post(url + "/honor", {
-            title,
-            description,
-            receivedFrom,
-            dateReceived,
-            portfolio: cookies['portfolio']
- 
-        })
-        .then(resp => {
-            console.log(resp.data);
-            console.log("honorawards saved succesfully")
-            window.location.reload()
+            axios.post(url + "/honor", {
+                title,
+                description,
+                receivedFrom,
+                dateReceived,
+                portfolio: cookies['portfolio']
+    
+            })
+            .then(resp => {
+                console.log(resp.data);
+                console.log("honorawards saved succesfully")
+                window.location.reload()
 
-        })
-        .catch(error => {
-            console.log("error")
-        })
-        setAwardTitle('');
-        setDesc('');
-        setRecefrom('');
-        setReceon('');
-        setShowExperience(false)
+            })
+            .catch(error => {
+                console.log("error")
+            })
+            setAwardTitle('');
+            setDesc('');
+            setRecefrom('');
+            setReceon('');
+            setShowExperience(false)
+        }else{
+            let inputElements = document.getElementsByClassName("form-input");
+            styleInvalidElements(inputElements);
+        }
     }
     //***********************************************************************/
     // Update honor/award from database
     //***********************************************************************/
     const handleUpdate = (input: any) => {
-        axios.put(url + "/honor",{
-        id,
-        title,
-        description,
-        receivedFrom,
-        dateReceived
-
-    })
-        .then(resp => {
-            console.log("honor updates");
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error")
-        })
+        if (awardValidation(id, title, description, receivedFrom, dateReceived, "true")){
+            axios.put(url + "/honor",{
+            id,
+            title,
+            description,
+            receivedFrom,
+            dateReceived
+            })
+            .then(resp => {
+                console.log("honor updates");
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log("error")
+            })
+        }else{
+            let inputElements = document.getElementsByClassName("form-input");
+            styleInvalidElements(inputElements);
+        }
     }
 
     return (
@@ -283,13 +293,13 @@ const HonorAwards = () => {
                         <form onSubmit={handleSave}>
                             <h6>AwardTitle</h6>
 
-                            <input type="text" name="title" className="form-input" required onChange={e => setAwardTitle(e.target.value)}/>
+                            <input type="text" name="title" className="form-input" required value ={title} onChange={e => setAwardTitle(e.target.value)}/>
                             <h6>Description</h6>
-                            <input type="text" name="description" className="form-input honoraward-textarea" required onChange={e => setDesc(e.target.value)}/>
+                            <input type="text" name="description" className="form-input honoraward-textarea" required value ={description} onChange={e => setDesc(e.target.value)}/>
                             <h6>ReceivedFrom</h6>
-                            <input type="text" name="receivedFrom" className="form-input"  required onChange={e => setRecefrom(e.target.value)}/>
+                            <input type="text" name="receivedFrom" className="form-input"  required value ={receivedFrom} onChange={e => setRecefrom(e.target.value)}/>
                             <h6>Received On</h6>
-                            <input type="date" name="dateReceived" className="form-input" required onChange={e => setReceon(e.target.value)}/>
+                            <input type="date" name="dateReceived" className="form-input" required value ={dateReceived} onChange={e => setReceon(e.target.value)}/>
 
                         </form>
                     </Modal.Body>
