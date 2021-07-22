@@ -7,7 +7,11 @@ const styleInvalidElements = (inputElements: HTMLCollectionOf<Element>) => {
             
             inputElements.item(i)?.setAttribute('placeholder', '!');
         }
+        else{
+            inputElements.item(i)?.setAttribute('style', 'border-left: 1px solid black');
+        }
     }
 }
+
 
 export default styleInvalidElements;
