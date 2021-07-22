@@ -4,6 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import "../css/Project.css";
 import {url} from "../api/api";
 import educationValidation from "./validation/EducationValidation";
+import styleInvalidElements from "./validation/InvalidFormHandling";
 
 interface User {
     id: number;
@@ -65,7 +66,8 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
             }
             else{
                 console.log("INVALID");
-                //display error handing
+                const elements = document.getElementsByClassName("form-input");
+                styleInvalidElements(elements);
             }       
     };
 
@@ -126,7 +128,7 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
                     <input
                         type="text"
                         name="logoUrl"
-                        className="form-input"
+                        className="form-input-optional"
                         value={logoUrl}
                         onChange={(e) => setLogoUrl(e.target.value)}
                     />
