@@ -18,7 +18,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const [logoUrl, setLogoUrl] = useState("");
 
     const handleSave = () => {
-        let valid = educationValidation(university, degree, graduationDate, gpa);
+        const valid = educationValidation(university, degree, graduationDate, gpa);
 
         if(valid){
             console.log("VALID");
