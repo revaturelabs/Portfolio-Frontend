@@ -65,9 +65,6 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
-            document.getElementsByName("publicUrl").forEach((e) => {e.setAttribute('style', 'border-left: 1px solid black');
-                                                                    e.setAttribute('placeholder', '');
-            })
         }
     };
 
@@ -124,7 +121,7 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
                     <input
                         type="text"
                         name="publicUrl"
-                        className="form-input"
+                        className="form-input-optional"
                         value={publicUrl}
                         onChange={(e) => setPublicUrl(e.target.value)}
                     />
