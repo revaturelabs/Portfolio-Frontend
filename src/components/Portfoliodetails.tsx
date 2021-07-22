@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { CSSProperties } from 'react'
 import { useCookies } from 'react-cookie'
-import { url } from '../api/api'
+import { portfolioUrl } from '../api/api'
 
 const Portfoliodetails = (props: any) => {
 
@@ -33,7 +33,7 @@ const Portfoliodetails = (props: any) => {
   
 
     const getData = async() => {
-        axios.get(url + `/portfolios/${id}`)
+        axios.get(`${portfolioUrl}/${id}`)
          .then(({data}) => {       
              console.log("getData()", data)
              setPortId(data.id)
@@ -64,7 +64,7 @@ const Portfoliodetails = (props: any) => {
          else{
         // this will be axios put to update portfolios back end
         console.log ("update" + portId+name+submitted+approved+reviewed+feedback)
-            axios.post(url + `/portfolios/${id}`,{
+            axios.post(`${portfolioUrl}/${id}`,{
             portId,
             name,
             submitted,
