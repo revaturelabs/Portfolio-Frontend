@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import "../css/Project.css";
 import {url} from "../api/api";
 import educationValidation from "./validation/EducationValidation";
+import styleInvalidElements from "./validation/InvalidFormHandling";
 
 const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const backEndUrl = url + "/education";
@@ -18,7 +19,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const [logoUrl, setLogoUrl] = useState("");
 
     const handleSave = () => {
-        let valid = educationValidation(university, degree, graduationDate, gpa);
+        const valid = educationValidation(university, degree, graduationDate, gpa);
 
         if(valid){
             console.log("VALID");
@@ -43,7 +44,8 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
         }
         else{
             console.log("INVALID");
-            //do error display/style
+            let inputElements = document.getElementsByClassName("form-input");
+            styleInvalidElements(inputElements);
         }
     };
 
@@ -62,6 +64,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         type="text"
                         name="university"
                         className="form-input"
+                        value={university}
                         onChange={(e) => setUniversity(e.target.value)}
                     />
                     <br />
@@ -71,6 +74,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         type="text"
                         name="degree"
                         className="form-input"
+                        value={degree}
                         onChange={(e) =>
                             setDegree(e.target.value)
                         }
@@ -82,6 +86,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         type="date"
                         name="graduationDate"
                         className="form-input"
+                        value={graduationDate}
                         onChange={(e) =>
                             setGraduationDate(e.target.value)
                         }
@@ -94,6 +99,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         step="0.01"
                         name="gpa"
                         className="form-input"
+                        value={gpa}
                         onChange={(e) => setGpa(Number(e.target.value))}
                     />
                     <br />
@@ -101,7 +107,8 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                     <input
                         type="text"
                         name="logoUrl"
-                        className="form-input"
+                        className="form-input-optional"
+                        value={logoUrl}
                         onChange={(e) => setLogoUrl(e.target.value)}
                     />
                 </form>

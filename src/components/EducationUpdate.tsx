@@ -3,6 +3,8 @@ import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../css/Project.css";
 import {url} from "../api/api";
+import educationValidation from "./validation/EducationValidation";
+import styleInvalidElements from "./validation/InvalidFormHandling";
 
 interface User {
     id: number;
@@ -42,24 +44,31 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
     const [logoUrl, setLogoUrl] = useState(props.editEducation.logoUrl);
 
     const handleUpdate= () => {
-
-        axios
-            .post(backEndUrl+"/"+id, {
-                university,
-                degree,
-                graduationDate,
-                gpa,
-                logoUrl
-            })
-            .then((response) => {
-            })
-            .catch((error) => {
-                console.log("error");
-            })
-            .then(() => {
-                props.hideModal();
-                window.location.reload();
-            })        
+        const valid = educationValidation(university, degree, graduationDate, gpa);
+            if(valid){
+                axios
+                    .post(backEndUrl+"/"+id, {
+                        university,
+                        degree,
+                        graduationDate,
+                        gpa,
+                        logoUrl
+                    })
+                    .then((response) => {
+                    })
+                    .catch((error) => {
+                        console.log("error");
+                    })
+                    .then(() => {
+                        props.hideModal();
+                        window.location.reload();
+                    }) 
+            }
+            else{
+                console.log("INVALID");
+                const elements = document.getElementsByClassName("form-input");
+                styleInvalidElements(elements);
+            }       
     };
 
     let updateButtonStyles: CSSProperties = {
@@ -119,7 +128,7 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
                     <input
                         type="text"
                         name="logoUrl"
-                        className="form-input"
+                        className="form-input-optional"
                         value={logoUrl}
                         onChange={(e) => setLogoUrl(e.target.value)}
                     />
