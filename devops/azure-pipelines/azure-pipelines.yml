@@ -37,8 +37,10 @@ stages:
     jobs:
       - template: ./kubernetes-template.yml
         parameters:
-          jobName: Deploy
-          serviceConnection: 'may24-devops-team2-dev-cluster'
+          jobName: 'Deploy'
+          branchMain: 'refs/heads/azure-pipelines'
+          serviceConnectionMain: 'Alex-Main-Cluster'
+          serviceConnectionDev: 'Alex-Dev-Cluster'
           manifestPath: '**/frontend_manifest.yml'
       - template: ./discord-job-template.yml
         parameters:
@@ -46,3 +48,9 @@ stages:
           name: 'Team2-P3-Frontend'
           title: 'Forge Portfolio Management System DevOps'
           discordVarGroup: Discord-Webhook-Info
+      - template: ./slack-job-template.yml
+        parameters:
+          dependOn: Deploy
+          name: 'Team2-P3-Frontend'
+          slackVarGroup: Slack-Webhook-Info
+          channel: '#web-hooks'

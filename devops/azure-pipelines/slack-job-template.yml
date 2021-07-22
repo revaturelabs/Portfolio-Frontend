@@ -1,0 +1,30 @@
+parameters:
+  - name: 'dependOn'
+    type: string
+  - name: 'name'
+    type: string
+  - name: 'channel'
+    type: string
+  - name: 'slackVarGroup'
+    type: string
+jobs:
+  - job: DiscordMessage
+    variables: 
+      - group: ${{parameters.slackVarGroup}}
+    dependsOn: ${{ parameters.dependOn }}
+    steps:
+      - task: SlackPoster@2
+        inputs:
+          UserName: ${{ parameters.name }}
+          Message: |
+            **${{ parameters.title }}**: $(Build.SourceVersionMessage)
+            ```
+            Build Number: $(Build.BuildNumber)
+            Build Branch: $(Build.SourceBranch)
+            Build Reason: $(Build.Reason)
+            Commit Id: $(Build.SourceVersion)
+            ```
+            **Result**: $(Agent.JobStatus)
+          ApiToken: '$(slacktoken)'
+          Channel: ${{ parameters.channel }}
+          NeverFails: true
