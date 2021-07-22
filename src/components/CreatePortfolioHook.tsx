@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import {url} from "../api/api";
-
+import {portfolioUrl} from "../api/api";
 
 const useForm = (initialValues: any, portfolioValidate: any) => {
     const [inputs, setInputs] = useState(initialValues)
@@ -16,7 +15,7 @@ const useForm = (initialValues: any, portfolioValidate: any) => {
         const noErrors = Object.keys(validationErrors).length === 0
         setErrors(validationErrors)
         if (noErrors) {
-            axios.post(url + '/portfolios', inputs, cookies['user'])
+            axios.post(portfolioUrl, inputs, cookies['user'])
             .then(response => {
                 alert("Portfolio Created")
                 setCookies('portfolio', response.data, {path: "/"})

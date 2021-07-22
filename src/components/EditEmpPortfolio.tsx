@@ -12,8 +12,7 @@ import { useCookies } from 'react-cookie';
 import { Button } from 'react-bootstrap';
 import CertificationContainer from './CertificationContainer';
 import axios from 'axios';
-import {url} from "../api/api";
-
+import {portfolioUrl} from "../api/api";
 
 const EditEmpPortfolio = () => {
 
@@ -30,7 +29,7 @@ const EditEmpPortfolio = () => {
             submitted: true
         }
         setCookie('portfolio', obj, { path: '/' });
-        axios.post(url + `/portfolios/${cookies['portfolio'].id}`, { ...obj }).catch(error => {
+        axios.post(`${portfolioUrl}/${cookies['portfolio'].id}`, { ...obj }).catch(error => {
             console.log(error);
         });
         handleBack();

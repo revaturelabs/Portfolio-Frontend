@@ -4,7 +4,7 @@ import { Button, Card, Modal, ModalBody } from "react-bootstrap";
 import { PlusCircle, QuestionCircle, XCircle } from "react-bootstrap-icons";
 import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
-import { url } from "../api/api";
+import { projectUrl } from "../api/api";
 import "../css/Project.css";
 
 const Project = () => {
@@ -160,7 +160,7 @@ const Project = () => {
    */
   const getAllProjects = async () => {
     axios
-      .get(url + "/projects/portfolio/all/"+cookie["portfolio"].id)
+      .get(`${projectUrl}/portfolio/all/${cookie["portfolio"].id}`)
       .then((response) => {
         console.log("got data");
         console.log(response.data);
@@ -189,7 +189,7 @@ const Project = () => {
     //let portfolio = cookie["portfolio"]
     axios
 
-      .post(url + "/projects/", {
+      .post(projectUrl, {
         name,
         description,
         responsibilities,
@@ -219,7 +219,7 @@ const Project = () => {
    */
   const handleDelete = async (id: string) => {
     axios
-      .delete(url + `/projects/${id}`)
+      .delete(`${projectUrl}/${id}`)
       .then((response) => {
         console.log(response);
         console.log(response.data);
@@ -229,7 +229,7 @@ const Project = () => {
 
   const handleUpdate = async (id: string) => {
     axios
-      .post(url + `/projects/${id}`, {
+      .post( `${projectUrl}/${id}`, {
         name,
         description,
         responsibilities,
