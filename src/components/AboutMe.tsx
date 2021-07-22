@@ -130,7 +130,7 @@ const RevatureAboutMe = () => {
 
     const handleSave = async () => {
         let portfolio = cookies['portfolio']
-        if(aboutMeValidate(bio,email,phone)){
+        if(aboutMeValidate(bio,phone,email)){
         axios.post(url + "/aboutMe", { portfolio, bio, email, phone})
         .then(response => {
             console.log("success") 
@@ -151,7 +151,7 @@ const RevatureAboutMe = () => {
     //POST METHOD FOR UPDATING
 
     const handleUpdate = async (id: string) => {
-        if(aboutMeValidate(bio,email,phone)){
+        if(aboutMeValidate(bio,phone,email)){
         axios.post(url + "/aboutMe/" + id, {id, bio, email, phone})
         .then(response => {
             console.log("success")
@@ -216,20 +216,35 @@ const RevatureAboutMe = () => {
      * @returns true if the information is valid, false if ANY of the following is invalid.
      */
     const aboutMeValidate =(bio:string, phoneNumber:string, email:string) =>{
+        
         console.log("Attempting to validate an about me bio.")
-        //Check to see if they are truthy.
         console.log(`The bio's length ${bio.length}`);
+        console.log(`The email address ${email}`)
+        console.log(`The phone number ${phoneNumber}`)
+
+        //Check to see if they are truthy.
         if(bio && phoneNumber && email){
             //Check to see if the bio is a certain length.
             if(bio.length < 100){ //FIXME, this might need a dynamic variable for size.
                 console.log("The bio's length was too short to be valid.")
                 return false;
+            
+            //Check to see if the email actually looks like an email.
+            }else if(!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+                console.log("The email is invalid.")
+                return false;
+            
+            //check to see if the phone number is structured like a phone number.
+            } else if(!/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(phoneNumber)){
+                console.log("The phone number is invalid")
+                return false;
+            
+            //All is well, the bio, phone number, and email are all valid.
             } else {
                 console.log("All information is valid.")
                 return true;
             }
-            //Check to see if the phonNumber matches a regex.
-            //Check to see if the email matches a regex.
+        //A value was not filled in correctly, return false.
         } else {
             console.log("A field was not filled in.")
             return false;
