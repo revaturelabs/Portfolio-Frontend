@@ -7,7 +7,10 @@ import { Card, Button, Modal, ModalBody } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
 import {url} from "../api/api";
-import industryValidation from './validation/IndustryExperienceValidation';
+import industrySkillNameValidation from './validation/IndustryEquivalencyValidation';
+import {industrySkillEditValidation} from './validation/IndustryEquivalencyValidation';
+import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
+
 // JSON INTERFACES
 
 /* ------------------------ */
@@ -141,12 +144,22 @@ const IndustryEquivalency = () => {
     };
     const handleAddClose = () => {
        setShowAdd(false);
+       setSkillName('');
+       setPreviousExp('0');
+       setCurrentExp('0');
     };
     /* ---------------------------------------------------------------- */
     // EDIT MODAL SHOW/CLOSE
     /* ---------------------------------------------------------------- */
     const handleEditShow = (() => {
-        setShowEdit(true);
+        let valid = industrySkillEditValidation(skillSet);
+        if(valid) {
+            setShowEdit(true);
+        } else {
+            console.log("No skills to edit");
+            alert("No skills to edit, please add an industry equivalency skill.");
+            return;
+        }
     });
     const handleEditClose = (() => {
         aquireSkillSet();
@@ -181,7 +194,7 @@ const IndustryEquivalency = () => {
     // ADD EQUIVALENCY SKILL
     /* ---------------------------------------------------------------- */
     const addSkill = (async () => {
-        let valid = industryValidation(skillName);
+        let valid = industrySkillNameValidation(skillName);
         if(valid) {
         let newSkill: Skill = {
             id: 0,
@@ -204,9 +217,15 @@ const IndustryEquivalency = () => {
         setPreviousExp('0');
         setCurrentExp('0');
         } else {
-            alert("Please select all fields");
+            console.log("INVALID");
+            let inputElements = document.getElementsByName("skillTitle");
+            styleInvalidElementsByName(inputElements);
+            alert("Please select all fields");         
             return;
         }
+            setSkillName('');
+            setPreviousExp('0');
+            setCurrentExp('0');
     });
     /* ---------------------------------------------------------------- */
     // DELETE EQUIVALENCY SKILL
