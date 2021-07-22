@@ -8,7 +8,7 @@ import axios from 'axios'
 import '../css/HonorAwards.css'
 import { CSSProperties } from 'react'
 import {url} from "../api/api";
-
+import awardValidation from './validation/AwardValidation'
 
 const HonorAwards = () => {
     // Cookies
@@ -215,50 +215,53 @@ const HonorAwards = () => {
 
 
     const handleSave = () => {
-        console.log("awardtitle" + title);
+        if (awardValidation("true", title, description, receivedFrom, dateReceived, portfolio)){
+            console.log("awardtitle" + title);
 
-        axios.post(url + "/honor", {
-            title,
-            description,
-            receivedFrom,
-            dateReceived,
-            portfolio: cookies['portfolio']
- 
-        })
-        .then(resp => {
-            console.log(resp.data);
-            console.log("honorawards saved succesfully")
-            window.location.reload()
+            axios.post(url + "/honor", {
+                title,
+                description,
+                receivedFrom,
+                dateReceived,
+                portfolio: cookies['portfolio']
+    
+            })
+            .then(resp => {
+                console.log(resp.data);
+                console.log("honorawards saved succesfully")
+                window.location.reload()
 
-        })
-        .catch(error => {
-            console.log("error")
-        })
-        setAwardTitle('');
-        setDesc('');
-        setRecefrom('');
-        setReceon('');
-        setShowExperience(false)
+            })
+            .catch(error => {
+                console.log("error")
+            })
+            setAwardTitle('');
+            setDesc('');
+            setRecefrom('');
+            setReceon('');
+            setShowExperience(false)
+        }
     }
     //***********************************************************************/
     // Update honor/award from database
     //***********************************************************************/
     const handleUpdate = (input: any) => {
-        axios.put(url + "/honor",{
-        id,
-        title,
-        description,
-        receivedFrom,
-        dateReceived
-
-    })
-        .then(resp => {
-            console.log("honor updates");
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error")
-        })
+        if (awardValidation(id, title, description, receivedFrom, dateReceived, "true")){
+            axios.put(url + "/honor",{
+            id,
+            title,
+            description,
+            receivedFrom,
+            dateReceived
+            })
+            .then(resp => {
+                console.log("honor updates");
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log("error")
+            })
+        }
     }
 
     return (
