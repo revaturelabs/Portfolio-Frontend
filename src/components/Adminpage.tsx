@@ -75,8 +75,7 @@ const Adminpage = () => {
     }
 
     // this will be call every time setState() is called
-    useEffect(() => {getData()}, [portfolios])
-
+    useEffect(() => {getData()}, [])
     return (
         
         <div> 
