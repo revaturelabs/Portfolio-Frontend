@@ -4,6 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import "../css/Certification.css";
 import {url} from "../api/api";
 import certificationValidation from "./validation/CertificationValidation";
+import styleInvalidElements from "./validation/InvalidFormHandling";
 
 interface User {
     id: number;
@@ -61,6 +62,12 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
                     props.hideModal();
                     window.location.reload();
                 })
+        }else{
+            let inputElements = document.getElementsByClassName("form-input");
+            styleInvalidElements(inputElements);
+            document.getElementsByName("publicUrl").forEach((e) => {e.setAttribute('style', 'border-left: 1px solid black');
+                                                                    e.setAttribute('placeholder', '');
+            })
         }
     };
 
