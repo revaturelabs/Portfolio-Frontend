@@ -4,6 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import "../css/Certification.css";
 import {url} from "../api/api";
+import certificationValidation from "./validation/CertificationValidation";
 
 const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
     const backEndUrl = url + "/certifications";
@@ -17,24 +18,26 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
     const [publicUrl, setPublicUrl] = useState("");
 
     const handleSave = () => {
-        axios
-            .post(backEndUrl, {
-                portfolio,
-                name,
-                certId,
-                issuedBy,
-                issuedOn,
-                publicUrl
-            })
-            .then((response) => {
-            })
-            .catch((error) => {
-                console.log("error");
-            })
-            .then(() => {
-                props.hideModal();
-                window.location.reload();
-            });
+        if (certificationValidation(portfolio, name, certId, issuedBy, issuedOn)){
+            axios
+                .post(backEndUrl, {
+                    portfolio,
+                    name,
+                    certId,
+                    issuedBy,
+                    issuedOn,
+                    publicUrl
+                })
+                .then((response) => {
+                })
+                .catch((error) => {
+                    console.log("error");
+                })
+                .then(() => {
+                    props.hideModal();
+                    window.location.reload();
+                });
+        }
     };
 
     let addButtonStyles: CSSProperties = {
