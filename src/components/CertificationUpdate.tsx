@@ -3,6 +3,7 @@ import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../css/Certification.css";
 import {url} from "../api/api";
+import certificationValidation from "./validation/CertificationValidation";
 
 interface User {
     id: number;
@@ -42,24 +43,25 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
     const [publicUrl, setPublicUrl] = useState(props.editCertification.publicUrl);
 
     const handleUpdate = () => {
-
-        axios
-            .post(backEndUrl + "/" + id, {
-                name,
-                certId,
-                issuedBy,
-                issuedOn,
-                publicUrl
-            })
-            .then((response) => {
-            })
-            .catch((error) => {
-                console.log("error");
-            })
-            .then(() => {
-                props.hideModal();
-                window.location.reload();
-            })
+        if (certificationValidation("true", name, certId, issuedBy, issuedOn)){
+            axios
+                .post(backEndUrl + "/" + id, {
+                    name,
+                    certId,
+                    issuedBy,
+                    issuedOn,
+                    publicUrl
+                })
+                .then((response) => {
+                })
+                .catch((error) => {
+                    console.log("error");
+                })
+                .then(() => {
+                    props.hideModal();
+                    window.location.reload();
+                })
+        }
     };
 
     let updateButtonStyles: CSSProperties = {
