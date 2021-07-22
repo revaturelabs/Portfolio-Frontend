@@ -52,5 +52,6 @@ stages:
         parameters:
           dependOn: Deploy
           name: 'Team2-P3-Frontend'
-          slackVarGroup: Slack-Webhook-Info
+          title: 'Forge Portfolio Management System DevOps'
           channel: '#web-hooks'
+          slackVarGroup: Slack-Webhook-Info

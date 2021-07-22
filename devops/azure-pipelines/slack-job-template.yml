@@ -3,6 +3,8 @@ parameters:
     type: string
   - name: 'name'
     type: string
+  - name: 'title'
+    type: string
   - name: 'channel'
     type: string
   - name: 'slackVarGroup'
