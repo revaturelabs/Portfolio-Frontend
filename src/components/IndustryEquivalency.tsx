@@ -7,7 +7,7 @@ import { Card, Button, Modal, ModalBody } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
 import {url} from "../api/api";
-
+import industryValidation from './validation/IndustryExperienceValidation';
 // JSON INTERFACES
 
 /* ------------------------ */
@@ -140,7 +140,7 @@ const IndustryEquivalency = () => {
         setShowAdd(true);
     };
     const handleAddClose = () => {
-        setShowAdd(false);
+       setShowAdd(false);
     };
     /* ---------------------------------------------------------------- */
     // EDIT MODAL SHOW/CLOSE
@@ -181,6 +181,8 @@ const IndustryEquivalency = () => {
     // ADD EQUIVALENCY SKILL
     /* ---------------------------------------------------------------- */
     const addSkill = (async () => {
+        let valid = industryValidation(skillName);
+        if(valid) {
         let newSkill: Skill = {
             id: 0,
             header: skillName,
@@ -201,6 +203,10 @@ const IndustryEquivalency = () => {
         setSkillName('');
         setPreviousExp('0');
         setCurrentExp('0');
+        } else {
+            alert("Please select all fields");
+            return;
+        }
     });
     /* ---------------------------------------------------------------- */
     // DELETE EQUIVALENCY SKILL

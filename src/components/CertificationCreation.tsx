@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import "../css/Certification.css";
 import {url} from "../api/api";
 import certificationValidation from "./validation/CertificationValidation";
+import styleInvalidElements from "./validation/InvalidFormHandling";
 
 const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
     const backEndUrl = url + "/certifications";
@@ -37,6 +38,9 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
                     props.hideModal();
                     window.location.reload();
                 });
+        }else{
+            let inputElements = document.getElementsByClassName("form-input");
+            styleInvalidElements(inputElements);
         }
     };
 
@@ -55,6 +59,7 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
                         type="text"
                         name="name"
                         className="form-input"
+                        value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
                     <br />
@@ -64,6 +69,7 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
                         type="text"
                         name="certId"
                         className="form-input"
+                        value={certId}
                         onChange={(e) => setCertId(e.target.value)}
                     />
                     <br />
@@ -73,6 +79,7 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
                         type="text"
                         name="issuedBy"
                         className="form-input"
+                        value={issuedBy}
                         onChange={(e) => setIssuedBy(e.target.value)}
                     />
                     <br />
@@ -82,6 +89,7 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
                         type="date"
                         name="issuedOn"
                         className="form-input"
+                        value={issuedOn}
                         onChange={(e) => setIssuedOn(e.target.value)}
                     />
                     <br />
@@ -89,7 +97,8 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
                     <input
                         type="text"
                         name="publicUrl"
-                        className="form-input"
+                        className="form-input-optional"
+                        value={publicUrl}
                         onChange={(e) => setPublicUrl(e.target.value)}
                     />
                 </form>

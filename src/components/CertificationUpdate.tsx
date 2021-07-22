@@ -4,6 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import "../css/Certification.css";
 import {url} from "../api/api";
 import certificationValidation from "./validation/CertificationValidation";
+import styleInvalidElements from "./validation/InvalidFormHandling";
 
 interface User {
     id: number;
@@ -61,6 +62,9 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
                     props.hideModal();
                     window.location.reload();
                 })
+        }else{
+            let inputElements = document.getElementsByClassName("form-input");
+            styleInvalidElements(inputElements);
         }
     };
 
@@ -117,7 +121,7 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
                     <input
                         type="text"
                         name="publicUrl"
-                        className="form-input"
+                        className="form-input-optional"
                         value={publicUrl}
                         onChange={(e) => setPublicUrl(e.target.value)}
                     />
