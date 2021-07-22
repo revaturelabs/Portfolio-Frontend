@@ -10,7 +10,7 @@ parameters:
   - name: 'slackVarGroup'
     type: string
 jobs:
-  - job: DiscordMessage
+  - job: SlackMessage
     variables: 
       - group: ${{parameters.slackVarGroup}}
     dependsOn: ${{ parameters.dependOn }}
