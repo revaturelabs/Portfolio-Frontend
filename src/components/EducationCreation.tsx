@@ -4,6 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import "../css/Project.css";
 import {url} from "../api/api";
+import educationValidation from "./validation/EducationValidation";
 
 const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const backEndUrl = url + "/education";
@@ -17,26 +18,33 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const [logoUrl, setLogoUrl] = useState("");
 
     const handleSave = () => {
+        let valid = educationValidation(university, degree, graduationDate, gpa);
 
-        console.log("hello");
-        axios
-            .post(backEndUrl, {
-                portfolio,
-                university,
-                degree,
-                graduationDate,
-                gpa,
-                logoUrl
-            })
-            .then((response) => {
-            })
-            .catch((error) => {
-                console.log("error");
-            })
-            .then(() => {
-                props.hideModal();
-                window.location.reload();
-            });
+        if(valid){
+            console.log("VALID");
+            axios
+                .post(backEndUrl, {
+                    portfolio,
+                    university,
+                    degree,
+                    graduationDate,
+                    gpa,
+                    logoUrl
+                })
+                .then((response) => {
+                })
+                .catch((error) => {
+                    console.log("error");
+                })
+                .then(() => {
+                    props.hideModal();
+                    window.location.reload();
+                });
+        }
+        else{
+            console.log("INVALID");
+            //do error display/style
+        }
     };
 
     let addButtonStyles: CSSProperties = {
