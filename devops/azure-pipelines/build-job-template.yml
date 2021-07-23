@@ -14,6 +14,8 @@ jobs:
         displayName: 'npm install'
       - script: npm run build
         displayName: 'npm build'
+      - script: cd src
+        displayName: 'cd src'
       - script: npm test -- --watchAll=false
         displayName: 'npm test'
       - script: ls
