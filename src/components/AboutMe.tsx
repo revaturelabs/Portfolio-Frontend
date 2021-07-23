@@ -7,7 +7,8 @@ import '../css/RevatureAboutMe.css';
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
 import {url} from "../api/api";
-import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from './validation/ABoutMeValidation';
+import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/ABoutMeValidation";
+import {styleInvalidElementsByName, styleInvalidElement} from "./validation/InvalidFormHandling";
 
 
 const RevatureAboutMe = () => {
@@ -153,16 +154,19 @@ const RevatureAboutMe = () => {
 
         //If any of the following was false check and return which part was invalid.
         } else {
-            if(isBioValid){
-
+            if(!isBioValid){
+                let bioElement = document.getElementsByName("bioName");
+                styleInvalidElementsByName(bioElement);
             }
 
-            if(isEmailValid){
-
+            if(!isEmailValid){
+                let emailElement = document.getElementsByName("fromDate");
+                styleInvalidElementsByName(emailElement);
             }
 
-            if(isPhoneValid){
-
+            if(!isPhoneValid){
+                let phoneElement = document.getElementsByName("toDate");
+                styleInvalidElementsByName(phoneElement);
             }
         }
     }
@@ -193,16 +197,21 @@ const RevatureAboutMe = () => {
 
         //If any of the following was false check and return which part was invalid.
         } else {
-            if(isBioValid){
-
+            if(!isBioValid){
+                let bioElement = document.getElementsByName("bioName");
+                styleInvalidElementsByName(bioElement);
+            } else {
+                
             }
 
-            if(isEmailValid){
-
+            if(!isEmailValid){
+                let emailElement = document.getElementsByName("fromDate");
+                styleInvalidElementsByName(emailElement);
             }
 
-            if(isPhoneValid){
-
+            if(!isPhoneValid){
+                let phoneElement = document.getElementsByName("toDate");
+                styleInvalidElementsByName(phoneElement);
             }
         }
     } 
@@ -272,7 +281,7 @@ const RevatureAboutMe = () => {
                     <Modal.Body className="modalBody">
                         <form method="post">
                             <h6>Bio</h6>
-                            <textarea style={{width: "100%"}} name="bioName" rows={rowLength} onChange={e => setBio(e.target.value)}></textarea>
+                            <textarea className="form-textarea" name="bioName" rows={rowLength} onChange={e => setBio(e.target.value)}></textarea>
                             <h6>Email</h6>
                             <input type="email" name="fromDate" className="form-input" id="" onChange={e => setEmail(e.target.value)}/><br />
                             <h6>Phone #</h6>
@@ -301,7 +310,7 @@ const RevatureAboutMe = () => {
                             <Modal.Body>
                                 <form method="post">
                                     <h6>Bio</h6>
-                                    <textarea style={{width: "100%"}} name="bioName" rows={rowLength} value={bio} onChange={e => setBio(e.target.value)}></textarea>
+                                    <textarea className="form-textarea" name="bioName" rows={rowLength} value={bio} onChange={e => setBio(e.target.value)}></textarea>
                                     <h6>Email</h6>
                                     <input type="email" name="fromDate" className="form-input" id="" value={email} onChange={e => setEmail(e.target.value)}/><br />
                                     <h6>Phone #</h6>
