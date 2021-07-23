@@ -7,7 +7,7 @@ import '../css/RevatureAboutMe.css';
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
 import {url} from "../api/api";
-import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/ABoutMeValidation";
+import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
 import {styleInvalidElementsByName, styleInvalidElement} from "./validation/InvalidFormHandling";
 
 

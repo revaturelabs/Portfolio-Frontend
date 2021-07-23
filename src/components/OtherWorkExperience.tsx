@@ -8,6 +8,8 @@ import { useCookies } from 'react-cookie';
 
 import '../css/OtherWorkExperience.css'
 import { url } from '../api/api';
+import otherWorkExpValidation from './validation/OtherWorkExpValidation';
+import { styleInvalidElement, styleInvalidElementsByNameNotNull } from './validation/InvalidFormHandling';
 
 const OtherWorkExperience = () => {
     const [cookies] = useCookies();
@@ -82,36 +84,76 @@ const OtherWorkExperience = () => {
     }
     //*******************************************************************************************/
 
+
     // Save data to database
+    /**** ERROR CHECKING PREVENTS SAVING TO DB ON ERROR ****/
+
     //***************************************************/
     const handleSave = () => {
-        let portfolio = cookies['portfolio'];
-        console.log(portfolio);
-        axios.post(url + "/workhistory", {
-            employer,
-            title,
-            responsibilities,
-            description,
-            tools,
-            startDate,
-            endDate,
-            portfolio
-        })
-        .then(resp => {
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log(error)
-        })
 
-        setEmployer("");
-        setTitle("");
-        setResponsibilities("");
-        setDescription("");
-        setTools("");
-        setStartDate("");
-        setEndDate("");
-        setShow(false);
+        //Validate field contents from validation/OtherWorkExpValidation.tsx
+        const wrkExpObj: any = {
+            employer: employer,
+            title: title,
+            responsibilities: responsibilities,
+            description: description,
+            tools: tools,
+            startDate: startDate,
+            endDate: endDate
+        }
+
+        //returns boolean *array* indicating which above state is valid, in above order
+        const validElems = otherWorkExpValidation(wrkExpObj);
+        let isValid = true;
+        validElems.map((elem) => { isValid = isValid && elem});
+
+        console.log("VALID ELEMS IN OtherWorkExperience: " + validElems);
+        console.log("isValid: " + isValid);
+
+
+        //Continue and save data if all fields are valid
+        if(isValid) 
+        {
+            let portfolio = cookies['portfolio'];
+            console.log(portfolio);
+            axios.post(url + "/workhistory", {
+                employer,
+                title,
+                responsibilities,
+                description,
+                tools,
+                startDate,
+                endDate,
+                portfolio
+            })
+            .then(resp => {
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    
+            setEmployer("");
+            setTitle("");
+            setResponsibilities("");
+            setDescription("");
+            setTools("");
+            setStartDate("");
+            setEndDate("");
+            setShow(false);
+        }
+        else {
+            /* log error to the console
+                - iterate over HTML elements and style inccorect elements
+                - do not close display
+            */
+            console.log("Error: invalid fields in other work Experience form");
+            wrkExpObj.keys().map((key: string, keyIndex: number) => {
+                styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+             });
+        }
+
+        
     }
     //***************************************************/
 
@@ -141,6 +183,7 @@ const OtherWorkExperience = () => {
         })
     }
     //***********************************************************************/
+
 
     //Render work experience on page
     //*********************************************************************/

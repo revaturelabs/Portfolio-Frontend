@@ -18,32 +18,57 @@
 
 //Default Exported function that handles general validation
 //and calls other utility functions as necessary
-const projectValidation = (project: any) => {
+function projectValidation(project: any): boolean[] {
     console.log("Validating Project");
 
-    //Check to ensure no field is null
-
-
-    //validate Project Name
-        //not null
-
-    //validate Project Descr.
-        //not null
+    //Check to ensure no field is null via iteration
+    const errs = new Array();
+    project.keys().map((key: any, keyIndex: any) => {
+        //if(!project.values()[keyIndex]) {
+            //return `Error, ${key} cannot be left blank`;
+            errs.push(!project.values()[keyIndex]);
+    });
 
     //validate roles/respnse
-        //not null
         //8 bp
+    const minBullets = 8;
+    const rolesRspFieldName = 'roles';
+    project.keys().map((key: any, keyIndex: any) => {
+        if(key == rolesRspFieldName) {
+            errs[keyIndex] = errs[keyIndex] ||
+             !checkEnoughBullets(project.values()[keyIndex], minBullets);
+        }
+    });
 
     //validate github link
         //valid github url
         //public repo
-
+        const gitLinkFieldName = 'roles';
+        project.keys().map((key: any, keyIndex: any) => {
+            if(key == gitLinkFieldName) {
+                errs[keyIndex] = errs[keyIndex] ||
+                 !checkGitHubIsPublic(project.values()[keyIndex]);
+            }
+        });
     
-
-    return false;
+    return errs;
 }
 
 
+//Check if there are enough bullets in roles/responsibilities section
+//bullets will be delimitted by \n characters
+function checkEnoughBullets(rspbts:string, minBullets: number) {
+
+    //Need to count 8 '\n' instances in text
+    const numBullets = (rspbts.match(`//n/g`) || []).length;
+    console.log("num bullets counted: " + numBullets);
+
+    return (numBullets >= minBullets);
+}
+
+function checkGitHubIsPublic(link: string) {
+    return true;
+}
 
 
 export default projectValidation;
