@@ -14,7 +14,7 @@ jobs:
         displayName: 'npm install'
       - script: npm run build
         displayName: 'npm build'
-      - script: npm test -- --watchAll=false
+      - script: npm test setupTests.ts --watchAll=false
         displayName: 'npm test'
       - script: ls
         displayName: 'ls'
