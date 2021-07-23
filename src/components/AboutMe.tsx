@@ -6,8 +6,7 @@ import { Input, Tooltip } from 'reactstrap';
 import '../css/RevatureAboutMe.css';
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
-import {url} from "../api/api";
-
+import {aboutMeUrl} from "../api/api";
 
 const RevatureAboutMe = () => {
     // Model show and hide
@@ -130,7 +129,7 @@ const RevatureAboutMe = () => {
 
     const handleSave = async () => {
         let portfolio = cookies['portfolio']
-        axios.post(url + "/aboutMe", { portfolio, bio, email, phone})
+        axios.post(aboutMeUrl, { portfolio, bio, email, phone})
         .then(response => {
             console.log("success") 
             console.log(response.data)
@@ -146,7 +145,7 @@ const RevatureAboutMe = () => {
     //POST METHOD FOR UPDATING
 
     const handleUpdate = async (id: string) => {
-        axios.post(url + "/aboutMe/" + id, {id, bio, email, phone})
+        axios.post(`${aboutMeUrl}/${id}`, {id, bio, email, phone})
         .then(response => {
             console.log("success")
             console.log(response.data)
@@ -163,7 +162,7 @@ const RevatureAboutMe = () => {
     //GET METHOD
 
     const handleGet = async () => {
-        axios.get(url + "/aboutMe/portfolio/" + cookies['portfolio'].id)
+        axios.get(`${aboutMeUrl}/portfolio/${cookies['portfolio'].id}`)
         .then(response => {
             console.log("got the data")
             console.log(response.data)
@@ -186,7 +185,7 @@ const RevatureAboutMe = () => {
 
     const handleDelete = (id: any) => {
         console.log("this is the id " + id)
-        axios.delete(url + "/aboutMe/" + id)
+        axios.delete(`${aboutMeUrl}/${id}`)
         .then(response => {
             console.log(response)
             window.location.reload()

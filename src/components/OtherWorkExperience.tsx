@@ -7,7 +7,7 @@ import { Tooltip } from 'reactstrap';
 import { useCookies } from 'react-cookie';
 
 import '../css/OtherWorkExperience.css'
-import { url } from '../api/api';
+import { workHistoryUrl } from '../api/api';
 
 const OtherWorkExperience = () => {
     const [cookies] = useCookies();
@@ -57,7 +57,7 @@ const OtherWorkExperience = () => {
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
-        axios.get(url + "/workhistory/portfolio/" + cookies["portfolio"].id)
+        axios.get(`${workHistoryUrl}/portfolio/${cookies["portfolio"].id}`)
         .then(resp => {
             createWorkExperience(resp.data);
         })
@@ -71,7 +71,7 @@ const OtherWorkExperience = () => {
     // Delete work experience from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete(url + "/workhistory/" + input)
+        axios.delete(`${workHistoryUrl}/${input}`)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -87,7 +87,7 @@ const OtherWorkExperience = () => {
     const handleSave = () => {
         let portfolio = cookies['portfolio'];
         console.log(portfolio);
-        axios.post(url + "/workhistory", {
+        axios.post(workHistoryUrl, {
             employer,
             title,
             responsibilities,
@@ -121,7 +121,7 @@ const OtherWorkExperience = () => {
         let portfolio = cookies['portfolio'];
 
         let id:any = input;
-        axios.put(url + "/workhistory",{
+        axios.put(workHistoryUrl,{
             id,
             employer,
             startDate,
