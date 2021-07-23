@@ -32,7 +32,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "cross-env CI=true react-scripts test --env=jsdom --testPathIgnorePatterns=assets --reporters=default --reporters=jest-junit",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -56,5 +56,11 @@
   "devDependencies": {
     "@types/marked": "^2.0.2",
     "@types/node": "^12.20.16"
+  },
+  "jest": {
+    "jest-junit": { 
+      "suiteNameTemplate": "{filepath}", 
+      "outputDirectory": ".", 
+      "outputName": "junit.xml" }
   }
 }
