@@ -16,4 +16,8 @@ jobs:
         displayName: 'npm build'
       - script: npm test -- --watchAll=false
         displayName: 'npm test'
+      - script: ls
+        displayName: 'ls'
+      - script: pwd
+        displayName: 'pwd'
         
