@@ -48,10 +48,4 @@ stages:
           name: 'Team2-P3-Frontend'
           title: 'Forge Portfolio Management System DevOps'
           discordVarGroup: Discord-Webhook-Info
-      - template: ./slack-job-template.yml
-        parameters:
-          dependOn: Deploy
-          name: 'Team2-P3-Frontend'
-          title: 'Forge Portfolio Management System DevOps'
-          channel: '#web-hooks'
-          slackVarGroup: Slack-Webhook-Info
+      
