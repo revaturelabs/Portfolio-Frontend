@@ -50,7 +50,15 @@ stages:
           discordVarGroup: Discord-Webhook-Info
       - job:
         steps:
+        
+        - task: Npm@1
+          inputs:
+            command: 'custom'
+            workingDir: './package.json'
+            customCommand: 'test'
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
             testResultsFiles: '**/TEST-*.xml'
+        
+        
