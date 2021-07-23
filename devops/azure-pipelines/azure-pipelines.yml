@@ -48,14 +48,5 @@ stages:
           name: 'Team2-P3-Frontend'
           title: 'Forge Portfolio Management System DevOps'
           discordVarGroup: Discord-Webhook-Info
-      - job:
-        steps:
-        - task: Npm@1
-          displayName: npm run test
-          inputs:
-            command: 'custom'
-            workingDir: '/'
-            customCommand: 'run test'
-        
-
+    
         
