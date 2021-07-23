@@ -53,7 +53,7 @@ stages:
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            testResultsFiles: '**/TEST-*.xml'
+            testResultsFiles: '/src/react-app-env.d.ts'
         
         - task: CmdLine@2
           inputs:
