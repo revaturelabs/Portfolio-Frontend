@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import {aboutMeValidate,aboutMeValidateEmail, aboutMeValidateBio, aboutMeValidatePhone} from '../components/validation/ABoutMeValidation';
+import {aboutMeValidate,aboutMeValidateEmail, aboutMeValidateBio, aboutMeValidatePhone} from '../components/validation/AboutMeValidation';
 /**
  * Test file to test the proper functionality of the AboutMe validation
  * and page.

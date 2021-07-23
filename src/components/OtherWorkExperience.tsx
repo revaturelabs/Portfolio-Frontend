@@ -148,7 +148,7 @@ const OtherWorkExperience = () => {
                 - do not close display
             */
             console.log("Error: invalid fields in other work Experience form");
-            wrkExpObj.keys().map((key: string, keyIndex: number) => {
+            Object.keys(wrkExpObj).map((key: string, keyIndex: number) => {
                 styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
              });
         }

@@ -16,27 +16,26 @@
 
 
 
-//Default Exported function that handles general validation
+//Default Exported function that handles general validation - returns boolean array of 'true's
+// if all states are valid
 //and calls other utility functions as necessary
 function projectValidation(project: any): boolean[] {
     console.log("Validating Project");
 
     //Check to ensure no field is null via iteration
-    const errs = new Array();
-    project.keys().map((key: any, keyIndex: any) => {
-        //if(!project.values()[keyIndex]) {
-            //return `Error, ${key} cannot be left blank`;
-            errs.push(!project.values()[keyIndex]);
+    const errs = new Array<boolean>();
+    Object.keys(project).map((key: any, keyIndex: any) => {
+            errs.push(!!Object.values(project)[keyIndex]);
     });
 
     //validate roles/respnse
         //8 bp
     const minBullets = 8;
     const rolesRspFieldName = 'roles';
-    project.keys().map((key: any, keyIndex: any) => {
+    Object.keys(project).map((key: any, keyIndex: any) => {
         if(key == rolesRspFieldName) {
-            errs[keyIndex] = errs[keyIndex] ||
-             !checkEnoughBullets(project.values()[keyIndex], minBullets);
+            errs[keyIndex] = errs[keyIndex] &&
+             checkEnoughBullets(Object.values(project)[keyIndex], minBullets);
         }
     });
 
@@ -44,10 +43,10 @@ function projectValidation(project: any): boolean[] {
         //valid github url
         //public repo
         const gitLinkFieldName = 'roles';
-        project.keys().map((key: any, keyIndex: any) => {
+        Object.keys(project).map((key: any, keyIndex: any) => {
             if(key == gitLinkFieldName) {
-                errs[keyIndex] = errs[keyIndex] ||
-                 !checkGitHubIsPublic(project.values()[keyIndex]);
+                errs[keyIndex] = errs[keyIndex] &&
+                 !checkGitHubIsPublic(Object.values(project)[keyIndex]);
             }
         });
     
@@ -57,7 +56,10 @@ function projectValidation(project: any): boolean[] {
 
 //Check if there are enough bullets in roles/responsibilities section
 //bullets will be delimitted by \n characters
-function checkEnoughBullets(rspbts:string, minBullets: number) {
+function checkEnoughBullets(rspbts:any, minBullets: number) {
+
+    //check if string is null/undefined
+    if(!rspbts) { return false; }
 
     //Need to count 8 '\n' instances in text
     const numBullets = (rspbts.match(`//n/g`) || []).length;
@@ -66,7 +68,7 @@ function checkEnoughBullets(rspbts:string, minBullets: number) {
     return (numBullets >= minBullets);
 }
 
-function checkGitHubIsPublic(link: string) {
+function checkGitHubIsPublic(link: any) {
     return true;
 }
 
