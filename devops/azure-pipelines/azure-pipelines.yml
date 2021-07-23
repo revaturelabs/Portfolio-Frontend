@@ -17,42 +17,5 @@ stages:
         parameters:
           jobName: 'Build'
           nodeVersion: '14.x'
-  - stage: Analyze
-    jobs:
-      - template: ./code-coverage-analysis-template.yml
-        parameters:
-          serviceConnection: 'Forge-SonarCloud'
-          organization: '1058-sophia-gavrila-forge'
-          projectKey: '1058-Sophia-Gavrila-Forge_Portfolio-Frontend'
-          projectName: 'Portfolio-Frontend'
-  - stage: Dockerize
-    jobs:
-      - template: ./dockerize-template.yml
-        parameters:
-          jobName: 'Dockerize'
-          containerRegistry: 'project-3-docker-hub'
-          repository: 'dajpearl/forge-frontend'
-          dockerPath: '**/Dockerfile'
-  - stage: Deploy
-    jobs:
-      - template: ./kubernetes-template.yml
-        parameters:
-          jobName: 'Deploy'
-          branchMain: 'refs/heads/azure-pipelines'
-          serviceConnectionMain: 'Alex-Main-Cluster'
-          serviceConnectionDev: 'Alex-Dev-Cluster'
-          manifestPath: '**/frontend_manifest.yml'
-      - template: ./discord-job-template.yml
-        parameters:
-          dependOn: Deploy
-          name: 'Team2-P3-Frontend'
-          title: 'Forge Portfolio Management System DevOps'
-          discordVarGroup: Discord-Webhook-Info
-      - template: ./slack-job-template.yml
-        parameters:
-          dependOn: Deploy
-          name: 'Team2-P3-Frontend'
-          title: 'Forge Portfolio Management System DevOps'
-          channel: '#web-hooks'
-          slackVarGroup: Slack-Webhook-Info
+  
 
