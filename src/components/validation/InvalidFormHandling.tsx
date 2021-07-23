@@ -13,6 +13,11 @@ const styleInvalidElements = (inputElements: HTMLCollectionOf<Element>) => {
     }
 }
 
+const styleInvalidElement = (element: HTMLElement) => {
+    element.setAttribute('style', 'border-left: 3px solid red');     
+    element.setAttribute('placeholder', '!');
+}
+
 const styleInvalidElementsByName = (inputElements: NodeListOf<HTMLElement>) => {
     for(let i = 0; i < inputElements.length; i++){
         
@@ -29,4 +34,4 @@ const styleInvalidElementsByName = (inputElements: NodeListOf<HTMLElement>) => {
 
 
 export default styleInvalidElements;
-export {styleInvalidElementsByName};
+export {styleInvalidElementsByName, styleInvalidElement};
