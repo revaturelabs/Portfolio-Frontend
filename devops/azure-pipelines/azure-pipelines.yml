@@ -50,21 +50,12 @@ stages:
           discordVarGroup: Discord-Webhook-Info
       - job:
         steps:
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: '/src/react-app-env.d.ts'
+        - task: Npm@1
+        displayName: npm run test
+        inputs:
+          command: 'custom'
+          workingDir: '/'
+          customCommand: 'run test'
         
-        - task: CmdLine@2
-          inputs:
-            script: |
-              ls
-              pwd
-        
-        # - task: Npm@1
-        #   inputs:
-        #     command: 'custom'
-        #     workingDir: './package.json'
-        #     customCommand: 'test'
-       
+
         
