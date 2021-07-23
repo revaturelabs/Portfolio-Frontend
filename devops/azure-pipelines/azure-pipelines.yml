@@ -48,23 +48,5 @@ stages:
           name: 'Team2-P3-Frontend'
           title: 'Forge Portfolio Management System DevOps'
           discordVarGroup: Discord-Webhook-Info
-      - job:
-        steps:
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: '/src/react-app-env.d.ts'
-        
-        - task: CmdLine@2
-          inputs:
-            script: |
-              ls
-              pwd
-        
-        # - task: Npm@1
-        #   inputs:
-        #     command: 'custom'
-        #     workingDir: './package.json'
-        #     customCommand: 'test'
-       
+    
         
