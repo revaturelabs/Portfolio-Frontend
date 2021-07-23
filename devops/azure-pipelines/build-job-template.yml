@@ -14,10 +14,28 @@ jobs:
         displayName: 'npm install'
       - script: npm run build
         displayName: 'npm build'
-      - script: npm test ./src/App.test.tsx --watchAll=false
+      - script: npm test -- --watchAll=false
         displayName: 'npm test'
       - script: ls
         displayName: 'ls'
       - script: pwd
         displayName: 'pwd'
         
+
+#         steps:
+# - task: NodeTool@0
+#   inputs:
+#     versionSpec: '10.14.1'
+#   displayName: 'Install Node.js'
+
+# - script: |
+#     npm install
+#     mocha test --reporter mocha-junit-reporter
+#     npm test
+#   displayName: 'npm install and test'
+
+# - task: PublishTestResults@2
+#   condition: succeededOrFailed()
+#   inputs:
+#     testRunner: JUnit
+#     testResultsFiles: '**/TEST-RESULTS.xml'
