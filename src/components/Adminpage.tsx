@@ -41,7 +41,7 @@ const Adminpage = () => {
 
     const renderviewdetail = (id:any):void=>{
         let pathname = "./view";
-        axios.get(`${portfolioUrl}/portfolios/${id}`)
+        axios.get(`${portfolioUrl}/${id}`)
             .then(response => {
                 setCookie('portfolio', response.data, { path: "/" });
                 window.location.pathname = pathname;

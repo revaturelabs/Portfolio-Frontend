@@ -12,6 +12,8 @@ import CertificationView from "./CertificationView";
 import {url} from "../../api/api";
 import {Container, Row, Col, Form} from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { portfolioUrl } from '../../api/api'
 
 type FeedbackData = {
     industryEquivalence: string;
@@ -29,7 +31,42 @@ const ViewPortfolio = () => {
     const [isAdmin, setAdmin] = useState(false);
     const {register, handleSubmit} = useForm<FeedbackData>();
 
-    const onSubmit = handleSubmit(data => console.log(data));
+    const onSubmit = handleSubmit(data => 
+        axios.post(`${portfolioUrl}/${cookie.portfolio.id}`,{
+        id:cookie.portfolio.id,
+        name:cookie.portfolio.name,
+        submitted:cookie.portfolio.submitted,
+        approved:cookie.portfolio.approved,
+        reviewed:cookie.portfolio.reviewed,
+        feedback:cookie.portfolio.feedback,
+        flags:data,
+        user:cookie.user}) );
+
+    // const onSubmit = (e:any) => {
+    //     e.preventDefault()
+
+    //     if (!approved && !feedback){
+
+    //        alert("Feedback must be provided if rejecting the portfolio. Your changes are not saved")
+    //     }
+    //     else{
+    //    // this will be axios put to update portfolios back end
+    // //    console.log ("update" + portId+name+submitted+approved+reviewed+feedback)
+    //        axios.post(`${portfolioUrl}/${cookie.portfolio.id}`,{
+    //        id:cookie.portfolio.id,
+    //        name:cookie.portfolio.name,
+    //        submitted:cookie.portfolio.submitted,
+    //        approved:cookie.portfolio.approved,
+    //        reviewed:cookie.portfolio.reviewed,
+    //        feedback:cookie.portfolio.feedback,
+    //        flags:data,
+    //        user:cookie.user
+    //    })
+    //     }
+
+      //props.history.push('/admin')
+//    }
+
 
     useEffect(() => {
         if (cookie['admin'] && cookie['admin'].admin === true) {
