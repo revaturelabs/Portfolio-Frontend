@@ -46,7 +46,7 @@ const EditEmpPortfolio = () => {
                 <Link to="/view">
                     <button className="btn btn-primary m-1">View Portfolio</button>
                 </Link>
-                <Link to={{ pathname: url + `/portfolios/full/${cookies['portfolio'].id}` }} target="_blank" >
+                <Link to={{ pathname: `${portfolioUrl}/full/${cookies['portfolio'].id}` }} target="_blank" >
                     <button className="btn btn-primary m-1">Export</button>
                 </Link>
                 <Link to="/list">
