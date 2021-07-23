@@ -51,11 +51,11 @@ stages:
       - job:
         steps:
         - task: Npm@1
-        displayName: npm run test
-        inputs:
-          command: 'custom'
-          workingDir: '/'
-          customCommand: 'run test'
+          displayName: npm run test
+          inputs:
+            command: 'custom'
+            workingDir: '/'
+            customCommand: 'run test'
         
 
         
