@@ -40,7 +40,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('null employer triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
         w1.employer = "";
-        expect(OtherWorkExpValidation(w1)[0]).toBe(false);
+        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
         w1.employer = temp;
     });
 
@@ -49,7 +49,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('null title triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
         w1.title = "";
-        expect(OtherWorkExpValidation(w1)[0]).toBe(false);
+        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
         w1.title = temp;
     });
 
@@ -57,51 +57,53 @@ describe('All Other Work Experience validation tests: ', function() {
     //null responsibilities triggers error
     it('null responsibilities triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
-       Object.values(w1)[i] = "";
-        expect(OtherWorkExpValidation(w1)[0]).toBe(false);
-        Object.values(w1)[i++] = temp;
+        w1.rspbts = "";
+        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        w1.rspbts = temp;
     });
 
 
     //null description triggers error
     it('null description triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
-        Object.values(w1)[i] = "";
-         expect(OtherWorkExpValidation(w1)[0]).toBe(false);
-         Object.values(w1)[i++] = temp;
+        w1.desc = "";
+        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        w1.desc = temp;
     });
 
 
     //null tools triggers error
     it('null tools triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
-        Object.values(w1)[i] = "";
-         expect(OtherWorkExpValidation(w1)[0]).toBe(false);
-         Object.values(w1)[i++] = temp;
+        w1.tools = "";
+        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        w1.tools = temp;
     });
 
 
     //null startDate triggers error
     it('null startDate triggers invalid submission', function() {
-        let volObj = Object.create(w1);
-        volObj.startDate = null;
-        expect(OtherWorkExpValidation(volObj)[5]).toBe(false);
+        let temp = Object.values(w1)[i];
+        w1.startDate = "";
+        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        w1.startDate = temp;
     });
 
 
     //null endDate triggers error
     it('null endDate triggers invalid submission', function() {
-        let volObj = Object.create(w1);
-        volObj.endDate = null;
-        expect(OtherWorkExpValidation(volObj)[6]).toBe(false);
+        let temp = Object.values(w1)[i];
+        w1.endDate = "";
+        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        w1.endDate = temp;
     });
 
 
     //end date may not precede start date chronologically
     it('End date may not precede start date', function() {
-        let volObj = Object.create(w1);
-        volObj.endDate = "1625374700000";
-        expect(OtherWorkExpValidation(volObj)[6]).toBe(false);
+        w1.endDate = "1625374700000";
+        expect(OtherWorkExpValidation(w1)[6]).toBe(false);
+        w1.endDate = "1645374700000";
     });
 
 

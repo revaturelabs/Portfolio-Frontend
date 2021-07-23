@@ -7,7 +7,7 @@ import { Tooltip } from "reactstrap";
 import { url } from "../api/api";
 import "../css/Project.css";
 import { styleInvalidElementsByNameNotNull } from "./validation/InvalidFormHandling";
-import projectValidation from "./validation/ProjectValidation";
+import ProjectValidation from "./validation/ProjectValidation";
 
 const Project = () => {
   /**
@@ -202,7 +202,7 @@ const Project = () => {
   }
 
   //returns boolean *array* indicating which above state is valid, in above order
-  const validElems = projectValidation(projObj);
+  const validElems = ProjectValidation(projObj);
   let isValid = true;
   validElems.map((elem) => { isValid = isValid && elem});
 

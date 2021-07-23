@@ -19,22 +19,27 @@
 //Default Exported function that handles general validation - returns boolean array of 'true's
 // if all states are valid
 //and calls other utility functions as necessary
-function projectValidation(project: any): boolean[] {
-    console.log("Validating Project");
+function ProjectValidation(project: any): boolean[] {
+    //console.log("Validating Project");
+
+    ////Work Products is allowed to be null so we put a dummy value in there
+    //to make sure it is never null, whatever we put in here wont override the true value
+    project.workProducts = "lorem ipsum";   //dummy string
 
     //Check to ensure no field is null via iteration
-    const errs = new Array<boolean>();
+    const validElems = new Array<boolean>();
     Object.keys(project).map((key: any, keyIndex: any) => {
-            errs.push(!!Object.values(project)[keyIndex]);
+            validElems.push(!!Object.values(project)[keyIndex]);            
     });
 
     //validate roles/respnse
         //8 bp
-    const minBullets = 8;
-    const rolesRspFieldName = 'roles';
+    const minBullets = 7;
+    const rolesRspFieldName = 'responsibilities';
     Object.keys(project).map((key: any, keyIndex: any) => {
+        console.log("FIELD NAME: " + key);
         if(key == rolesRspFieldName) {
-            errs[keyIndex] = errs[keyIndex] &&
+            validElems[keyIndex] = validElems[keyIndex] &&
              checkEnoughBullets(Object.values(project)[keyIndex], minBullets);
         }
     });
@@ -45,12 +50,19 @@ function projectValidation(project: any): boolean[] {
         const gitLinkFieldName = 'roles';
         Object.keys(project).map((key: any, keyIndex: any) => {
             if(key == gitLinkFieldName) {
-                errs[keyIndex] = errs[keyIndex] &&
+                validElems[keyIndex] = validElems[keyIndex] &&
                  !checkGitHubIsPublic(Object.values(project)[keyIndex]);
             }
         });
     
-    return errs;
+        console.log("--------------------------\n\n")
+
+        console.log("valid array for TEST: ")
+        validElems.forEach(e => console.log(e));
+
+        console.log("--------------------------\n\n")
+
+    return validElems;
 }
 
 
@@ -61,8 +73,8 @@ function checkEnoughBullets(rspbts:any, minBullets: number) {
     //check if string is null/undefined
     if(!rspbts) { return false; }
 
-    //Need to count 8 '\n' instances in text
-    const numBullets = (rspbts.match(`//n/g`) || []).length;
+    //Need to count 7 '\n' instances in text
+    const numBullets = (rspbts.match(/\n/g) || '').length + 1;
     console.log("num bullets counted: " + numBullets);
 
     return (numBullets >= minBullets);
@@ -73,5 +85,5 @@ function checkGitHubIsPublic(link: any) {
 }
 
 
-export default projectValidation;
+export default ProjectValidation;
 

@@ -29,10 +29,6 @@ function otherWorkExpValidation(wrkExp: any): Array<boolean>
             }
         });
     }
-
-    console.log("RETURNING IS VALID WITH arr: ");
-    isValid.forEach((elem) => console.log(elem));
-
     return isValid;
 }
 
