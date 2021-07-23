@@ -32,9 +32,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test:ci": "npm run test -- --watchAll=false",
+    "test": "npm run test -- --watchAll=false",
     "eject": "react-scripts eject"
-    
   },
   "eslintConfig": {
     "extends": [
