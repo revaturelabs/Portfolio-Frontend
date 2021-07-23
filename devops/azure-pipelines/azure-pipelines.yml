@@ -56,13 +56,3 @@ stages:
           channel: '#web-hooks'
           slackVarGroup: Slack-Webhook-Info
 
-
-  - stage:
-    jobs:
-    - job:
-      steps:
-      - task: PublishTestResults@2
-        inputs:
-          testResultsFormat: 'JUnit'
-          testResultsFiles: '**/TEST-*.xml'
-      
