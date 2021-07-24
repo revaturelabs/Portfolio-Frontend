@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {useState} from 'react';
-import {url} from '../api/api'
+import {url} from '../api/api';
+import {toast} from 'react-toastify';
 
 const useForm = (initialValues: any, validate: any) => {
     const [inputs, setInputs] = useState(initialValues)
@@ -16,11 +17,10 @@ const useForm = (initialValues: any, validate: any) => {
             axios.post(url + '/users', inputs)
             .then(response => {
                 console.log(inputs)
-                alert("Registered")
-                window.location.reload()
+                toast.success("You have been registered! Please login.")
             })
             .catch(error => {
-                alert("Error " + error)
+                toast.error("" + error)
                 console.log(error)
             })
         } else {

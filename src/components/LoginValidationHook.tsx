@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { url } from '../api/api';
+import { toast } from 'react-toastify';
 
 
 const useForm = (initialValues: any, loginValidate: any) => {
@@ -23,16 +24,17 @@ const useForm = (initialValues: any, loginValidate: any) => {
                 .then(response => {
                     if (response.data.admin !== true) {
                         setCookies('user', response.data, { path: '/' })
-                        alert("Login was successful. Welcome " + response.data.fname + " " + response.data.lname)
+                        toast.success(("Login was successful. Welcome " + response.data.fname + " " + response.data.lname))
                         window.location.pathname = "./list"
                     } else if (response.data.admin === true) {
                         setCookies('admin', response.data, {path: "/"})
-                        alert("Admin login was successful. Welcome " + response.data.fname + " " + response.data.fname)
+                        toast.success(("Admin login was successful. Welcome " + response.data.fname + " " + response.data.fname))
                         window.location.pathname = "./admin"
                     }
                 })
                 .catch(error => {
-                    alert(error)
+                    toast.error("" + error)
+                    console.log(error)
                 })
 
         } else {
