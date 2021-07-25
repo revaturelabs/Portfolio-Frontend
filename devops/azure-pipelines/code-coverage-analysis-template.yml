@@ -18,7 +18,15 @@ jobs:
           configMode: 'manual'
           cliProjectKey: '${{ parameters.projectKey }}'
           cliProjectName: '${{ parameters.projectName }}'
-          cliSources: '.'
+          cliSources: './src'
+          extraProperties: |
+            # Placeholder
         displayName: Sonar Configuration
 
       - task: SonarCloudAnalyze@1
+        displayName: Run SonarScanner
+
+      - task: SonarCloudPublish@1
+          inputs:
+            pollingTimeoutSec: '300'
+        displayName: Wait for QualityGate
