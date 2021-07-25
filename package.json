@@ -32,6 +32,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -57,9 +58,10 @@
     "@types/node": "^12.20.16"
   },
   "jest": {
-    "jest-junit": { 
-      "suiteNameTemplate": "{filepath}", 
-      "outputDirectory": ".", 
-      "outputName": "junit.xml" }
+    "jest-junit": {
+      "suiteNameTemplate": "{filepath}",
+      "outputDirectory": ".",
+      "outputName": "junit.xml"
+    }
   }
 }
