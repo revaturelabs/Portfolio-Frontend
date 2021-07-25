@@ -47,22 +47,24 @@ stages:
   
   - stage: Deploy
     condition: > 
-      and( and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')),
-      in(variables['Build.SourceBranch'], parameters.branchMain, parameters.branchDev) )
+      and( and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) )
     jobs:
-      - template: ./kubernetes-template.yml
-        parameters:
-          jobName: 'Deploy'
-          ${{ if eq(variables['Build.SourceBranch'], parameters.branchMain) }}:
-            clusterServiceConnection: 'may24-devops-team2-main-cluster'
-          ${{ if eq(variables['Build.SourceBranch'], parameters.branchDev) }}:
-            clusterServiceConnection: 'may24-devops-team2-dev-cluster'
-          manifestPath: '**/frontend_manifest.yaml'
-          namespace: 'team2'
+      ${{ if in(variables['Build.SourceBranch'], parameters.branchMain, parameters.branchDev) }}:
+        - template: ./kubernetes-template.yml
+          parameters:
+            jobName: 'Deploy'
+            ${{ if eq(variables['Build.SourceBranch'], parameters.branchMain) }}:
+              clusterServiceConnection: 'may24-devops-team2-main-cluster'
+            ${{ if eq(variables['Build.SourceBranch'], parameters.branchDev) }}:
+              clusterServiceConnection: 'may24-devops-team2-dev-cluster'
+            manifestPath: '**/frontend_manifest.yaml'
+            namespace: 'team2'
   
+  - stage: Notify
+    condition: always()
+    jobs:
       - template: ./discord-job-template.yml
         parameters:
-          dependOn: Deploy
           name: 'Team2-P3-Frontend'
           title: 'Forge Portfolio Management System DevOps'
           discordVarGroup: Discord-Webhook-Info
