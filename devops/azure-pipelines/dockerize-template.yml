@@ -11,8 +11,7 @@ parameters:
     type: string
   - name: 'dockerContext'
     type: string
-    default: ${{ parameters.dockerPath }}
-  - 
+
 jobs:
   - job:
     displayName: ${{ parameters.jobName }}
