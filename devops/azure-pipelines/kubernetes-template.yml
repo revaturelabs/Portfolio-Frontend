@@ -20,4 +20,3 @@ jobs:
         displayName: Deploy to Cluster Step
 
     displayName: Deploy to Cluster Job
-
