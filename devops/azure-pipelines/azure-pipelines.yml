@@ -46,7 +46,7 @@ stages:
           dockerContext: ${{ variables.Build.Repository.LocalPath }}
   
   - stage: Deploy
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
+    condition: and( and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')), in(variables['Build.SourceBranch'], parameters.branchMain, parameters.branchDev) )
     jobs:
       - template: ./kubernetes-template.yml
         parameters:
