@@ -25,6 +25,6 @@ jobs:
         displayName: Run SonarScanner
 
       - task: SonarCloudPublish@1
-          inputs:
-            pollingTimeoutSec: '300'
+        inputs:
+          pollingTimeoutSec: '300'
         displayName: Wait for QualityGate
