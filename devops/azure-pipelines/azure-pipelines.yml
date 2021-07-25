@@ -13,6 +13,9 @@ parameters:
   - name: 'branchMain'
     type: string
     default: 'refs/heads/main'
+  - name: 'branchDev'
+    type: string
+    default: 'refs/heads/dev'
 
 stages:
   - stage: Build
@@ -43,13 +46,14 @@ stages:
           dockerContext: ${{ variables.Build.Repository.LocalPath }}
   
   - stage: Deploy
+    condition: or( eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'BatchedCI') )
     jobs:
       - template: ./kubernetes-template.yml
         parameters:
           jobName: 'Deploy'
           ${{ if eq(variables['Build.SourceBranch'], parameters.branchMain) }}:
             clusterServiceConnection: 'may24-devops-team2-main-cluster'
-          ${{ if ne(variables['Build.SourceBranch'], parameters.branchMain) }}:
+          ${{ if eq(variables['Build.SourceBranch'], parameters.branchDev) }}:
             clusterServiceConnection: 'may24-devops-team2-dev-cluster'
           manifestPath: '**/frontend_manifest.yaml'
           namespace: 'team2'
