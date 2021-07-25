@@ -57,6 +57,7 @@ stages:
             clusterServiceConnection: 'may24-devops-team2-dev-cluster'
           manifestPath: '**/frontend_manifest.yaml'
           namespace: 'team2'
+
   - stage: Notify
     condition: always()
     jobs:
