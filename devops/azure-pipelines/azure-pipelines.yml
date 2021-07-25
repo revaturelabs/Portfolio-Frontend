@@ -1,14 +1,18 @@
 trigger:
   - main
-  - staging
   - dev
+
 pr:
   - main
-  - staging
   - dev
 
 pool:
   vmImage: ubuntu-latest
+
+parameters:
+  - name: 'branchMain'
+    type: string
+    default: 'refs/heads/main'
 
 stages:
   - stage: Build
@@ -17,6 +21,7 @@ stages:
         parameters:
           jobName: 'Build'
           nodeVersion: '14.x'
+  
   - stage: Analyze
     jobs:
       - template: ./code-coverage-analysis-template.yml
@@ -25,6 +30,7 @@ stages:
           organization: '1058-sophia-gavrila-forge'
           projectKey: '1058-Sophia-Gavrila-Forge_Portfolio-Frontend'
           projectName: 'Portfolio-Frontend'
+  
   - stage: Dockerize
     jobs:
       - template: ./dockerize-template.yml
@@ -33,15 +39,19 @@ stages:
           containerRegistry: 'acr-team2'
           repository: 'forge-frontend'
           dockerPath: '**/Dockerfile'
+  
   - stage: Deploy
     jobs:
       - template: ./kubernetes-template.yml
         parameters:
           jobName: 'Deploy'
-          branchMain: 'refs/heads/main'
-          serviceConnectionMain: 'may24-devops-team2-main-cluster'
-          serviceConnectionDev: 'may24-devops-team2-dev-cluster'
-          manifestPath: '**/frontend_manifest.yml'
+          ${{ if eq(variables['Build.SourceBranch'], parameters.branchMain) }}:
+            clusterServiceConnection: 'may24-devops-team2-main-cluster'
+          ${{ if ne(variables['Build.SourceBranch'], parameters.branchMain) }}:
+            clusterServiceConnection: 'may24-devops-team2-dev-cluster'
+          manifestPath: '**/frontend_manifest.yaml'
+          namespace: 'team2'
+  
       - template: ./discord-job-template.yml
         parameters:
           dependOn: Deploy

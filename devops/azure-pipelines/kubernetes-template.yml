@@ -1,28 +1,23 @@
 parameters:
   - name: 'jobName'
     type: string
-  - name: 'branchMain' #Main branch name
-    type: string
-  - name: 'serviceConnectionMain' #Kubernetes Service Connection name
-    type: string
-  - name: 'serviceConnectionDev' #Kubernetes Service Connection name
+  - name: 'clusterServiceConnection' #Kubernetes Service Connection name
     type: string
   - name: 'manifestPath' #Kubernetes manifest file path
+    type: string
+  - name: namespace
     type: string
 jobs:
   - job: ${{ parameters.jobName }}
     steps:
       - task: KubernetesManifest@0
-        condition: eq(variables['Build.SourceBranch'], '${{ parameters.branchMain }}')
         inputs:
           action: 'deploy'
-          kubernetesServiceConnection: '${{ parameters.serviceConnectionMain }}'
+          kubernetesServiceConnection: '${{ parameters.clusterServiceConnection }}'
+          namespace: '${{ parameters.namespace }}'
           manifests: '${{ parameters.manifestPath }}'
           rolloutStatusTimeout: '10'
-      - task: KubernetesManifest@0
-        condition: ne(variables['Build.SourceBranch'], '${{ parameters.branchMain }}')
-        inputs:
-          action: 'deploy'
-          kubernetesServiceConnection: '${{ parameters.serviceConnectionDev }}'
-          manifests: '${{ parameters.manifestPath }}'
-          rolloutStatusTimeout: '10'
+        displayName: Deploy to Cluster Step
+
+    displayName: Deploy to Cluster Job
+
