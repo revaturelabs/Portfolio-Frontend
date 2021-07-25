@@ -201,7 +201,7 @@ const RevatureAboutMe = () => {
                 let bioElement = document.getElementsByName("bioName");
                 styleInvalidElementsByName(bioElement);
             } else {
-                
+
             }
 
             if(!isEmailValid){
