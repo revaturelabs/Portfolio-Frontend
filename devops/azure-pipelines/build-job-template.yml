@@ -10,19 +10,13 @@ jobs:
         inputs:
           versionSpec: '${{ parameters.nodeVersion }}'
         displayName: 'Install Node.js'
-      - script: npm ci
-        displayName: 'npm install'
-      - script: npm run build
-        displayName: 'npm build'
-      - script: cd ./src
-        displayName: 'cd src'
-      - script: npm test -- --watchAll=false
-        displayName: 'npm test'
-      - script: ls
-        displayName: 'ls'
-      - script: pwd
-        displayName: 'pwd'
-        
+
+      - script: |
+          npm ci
+          npm run build
+          npm test -- --watchAll=false
+        displayName: 'npm install build test'
+      
 
 #         steps:
 # - task: NodeTool@0

@@ -19,4 +19,6 @@ jobs:
           cliProjectKey: '${{ parameters.projectKey }}'
           cliProjectName: '${{ parameters.projectName }}'
           cliSources: '.'
+        displayName: Sonar Configuration
+
       - task: SonarCloudAnalyze@1

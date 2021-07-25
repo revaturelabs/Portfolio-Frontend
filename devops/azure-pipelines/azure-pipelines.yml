@@ -38,7 +38,9 @@ stages:
           jobName: 'Dockerize'
           containerRegistry: 'acr-team2'
           repository: 'forge-frontend'
+          imageTag: 'latest'
           dockerPath: '**/Dockerfile'
+          dockerContext: ${{ variables.Build.Repository.LocalPath }}
   
   - stage: Deploy
     jobs:

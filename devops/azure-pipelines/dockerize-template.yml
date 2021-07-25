@@ -5,8 +5,14 @@ parameters:
     type: string
   - name: 'repository' #dockerhub repository name
     type: string
+  - name: 'imageTag'
+    type: string 
   - name: 'dockerPath' #docker file path
     type: string
+  - name: 'dockerContext'
+    type: string
+    default: ${{ parameters.dockerPath }}
+  - 
 jobs:
   - job:
     displayName: ${{ parameters.jobName }}
@@ -17,5 +23,6 @@ jobs:
           repository: '${{ parameters.repository }}'
           command: 'buildAndPush'
           Dockerfile: '${{ parameters.dockerPath }}'
-          tags: '$(Build.SourceVersion)'
-          buildContext: $(Build.Repository.LocalPath)
+          tags: '${{ parameters.imageTag }}'
+          buildContext: ${{ parameters.dockerContext }}
+        displayName: Docker build and push
