@@ -46,7 +46,7 @@ stages:
           dockerContext: ${{ variables.Build.Repository.LocalPath }}
   
   - stage: Deploy
-    condition: or( eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'BatchedCI') )
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
     jobs:
       - template: ./kubernetes-template.yml
         parameters:
