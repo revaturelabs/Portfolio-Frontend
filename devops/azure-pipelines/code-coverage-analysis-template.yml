@@ -19,8 +19,6 @@ jobs:
           cliProjectKey: '${{ parameters.projectKey }}'
           cliProjectName: '${{ parameters.projectName }}'
           cliSources: './src'
-          extraProperties: |
-            # Placeholder
         displayName: Sonar Configuration
 
       - task: SonarCloudAnalyze@1
