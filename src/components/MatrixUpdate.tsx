@@ -6,7 +6,7 @@ import { url } from "../api/api";
 import { Matrix } from "../interfaces/Matrix";
 
 const MatrixUpdate: FC<{ hideModal: Function, editMatrix: Matrix }> = (props) => {
-  const backEndUrl = url + "/matrix";
+  const backEndUrl = url + `/matrix/${props.editMatrix.id}`;
   const [cookies] = useCookies();
   const portfolio = cookies["portfolio"];
 
