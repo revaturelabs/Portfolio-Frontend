@@ -3,7 +3,7 @@ import React, { useState, FC, CSSProperties } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { url } from "../api/api";
-import Matrix from "../interfaces/Matrix";
+import { Matrix } from "../interfaces/Matrix";
 
 const MatrixUpdate: FC<{ hideModal: Function, editMatrix: Matrix }> = (props) => {
   const backEndUrl = url + "/matrix";

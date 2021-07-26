@@ -5,7 +5,11 @@ import { useCookies } from "react-cookie";
 import { url } from "../api/api";
 import Skill, { Matrix } from "../interfaces/Matrix";
 
-const SkillCreation: FC<{ hideModal: Function; editSkill: Skill; matrix: Matrix}> = (props) => {
+const SkillCreation: FC<{
+  hideModal: Function;
+  editSkill: Skill;
+  matrix: Matrix;
+}> = (props) => {
   const backEndUrl = url + "/skill";
   const [cookies] = useCookies();
   const portfolio = ["portfolio"];
@@ -18,7 +22,7 @@ const SkillCreation: FC<{ hideModal: Function; editSkill: Skill; matrix: Matrix}
       .post(backEndUrl, {
         name,
         value,
-        matrix
+        matrix,
       })
       .then(() => {})
       .catch(() => {
