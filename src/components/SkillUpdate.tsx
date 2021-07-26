@@ -3,9 +3,9 @@ import React, { useState, FC, CSSProperties } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { url } from "../api/api";
-import { Matrix } from "../interfaces/Matrix";
+import Skill, { Matrix } from "../interfaces/Matrix";
 
-const SkillCreation: FC<{ hideModal: Function; matrix: Matrix}> = (props) => {
+const SkillCreation: FC<{ hideModal: Function; editSkill: Skill; matrix: Matrix}> = (props) => {
   const backEndUrl = url + "/skill";
   const [cookies] = useCookies();
   const portfolio = ["portfolio"];
