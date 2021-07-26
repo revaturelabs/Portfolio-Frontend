@@ -6,20 +6,38 @@
 */
 
 //Default verify otherWorkExpValidation Section
-const otherWorkExpValidation = (wrkExp: any) => {
-
+function otherWorkExpValidation(wrkExp: any): Array<boolean> 
+{
     //check to ensure each field is not null
-    const errs = [];
-    wrkExp.keys().map((key: any, keyIndex: any) => {
-        if(!wrkExp.values()[keyIndex]) {
-            return `Error, ${key} cannot be left blank`;
-        }
+    const isValid = new Array<boolean>();
+    Object.keys(wrkExp).map((key: any, keyIndex: any) => {
+        //if(!wrkExp.values()[keyIndex]) {
+            //return `Error, ${key} cannot be left blank`;
+            //coerce to boolean
+            isValid.push(!!Object.values(wrkExp)[keyIndex]);
     });
 
-    //particular validating requirements
 
-    return false;
+    //check if start date excedes endDate, an error, types are
+    //coerced into numbers
+    const startDateField = 'startDate';
+    const endDateField = 'endDate';
+    if(!checkDatesInOrder(wrkExp.startDate, wrkExp.endDate)) {
+        Object.keys(wrkExp).map((key: any, keyIndex: any) => { 
+            if(key == startDateField || key == endDateField) {
+                isValid[keyIndex] = false;
+            }
+        });
+    }
+    return isValid;
 }
 
+//check if the startDate precedes the end date
+function checkDatesInOrder(start: number, end: number) {
+    if(start > end) {
+        return false;
+    }
+    return true;
+}
 
 export default otherWorkExpValidation

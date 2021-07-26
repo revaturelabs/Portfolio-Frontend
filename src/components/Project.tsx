@@ -6,6 +6,8 @@ import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
 import { url } from "../api/api";
 import "../css/Project.css";
+import { styleInvalidElementsByNameNotNull } from "./validation/InvalidFormHandling";
+import ProjectValidation from "./validation/ProjectValidation";
 
 const Project = () => {
   /**
@@ -187,32 +189,67 @@ const Project = () => {
    */
   const handleSave = async () => {
     //let portfolio = cookie["portfolio"]
-    axios
 
-      .post(url + "/projects/", {
-        name,
-        description,
-        responsibilities,
-        technologies,
-        respositoryUrl,
-        workProducts,
-        portfolio: cookie["portfolio"]
-      })
-      .then((response) => {
-        console.log("success");
-        setName("");
-        setDescription("");
-        setResponsibilities("");
-        setTechnologies("");
-        setRespositoryUrl("");
-        setWorkProducts("");
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log("error");
-      });
-    setShowModal(false);
+  //Validate field contents from validation/OtherWorkExpValidation.tsx
+  const projObj: any = {
+      name: name,
+      description: description,
+      responsibilities: responsibilities,
+      technologies: technologies,
+      respositoryUrl: respositoryUrl,
+      workProducts: workProducts
+      
+  }
+
+  //returns boolean *array* indicating which above state is valid, in above order
+  const validElems = ProjectValidation(projObj);
+  let isValid = true;
+  validElems.map((elem) => { isValid = isValid && elem});
+
+  console.log("VALID ELEMS IN OtherWorkExperience: " + validElems);
+  console.log("isValid: " + isValid);
+
+
+  //Continue and save data if all fields are valid
+  if(isValid) 
+  {
+    axios.post(url + "/projects/", {
+      name,
+      description,
+      responsibilities,
+      technologies,
+      respositoryUrl,
+      workProducts,
+      portfolio: cookie["portfolio"]
+    })
+    .then((response) => {
+      console.log("success");
+      setName("");
+      setDescription("");
+      setResponsibilities("");
+      setTechnologies("");
+      setRespositoryUrl("");
+      setWorkProducts("");
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.log("error");
+    });
+  setShowModal(false);
+  }
+  else {
+    /* log error to the console
+        - iterate over HTML elements and style inccorect elements
+        - do not close display
+    */
+    console.log("Error: invalid fields in other work Experience form");
+    Object.keys(projObj).map((key: string, keyIndex: number) => {
+        styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+    });
+  }
+   
   };
+  //End function handle save
 
   /**
    * Delete data from database

@@ -2,7 +2,7 @@
 import { render } from "@testing-library/react";
 
 //Project imports
-import projectValidation from "../components/validation/ProjectValidation";
+import ProjectValidation from "../components/validation/ProjectValidation";
 
 /*
     Perform the following tests to ensure project validation meets requirements
@@ -24,45 +24,84 @@ describe('All Project validation tests: ', function() {
 const p1 = {
     name: "JAN ORM",
     desc: "JAN Project",
-    link: "https://github.com/jhw2167/JAN_ORM_p1"
+    responsibilities: "r1:\nr2:\nr3:\nr4:\nr5:\nr6:\nr7:\nr8\n",
+    techs: "java, c++, python, html",
+    repo: "https://github.com/jhw2167/JAN_ORM_p1",
+    workProducts: "idk what this is"
 }
-
+var i = 0;
 //freeze const obj
-Object.freeze(p1);
+//Object.freeze(p1);
 
 //null project name triggers invalid submission
 it('null project name triggers invalid submission', function() {
-    const vol = Object.create(p1);
-    vol.name = null;
-    expect(projectValidation(vol)).toBe(false);
+    let temp = Object.values(p1)[i];
+    p1.name = "";
+    expect(ProjectValidation(p1)[i++]).toBe(false);
+    p1.name = temp;
 });
 
 
-//null project desc triggers invalid
-it('null project name triggers invalid submission', function() {
-    const vol = Object.create(p1);
-    vol.desc = null;
-    expect(projectValidation(vol)).toBe(false);
+//null responsibilities section triggers invalid submission
+it('null desc section triggers invalid submission', function() {
+    let temp = Object.values(p1)[i];
+    p1.desc = "";
+    expect(ProjectValidation(p1)[i++]).toBe(false);
+    p1.desc = temp;
+});
+
+
+//null responsibilities section triggers invalid submission
+it('null resp section triggers invalid submission', function() {
+    let temp = Object.values(p1)[i];
+    p1.responsibilities = "";
+    expect(ProjectValidation(p1)[i]).toBe(false);
+    p1.responsibilities = temp;
+});
+
+/* BONUS, responsibilites */
+//responsibilities must have at least 8 bullet points
+it('responsibilities section must have 8 bullet points', function() {
+    let temp = Object.values(p1)[i];
+    p1.responsibilities = "r1\nr2\nr3\n";
+    expect(ProjectValidation(p1)[i++]).toBe(false);
+    p1.responsibilities = temp;
+});
+
+//null technologies section triggers invalid submission
+it('null technologies section triggers invalid submission', function() {
+    let temp = Object.values(p1)[i];
+    p1.techs = "";
+    expect(ProjectValidation(p1)[i++]).toBe(false);
+    p1.techs = temp;
 });
 
 
 //null github link desc triggers invalid
 it('null github link name triggers invalid submission', function() {
-    const vol = Object.create(p1);
-    vol.link = null;
-    expect(projectValidation(vol)).toBe(false);
+    let temp = Object.values(p1)[i];
+    p1.repo = "";
+    expect(ProjectValidation(p1)[i++]).toBe(false);
+    p1.repo = temp;
+});
+
+
+//null work products is stil allowed
+it('null work products is allowable', function() {
+    let temp = Object.values(p1)[i];
+    p1.workProducts = "";
+    expect(ProjectValidation(p1)[i++]).toBe(true);
+    p1.workProducts = temp;
 });
 
 
 //All fields populated returns TRUE
 it('All fields populated triggers valid response', function() {
-    expect(projectValidation(p1)).toBe(true);
-});
-
-
-//Non-public github triggers invalid submission
-it('Non-public github repo triggers invalid submission', function() {
-    expect(projectValidation(p1)).toBe(false);
+    const isValid = ProjectValidation(p1);
+    let allValid = true;
+    isValid.map((elem) => {allValid = allValid && elem;});
+    expect(allValid).toBe(true);
 });
 
 });
+//END DESCRIBE TESS

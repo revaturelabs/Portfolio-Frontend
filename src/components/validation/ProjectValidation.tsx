@@ -16,35 +16,74 @@
 
 
 
-//Default Exported function that handles general validation
+//Default Exported function that handles general validation - returns boolean array of 'true's
+// if all states are valid
 //and calls other utility functions as necessary
-const projectValidation = (project: any) => {
-    console.log("Validating Project");
+function ProjectValidation(project: any): boolean[] {
+    //console.log("Validating Project");
 
-    //Check to ensure no field is null
+    ////Work Products is allowed to be null so we put a dummy value in there
+    //to make sure it is never null, whatever we put in here wont override the true value
+    project.workProducts = "lorem ipsum";   //dummy string
 
-
-    //validate Project Name
-        //not null
-
-    //validate Project Descr.
-        //not null
+    //Check to ensure no field is null via iteration
+    const validElems = new Array<boolean>();
+    Object.keys(project).map((key: any, keyIndex: any) => {
+            validElems.push(!!Object.values(project)[keyIndex]);            
+    });
 
     //validate roles/respnse
-        //not null
         //8 bp
+    const minBullets = 7;
+    const rolesRspFieldName = 'responsibilities';
+    Object.keys(project).map((key: any, keyIndex: any) => {
+        console.log("FIELD NAME: " + key);
+        if(key == rolesRspFieldName) {
+            validElems[keyIndex] = validElems[keyIndex] &&
+             checkEnoughBullets(Object.values(project)[keyIndex], minBullets);
+        }
+    });
 
     //validate github link
         //valid github url
         //public repo
-
+        const gitLinkFieldName = 'roles';
+        Object.keys(project).map((key: any, keyIndex: any) => {
+            if(key == gitLinkFieldName) {
+                validElems[keyIndex] = validElems[keyIndex] &&
+                 !checkGitHubIsPublic(Object.values(project)[keyIndex]);
+            }
+        });
     
+        console.log("--------------------------\n\n")
 
-    return false;
+        console.log("valid array for TEST: ")
+        validElems.forEach(e => console.log(e));
+
+        console.log("--------------------------\n\n")
+
+    return validElems;
 }
 
 
+//Check if there are enough bullets in roles/responsibilities section
+//bullets will be delimitted by \n characters
+function checkEnoughBullets(rspbts:any, minBullets: number) {
+
+    //check if string is null/undefined
+    if(!rspbts) { return false; }
+
+    //Need to count 7 '\n' instances in text
+    const numBullets = (rspbts.match(/\n/g) || '').length + 1;
+    console.log("num bullets counted: " + numBullets);
+
+    return (numBullets >= minBullets);
+}
+
+function checkGitHubIsPublic(link: any) {
+    return true;
+}
 
 
-export default projectValidation;
+export default ProjectValidation;
 
