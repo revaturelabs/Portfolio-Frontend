@@ -75,7 +75,6 @@ stages:
           namespace: 'team2'
           secretName: 'p3-team2-acr'
 
-
   - stage: Notify
     condition: always()
     jobs:
