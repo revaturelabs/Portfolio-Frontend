@@ -16,7 +16,7 @@ parameters:
   - name: 'branchDev'
     type: string
     default: 'refs/heads/dev'
-- name: 'mainCluster' 
+  - name: 'mainCluster' 
     type: string
     default: 'may24-devops-team2-main-cluster'
   - name: 'devCluster' 
