@@ -1,26 +1,75 @@
-
 trigger:
   - main
-  - staging
   - dev
+
 pr:
   - main
-  - staging
   - dev
 
 pool:
   vmImage: ubuntu-latest
 
+parameters:
+  - name: 'branchMain'
+    type: string
+    default: 'refs/heads/main'
+  - name: 'branchDev'
+    type: string
+    default: 'refs/heads/dev'
+
 stages:
-  - stage: Build_and_Test
+  - stage: Build
     jobs:
       - template: ./build-job-template.yml
         parameters:
           jobName: 'Build'
           nodeVersion: '14.x'
+  
+  - stage: Analyze
+    jobs:
+      - template: ./code-coverage-analysis-template.yml
+        parameters:
+          serviceConnection: 'Forge-SonarCloud'
+          organization: '1058-sophia-gavrila-forge'
+          projectKey: '1058-Sophia-Gavrila-Forge_Portfolio-Frontend'
+          projectName: 'Portfolio-Frontend'
+  
+  - stage: Dockerize
+    jobs:
+      - template: ./dockerize-template.yml
+        parameters:
+          jobName: 'Dockerize'
+          containerRegistry: 'acr-team2'
+          repository: 'forge-frontend'
+          imageTag: 'latest'
+          dockerPath: '**/Dockerfile'
+          dockerContext: ${{ variables.Build.Repository.LocalPath }}
+  
+  - stage: Deploy
+    condition: > 
+      and( succeeded(), 
+      in( variables['Build.Reason'], 'IndividualCI', 'BatchedCI' ), 
+      in( variables['Build.SourceBranch'], '${{parameters.branchMain}}', '${{parameters.branchDev}}' ) )
+    jobs:
+      - template: ./kubernetes-template.yml
+        parameters:
+          jobName: 'Deploy'
+          ${{ if eq(variables['Build.SourceBranch'], parameters.branchMain) }}:
+            clusterServiceConnection: 'may24-devops-team2-main-cluster'
+          ${{ if ne(variables['Build.SourceBranch'], parameters.branchMain) }}:
+            clusterServiceConnection: 'may24-devops-team2-dev-cluster'
+          manifestPath: '**/frontend_manifest.yaml'
+          namespace: 'team2'
+
+  - stage: Notify
+    condition: always()
+    jobs:
       - template: ./discord-job-template.yml
         parameters:
-          dependOn: Build
-          name: 'Team2-P3'
-          title: 'Team 2 Project 3 Frontend'
+          name: 'Team2-P3-Frontend'
+          title: 'Forge Portfolio Management System DevOps'
           discordVarGroup: Discord-Webhook-Info
+            # parameters.discordVarGroup contains the name of a variable group set in Azure Pipelines > Library
+            # the variable group contains two variables: discordid and discordkey
+            # currently, the discordVarGroup is named Discord-Webhook-Info, 
+            # but can be swapped out if you want to notify to multiple Discord webhooks.

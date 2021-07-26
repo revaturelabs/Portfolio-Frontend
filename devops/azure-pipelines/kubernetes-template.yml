@@ -1,0 +1,22 @@
+parameters:
+  - name: 'jobName'
+    type: string
+  - name: 'clusterServiceConnection' #Kubernetes Service Connection name
+    type: string
+  - name: 'manifestPath' #Kubernetes manifest file path
+    type: string
+  - name: namespace
+    type: string
+jobs:
+  - job: ${{ parameters.jobName }}
+    steps:
+      - task: KubernetesManifest@0
+        inputs:
+          action: 'deploy'
+          kubernetesServiceConnection: '${{ parameters.clusterServiceConnection }}'
+          namespace: '${{ parameters.namespace }}'
+          manifests: '${{ parameters.manifestPath }}'
+          rolloutStatusTimeout: '10'
+        displayName: Deploy to Cluster Step
+
+    displayName: Deploy to Cluster Job
