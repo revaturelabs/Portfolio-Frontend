@@ -34,10 +34,10 @@ function ProjectValidation(project: any): boolean[] {
 
     //validate roles/respnse
         //8 bp
-    const minBullets = 7;
+    const minBullets = 8;
     const rolesRspFieldName = 'responsibilities';
     Object.keys(project).map((key: any, keyIndex: any) => {
-        console.log("FIELD NAME: " + key);
+        //console.log("FIELD NAME: " + key);
         if(key == rolesRspFieldName) {
             validElems[keyIndex] = validElems[keyIndex] &&
              checkEnoughBullets(Object.values(project)[keyIndex], minBullets);
@@ -54,13 +54,6 @@ function ProjectValidation(project: any): boolean[] {
                  !checkGitHubIsPublic(Object.values(project)[keyIndex]);
             }
         });
-    
-        console.log("--------------------------\n\n")
-
-        console.log("valid array for TEST: ")
-        validElems.forEach(e => console.log(e));
-
-        console.log("--------------------------\n\n")
 
     return validElems;
 }
@@ -75,7 +68,6 @@ function checkEnoughBullets(rspbts:any, minBullets: number) {
 
     //Need to count 7 '\n' instances in text
     const numBullets = (rspbts.match(/\n/g) || '').length + 1;
-    console.log("num bullets counted: " + numBullets);
 
     return (numBullets >= minBullets);
 }
