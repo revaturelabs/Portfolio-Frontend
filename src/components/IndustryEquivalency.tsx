@@ -7,9 +7,8 @@ import { Card, Button, Modal, ModalBody } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
 import {url} from "../api/api";
-import industrySkillNameValidation from './validation/IndustryEquivalencyValidation';
-
-import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
+import industrySkillValidation from './validation/IndustryEquivalencyValidation';
+import styleInvalidElements, { styleInvalidElementsByName } from "./validation/InvalidFormHandling";
 import ValidationMsg from './validation/ValidationMsg'
 // JSON INTERFACES
 
@@ -200,14 +199,14 @@ const IndustryEquivalency = () => {
     // ADD EQUIVALENCY SKILL
     /* ---------------------------------------------------------------- */
     const addSkill = (async () => {
-        let valid = industrySkillNameValidation(skillName);
+        let valid: any = industrySkillValidation(skillName, equivalency);
         if(valid) {
         let newSkill: Skill = {
             id: 0,
             header: skillName,
             value: equivalency,
             portfolio: portfolio
-        }
+        }         
         axios.post(url + '/equiv', newSkill)
             .then(resp => {
                 // If POST is successful, add new Skill (with correct data) to the Skill Array
@@ -223,13 +222,29 @@ const IndustryEquivalency = () => {
         setPreviousExp('0');
         setCurrentExp('0');
         setValidationErrors([]);
-        } else {
+        } else if (equivalency === 0 && skillName == "") {
+            let elements = document.getElementsByClassName("form-control");
+            styleInvalidElements(elements);
+            const error = ["Please include a skill name and cannot add a skill with no total experience!"];
+            setValidationErrors(error);
+            return;
+            
+        } else if (equivalency > 0) {
             console.log("INVALID");
-            let inputElements = document.getElementsByName("skillTitle");
-            styleInvalidElementsByName(inputElements);
-            const error = ["Please include a skill name"];
+            let elements = document.getElementsByName("skillTitle");
+            styleInvalidElementsByName(elements);
+            const error = ["Please include a skill name!"];
             setValidationErrors(error);     
             return;
+        } else {
+            let currentExperienceInput = document.getElementsByName("currentExperience");
+            styleInvalidElementsByName(currentExperienceInput);
+            let previousExperienceInput = document.getElementsByName("previousExperience");
+            styleInvalidElementsByName(previousExperienceInput);
+            const error = ["Cannot have a skill with no experience!"];
+            setValidationErrors(error); 
+            return;
+
         }
             setSkillName('');
             setPreviousExp('0');

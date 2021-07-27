@@ -1,6 +1,6 @@
-const industrySkillNameValidation = (skillName: string) => {
+const industrySkillValidation = (skillName: string, equivalence: number) => {
 
-    if (skillName) {
+    if (skillName && equivalence !=0) {
         return true;
     }
     else {
@@ -8,4 +8,4 @@ const industrySkillNameValidation = (skillName: string) => {
     }
 
 }
-export default industrySkillNameValidation;
+export default industrySkillValidation;
