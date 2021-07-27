@@ -16,11 +16,23 @@ import ProjectView from "../components/ViewPortfolio/ProjectView";
 import RevatureWorkExperienceView from "../components/ViewPortfolio/RevatureWorkExperienceView";
 import ViewPortfolio from "../components/ViewPortfolio/ViewPortfolio";
 
-
-
+// amazing resource for understanding jest
+// https://dev.to/zaklaughton/the-only-3-steps-you-need-to-mock-an-api-call-in-jest-39mb
 
 beforeAll(async () => {
-    <AdminUserTestComponent/>;
+    <AdminUserTestComponent/>; // set user as admin in the cookie (necessary for axios rendered components)
+})
+
+beforeEach(() => {
+
+})
+
+afterEach(() => {
+    jest.resetAllMocks();
+})
+
+afterAll(() => {
+    
 })
 
 // describe test AboutMeView
