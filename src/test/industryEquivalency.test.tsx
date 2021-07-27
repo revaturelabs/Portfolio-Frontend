@@ -28,10 +28,12 @@ test('ensure industrySkillNameValidation returns true when SkillName is passed t
 // });
 
 // test('ensure editButton returns false when there are skills to be updated (passed falsey parameter)', () => {
-//     let newSkill = [{
-//         name: null,
+    
+//     let skillSetNull = [{
+//         id: 0,
+//         header: "",
 //     }]
 
-//     let valid = industrySkillEditValidation(newSkill);
+//     let valid = industrySkillEditValidation(skillSetNull);
 //     expect(valid).toBe(false);
 // });
