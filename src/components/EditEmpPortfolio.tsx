@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import RevatureWorkExp from './RevatureWorkExperience';
 import "../css/EditEmpPortfolio.css"
 import { Link } from 'react-router-dom';
@@ -13,12 +13,22 @@ import { Button } from 'react-bootstrap';
 import CertificationContainer from './CertificationContainer';
 import axios from 'axios';
 import {url} from "../api/api";
+import {toast} from "react-toastify";
 
+interface Props {
+    success: boolean
+}
 
-const EditEmpPortfolio = () => {
+const EditEmpPortfolio = (props: Props) => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookie, removeCookie] = useCookies();
+
+    useEffect(() => {
+        if (props.success) {
+            toast.success("Portfolio created")
+        }
+    }, [])
 
     const handleBack = () => {
         removeCookie('portfolio', { maxAge: 0 })

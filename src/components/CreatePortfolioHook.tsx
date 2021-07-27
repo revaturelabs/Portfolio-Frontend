@@ -18,9 +18,8 @@ const useForm = (initialValues: any, portfolioValidate: any) => {
         if (noErrors) {
             axios.post(url + '/portfolios', inputs, cookies['user'])
             .then(response => {
-                alert("Portfolio Created")
                 setCookies('portfolio', response.data, {path: "/"})
-                window.location.pathname = "./portfolio"
+                window.location.pathname = "./portfolio/new"
             })
             .catch(error => {
                 alert('Error ' + error)
