@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import {url} from "../api/api";
 import {toast} from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 
 const useForm = (initialValues: any, portfolioValidate: any) => {
     const [inputs, setInputs] = useState(initialValues)
     const [errors, setErrors] = useState({})
     const [cookies, setCookies] = useCookies()
+    const history = useHistory();
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -20,7 +22,8 @@ const useForm = (initialValues: any, portfolioValidate: any) => {
             axios.post(url + '/portfolios', inputs, cookies['user'])
                 .then(response => {
                     setCookies('portfolio', response.data, {path: "/"})
-                    window.location.pathname = "./portfolio/new"
+                    toast.success("Portfolio created")
+                    history.push('/portfolio')
                 })
                 .catch(error => {
                     toast.error(error.message)

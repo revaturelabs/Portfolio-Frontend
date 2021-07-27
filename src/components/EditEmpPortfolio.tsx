@@ -13,23 +13,11 @@ import { Button } from 'react-bootstrap';
 import CertificationContainer from './CertificationContainer';
 import axios from 'axios';
 import {url} from "../api/api";
-import {toast} from "react-toastify";
 
-interface Props {
-    success: boolean
-}
-
-const EditEmpPortfolio = (props: Props) => {
+const EditEmpPortfolio = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookie, removeCookie] = useCookies();
-
-    useEffect(() => {
-        if (props.success) {
-            toast.success("Portfolio created")
-        }
-    }, [])
-
     const handleBack = () => {
         removeCookie('portfolio', { maxAge: 0 })
     }

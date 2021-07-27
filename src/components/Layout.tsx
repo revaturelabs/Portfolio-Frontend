@@ -13,9 +13,6 @@ function Layout() {
           <Route exact path="/" component={Landing} />
           <Route path="/main" component={Landing} />
           <Route path="/portfolio" component={EditEmpPortfolio} />
-          <Route path="/portfolio/new">
-              <EditEmpPortfolio success={true} />
-          </Route>
           <Route path="/view" component={ViewPortfolio} />
           <Route path="/list" component={PortfolioList} />
           <Route path="/admin" component={Adminpage} />
