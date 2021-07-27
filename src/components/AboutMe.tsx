@@ -71,6 +71,14 @@ const RevatureAboutMe = () => {
             let deleteButton = document.getElementById('delete-aboutMe')
             let editButton = document.getElementById('edit-aboutMe')
 
+            if(deleteButton == null){
+                console.log("I didn't find a delete button")
+            }
+
+            if(editButton == null){
+                console.log("I didn't find an edit button")
+            }
+
             
             setID(id)
             bioHeader.innerHTML = bio
@@ -290,10 +298,12 @@ const RevatureAboutMe = () => {
                         <Tooltip target="add-aboutMe" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                         
-                        <Pencil id="edit-aboutMe"></Pencil>
+                        {bio.length > 0 && <Pencil id="edit-aboutMe" onClick ={handleEditShow}>Edit</Pencil>}
+                        {bio.length == 0 && <div id="edit-aboutMe"></div>}
                         <Tooltip target="edit-aboutMe" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
                         
-                        <XCircle id="delete-aboutMe"></XCircle>
+                        {bio.length > 0 && <XCircle id="delete-aboutMe" onClick ={handleDeleteShow}>Delete</XCircle>}
+                        {bio.length == 0 && <div id="delete-aboutMe"></div>}
                         <Tooltip target="delete-aboutMe" isOpen={deleteToolTipOpen} toggle={toggleDelete}>Delete</Tooltip>
                     </h4>
                 </Card.Header>
