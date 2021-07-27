@@ -5,6 +5,7 @@ import "../css/Certification.css";
 import {url} from "../api/api";
 import certificationValidation from "./validation/CertificationValidation";
 import styleInvalidElements from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg'
 
 interface User {
     id: number;
@@ -43,6 +44,8 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
     const [issuedOn, setIssuedOn] = useState(props.editCertification.issuedOn);
     const [publicUrl, setPublicUrl] = useState(props.editCertification.publicUrl);
 
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+
     const handleUpdate = () => {
         if (certificationValidation("true", name, certId, issuedBy, issuedOn)){
             axios
@@ -65,6 +68,7 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
+            setValidationErrors(["please fill out the indicated fields"]);
         }
     };
 
@@ -126,6 +130,7 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
                         onChange={(e) => setPublicUrl(e.target.value)}
                     />
                 </form>
+                <ValidationMsg errors={validationErrors}></ValidationMsg>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => props.hideModal()}>

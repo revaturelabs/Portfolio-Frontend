@@ -15,23 +15,3 @@ test('ensure industrySkillNameValidation returns true when SkillName is passed t
     let valid = industrySkillNameValidation(skillName);
     expect(valid).toBe(true);
 });
-
-// test('ensure editButton returns true when there are skills to be updated (passed truthy parameter)', () => {
-//     let newSkill: [{
-//         name: "test",
-
-//     }]
-        
-
-//     let valid = industrySkillEditValidation(newSkill);
-//     expect(valid).toBe(true);
-// });
-
-// test('ensure editButton returns false when there are skills to be updated (passed falsey parameter)', () => {
-//     let newSkill = [{
-//         name: null,
-//     }]
-
-//     let valid = industrySkillEditValidation(newSkill);
-//     expect(valid).toBe(false);
-// });

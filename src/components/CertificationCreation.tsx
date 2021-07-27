@@ -6,6 +6,7 @@ import "../css/Certification.css";
 import {url} from "../api/api";
 import certificationValidation from "./validation/CertificationValidation";
 import styleInvalidElements from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg'
 
 const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
     const backEndUrl = url + "/certifications";
@@ -17,6 +18,11 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
     const [issuedBy, setIssuedBy] = useState("");
     const [issuedOn, setIssuedOn] = useState("");
     const [publicUrl, setPublicUrl] = useState("");
+
+    //Render Error Messages
+    //*****************************************************/
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+    //*****************************************************/
 
     const handleSave = () => {
         if (certificationValidation(portfolio, name, certId, issuedBy, issuedOn)){
@@ -41,6 +47,7 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
+            setValidationErrors(["please fill out the indicated fields"]);
         }
     };
 
@@ -102,6 +109,7 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
                         onChange={(e) => setPublicUrl(e.target.value)}
                     />
                 </form>
+                <ValidationMsg errors={validationErrors}></ValidationMsg>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => props.hideModal()}>

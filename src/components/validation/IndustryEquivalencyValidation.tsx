@@ -8,16 +8,4 @@ const industrySkillNameValidation = (skillName: string) => {
     }
 
 }
-
-
-const industrySkillEditValidation = (skillSet: Array<Object>) => {
-
-    if(skillSet.length >= 1) {
-        return true;
-    } else {
-        return false;
-    }
-}
 export default industrySkillNameValidation;
-
-export {industrySkillEditValidation};
