@@ -32,19 +32,41 @@ const options = {
   }]
 }
 
-const SkillMatrixContainer = () => {
-  const [matrices, updateMatrices] = useState();
-  const [cookies] = useCookies();
-  const portfolio = cookies["portfolio"];
+export default function SkillMatrixElementUpdate(props : Matrix){
+  const [element, updateElement] = useState(props);
 
   useEffect(() => {
-    axios.get(`${matrixUrl}/portfolio/${portfolio.id}`)
-      .then((response) => updateMatrices(response.data))
+    axios.post(`${matrixUrl}/${props.id}`)
+      .then((response) => updateElement(response.data))
   }, []);
 
   return <>
-      <CanvasJSChart options = {options}/>
+      
   </>;
 };
 
-export default SkillMatrixContainer;
+export function SkillMatrixElementCreate(props : Matrix){
+    const [element, updateElement] = useState(props);
+  
+    useEffect(() => {
+      axios.post(`${matrixUrl}`)
+        .then((response) => updateElement(response.data))
+    }, []);
+  
+    return <>
+        
+    </>;
+  };
+
+  export function SkillMatrixElementDelete(props : Matrix){
+    const [element, updateElement] = useState(props);
+  
+    useEffect(() => {
+      axios.delete(`${matrixUrl}/${props.id}`)
+        .then((response) => updateElement(response.data))
+    }, []);
+  
+    return <>
+        matrices.
+    </>;
+  };
