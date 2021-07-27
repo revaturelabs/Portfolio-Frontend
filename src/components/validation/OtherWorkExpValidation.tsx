@@ -5,6 +5,8 @@
      - All component fields contain data
 */
 
+import { stringify } from "query-string";
+
 //Default verify otherWorkExpValidation Section
 function otherWorkExpValidation(wrkExp: any): Array<string> 
 {
@@ -13,9 +15,9 @@ function otherWorkExpValidation(wrkExp: any): Array<string>
     let nullFieldWarning = "Fields must not be null";
     Object.keys(wrkExp).map((key: any, keyIndex: any) => {
 
-        if(!!Object.values(wrkExp)[keyIndex]) {
+        if(!Object.values(wrkExp)[keyIndex]) {
             errorMsgs.push(nullFieldWarning);
-            nullFieldWarning="!";
+            nullFieldWarning= "!"; 
         } else {
             errorMsgs.push("");
         }

@@ -10,13 +10,16 @@ import React from "react";
 //component validation msg
 const ValidationMsg = (props: any) => {
 
-    //eror state
+    //filter error messges to those that are NOT blank and those
+    //that have an actual message, i.e. not an "!" (this is used elsewhere in the code)
+    //This "!" is not associated with the "!" printed to the empty boxes to indicate errors
+    const errMsgs = props.errors.filter( (error: string) => {return (error && error !="!") } );
+
     return (
         <>
             <ul>
-                {props.errors.map((error: string, i: number) => {
-                    return <li key={i}>{error}</li>
-                }
+                {errMsgs.map((error: string, i: number) => {
+                   return <li key={i}>{error}</li> }
                 )}
             </ul>
         </>
