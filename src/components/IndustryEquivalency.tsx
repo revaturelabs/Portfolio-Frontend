@@ -8,7 +8,7 @@ import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-ico
 import { Tooltip } from 'reactstrap';
 import {url} from "../api/api";
 import industrySkillNameValidation from './validation/IndustryEquivalencyValidation';
-import {industrySkillEditValidation} from './validation/IndustryEquivalencyValidation';
+
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
 import ValidationMsg from './validation/ValidationMsg'
 // JSON INTERFACES
@@ -158,15 +158,15 @@ const IndustryEquivalency = () => {
     // EDIT MODAL SHOW/CLOSE
     /* ---------------------------------------------------------------- */
     const handleEditShow = (() => {
-        let valid = industrySkillEditValidation(skillSet);
-        if(valid) {
+        //let valid = industrySkillEditValidation(skillSet);
+      //  if(valid) {
             setShowEdit(true);
-        } else {
-            console.log("No skills to edit");
-            alert("No skills to edit, please add an industry equivalency skill.");
-            return;
-        }
-    });
+     //   } else {
+      //      console.log("No skills to edit");
+      //      alert("No skills to edit, please add an industry equivalency skill.");
+      //      return;
+        });
+   // });
     const handleEditClose = (() => {
         aquireSkillSet();
         setShowEdit(false);
@@ -293,7 +293,7 @@ const IndustryEquivalency = () => {
     // RE-CALCULATE MAX EQUIVALENCY
     /* ---------------------------------------------------------------- */
     useEffect(() => {
-        // Re-Calculate Max Equivalency Whenever skillSet is changed
+        // Re-Calculate Max Equivalency Whenever skillSet is changed  
         let tempMax: number = 0;
         skillSet.forEach((s) => {
             if (s.value > tempMax) {
@@ -319,7 +319,8 @@ const IndustryEquivalency = () => {
                         Industry Equivalency
                         <QuestionCircle id="card-info" onClick={handleShowDetails} />
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
-                        <Pencil id="edit-equivalency" onClick={handleEditShow} />
+                        {skillSet.length > 0 && <Pencil id="edit-equivalency" onClick={handleEditShow}/>} 
+                        {skillSet.length == 0 && <div id="edit-equivalency"></div>}
                         <Tooltip target="edit-equivalency" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
                         <PlusCircle id="add-equivalency" onClick={handleAddShow} style={{marginRight: "10px"}} />
                         <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Industry Equivalency</Tooltip>
