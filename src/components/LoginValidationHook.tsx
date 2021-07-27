@@ -31,7 +31,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
                     } else if (response.data.admin === true) {
                         setCookies('admin', response.data, {path: "/"})
                         toast.success(("Admin login was successful. Welcome " + response.data.fname + " " + response.data.fname))
-                        window.location.pathname = "./admin"
+                        history.push("/admin")
                     }
                 })
                 .catch(error => {
