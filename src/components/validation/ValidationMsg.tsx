@@ -11,16 +11,16 @@ import React from "react";
 const ValidationMsg = (props: any) => {
 
     //eror state
-    console.log("In props.errors: " + props.errors);
-        return( 
-            <>
-           <ul>
-              {props.errors.map((error: string, i: number) => {
-                  return <li key={i}>{error}</li>}
-                )} 
-           </ul>
-           </>
-        );
+    return (
+        <>
+            <ul>
+                {props.errors.map((error: string, i: number) => {
+                    return <li key={i}>{error}</li>
+                }
+                )}
+            </ul>
+        </>
+    );
 }
 
 //Export to form components

@@ -10,7 +10,7 @@ import {url} from "../api/api";
 import industrySkillNameValidation from './validation/IndustryEquivalencyValidation';
 import {industrySkillEditValidation} from './validation/IndustryEquivalencyValidation';
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
-
+import ValidationMsg from './validation/ValidationMsg'
 // JSON INTERFACES
 
 /* ------------------------ */
@@ -122,6 +122,11 @@ const IndustryEquivalency = () => {
     const [equivalency, setEquivalency] = useState<number>(0);
     /* ---------------------------------------------------------------- */
 
+    //Render Error Messages
+    //*****************************************************/
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+    //*****************************************************/
+
     // TOOLTIP FUNCTIONS
 
     /* ---------------------------------------------------------------- */
@@ -147,6 +152,7 @@ const IndustryEquivalency = () => {
        setSkillName('');
        setPreviousExp('0');
        setCurrentExp('0');
+       setValidationErrors([]);
     };
     /* ---------------------------------------------------------------- */
     // EDIT MODAL SHOW/CLOSE
@@ -216,11 +222,13 @@ const IndustryEquivalency = () => {
         setSkillName('');
         setPreviousExp('0');
         setCurrentExp('0');
+        setValidationErrors([]);
         } else {
             console.log("INVALID");
             let inputElements = document.getElementsByName("skillTitle");
             styleInvalidElementsByName(inputElements);
-            alert("Please select all fields");         
+            const error = ["Please include a skill name"];
+            setValidationErrors(error);     
             return;
         }
             setSkillName('');
@@ -363,6 +371,7 @@ const IndustryEquivalency = () => {
                             </div>
                             <div className="form-group"><input type="hidden" className="form-control" name="equivalencyValue" value={equivalency} readOnly /></div>
                         </form>
+                        <ValidationMsg errors={validationErrors}></ValidationMsg> 
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
