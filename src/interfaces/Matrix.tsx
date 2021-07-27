@@ -1,14 +1,14 @@
 import Portfolio from "./Portfolio";
 
-export interface Matrix {
+export default interface Matrix {
     id: number;
     portfolio: Portfolio;
-    header: string;
+    header: String;
+    skills: Array<Skill>;
 }
 
-export default interface Skill {
+export interface Skill {
     id: number;
-    matrix: Matrix;
     name: String;
     value: number;
 }
