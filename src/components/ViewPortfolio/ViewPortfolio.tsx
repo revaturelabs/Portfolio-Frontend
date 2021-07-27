@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link , useHistory} from "react-router-dom";
 import IndustryEquivalencyView from './IndustryEquivalencyView';
 import AboutMeView from "./AboutMeView";
 import EducationView from "./EducationView";
@@ -40,17 +40,22 @@ const ViewPortfolio = () => {
         workExperience: ""
     });
 
-    const onSubmit = handleSubmit(data => 
+    let history = useHistory();
+
+    const onSubmit = handleSubmit((data) => {
         axios.post(`${portfolioUrl}/${cookie.portfolio.id}`,{
-        id:cookie.portfolio.id,
-        name:cookie.portfolio.name,
-        submitted:cookie.portfolio.submitted,
-        approved:cookie.portfolio.approved,
-        reviewed:cookie.portfolio.reviewed,
-        feedback:cookie.portfolio.feedback,
-        flags:data,
-        user:cookie.user}) 
-        );
+            id:cookie.portfolio.id,
+            name:cookie.portfolio.name,
+            submitted:cookie.portfolio.submitted,
+            approved:cookie.portfolio.approved,
+            reviewed:cookie.portfolio.reviewed,
+            feedback:cookie.portfolio.feedback,
+            flags:data,
+            user:cookie.user})
+            
+        history.push("/admin");
+    });
+        
 
     // const onSubmit = (e:any) => {
     //     e.preventDefault()
