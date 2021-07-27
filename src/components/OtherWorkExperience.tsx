@@ -108,10 +108,10 @@ const OtherWorkExperience = () => {
             endDate: endDate
         }
 
-        //returns boolean *array* indicating which above state is valid, in above order
-        const validElems = otherWorkExpValidation(wrkExpObj);
+        //returns string *array* returning which above states have errors, in above order
+        const errorElems = otherWorkExpValidation(wrkExpObj);
         let isValid = true;
-        validElems.map((elem) => { isValid = isValid && elem});
+        errorElems.map((elem) => { isValid = isValid && !!elem});
 
         //Continue and save data if all fields are valid
         if(isValid) 
@@ -150,13 +150,12 @@ const OtherWorkExperience = () => {
                 - iterate over HTML elements and style inccorect elements
                 - do not close display
             */
-            console.log("Error: invalid fields in other work Experience form");
+            console.log("Error: Invalid fields in other work Experience form");
             Object.keys(wrkExpObj).map((key: string, keyIndex: number) => {
-                styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+                styleInvalidElementsByNameNotNull(document.getElementsByName(key), !!errorElems[keyIndex] );
              });
             
-             const errors = ["I am an eror", "I am second error"];
-             setValidationErrors(errors);
+             setValidationErrors(errorElems);
         }
 
         
@@ -180,9 +179,9 @@ const OtherWorkExperience = () => {
         }
 
         //returns boolean *array* indicating which above state is valid, in above order
-        const validElems = otherWorkExpValidation(wrkExpObj);
+        const errorElems = otherWorkExpValidation(wrkExpObj);
         let isValid = true;
-        validElems.map((elem) => { isValid = isValid && elem});
+        errorElems.map((elem) => { isValid = isValid && !!elem});
 
         //Continue and update data if all fields are valid
         if(isValid) 
@@ -214,8 +213,10 @@ const OtherWorkExperience = () => {
             */
             console.log("Error: invalid fields in other work Experience form UPDATE");
             Object.keys(wrkExpObj).map((key: string, keyIndex: number) => {
-                styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+                styleInvalidElementsByNameNotNull(document.getElementsByName(key), !!errorElems[keyIndex] );
              });
+
+             setValidationErrors(errorElems);
         }
         //Form stays open until they enter data correctly or cancel
 

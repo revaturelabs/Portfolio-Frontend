@@ -6,15 +6,22 @@
 */
 
 //Default verify otherWorkExpValidation Section
-function otherWorkExpValidation(wrkExp: any): Array<boolean> 
+function otherWorkExpValidation(wrkExp: any): Array<string> 
 {
     //check to ensure each field is not null
-    const isValid = new Array<boolean>();
+    const errorMsgs = new Array<string>();
+    let nullFieldWarning = "Fields must not be null";
     Object.keys(wrkExp).map((key: any, keyIndex: any) => {
-        //if(!wrkExp.values()[keyIndex]) {
-            //return `Error, ${key} cannot be left blank`;
-            //coerce to boolean
-            isValid.push(!!Object.values(wrkExp)[keyIndex]);
+
+        if(!!Object.values(wrkExp)[keyIndex]) {
+            errorMsgs.push(nullFieldWarning);
+            nullFieldWarning="!";
+        } else {
+            errorMsgs.push("");
+        }
+        //We only want null field warning printing once to the console, so we set it to '!'
+        //we will tell the error print function to ignore error messages with description "!"
+
     });
 
 
@@ -25,11 +32,11 @@ function otherWorkExpValidation(wrkExp: any): Array<boolean>
     if(!checkDatesInOrder(wrkExp.startDate, wrkExp.endDate)) {
         Object.keys(wrkExp).map((key: any, keyIndex: any) => { 
             if(key == startDateField || key == endDateField) {
-                isValid[keyIndex] = false;
+                errorMsgs[keyIndex] = "Start Date must precede End Date";
             }
         });
     }
-    return isValid;
+    return errorMsgs;
 }
 
 //check if the startDate precedes the end date
