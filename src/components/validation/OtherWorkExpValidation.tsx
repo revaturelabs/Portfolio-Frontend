@@ -13,6 +13,7 @@ function otherWorkExpValidation(wrkExp: any): Array<string>
     //check to ensure each field is not null
     const errorMsgs = new Array<string>();
     let nullFieldWarning = "Fields must not be null";
+    
     Object.keys(wrkExp).map((key: any, keyIndex: any) => {
 
         if(!Object.values(wrkExp)[keyIndex]) {

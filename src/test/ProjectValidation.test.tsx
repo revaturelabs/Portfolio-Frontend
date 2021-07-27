@@ -37,7 +37,7 @@ var i = 0;
 it('null project name triggers invalid submission', function() {
     let temp = Object.values(p1)[i];
     p1.name = "";
-    expect(ProjectValidation(p1)[i++]).toBe(false);
+    expect(!ProjectValidation(p1)[i++]).toBe(false);
     p1.name = temp;
 });
 
@@ -46,7 +46,7 @@ it('null project name triggers invalid submission', function() {
 it('null desc section triggers invalid submission', function() {
     let temp = Object.values(p1)[i];
     p1.desc = "";
-    expect(ProjectValidation(p1)[i++]).toBe(false);
+    expect(!ProjectValidation(p1)[i++]).toBe(false);
     p1.desc = temp;
 });
 
@@ -55,7 +55,7 @@ it('null desc section triggers invalid submission', function() {
 it('null resp section triggers invalid submission', function() {
     let temp = Object.values(p1)[i];
     p1.responsibilities = "";
-    expect(ProjectValidation(p1)[i]).toBe(false);
+    expect(!ProjectValidation(p1)[i]).toBe(false);
     p1.responsibilities = temp;
 });
 
@@ -64,7 +64,7 @@ it('null resp section triggers invalid submission', function() {
 it('responsibilities section must have 8 bullet points', function() {
     let temp = Object.values(p1)[i];
     p1.responsibilities = "r1\nr2\nr3\n";
-    expect(ProjectValidation(p1)[i++]).toBe(false);
+    expect(!ProjectValidation(p1)[i++]).toBe(false);
     p1.responsibilities = temp;
 });
 
@@ -72,7 +72,7 @@ it('responsibilities section must have 8 bullet points', function() {
 it('null technologies section triggers invalid submission', function() {
     let temp = Object.values(p1)[i];
     p1.techs = "";
-    expect(ProjectValidation(p1)[i++]).toBe(false);
+    expect(!ProjectValidation(p1)[i++]).toBe(false);
     p1.techs = temp;
 });
 
@@ -81,7 +81,7 @@ it('null technologies section triggers invalid submission', function() {
 it('null github link name triggers invalid submission', function() {
     let temp = Object.values(p1)[i];
     p1.repo = "";
-    expect(ProjectValidation(p1)[i++]).toBe(false);
+    expect(!ProjectValidation(p1)[i++]).toBe(false);
     p1.repo = temp;
 });
 
@@ -90,7 +90,7 @@ it('null github link name triggers invalid submission', function() {
 it('null work products is allowable', function() {
     let temp = Object.values(p1)[i];
     p1.workProducts = "";
-    expect(ProjectValidation(p1)[i++]).toBe(true);
+    expect(!ProjectValidation(p1)[i++]).toBe(true);
     p1.workProducts = temp;
 });
 
@@ -99,7 +99,7 @@ it('null work products is allowable', function() {
 it('All fields populated triggers valid response', function() {
     const isValid = ProjectValidation(p1);
     let allValid = true;
-    isValid.map((elem) => {allValid = allValid && elem;});
+    isValid.map((elem) => {allValid = allValid && !elem;});
     expect(allValid).toBe(true);
 });
 
