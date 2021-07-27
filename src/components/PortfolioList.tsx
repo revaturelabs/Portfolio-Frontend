@@ -5,6 +5,7 @@ import CreatePortfolio from './CreatePortfolio';
 import { useCookies } from 'react-cookie'
 import axios from 'axios';
 import { url } from '../api/api';
+import {toast} from "react-toastify";
 
 
 
@@ -32,11 +33,11 @@ const PortfolioList = () => {
         axios.delete(url +'/portfolios/' + id)
             .then(response => {
                 removeCookie('portfolio', { maxAge: 0 })
-                alert('portfolio deleted')
-                window.location.reload()
+                toast.success("Portfolio deleted")
+                handleTable()
             })
             .catch(error => {
-                alert(error)
+                toast.error(error.message)
             })
     }
 
