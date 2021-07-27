@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { url } from '../api/api';
 import { toast } from 'react-toastify';
+import {useHistory} from "react-router-dom";
 
 
 const useForm = (initialValues: any, loginValidate: any) => {
@@ -10,6 +11,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
     const [errors, setErrors] = useState({})
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookies] = useCookies()
+    const history = useHistory();
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -25,7 +27,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
                     if (response.data.admin !== true) {
                         setCookies('user', response.data, { path: '/' })
                         toast.success(("Login was successful. Welcome " + response.data.fname + " " + response.data.lname))
-                        window.location.pathname = "./list"
+                        history.push("/list")
                     } else if (response.data.admin === true) {
                         setCookies('admin', response.data, {path: "/"})
                         toast.success(("Admin login was successful. Welcome " + response.data.fname + " " + response.data.fname))
