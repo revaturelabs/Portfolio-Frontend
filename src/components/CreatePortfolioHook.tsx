@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import {url} from "../api/api";
+import {toast} from "react-toastify";
 
 
 const useForm = (initialValues: any, portfolioValidate: any) => {
@@ -17,13 +18,13 @@ const useForm = (initialValues: any, portfolioValidate: any) => {
         setErrors(validationErrors)
         if (noErrors) {
             axios.post(url + '/portfolios', inputs, cookies['user'])
-            .then(response => {
-                setCookies('portfolio', response.data, {path: "/"})
-                window.location.pathname = "./portfolio/new"
-            })
-            .catch(error => {
-                alert('Error ' + error)
-            })
+                .then(response => {
+                    setCookies('portfolio', response.data, {path: "/"})
+                    window.location.pathname = "./portfolio/new"
+                })
+                .catch(error => {
+                    toast.error(error.message)
+                })
             
         } else {
             console.log("Errors, please try again", validationErrors)
