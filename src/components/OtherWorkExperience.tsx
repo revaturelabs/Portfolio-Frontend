@@ -107,10 +107,6 @@ const OtherWorkExperience = () => {
         let isValid = true;
         validElems.map((elem) => { isValid = isValid && elem});
 
-        console.log("VALID ELEMS IN OtherWorkExperience: " + validElems);
-        console.log("isValid: " + isValid);
-
-
         //Continue and save data if all fields are valid
         if(isValid) 
         {
@@ -162,25 +158,57 @@ const OtherWorkExperience = () => {
     const handleUpdate = (input: any) => {
         let portfolio = cookies['portfolio'];
 
-        let id:any = input;
-        axios.put(url + "/workhistory",{
-            id,
-            employer,
-            startDate,
-            endDate,
-            title,
-            description,
-            responsibilities,
-            tools, 
-            portfolio
-        })
-        .then(resp => {
-            console.log(resp.data);
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error: " + error)
-        })
+         //Validate field contents from validation/OtherWorkExpValidation.tsx
+         const wrkExpObj: any = {
+            employer: employer,
+            title: title,
+            responsibilities: responsibilities,
+            description: description,
+            tools: tools,
+            startDate: startDate,
+            endDate: endDate
+        }
+
+        //returns boolean *array* indicating which above state is valid, in above order
+        const validElems = otherWorkExpValidation(wrkExpObj);
+        let isValid = true;
+        validElems.map((elem) => { isValid = isValid && elem});
+
+        //Continue and update data if all fields are valid
+        if(isValid) 
+        {
+            let id:any = input;
+            axios.put(url + "/workhistory",{
+                id,
+                employer,
+                startDate,
+                endDate,
+                title,
+                description,
+                responsibilities,
+                tools, 
+                portfolio
+            })
+            .then(resp => {
+                console.log(resp.data);
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log("error: " + error)
+            })
+
+        } else {
+            /* log error to the console
+                - iterate over HTML elements and style inccorect elements
+                - do not close display
+            */
+            console.log("Error: invalid fields in other work Experience form UPDATE");
+            Object.keys(wrkExpObj).map((key: string, keyIndex: number) => {
+                styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+             });
+        }
+        //Form stays open until they enter data correctly or cancel
+
     }
     //***********************************************************************/
 

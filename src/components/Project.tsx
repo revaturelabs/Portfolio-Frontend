@@ -206,10 +206,6 @@ const Project = () => {
   let isValid = true;
   validElems.map((elem) => { isValid = isValid && elem});
 
-  console.log("VALID ELEMS IN OtherWorkExperience: " + validElems);
-  console.log("isValid: " + isValid);
-
-
   //Continue and save data if all fields are valid
   if(isValid) 
   {
@@ -264,27 +260,60 @@ const Project = () => {
       });
   };
 
-  const handleUpdate = async (id: string) => {
-    axios
-      .post(url + `/projects/${id}`, {
-        name,
-        description,
-        responsibilities,
-        technologies,
-        respositoryUrl,
-        workProducts,
-        portfolio: cookie["portfolio"]
-      })
-      .then((response) => {
-        console.log("update: success");
-        console.log(response.data.name);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log("error");
-      });
-    setShowModalEdit(false);
-  };
+  const handleUpdate = async (id: string) => 
+  {
+    const projObj: any = {
+      name: name,
+      description: description,
+      responsibilities: responsibilities,
+      technologies: technologies,
+      respositoryUrl: respositoryUrl,
+      workProducts: workProducts
+      
+      }
+
+    //returns boolean *array* indicating which above state is valid, in above order
+    const validElems = ProjectValidation(projObj);
+    let isValid = true;
+    validElems.map((elem) => { isValid = isValid && elem});
+
+    //Continue and update data if all fields are valid
+        if(isValid) 
+        {
+          axios
+            .post(url + `/projects/${id}`, {
+              name,
+              description,
+              responsibilities,
+              technologies,
+              respositoryUrl,
+              workProducts,
+              portfolio: cookie["portfolio"]
+            })
+            .then((response) => {
+              console.log("update: success");
+              console.log(response.data.name);
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.log("error");
+            });
+          setShowModalEdit(false);
+        }  else {
+          /* log error to the console
+              - iterate over HTML elements and style inccorect elements
+              - do not close display
+          */
+          console.log("Error: invalid fields in other work Experience form");
+          Object.keys(projObj).map((key: string, keyIndex: number) => {
+              styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+          });
+        }
+
+
+          
+    };
+    //END HANDLE UPDATE METHOD
 
   /**
    * Details message
@@ -344,10 +373,10 @@ const Project = () => {
               />
               <br />
               <h6 className="project-create-form-header">Responsibilities</h6>
-              <input
-                type="text"
+              <textarea
+                style={{ width: "100%" }}
+                rows={rowLength}
                 name="responsibilities"
-                className="form-input"
                 onChange={(e) => setResponsibilities(e.target.value)}
               />
               <br />
@@ -458,11 +487,11 @@ const Project = () => {
                   />
                   <br />
                   <h6>Responsibilities</h6>
-                  <input
-                    type="text"
+                  <textarea
+                    style={{ width: "100%" }}
+                    rows={rowLength}
                     name="responsibilities"
                     value={responsibilities}
-                    className="form-input"
                     onChange={(e) => setResponsibilities(e.target.value)}
                   />
                   <br />
