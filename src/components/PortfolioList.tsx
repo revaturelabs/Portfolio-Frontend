@@ -57,7 +57,7 @@ const PortfolioList = () => {
                 window.location.pathname = pathname;
             })
             .catch(error => {
-                alert(error)
+                toast.error(error.message)
             })
     }
 
