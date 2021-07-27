@@ -28,7 +28,7 @@ const EducationView = () => {
             let date = data.graduationDate.substring(5, 7) + "/" + data.graduationDate.substring(8) + "/" + data.graduationDate.substring(0, 4);
             return (
                 <div className="card">
-                    <div className="header" id="bottom-border">
+                    <div className="card-header" id="bottom-border">
                         <h1>Degree: {data.degree}</h1>
                     </div>
                     <div className="card-body" id="body-flex-content">
