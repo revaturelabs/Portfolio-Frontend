@@ -54,6 +54,7 @@ const ViewPortfolio = () => {
             user:cookie.user})
             
         history.push("/admin");
+        console.log(cookie.user);
     });
         
 
@@ -278,28 +279,112 @@ const ViewPortfolio = () => {
     } else {
         return (
             <div>
+                <Container className="mb-5 mt-5">
+
+                <Col sm={11}>
                 <div className="container mb-5 mt-5" id="editPortfolioButtons">
                     <Link to={pathname}>
                         <button className="btn btn-primary m-1" onClick={() => handleBack(cookie['portfolio'].submitted)}>Back</button>
                     </Link>
                 </div>
+                </Col>
 
-                <IndustryEquivalencyView /> <br />
-                <AboutMeView /> <br />
-                <RevatureWorkExperienceView
+                
+                <form>
+                <Row>
+                    <Col sm={11}>
+                        <IndustryEquivalencyView />
+                    </Col>
+                    <Col sm={1}>
+                        {savedFlags.industryEquivalence !== "" &&
+                        <OverlayTrigger trigger="click" placement="right" overlay={popoverIndustryEquivalency}>
+                            <Button variant="error" size = "lg">⚑</Button>
+                        </OverlayTrigger>
+                        }
+                    </Col>
+                </Row>
+                
+                <Row className="mt-5">
+                    <Col sm={11}>
+                        <AboutMeView />
+                    </Col>
+                    <Col sm={1}>
+                        {savedFlags.aboutMe !== "" &&
+                        <OverlayTrigger trigger="click" placement="right" overlay={popoverAboutMe}>
+                            <Button variant="error" size = "lg">⚑</Button>
+                        </OverlayTrigger>
+                        }
+                    </Col>
+                </Row>
+                <Row className="mt-5">
+                    <Col sm={11}>
+                        <RevatureWorkExperienceView
                     url={url + "/workexperience/portfolio/all/"}
-                    title="Work Experience" /> <br />
-                <ProjectView /> <br />
-                <RevatureWorkExperienceView
-                    url={url + "/workhistory/portfolio/all/"}
-                    title="Other Work Experience" /> <br />
-                {/* <OtherWorkExperienceView /> */}
-                <EducationView /> <br />
-                {/* <EducationView
-                    url=""
-                    title="Certification" /> <br /> */}
-                <CertificationView /> <br />
-                <HonorAwardView /> <br />
+                    title="Work Experience" />
+                    </Col>
+                    <Col sm={1}>
+                        {savedFlags.workExperience !== "" &&
+                        <OverlayTrigger trigger="click" placement="right" overlay={popoverWorkExperience}>
+                            <Button variant="error" size = "lg">⚑</Button>
+                        </OverlayTrigger>
+                        }
+                       
+                    </Col>
+                </Row>
+                <Row className="mt-5">
+                    <Col sm={11}>
+                        <ProjectView />
+                    </Col>
+                    <Col sm={1}>
+                        {savedFlags.project !== "" &&
+                        <OverlayTrigger trigger="click" placement="right" overlay={popoverProject}>
+                            <Button variant="error" size = "lg">⚑</Button>
+                        </OverlayTrigger>
+                        }
+                       
+                    </Col>
+                </Row>
+                <Row className="mt-5">
+                    <Col sm={11}>
+                        <EducationView />
+                    </Col>
+                    <Col sm={1}>
+                        {savedFlags.education !== "" &&
+                        <OverlayTrigger trigger="click" placement="right" overlay={popoverEducation}>
+                            <Button variant="error" size = "lg">⚑</Button>
+                        </OverlayTrigger>
+                        }
+                        
+                    </Col>
+                </Row>
+                <Row className="mt-5">
+                    <Col sm={11}>
+                        <CertificationView />
+                    </Col>
+                    <Col sm={1}>
+                        {savedFlags.certification !== "" &&
+                        <OverlayTrigger trigger="click" placement="right" overlay={popoverCertification}>
+                            <Button variant="error" size = "lg">⚑</Button>
+                        </OverlayTrigger>
+                        }
+                        
+                    </Col>
+                </Row>
+                <Row className="mt-5">
+                    <Col sm={11}>
+                        <HonorAwardView />
+                    </Col>
+                    <Col sm={1}>
+                        {savedFlags.honorsAndAwards !== "" &&
+                        <OverlayTrigger trigger="click" placement="right" overlay={popoverHonorsAndAwards}>
+                            <Button variant="error" size = "lg">⚑</Button>
+                        </OverlayTrigger>
+                        }
+                        
+                    </Col>
+                </Row>
+                </form>
+            </Container>
             </div>
         );
     }
