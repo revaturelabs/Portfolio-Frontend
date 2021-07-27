@@ -1,10 +1,8 @@
 #header {
-  background: linear-gradient(
-    to right,
-    rgb(242, 105, 3),
-    rgb(115, 165, 194),
-    rgb(253, 181, 21)
-  );
+  background: rgb(72,76,86)
+  /* background: rgb(185,185,186) */
+  /* background: rgb(253,181,21) */
+  /* background: rgb(115, 165, 194) */
 }
 
 #add-experience {
@@ -13,6 +11,8 @@
 
 h4 {
   color: white;
+  font-weight: bold;
+  font-variant: small-caps;
 }
 
 h6 {

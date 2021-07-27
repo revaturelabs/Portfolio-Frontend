@@ -214,7 +214,7 @@ const Education = () => {
     return (
         <div className="container">
             <Card id="card-container">
-                <Card.Header id="header-project">
+                <Card.Header id="header">
                     <h4>
                         Education and Certifications
                         <QuestionCircle

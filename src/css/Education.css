@@ -15,9 +15,9 @@ h6::after {
   content: "";
 }
 
-#header-project {
+/* #header-project {
   background: rgb(242, 105, 38);
-}
+} */
 
 #add-education {
   float: right;
