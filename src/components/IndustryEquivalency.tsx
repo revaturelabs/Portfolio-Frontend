@@ -15,7 +15,7 @@ import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
 
 /* ------------------------ */
 // EQUIVALENCY DATA TYPE
-/* ------------------------ */
+/* ----------------  -------- */
 export interface Skill {
     id: number;
     header: string;

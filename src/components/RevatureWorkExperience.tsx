@@ -7,6 +7,8 @@ import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/RevatureWorkExperience.css'
 import { url } from '../api/api'
+import revWorkExpValidation from './validation/RevatureWorkExpValidation'
+import styleInvalidElements from "./validation/InvalidFormHandling";
 
 
 const RevatureWorkExperience = () => {
@@ -211,52 +213,68 @@ const RevatureWorkExperience = () => {
     // Update work experience
     //***********************************************************************/
     const handleUpdate = (input: any) => {
-
-        axios.post(url + "/workexperience/" + input,{
-            portfolio,
-            employer,
-            startDate,
-            endDate,
-            title,
-            description,
-            responsibilities,
-            technologies
-        })
-        .then(resp => {
-            console.log("work experience was updates");
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error")
-        })
+        const valid = revWorkExpValidation(employer, startDate, endDate, title, responsibilities, description, technologies);
+        if(valid){
+            axios.post(url + "/workexperience/" + input,{
+                portfolio,
+                employer,
+                startDate,
+                endDate,
+                title,
+                description,
+                responsibilities,
+                technologies
+            })
+            .then(resp => {
+                console.log("work experience was updates");
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log("error")
+            })
+        
+        }
+        else{
+            console.log("INVALID");
+            const elements = document.getElementsByClassName("form-input");
+            styleInvalidElements(elements);
+        }
     }
     //***********************************************************************/
 
     // Save data to database
     //***************************************************/
     const handleSave = () => {
-        axios.post(url + "/workexperience", {
-            portfolio,
-            employer,
-            startDate,
-            endDate,
-            title,
-            description,
-            responsibilities,
-            technologies
-        })
-        .then(resp => {
-            console.log("work experience was saved successfully")
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error")
-        })
-        setEmployer('');
-        setStartDate('');
-        setEndDate('');
-        setTitle('');
-        setShowExperience(false)
+        const valid = revWorkExpValidation(employer, startDate, endDate, title, responsibilities, description, technologies);
+        if(valid){
+            axios.post(url + "/workexperience", {
+                portfolio,
+                employer,
+                startDate,
+                endDate,
+                title,
+                description,
+                responsibilities,
+                technologies
+            })
+            .then(resp => {
+                console.log("work experience was saved successfully")
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log("error")
+            })
+            setEmployer('');
+            setStartDate('');
+            setEndDate('');
+            setTitle('');
+            setShowExperience(false)
+        }
+        else{
+            console.log("INVALID");
+            const elements = document.getElementsByClassName("form-input");
+            styleInvalidElements(elements);
+        }
     }
     //***************************************************/
 
