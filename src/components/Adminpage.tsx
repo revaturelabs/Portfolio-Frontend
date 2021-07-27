@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom'
 import { CSSProperties } from 'react'
 import { useCookies } from 'react-cookie'
 import {url} from "../api/api";
+import {toast} from "react-toastify";
 
 
 const Adminpage = () => {
@@ -48,7 +49,7 @@ const Adminpage = () => {
                 window.location.pathname = pathname;
             })
             .catch(error => {
-                alert(error)
+                toast.error(error.message)
             })
 
     }
