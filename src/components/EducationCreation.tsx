@@ -4,8 +4,9 @@ import { Button, Modal } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import "../css/Project.css";
 import {url} from "../api/api";
-import educationValidation from "./validation/EducationValidation";
-import styleInvalidElements from "./validation/InvalidFormHandling";
+import educationValidation, { educationValidationErrors } from "./validation/EducationValidation";
+import styleInvalidElements, { styleInvalidElement } from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg'
 
 const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const backEndUrl = url + "/education";
@@ -17,22 +18,12 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const [graduationDate, setGraduationDate] = useState("");
     const [gpa, setGpa] = useState(0.0);
     const [logoUrl, setLogoUrl] = useState("");
+    const [validationErrors, setValidationErrors] = useState(Array<string>());
     
-    const updateValidationCookie = () => {
-        console.log("seeing if should update the cookie..");
-        if(!cookies['validation'].education){
-            const obj = {
-                ...cookies['validation'],
-                education: true
-            }
-            console.log("updating education cookie!");
-            console.log(obj);
-            setCookie('validation', obj, { path: '/' });
-        }
-    }
 
     const handleSave = () => {
         const valid = educationValidation(university, degree, graduationDate, gpa);
+        const errorElems = educationValidationErrors(university, degree, graduationDate, gpa);
 
         if(valid){
             console.log("VALID");
@@ -59,7 +50,13 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
         else{
             console.log("INVALID");
             let inputElements = document.getElementsByClassName("form-input");
+            let gpaElement = document.getElementById("gpa");
+            console.log(gpaElement)
+            if(gpaElement != null) {
+                styleInvalidElement(gpaElement);
+            }
             styleInvalidElements(inputElements);
+            setValidationErrors(errorElems);
         }
     };
 
@@ -109,6 +106,7 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                     <h6>GPA</h6>
                     <input
                         required
+                        id="gpa"
                         type="number"
                         step="0.01"
                         name="gpa"
@@ -126,6 +124,9 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
                         onChange={(e) => setLogoUrl(e.target.value)}
                     />
                 </form>
+
+                <ValidationMsg errors={validationErrors}></ValidationMsg>
+
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => props.hideModal()}>
