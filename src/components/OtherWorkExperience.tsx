@@ -10,6 +10,7 @@ import '../css/OtherWorkExperience.css'
 import { url } from '../api/api';
 import otherWorkExpValidation from './validation/OtherWorkExpValidation';
 import { styleInvalidElement, styleInvalidElementsByNameNotNull } from './validation/InvalidFormHandling';
+import ValidationMsg from './validation/ValidationMsg'
 
 const OtherWorkExperience = () => {
     const [cookies] = useCookies();
@@ -54,6 +55,11 @@ const OtherWorkExperience = () => {
     const [showDeleteOWE, setShowDeleteOWE] = useState(false)
     const handleCloseDeleteOWE = () => setShowDeleteOWE(false)
     const handleShowDeleteOWE = () => setShowDeleteOWE(true)
+    //*****************************************************/
+
+    //Render Error Messages
+    //*****************************************************/
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
     //*****************************************************/
 
     // Get data from data base
@@ -102,10 +108,10 @@ const OtherWorkExperience = () => {
             endDate: endDate
         }
 
-        //returns boolean *array* indicating which above state is valid, in above order
-        const validElems = otherWorkExpValidation(wrkExpObj);
+        //returns string *array* returning which above states have errors, in above order
+        const errorElems = otherWorkExpValidation(wrkExpObj);
         let isValid = true;
-        validElems.map((elem) => { isValid = isValid && elem});
+        errorElems.map((elem) => { isValid = isValid && !elem});
 
         //Continue and save data if all fields are valid
         if(isValid) 
@@ -136,6 +142,7 @@ const OtherWorkExperience = () => {
             setTools("");
             setStartDate("");
             setEndDate("");
+            setValidationErrors([]);
             setShow(false);
         }
         else {
@@ -143,10 +150,13 @@ const OtherWorkExperience = () => {
                 - iterate over HTML elements and style inccorect elements
                 - do not close display
             */
-            console.log("Error: invalid fields in other work Experience form");
+            console.log("Error: Invalid fields in other work Experience form");
             Object.keys(wrkExpObj).map((key: string, keyIndex: number) => {
-                styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+                styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
              });
+            
+             console.log("errr elems: "+errorElems);
+             setValidationErrors(errorElems);
         }
 
         
@@ -170,9 +180,9 @@ const OtherWorkExperience = () => {
         }
 
         //returns boolean *array* indicating which above state is valid, in above order
-        const validElems = otherWorkExpValidation(wrkExpObj);
+        const errorElems = otherWorkExpValidation(wrkExpObj);
         let isValid = true;
-        validElems.map((elem) => { isValid = isValid && elem});
+        errorElems.map((elem) => { isValid = isValid && !elem});
 
         //Continue and update data if all fields are valid
         if(isValid) 
@@ -204,8 +214,10 @@ const OtherWorkExperience = () => {
             */
             console.log("Error: invalid fields in other work Experience form UPDATE");
             Object.keys(wrkExpObj).map((key: string, keyIndex: number) => {
-                styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+                styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
              });
+
+             setValidationErrors(errorElems);
         }
         //Form stays open until they enter data correctly or cancel
 
@@ -371,6 +383,10 @@ const OtherWorkExperience = () => {
                         <h6>Tools / Technologies</h6>
                         <textarea name="tools" className="form-input" style={{height: "100px"}} onChange={ (e) => setTools(e.target.value)}/>
                     </form>
+
+                     {/* error msgs go here in list */ }
+                     <ValidationMsg errors={validationErrors}></ValidationMsg>
+
                 </Modal.Body>
                 <Modal.Footer>
                         <Button variant="secondary" className="" onClick={handleClose}>Close</Button>
@@ -415,6 +431,10 @@ const OtherWorkExperience = () => {
                             <h6>Problem Desciption</h6>
                             <textarea name="description" className="form-input work-experience-textarea" style={{height: "100px"}} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
+
+                        {/* error msgs go here in list */ }
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>

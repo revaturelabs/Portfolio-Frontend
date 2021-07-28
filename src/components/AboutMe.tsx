@@ -1,14 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Modal, ModalBody} from 'react-bootstrap';
-import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons';
+import { QuestionCircle, PlusCircle, XCircle, Pencil } from 'react-bootstrap-icons';
 import { Input, Tooltip } from 'reactstrap';
 import '../css/RevatureAboutMe.css';
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
 import {url} from "../api/api";
 import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
-import {styleInvalidElementsByName, styleInvalidElement} from "./validation/InvalidFormHandling";
+import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
 
 
 const RevatureAboutMe = () => {
@@ -58,14 +58,27 @@ const RevatureAboutMe = () => {
 
         let aboutMe = document.querySelector('.about-me-content')
         let div = document.createElement('div')
+        let aboutMeHeader = document.getElementById('aboutMe-header')
         
 
             let rowDiv = document.createElement('div')
             let bioHeader = document.createElement('p')
             let emailHeader = document.createElement('h6')
             let phoneHeader = document.createElement('h6')
-            let deleteButton = document.createElement('button')
-            let editButton = document.createElement('button')
+            // let deleteButton = document.createElement('button')
+            // let editButton = document.createElement('button')
+
+            let deleteButton = document.getElementById('delete-aboutMe')
+            let editButton = document.getElementById('edit-aboutMe')
+
+            if(deleteButton == null){
+                console.log("I didn't find a delete button")
+            }
+
+            if(editButton == null){
+                console.log("I didn't find an edit button")
+            }
+
             
             setID(id)
             bioHeader.innerHTML = bio
@@ -83,19 +96,23 @@ const RevatureAboutMe = () => {
             emailHeader.setAttribute("class", "afterStyle")
             phoneHeader.setAttribute("class", "afterStyle")
 
-            editButton.setAttribute("class", "btn btn-secondary")
-            editButton.setAttribute("id", id)
-            editButton.style.float = "right"
-            editButton.style.marginRight = "10px"
-            editButton.innerHTML = "Edit"
+            // editButton.setAttribute("class", "btn btn-secondary")
+            editButton!.setAttribute("id", id)
+            editButton!.style.float = "right"
+            editButton!.style.marginTop = "5px"
+            editButton!.style.marginLeft = "10px"
+            editButton!.style.opacity = "100"
+            // editButton!.innerHTML = "Edit"
 
-            deleteButton.setAttribute("class", "btn btn-danger")
-            deleteButton.setAttribute("id", id)
-            deleteButton.style.float = "right"
-            deleteButton.style.marginRight = "10px"
-            deleteButton.innerHTML = "Delete"
+            // deleteButton.setAttribute("class", "btn btn-danger")
+            deleteButton!.setAttribute("id", id)
+            deleteButton!.style.float = "right"
+            deleteButton!.style.marginTop = "5px"
+            deleteButton!.style.marginLeft = "10px"
+            deleteButton!.style.opacity = "100"
+            // deleteButton.innerHTML = "Delete"
 
-            editButton.addEventListener("click", () => {
+            editButton!.addEventListener("click", () => {
                 setID(id)
                 setBio(bio)
                 setEmail(email)
@@ -103,14 +120,18 @@ const RevatureAboutMe = () => {
                 handleEditShow()
             })
 
-            deleteButton.addEventListener("click", () => {
+            deleteButton!.addEventListener("click", () => {
                 setID(id)
                 handleDeleteShow()
 
             })
 
-            rowDiv.appendChild(deleteButton)
-            rowDiv.appendChild(editButton)
+            // rowDiv.appendChild(deleteButton)
+            // rowDiv.appendChild(editButton)
+
+            
+            aboutMeHeader?.appendChild(editButton!)
+            aboutMeHeader?.appendChild(deleteButton!)
          
             div.setAttribute("class", "card")
             div.style.border = "none"
@@ -120,7 +141,8 @@ const RevatureAboutMe = () => {
             div.appendChild(emailHeader)
             div.appendChild(phoneHeader)
 
-            aboutMe?.appendChild(div) 
+            aboutMe?.appendChild(div)
+
 
         
         div.style.padding = "5px"
@@ -155,16 +177,19 @@ const RevatureAboutMe = () => {
         //If any of the following was false check and return which part was invalid.
         } else {
             if(!isBioValid){
+                //FIXME Update an array of strings for the error messages
                 let bioElement = document.getElementsByName("bioName");
                 styleInvalidElementsByName(bioElement);
             }
 
             if(!isEmailValid){
+                //FIXME Update an array of strings for the error messages
                 let emailElement = document.getElementsByName("fromDate");
                 styleInvalidElementsByName(emailElement);
             }
 
             if(!isPhoneValid){
+                //FIXME Update an array of strings for the error messages
                 let phoneElement = document.getElementsByName("toDate");
                 styleInvalidElementsByName(phoneElement);
             }
@@ -198,18 +223,21 @@ const RevatureAboutMe = () => {
         //If any of the following was false check and return which part was invalid.
         } else {
             if(!isBioValid){
+                //FIXME Update an array of strings for the error messages
                 let bioElement = document.getElementsByName("bioName");
                 styleInvalidElementsByName(bioElement);
             } else {
-                
+
             }
 
             if(!isEmailValid){
+                //FIXME Update an array of strings for the error messages
                 let emailElement = document.getElementsByName("fromDate");
                 styleInvalidElementsByName(emailElement);
             }
 
             if(!isPhoneValid){
+                //FIXME Update an array of strings for the error messages
                 let phoneElement = document.getElementsByName("toDate");
                 styleInvalidElementsByName(phoneElement);
             }
@@ -263,12 +291,20 @@ const RevatureAboutMe = () => {
         <div className="container">
             <Card id="card-container">
                 <Card.Header id="header">
-                    <h4>
+                    <h4 id="aboutMe-header">
                         About Me
                         <QuestionCircle id="card-info" onClick={handleShowDetails} />
                         <PlusCircle id="add-aboutMe" onClick={handleShow} />
                         <Tooltip target="add-aboutMe" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+                        
+                        {bio.length > 0 && <Pencil id="edit-aboutMe" onClick ={handleEditShow}>Edit</Pencil>}
+                        {bio.length == 0 && <div id="edit-aboutMe"></div>}
+                        <Tooltip target="edit-aboutMe" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
+                        
+                        {bio.length > 0 && <XCircle id="delete-aboutMe" onClick ={handleDeleteShow}>Delete</XCircle>}
+                        {bio.length == 0 && <div id="delete-aboutMe"></div>}
+                        <Tooltip target="delete-aboutMe" isOpen={deleteToolTipOpen} toggle={toggleDelete}>Delete</Tooltip>
                     </h4>
                 </Card.Header>
 

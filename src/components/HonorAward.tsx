@@ -10,6 +10,7 @@ import { CSSProperties } from 'react'
 import {url} from "../api/api";
 import awardValidation from './validation/AwardValidation'
 import styleInvalidElements from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg'
 
 const HonorAwards = () => {
     // Cookies
@@ -63,6 +64,10 @@ const HonorAwards = () => {
     const [id, setId] = useState('')
 
     //***************************************************/
+
+
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+
 
     // Get data from data base
     //***********************************************************/
@@ -241,9 +246,11 @@ const HonorAwards = () => {
             setRecefrom('');
             setReceon('');
             setShowExperience(false)
+            setValidationErrors([]);
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
+            setValidationErrors(["please fill out the indicated fields"]);
         }
     }
     //***********************************************************************/
@@ -265,9 +272,11 @@ const HonorAwards = () => {
             .catch(error => {
                 console.log("error")
             })
+            setValidationErrors([]);
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
+            setValidationErrors(["please fill out the indicated fields"]);
         }
     }
 
@@ -302,6 +311,7 @@ const HonorAwards = () => {
                             <input type="date" name="dateReceived" className="form-input" required value ={dateReceived} onChange={e => setReceon(e.target.value)}/>
 
                         </form>
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
@@ -323,6 +333,7 @@ const HonorAwards = () => {
                             <h6>Received On</h6>
                             <input type="date" name="Received On" className="form-input"  required value ={dateReceived} onChange={e => setReceon(e.target.value)}/>
                         </form>
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
