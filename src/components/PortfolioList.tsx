@@ -87,8 +87,8 @@ const PortfolioList = () => {
                     }
                 });
                 window.location.reload();
-            } catch (e) {
-                alert(e);
+            } catch (error) {
+                toast.error(error.message);
             }
         }
 
