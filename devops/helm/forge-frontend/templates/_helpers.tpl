@@ -49,7 +49,7 @@ Selector labels
 app.kubernetes.io/name: {{ include "forge-frontend.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app: {{ include "forge-frontend.name" . }}
-version: {{ .Release.Version }}
+version: {{ .Chart.AppVersion }}
 project: {{ .Values.project }}
 {{- end }}
 
