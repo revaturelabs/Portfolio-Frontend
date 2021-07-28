@@ -1,20 +1,18 @@
-import { Link , useHistory} from "react-router-dom";
-import IndustryEquivalencyView from './IndustryEquivalencyView';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Button, Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
+import { useCookies } from 'react-cookie';
+import { useForm } from "react-hook-form";
+import { Link, useHistory } from "react-router-dom";
+import { portfolioUrl, url } from "../../api/api";
+import "../../css/ViewPortfolio.css";
 import AboutMeView from "./AboutMeView";
+import CertificationView from "./CertificationView";
 import EducationView from "./EducationView";
 import HonorAwardView from "./HonorAwardView";
-import OtherWorkExperienceView from "./OtherWorkExperienceView";
+import IndustryEquivalencyView from './IndustryEquivalencyView';
 import ProjectView from "./ProjectView";
-import RevatureWorkExperienceView from "./RevatureWorkExperienceView"
-import { useCookies } from 'react-cookie';
-import { useEffect, useState } from "react";
-import CertificationView from "./CertificationView";
-import {url} from "../../api/api";
-import {Container, Row, Col, Popover, OverlayTrigger, Button} from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import axios from "axios";
-import { portfolioUrl } from '../../api/api'
-import "../../css/ViewPortfolio.css"
+import RevatureWorkExperienceView from "./RevatureWorkExperienceView";
 
 type FeedbackData = {
     industryEquivalence: string;
@@ -184,11 +182,11 @@ const ViewPortfolio = () => {
                     </Col>
                     <Col sm={4}>
                         {savedFlags.industryEquivalence !== "" &&
-                        <OverlayTrigger trigger="hover" placement="right" overlay={popoverIndustryEquivalency}>
+                        <OverlayTrigger trigger="click" placement="right" overlay={popoverIndustryEquivalency}>
                             <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
-                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("industryEquivalence")}></textarea>
+                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("industryEquivalence")}>{savedFlags.industryEquivalence}</textarea>
                     </Col>
                 </Row>
                 
@@ -291,7 +289,7 @@ const ViewPortfolio = () => {
                 </Col>
 
                 
-                <form>
+                
                 <Row>
                     <Col sm={11}>
                         <IndustryEquivalencyView />
@@ -384,7 +382,7 @@ const ViewPortfolio = () => {
                         
                     </Col>
                 </Row>
-                </form>
+                
             </Container>
             </div>
         );

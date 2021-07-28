@@ -1,12 +1,12 @@
 import axios from "axios";
 import React from "react";
 import {
-  Button,
-  Col,
-  Container,
-  OverlayTrigger,
-  Popover,
-  Row,
+    Button,
+    Col,
+    Container,
+    OverlayTrigger,
+    Popover,
+    Row
 } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
@@ -24,8 +24,19 @@ import RevatureWorkExp from "./RevatureWorkExperience";
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie, removeCookie] = useCookies();
+  let savedFlags = {aboutMe: "",
+  certification: "",
+  education: "",
+  honorsAndAwards: "",
+  industryEquivalence: "",
+  project: "",
+  workExperience: ""};
 
-  let savedFlags = cookies.portfolio.flags;
+
+  if (cookies.portfolio.flags) {
+    savedFlags = cookies.portfolio.flags;
+  }
+  
 
   const handleBack = () => {
     removeCookie("portfolio", { maxAge: 0 });
@@ -108,8 +119,8 @@ const EditEmpPortfolio = () => {
     </Popover>
   );
 
+  if (cookies.portfolio.flags) {
   return (
-    <div>
         <Container className="mb-5 mt-5">
       <div className="container mt-4">
         <h1>{cookies["portfolio"].name}</h1>
@@ -250,8 +261,37 @@ const EditEmpPortfolio = () => {
         </Col>
       </Row>
       </Container>
-    </div>
-  );
+  );}
+  else {
+      return (
+        <div>
+            <div className="container mt-4">
+                <h1>{cookies['portfolio'].name}</h1>
+            </div>
+            <div className="container mb-5 mt-5" id="editPortfolioButtons">
+                <Link to="/list">
+                    <button className="btn btn-primary m-1" onClick={() => handleSubmit()}>Submit for Review</button>
+                </Link>
+                <Link to="/view">
+                    <button className="btn btn-primary m-1">View Portfolio</button>
+                </Link>
+                <Link to="/list">
+                    <Button variant="primary" className="m-1" onClick={() => handleBack()}>Back</Button>
+                </Link>
+            </div>
+            <IndustryEquivalency /> <br />
+            <AboutMe /> <br />
+            <RevatureWorkExp /> <br />
+            <Project /> <br />
+            <OtherWorkExperience /> <br />
+            <EducationContainer /> <br />
+            <CertificationContainer /> <br />
+            <HonorAwards /> <br />
+        </div>
+
+
+      );
+  }
 };
 
 export default EditEmpPortfolio;
