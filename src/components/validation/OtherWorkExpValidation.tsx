@@ -35,7 +35,7 @@ function otherWorkExpValidation(wrkExp: any): Array<string>
     if(!checkDatesInOrder(wrkExp.startDate, wrkExp.endDate)) {
         Object.keys(wrkExp).map((key: any, keyIndex: any) => { 
             if(key == startDateField) {
-                errorMsgs[keyIndex] = "Start Date must precede End Date";
+                errorMsgs[keyIndex] = "Start date must precede end date";
                 errorMsgs[keyIndex+1] = "!";    //We want this to be styled but NOT display a message
             }
         });
