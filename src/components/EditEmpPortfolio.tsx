@@ -72,13 +72,13 @@ const EditEmpPortfolio = () => {
       </div>
       <IndustryEquivalency /> <br />
       <AboutMe /> <br />
+      <SkillMatrixContainer /> <br />
       <RevatureWorkExp /> <br />
       <Project /> <br />
       <OtherWorkExperience /> <br />
       <EducationContainer /> <br />
       <CertificationContainer /> <br />
       <HonorAwards /> <br />
-      <SkillMatrixContainer /> <br />
     </div>
   );
 };

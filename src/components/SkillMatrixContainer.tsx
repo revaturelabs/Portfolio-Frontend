@@ -3,6 +3,8 @@ import { matrixUrl } from "../api/api";
 import { useCookies } from "react-cookie";
 import Matrix, { Skill } from "../interfaces/Matrix";
 import axios from "axios";
+import { Card } from "react-bootstrap";
+import createChart from "./SkillMatrixPieChart";
 
 const SkillMatrixContainer = () => {
   // STATE VARIABLES
@@ -91,10 +93,36 @@ const SkillMatrixContainer = () => {
       });
   };
 
-  return;
-  <>
-  
-  </>;
+  useEffect(() => {
+    getMatrices();
+  }, []);
+
+  const htmlText = matrices.map(s => <h1>{s.id}</h1>)
+
+  const renderSkillMatrix = (matrices: Matrix[]) => {
+    return matrices.map(data => {
+      return (
+        <>
+         {createChart(data)}
+        </> 
+      );
+    });
+  }
+
+  return (
+    <>
+      <div className="container">
+        <Card id="card-container">
+          <Card.Header id="header">
+            <h4>Skill Matrix</h4>
+          </Card.Header>
+          <Card.Body id="industry">
+            {matrices && renderSkillMatrix(matrices)}
+          </Card.Body>
+        </Card>
+      </div>
+    </>
+  );
 };
 
 export default SkillMatrixContainer;

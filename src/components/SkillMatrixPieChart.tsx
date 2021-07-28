@@ -16,13 +16,13 @@ export default function createChart(props: Matrix) {
             text: props.header
         },
         data: [{
-            type: "pie",
+            type: "doughnut",
             startAngle: 75,
             toolTipContent: "<b>{label}</b>: {y} months",
             showInLegend: "true",
             legendText: "{label}",
-            indexLabelFontSize: 16,
-            indexLabel: "{label} - {y} months",
+            indexLabelPlacement: "inside",
+            indexLabel: " ",
             dataPoints: elementData,
         }]
     }
