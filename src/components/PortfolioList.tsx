@@ -4,6 +4,7 @@ import { Button, Collapse, Modal, Table } from 'react-bootstrap';
 import CreatePortfolio from './CreatePortfolio';
 import { useCookies } from 'react-cookie'
 import axios from 'axios';
+import {toast} from "react-toastify";
 import { portfolioUrl } from '../api/api';
 
 const PortfolioList = () => {
@@ -30,11 +31,11 @@ const PortfolioList = () => {
         axios.delete(`${portfolioUrl}/${id}`)
             .then(response => {
                 removeCookie('portfolio', { maxAge: 0 })
-                alert('portfolio deleted')
-                window.location.reload()
+                toast.success("Portfolio deleted")
+                handleTable()
             })
             .catch(error => {
-                alert(error)
+                toast.error(error.message)
             })
     }
 
@@ -54,7 +55,7 @@ const PortfolioList = () => {
                 window.location.pathname = pathname;
             })
             .catch(error => {
-                alert(error)
+                toast.error(error.message)
             })
     }
 

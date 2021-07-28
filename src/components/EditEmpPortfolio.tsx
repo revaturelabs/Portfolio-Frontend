@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import RevatureWorkExp from './RevatureWorkExperience';
 import "../css/EditEmpPortfolio.css"
 import { Link } from 'react-router-dom';
@@ -18,7 +18,6 @@ const EditEmpPortfolio = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookie, removeCookie] = useCookies();
-
     const handleBack = () => {
         removeCookie('portfolio', { maxAge: 0 })
     }
