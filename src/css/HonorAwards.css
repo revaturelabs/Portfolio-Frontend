@@ -12,7 +12,8 @@ h6::after {
 }
 
 #header-honoraward {
-  background: rgb(72,76,86)
+  /* background: rgb(72,76,86) */
+  background: rgb(242,105,38);
 }
 
 #add-honoraward {

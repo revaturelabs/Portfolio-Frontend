@@ -14,6 +14,7 @@ import {Container, Row, Col, Popover, OverlayTrigger, Button} from "react-bootst
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { portfolioUrl } from '../../api/api'
+import "../../css/ViewPortfolio.css"
 
 type FeedbackData = {
     industryEquivalence: string;
@@ -42,13 +43,13 @@ const ViewPortfolio = () => {
 
     let history = useHistory();
 
-    const onSubmit = handleSubmit((data) => {
+    const onReject = handleSubmit((data) => {
         axios.post(`${portfolioUrl}/${cookie.portfolio.id}`,{
             id:cookie.portfolio.id,
             name:cookie.portfolio.name,
-            submitted:cookie.portfolio.submitted,
-            approved:cookie.portfolio.approved,
-            reviewed:cookie.portfolio.reviewed,
+            submitted:false,
+            approved:false,
+            reviewed:true,
             feedback:cookie.portfolio.feedback,
             flags:data,
             user:cookie.user})
@@ -106,7 +107,7 @@ const ViewPortfolio = () => {
 
     const popoverIndustryEquivalency = (
         <Popover id="popover-basic">
-          <Popover.Title as="h3">Industry Equivalency Feedback</Popover.Title>
+          <Popover.Title className= "flagPopover" as="h3">Industry Equivalency Feedback</Popover.Title>
           <Popover.Content>
           {savedFlags.industryEquivalence}
           </Popover.Content>
@@ -115,7 +116,7 @@ const ViewPortfolio = () => {
 
     const popoverAboutMe = (
         <Popover id="popover-basic">
-          <Popover.Title as="h3">About Me Feedback</Popover.Title>
+          <Popover.Title className= "flagPopover" as="h3">About Me Feedback</Popover.Title>
           <Popover.Content>
           {savedFlags.aboutMe}
           </Popover.Content>
@@ -124,7 +125,7 @@ const ViewPortfolio = () => {
 
     const popoverWorkExperience = (
         <Popover id="popover-basic">
-          <Popover.Title as="h3">Work Experience Feedback</Popover.Title>
+          <Popover.Title className= "flagPopover" as="h3">Work Experience Feedback</Popover.Title>
           <Popover.Content>
           {savedFlags.workExperience}
           </Popover.Content>
@@ -133,7 +134,7 @@ const ViewPortfolio = () => {
 
     const popoverProject = (
         <Popover id="popover-basic">
-          <Popover.Title as="h3">Project Feedback</Popover.Title>
+          <Popover.Title className= "flagPopover" as="h3">Project Feedback</Popover.Title>
           <Popover.Content>
           {savedFlags.project}
           </Popover.Content>
@@ -142,7 +143,7 @@ const ViewPortfolio = () => {
 
     const popoverEducation = (
         <Popover id="popover-basic">
-          <Popover.Title as="h3">Education Feedback</Popover.Title>
+          <Popover.Title className= "flagPopover" as="h3">Education Feedback</Popover.Title>
           <Popover.Content>
           {savedFlags.education}
           </Popover.Content>
@@ -151,7 +152,7 @@ const ViewPortfolio = () => {
 
     const popoverCertification = (
         <Popover id="popover-basic">
-          <Popover.Title as="h3">Certification Feedback</Popover.Title>
+          <Popover.Title className= "flagPopover" as="h3">Certification Feedback</Popover.Title>
           <Popover.Content>
           {savedFlags.certification}
           </Popover.Content>
@@ -160,7 +161,7 @@ const ViewPortfolio = () => {
 
     const popoverHonorsAndAwards = (
         <Popover id="popover-basic">
-          <Popover.Title as="h3">Honors and Awards Feedback</Popover.Title>
+          <Popover.Title className= "flagPopover" as="h3">Honors and Awards Feedback</Popover.Title>
           <Popover.Content>
           {savedFlags.honorsAndAwards}
           </Popover.Content>
@@ -183,8 +184,8 @@ const ViewPortfolio = () => {
                     </Col>
                     <Col sm={4}>
                         {savedFlags.industryEquivalence !== "" &&
-                        <OverlayTrigger trigger="click" placement="right" overlay={popoverIndustryEquivalency}>
-                            <Button variant="error" size = "lg">⚑</Button>
+                        <OverlayTrigger trigger="hover" placement="right" overlay={popoverIndustryEquivalency}>
+                            <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
                         <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("industryEquivalence")}></textarea>
@@ -198,7 +199,7 @@ const ViewPortfolio = () => {
                     <Col sm={4}>
                         {savedFlags.aboutMe !== "" &&
                         <OverlayTrigger trigger="click" placement="right" overlay={popoverAboutMe}>
-                            <Button variant="error" size = "lg">⚑</Button>
+                            <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
                         <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("aboutMe")}></textarea>
@@ -213,7 +214,7 @@ const ViewPortfolio = () => {
                     <Col sm={4}>
                         {savedFlags.workExperience !== "" &&
                         <OverlayTrigger trigger="click" placement="right" overlay={popoverWorkExperience}>
-                            <Button variant="error" size = "lg">⚑</Button>
+                            <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
                         <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("workExperience")}></textarea>
@@ -226,7 +227,7 @@ const ViewPortfolio = () => {
                     <Col sm={4}>
                         {savedFlags.project !== "" &&
                         <OverlayTrigger trigger="click" placement="right" overlay={popoverProject}>
-                            <Button variant="error" size = "lg">⚑</Button>
+                            <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
                         <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("project")}></textarea>
@@ -239,7 +240,7 @@ const ViewPortfolio = () => {
                     <Col sm={4}>
                         {savedFlags.education !== "" &&
                         <OverlayTrigger trigger="click" placement="right" overlay={popoverEducation}>
-                            <Button variant="error" size = "lg">⚑</Button>
+                            <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
                         <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("education")}></textarea>
@@ -252,7 +253,7 @@ const ViewPortfolio = () => {
                     <Col sm={4}>
                         {savedFlags.certification !== "" &&
                         <OverlayTrigger trigger="click" placement="right" overlay={popoverCertification}>
-                            <Button variant="error" size = "lg">⚑</Button>
+                            <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
                         <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("certification")}></textarea>
@@ -265,12 +266,12 @@ const ViewPortfolio = () => {
                     <Col sm={4}>
                         {savedFlags.honorsAndAwards !== "" &&
                         <OverlayTrigger trigger="click" placement="right" overlay={popoverHonorsAndAwards}>
-                            <Button variant="error" size = "lg">⚑</Button>
+                            <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
                         <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("honorsAndAwards")}></textarea>
                         <br/><br/>
-                        <button onClick={onSubmit} className="btn btn-primary m-1">Submit Feedback</button>
+                        <button onClick={onReject} className="btn btn-primary m-1">Submit Feedback</button>
                     </Col>
                 </Row>
                 </form>
