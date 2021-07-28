@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie'
 import axios from 'axios';
 import {toast} from "react-toastify";
 import { portfolioUrl } from '../api/api';
+import "../css/PortfolioList.css";
 
 const PortfolioList = () => {
 
@@ -59,6 +60,41 @@ const PortfolioList = () => {
             })
     }
 
+    const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const reader = new FileReader();
+
+        if (!e.target.files) {
+            return
+        }
+
+        if (e.target.files.length == 0) {
+            return;
+        }
+
+        reader.onload = async () => {
+            const user = cookies['user'];
+
+            if (reader.result == null) {
+                return;
+            }
+
+            // @ts-ignore
+            const obj = JSON.parse(reader.result)
+            try {
+                await axios.post(`${portfolioUrl}/full`, {...obj, user }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                window.location.reload();
+            } catch (error) {
+                toast.error(error.message);
+            }
+        }
+
+        reader.readAsText(e.target.files[0]);
+    }
+
     const showTableBody = () => {
         return table.map((t: any) => {
             return (
@@ -79,8 +115,14 @@ const PortfolioList = () => {
     let callModal = (<Button variant="primary" disabled>Create new Portfolio</Button>)
     let callTable = (<Button variant="primary" disabled>Show List</Button>)
     let logout = (<Button variant="primary" className="ms-2" disabled>Log out</Button>)
+    let upload = (
+        <label htmlFor="upload" className="ms-2 btn btn-primary">
+            <span className="glyphicon glyphicon-folder-open" aria-hidden="true">Upload JSON portfolio</span>
+            <input type="file" id="upload" onChange={handleUpload} />
+        </label>
+    )
 
-    if (cookies['user']) {
+if (cookies['user']) {
         h1Tag = (<h1>Portfolio List for {cookies['user'].fname} {cookies['user'].lname}</h1>)
         callModal = (<button onClick={handleShow} className="btn btn-primary">Create new Portfolio</button>)
         callTable = (<Button variant="primary" onClick={() => { setOpen(!open); handleTable() }} aria-controls="showList" aria-expanded={open} >Show List</Button>)
@@ -102,6 +144,7 @@ const PortfolioList = () => {
                 </Modal.Footer>
             </Modal>
             {callModal}
+            {upload}
             {logout}
             <div className="mt-5">
                 <h5>List of Portfolios</h5>
