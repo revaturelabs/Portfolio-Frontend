@@ -2,3 +2,27 @@
     display: flex;
     justify-content: flex-end;
 }
+
+#header {
+    background: rgb(72,76,86)
+    /* background: rgb(242,105,38); */
+  }
+
+  
+.flag:focus, .flag:active {
+    outline:none !important;
+    box-shadow: none !important;
+}
+
+.flagPopover {
+    /* background-color: rgb(115,165,194); */
+    background-color:rgb(242,105,38);
+    font-weight: 600; 
+    color: white;
+}
+
+h4 {
+    color: white;
+    font-weight: bold;
+    font-variant: small-caps;
+  }

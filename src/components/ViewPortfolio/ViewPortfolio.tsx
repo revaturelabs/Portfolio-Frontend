@@ -161,7 +161,7 @@ const ViewPortfolio = () => {
 
     const popoverHonorsAndAwards = (
         <Popover id="popover-basic">
-          <Popover.Title className= "flagPopover" as="h3">Honors and Awards Feedback</Popover.Title>
+          <Popover.Title className= "flagPopover" as="h3">Honors & Awards Feedback</Popover.Title>
           <Popover.Content>
           {savedFlags.honorsAndAwards}
           </Popover.Content>
