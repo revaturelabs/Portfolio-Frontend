@@ -10,11 +10,7 @@ h6 {font-weight: bold;}
 .work-experience-update-form-headers::after {content: none;}
 
 #header-work-experience {
-    background: linear-gradient(
-        to right,
-        rgb( 242, 105, 3),
-        rgb(115, 165, 194),
-        rgb(253, 181, 21));
+    background: #F26925
 }
 
 #add-work-experience {
