@@ -9,6 +9,7 @@ import { useCookies } from 'react-cookie'
 import {url} from "../api/api";
 import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg';
 
 const RevatureAboutMe = () => {
     // Model show and hide
@@ -47,6 +48,12 @@ const RevatureAboutMe = () => {
     const [id, setID] = useState('')
     //***************************************************/
 
+    // Render error messages.
+    /****************************************************/
+     const [validationErrors, setValidationErrors] = useState<string[]>([]);
+     const toggleValidationErrors = () => setValidationErrors(([]))
+     /****************************************************/
+
     //COOKIES!
     const [cookies] = useCookies()
     //*************************************************** */
@@ -67,12 +74,6 @@ const RevatureAboutMe = () => {
             let bioHeader = document.createElement('p')
             let emailHeader = document.createElement('h6')
             let phoneHeader = document.createElement('h6')
-            // let deleteButton = document.createElement('button')
-            // let editButton = document.createElement('button')
-
-            // let deleteButton = document.getElementById('delete-aboutMe')
-            // let editButton = document.getElementById('edit-aboutMe')
-
             
             setID(id)
             bioHeader.innerHTML = bio
@@ -89,43 +90,6 @@ const RevatureAboutMe = () => {
 
             emailHeader.setAttribute("class", "afterStyle")
             phoneHeader.setAttribute("class", "afterStyle")
-
-            // editButton.setAttribute("class", "btn btn-secondary")
-            // editButton!.setAttribute("id", id)
-            // editButton!.style.float = "right"
-            // editButton!.style.marginTop = "5px"
-            // editButton!.style.marginLeft = "10px"
-            // editButton!.style.opacity = "100"
-            // editButton!.innerHTML = "Edit"
-
-            // deleteButton.setAttribute("class", "btn btn-danger")
-            // deleteButton!.setAttribute("id", id)
-            // deleteButton!.style.float = "right"
-            // deleteButton!.style.marginTop = "5px"
-            // deleteButton!.style.marginLeft = "10px"
-            // deleteButton!.style.opacity = "100"
-            // deleteButton.innerHTML = "Delete"
-
-            // editButton!.addEventListener("click", () => {
-            //     setID(id)
-            //     setBio(bio)
-            //     setEmail(email)
-            //     setPhone(phone)
-            //     handleEditShow()
-            // })
-
-            // deleteButton!.addEventListener("click", () => {
-            //     setID(id)
-            //     handleDeleteShow()
-
-            // })
-
-            // rowDiv.appendChild(deleteButton)
-            // rowDiv.appendChild(editButton)
-
-            
-            // aboutMeHeader?.appendChild(editButton!)
-            // aboutMeHeader?.appendChild(deleteButton!)
          
             div.setAttribute("class", "card")
             div.style.border = "none"
@@ -140,7 +104,6 @@ const RevatureAboutMe = () => {
 
         
         div.style.padding = "5px"
-        // div.style.border = "2px solid black"
         div.style.marginBottom = "10px"
     }
 
@@ -170,24 +133,28 @@ const RevatureAboutMe = () => {
 
         //If any of the following was false check and return which part was invalid.
         } else {
-    
+            let errorElems:string[] = [];
             if(!isBioValid){
                 //FIXME Update an array of strings for the error messages
                 let bioElement = document.getElementsByName("bioName");
+                errorElems.push("The bio is too short, please write a bio at least 100 characters long.");
                 styleInvalidElementsByName(bioElement);
             }
 
             if(!isEmailValid){
                 //FIXME Update an array of strings for the error messages
                 let emailElement = document.getElementsByName("fromDate");
+                errorElems.push("The email is not valid, please input a valid email.");
                 styleInvalidElementsByName(emailElement);
             }
 
             if(!isPhoneValid){
                 //FIXME Update an array of strings for the error messages
                 let phoneElement = document.getElementsByName("toDate");
+                errorElems.push("The phone number is not valid, please input a valid phone number.");
                 styleInvalidElementsByName(phoneElement);
             }
+            setValidationErrors(errorElems);
         }
     }
 
@@ -217,23 +184,28 @@ const RevatureAboutMe = () => {
 
         //If any of the following was false check and return which part was invalid.
         } else {
+            let errorElems:string[] = [];
             if(!isBioValid){
                 //FIXME Update an array of strings for the error messages
                 let bioElement = document.getElementsByName("bioName");
+                errorElems.push("The bio is too short, please write a bio at least 100 characters long.");
                 styleInvalidElementsByName(bioElement);
-            } 
-            
+            }
+
             if(!isEmailValid){
                 //FIXME Update an array of strings for the error messages
                 let emailElement = document.getElementsByName("fromDate");
+                errorElems.push("The email is not valid, please input a valid email.");
                 styleInvalidElementsByName(emailElement);
             }
 
             if(!isPhoneValid){
                 //FIXME Update an array of strings for the error messages
                 let phoneElement = document.getElementsByName("toDate");
+                errorElems.push("The phone number is not valid, please input a valid phone number.");
                 styleInvalidElementsByName(phoneElement);
             }
+            setValidationErrors(errorElems);
         }
     } 
 
@@ -265,9 +237,7 @@ const RevatureAboutMe = () => {
 
     useEffect(()=> {handleGet()},[]);
 
-    // DELTE METHOD
-
-
+    // DELETE METHOD
     const handleDelete = (id: any) => {
         console.log("this is the id " + id)
         axios.delete(url + "/aboutMe/" + id)
@@ -322,10 +292,11 @@ const RevatureAboutMe = () => {
                             <h6>Phone #</h6>
                             <input type="text" name="toDate" placeholder={phonenumberPlaceholder} className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
                         </form>
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
                         <div id="invalid-fields"></div>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <Button variant="secondary" onClick={() => {handleClose(); toggleValidationErrors();}}>
                             Close
                         </Button>
                         <Button variant="primary" className="oButton" onClick={() => {handleSave();}}>Add</Button>
@@ -352,9 +323,10 @@ const RevatureAboutMe = () => {
                                     <h6>Phone #</h6>
                                     <input type="tel" name="toDate" className="form-input" id="" value={phone} onChange={e => setPhone(e.target.value)}/><br />
                                 </form>
+                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                             </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleEditClose}>
+                                <Button variant="secondary" onClick={() => {handleClose(); toggleValidationErrors();}}>
                                         Close
                                     </Button>
                                     <Button className="oButton" onClick={() => {handleUpdate(id);}}>Update</Button>
