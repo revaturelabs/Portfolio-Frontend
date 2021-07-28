@@ -9,7 +9,7 @@ import styleInvalidElements from "./validation/InvalidFormHandling";
 
 const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const backEndUrl = url + "/education";
-    const [cookies] = useCookies();
+    const [cookies, setCookie] = useCookies();
     const portfolio = cookies['portfolio'];
 
     const [university, setUniversity] = useState("");
@@ -17,12 +17,26 @@ const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const [graduationDate, setGraduationDate] = useState("");
     const [gpa, setGpa] = useState(0.0);
     const [logoUrl, setLogoUrl] = useState("");
+    
+    const updateValidationCookie = () => {
+        console.log("seeing if should update the cookie..");
+        if(!cookies['validation'].education){
+            const obj = {
+                ...cookies['validation'],
+                education: true
+            }
+            console.log("updating education cookie!");
+            console.log(obj);
+            setCookie('validation', obj, { path: '/' });
+        }
+    }
 
     const handleSave = () => {
         const valid = educationValidation(university, degree, graduationDate, gpa);
 
         if(valid){
             console.log("VALID");
+
             axios
                 .post(backEndUrl, {
                     portfolio,

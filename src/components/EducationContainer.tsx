@@ -10,6 +10,7 @@ import EducationDelete from './EducationDelete';
 import EducationDisplay from "./EducationDisplay";
 import EducationUpdate from './EducationUpdate';
 import {url} from "../api/api";
+import { Interface } from 'readline';
 
 interface User {
     id: number;
@@ -40,7 +41,7 @@ interface Education {
 
 const EducationContainer = () => {
     const backEndUrl = url + "/education";
-    const [cookies] = useCookies();
+    const [cookies, setCookie] = useCookies();
     const portfolioId = cookies['portfolio'].id;
 
     const [educations, setEducations] = useState(Array<Education>());
@@ -79,6 +80,8 @@ const EducationContainer = () => {
             .then(response => response.json())
             .then(json => setEducations(json));
     }, [])
+
+    
 
     return (
         <div className="container">
