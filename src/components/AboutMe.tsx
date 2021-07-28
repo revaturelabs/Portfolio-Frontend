@@ -10,7 +10,6 @@ import {url} from "../api/api";
 import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
 
-
 const RevatureAboutMe = () => {
     // Model show and hide
     //*********************************************/
@@ -52,6 +51,9 @@ const RevatureAboutMe = () => {
     const [cookies, setCookies] = useCookies()
     //*************************************************** */
 
+    const bioPlaceholder = "Input a brief bio here, the bio must be 100 characters long to be valid."
+    const emailPlaceholder = "exampleEmail@gmail.com";
+    const phonenumberPlaceholder = "123-456-7890";
     //Render about me on page
     //*********************************************************************/
     const createAboutMe = (id: string, bio: string, email: string, phone: string) => {
@@ -68,16 +70,8 @@ const RevatureAboutMe = () => {
             // let deleteButton = document.createElement('button')
             // let editButton = document.createElement('button')
 
-            let deleteButton = document.getElementById('delete-aboutMe')
-            let editButton = document.getElementById('edit-aboutMe')
-
-            if(deleteButton == null){
-                console.log("I didn't find a delete button")
-            }
-
-            if(editButton == null){
-                console.log("I didn't find an edit button")
-            }
+            // let deleteButton = document.getElementById('delete-aboutMe')
+            // let editButton = document.getElementById('edit-aboutMe')
 
             
             setID(id)
@@ -97,41 +91,41 @@ const RevatureAboutMe = () => {
             phoneHeader.setAttribute("class", "afterStyle")
 
             // editButton.setAttribute("class", "btn btn-secondary")
-            editButton!.setAttribute("id", id)
-            editButton!.style.float = "right"
-            editButton!.style.marginTop = "5px"
-            editButton!.style.marginLeft = "10px"
-            editButton!.style.opacity = "100"
+            // editButton!.setAttribute("id", id)
+            // editButton!.style.float = "right"
+            // editButton!.style.marginTop = "5px"
+            // editButton!.style.marginLeft = "10px"
+            // editButton!.style.opacity = "100"
             // editButton!.innerHTML = "Edit"
 
             // deleteButton.setAttribute("class", "btn btn-danger")
-            deleteButton!.setAttribute("id", id)
-            deleteButton!.style.float = "right"
-            deleteButton!.style.marginTop = "5px"
-            deleteButton!.style.marginLeft = "10px"
-            deleteButton!.style.opacity = "100"
+            // deleteButton!.setAttribute("id", id)
+            // deleteButton!.style.float = "right"
+            // deleteButton!.style.marginTop = "5px"
+            // deleteButton!.style.marginLeft = "10px"
+            // deleteButton!.style.opacity = "100"
             // deleteButton.innerHTML = "Delete"
 
-            editButton!.addEventListener("click", () => {
-                setID(id)
-                setBio(bio)
-                setEmail(email)
-                setPhone(phone)
-                handleEditShow()
-            })
+            // editButton!.addEventListener("click", () => {
+            //     setID(id)
+            //     setBio(bio)
+            //     setEmail(email)
+            //     setPhone(phone)
+            //     handleEditShow()
+            // })
 
-            deleteButton!.addEventListener("click", () => {
-                setID(id)
-                handleDeleteShow()
+            // deleteButton!.addEventListener("click", () => {
+            //     setID(id)
+            //     handleDeleteShow()
 
-            })
+            // })
 
             // rowDiv.appendChild(deleteButton)
             // rowDiv.appendChild(editButton)
 
             
-            aboutMeHeader?.appendChild(editButton!)
-            aboutMeHeader?.appendChild(deleteButton!)
+            // aboutMeHeader?.appendChild(editButton!)
+            // aboutMeHeader?.appendChild(deleteButton!)
          
             div.setAttribute("class", "card")
             div.style.border = "none"
@@ -176,6 +170,7 @@ const RevatureAboutMe = () => {
 
         //If any of the following was false check and return which part was invalid.
         } else {
+    
             if(!isBioValid){
                 //FIXME Update an array of strings for the error messages
                 let bioElement = document.getElementsByName("bioName");
@@ -226,10 +221,8 @@ const RevatureAboutMe = () => {
                 //FIXME Update an array of strings for the error messages
                 let bioElement = document.getElementsByName("bioName");
                 styleInvalidElementsByName(bioElement);
-            } else {
-
-            }
-
+            } 
+            
             if(!isEmailValid){
                 //FIXME Update an array of strings for the error messages
                 let emailElement = document.getElementsByName("fromDate");
@@ -256,6 +249,12 @@ const RevatureAboutMe = () => {
                     let kd = document.querySelector('#add-aboutMe')
                     kd?.setAttribute("class", "hide") 
                     createAboutMe(response.data.id, response.data.bio, response.data.email, response.data.phone)
+                } else {
+                    let editButton = document.querySelector('#edit-aboutMe')
+                    let deleteButton = document.querySelector('#delete-aboutMe')
+
+                    editButton?.setAttribute("class","hide")
+                    deleteButton?.setAttribute("class","hide")
                 }
 
         })
@@ -294,17 +293,17 @@ const RevatureAboutMe = () => {
                     <h4 id="aboutMe-header">
                         About Me
                         <QuestionCircle id="card-info" onClick={handleShowDetails} />
+                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+
                         <PlusCircle id="add-aboutMe" onClick={handleShow} />
                         <Tooltip target="add-aboutMe" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
-                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                         
-                        {bio.length > 0 && <Pencil id="edit-aboutMe" onClick ={handleEditShow}>Edit</Pencil>}
-                        {bio.length == 0 && <div id="edit-aboutMe"></div>}
+                        <Pencil id="edit-aboutMe" onClick ={handleEditShow}>Edit</Pencil>
                         <Tooltip target="edit-aboutMe" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
                         
-                        {bio.length > 0 && <XCircle id="delete-aboutMe" onClick ={handleDeleteShow}>Delete</XCircle>}
-                        {bio.length == 0 && <div id="delete-aboutMe"></div>}
+                        <XCircle id="delete-aboutMe" onClick ={handleDeleteShow}>Delete</XCircle>
                         <Tooltip target="delete-aboutMe" isOpen={deleteToolTipOpen} toggle={toggleDelete}>Delete</Tooltip>
+                        
                     </h4>
                 </Card.Header>
 
@@ -317,14 +316,15 @@ const RevatureAboutMe = () => {
                     <Modal.Body className="modalBody">
                         <form method="post">
                             <h6>Bio</h6>
-                            <textarea className="form-textarea" name="bioName" rows={rowLength} onChange={e => setBio(e.target.value)}></textarea>
+                            <textarea className="form-textarea" placeholder={bioPlaceholder} name="bioName" rows={rowLength} onChange={e => setBio(e.target.value)}></textarea>
                             <h6>Email</h6>
-                            <input type="email" name="fromDate" className="form-input" id="" onChange={e => setEmail(e.target.value)}/><br />
+                            <input type="email" name="fromDate" placeholder={emailPlaceholder} className="form-input" id="" onChange={e => setEmail(e.target.value)}/><br />
                             <h6>Phone #</h6>
-                            <input type="text" name="toDate" className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
+                            <input type="text" name="toDate" placeholder={phonenumberPlaceholder} className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
+                        <div id="invalid-fields"></div>
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
