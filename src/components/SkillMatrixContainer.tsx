@@ -3,47 +3,97 @@ import { matrixUrl } from "../api/api";
 import { useCookies } from "react-cookie";
 import Matrix, { Skill } from "../interfaces/Matrix";
 import axios from "axios";
-import CanvasJSReact from "../canvasjs.react.js";
-
-var CanvasJS = CanvasJSReact.CanvasJS; 
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
-const options = {
-  exportEnabled: true,
-  animationEnabled: true,
-  title: {
-    text: "Website Traffic Sources"
-  },
-  data: [{
-    type: "pie",
-    startAngle: 75,
-    toolTipContent: "<b>{label}</b>: {y}%",
-    showInLegend: "true",
-    legendText: "{label}",
-    indexLabelFontSize: 16,
-    indexLabel: "{label} - {y}%",
-    dataPoints: [
-      { y: 18, label: "Direct" },
-      { y: 49, label: "Organic Search" },
-      { y: 9, label: "Paid Search" },
-      { y: 5, label: "Referral" },
-      { y: 19, label: "Social" }
-    ]
-  }]
-}
 
 const SkillMatrixContainer = () => {
-  const [matrices, updateMatrices] = useState();
+  // STATE VARIABLES
+
+  /* ---------------------------------------------------------------- */
+  // TOOLTIP STATES
+  /* ---------------------------------------------------------------- */
+  const [addTooltipOpen, setAddTooltipOpen] = useState<boolean>(false);
+  const [editTooltipOpen, setEditTooltipOpen] = useState<boolean>(false);
+  const [detailsTooltipOpen, setDetailsTooltipOpen] = useState<boolean>(false);
+  /* ---------------------------------------------------------------- */
+  // MODAL STATES
+  /* ---------------------------------------------------------------- */
+  const [showAdd, setShowAdd] = useState<boolean>(false);
+  const [showEdit, setShowEdit] = useState<boolean>(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const handleCloseDetails = () => setShowDetails(false);
+  const handleShowDetails = () => setShowDetails(true);
+  /* ---------------------------------------------------------------- */
+  // SKILL MATRIX STATES
+  /* ---------------------------------------------------------------- */
+  const [matrices, setMatrices] = useState<Array<Matrix>>([]);
+  const [maxSkills, setMaxSkills] = useState<number>(0);
+  /* ---------------------------------------------------------------- */
+  // COOKIE STATES
+  /* ---------------------------------------------------------------- */
   const [cookies] = useCookies();
   const portfolio = cookies["portfolio"];
+  /* ---------------------------------------------------------------- */
+  // ADD SKILL STATES
+  /* ---------------------------------------------------------------- */
+  const [matrixName, setMatrixName] = useState<string>("");
+  const [previousMatrix, setPreviousMatrix] = useState<string>("0");
+  const [currentMatrix, setCurrentMatrix] = useState<string>("0");
+  const [matrix, setMatrix] = useState<number>(0);
+  /* ---------------------------------------------------------------- */
 
-  useEffect(() => {
-    axios.get(`${matrixUrl}/portfolio/${portfolio.id}`)
-      .then((response) => updateMatrices(response.data))
-  }, []);
+  // TOOLTIP FUNCTIONS
 
-  return <>
-      <CanvasJSChart options = {options}/>
+  /* ---------------------------------------------------------------- */
+  const toggleAdd = () => setAddTooltipOpen(!addTooltipOpen);
+  const toggleEdit = () => setEditTooltipOpen(!editTooltipOpen);
+  const toggleDetails = () => setDetailsTooltipOpen(!detailsTooltipOpen);
+  /* ---------------------------------------------------------------- */
+
+  // MODAL FUNCTIONS
+
+  /* ---------------------------------------------------------------- */
+  // ADD MODAL SHOW/CLOSE
+  /* ---------------------------------------------------------------- */
+  const handleAddShow = () => {
+    if (matrices.length >= 6) {
+      alert(
+        "No more than 6 Matrices can be added to the Skill Matrix Section."
+      );
+      return;
+    }
+    setShowAdd(true);
+  };
+  const handleAddClose = () => {
+    setShowAdd(false);
+  };
+  /* ---------------------------------------------------------------- */
+  // EDIT MODAL SHOW/CLOSE
+  /* ---------------------------------------------------------------- */
+  const handleEditShow = () => {
+    setShowEdit(true);
+  };
+  const handleEditClose = () => {
+    getMatrices();
+    setShowEdit(false);
+  };
+  /* ---------------------------------------------------------------- */
+
+  // AXIOS FUNCTIONS
+
+  /* ---------------------------------------------------------------- */
+  // GET SKILL MATRIX ARRAY
+  /* ---------------------------------------------------------------- */
+  const getMatrices = () => {
+    axios
+      .get(`${matrixUrl}/portfolio/${portfolio.id}`)
+      .then((response) => setMatrices(response.data))
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  return;
+  <>
+  
   </>;
 };
 
