@@ -20,6 +20,7 @@ const useForm = (initialValues: any, portfolioValidate: any) => {
             .then(response => {
                 alert("Portfolio Created")
                 setCookies('portfolio', response.data, {path: "/"})
+
                 window.location.pathname = "./portfolio"
             })
             .catch(error => {

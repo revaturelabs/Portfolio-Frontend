@@ -48,7 +48,7 @@ const RevatureAboutMe = () => {
     //***************************************************/
 
     //COOKIES!
-    const [cookies, setCookies] = useCookies()
+    const [cookies] = useCookies()
     //*************************************************** */
 
     const bioPlaceholder = "Input a brief bio here, the bio must be 100 characters long to be valid."

@@ -155,6 +155,11 @@ const Project = () => {
   const [technologies, setTechnologies] = useState("");
   const [respositoryUrl, setRespositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
+
+  //Render Error Messages
+    //*****************************************************/
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+    //*****************************************************/
   
   const [cookie] = useCookies();
   /**
@@ -202,9 +207,9 @@ const Project = () => {
   }
 
   //returns boolean *array* indicating which above state is valid, in above order
-  const validElems = ProjectValidation(projObj);
+  const errorElems = ProjectValidation(projObj);
   let isValid = true;
-  validElems.map((elem) => { isValid = isValid && elem});
+  errorElems.map((elem) => { isValid = isValid && !elem});
 
   //Continue and save data if all fields are valid
   if(isValid) 
@@ -226,6 +231,7 @@ const Project = () => {
       setTechnologies("");
       setRespositoryUrl("");
       setWorkProducts("");
+      setValidationErrors([]);
       window.location.reload();
     })
     .catch((error) => {
@@ -240,8 +246,11 @@ const Project = () => {
     */
     console.log("Error: invalid fields in other work Experience form");
     Object.keys(projObj).map((key: string, keyIndex: number) => {
-        styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+        styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
     });
+
+    //set our string error message
+    setValidationErrors(errorElems);
   }
    
   };
@@ -273,9 +282,9 @@ const Project = () => {
       }
 
     //returns boolean *array* indicating which above state is valid, in above order
-    const validElems = ProjectValidation(projObj);
+    const errorElems = ProjectValidation(projObj);
     let isValid = true;
-    validElems.map((elem) => { isValid = isValid && elem});
+    errorElems.map((elem) => { isValid = isValid && !elem});
 
     //Continue and update data if all fields are valid
         if(isValid) 
@@ -298,6 +307,8 @@ const Project = () => {
             .catch((error) => {
               console.log("error");
             });
+            
+          setValidationErrors([]);
           setShowModalEdit(false);
         }  else {
           /* log error to the console
@@ -306,12 +317,12 @@ const Project = () => {
           */
           console.log("Error: invalid fields in other work Experience form");
           Object.keys(projObj).map((key: string, keyIndex: number) => {
-              styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+              styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
           });
         }
 
-
-          
+        //set our string error msg
+        setValidationErrors(errorElems);
     };
     //END HANDLE UPDATE METHOD
 
