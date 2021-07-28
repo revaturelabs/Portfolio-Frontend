@@ -1,14 +1,13 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Row, Col, Button, Form, FormCheck } from "react-bootstrap";
-
-import "../css/HonorAwards.css";
-import { useLocation } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import queryString from "query-string";
-import { CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useCookies } from "react-cookie";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
+import "../css/HonorAwards.css";
 
 const Portfoliodetails = (props: any) => {
   const [portId, setPortId] = useState(0);
@@ -54,7 +53,7 @@ const Portfoliodetails = (props: any) => {
     e.preventDefault();
 
     if (!approved && !feedback) {
-      alert(
+      toast.error(
         "Feedback must be provided if rejecting the portfolio. Your changes are not saved"
       );
     } else {
@@ -82,7 +81,7 @@ const Portfoliodetails = (props: any) => {
         <Container>
           <h3>Approve/Reject/Review</h3>
 
-          <Button type='submit' onClick={onBacksub} style={ButtonStyles}>
+          <Button type="submit" onClick={onBacksub} style={ButtonStyles}>
             Back
           </Button>
 
@@ -102,8 +101,8 @@ const Portfoliodetails = (props: any) => {
             <Col lg={2}>Review Completed</Col>
             <Col lg={2}>
               <Form.Check
-                type='checkbox'
-                name='reviewed'
+                type="checkbox"
+                name="reviewed"
                 checked={reviewed}
                 onChange={(e) => setReviewed(e.target.checked)}
               />
@@ -114,19 +113,19 @@ const Portfoliodetails = (props: any) => {
               <Col lg={2}>Approved</Col>
               <Col lg={2}>
                 <Form.Check
-                  type='checkbox'
-                  name='approve'
+                  type="checkbox"
+                  name="approve"
                   checked={approved}
                   onChange={(e) => setApproved(e.target.checked)}
                 />
               </Col>
             </Row>
             <Col>
-              <Form.Label as='legend'>Feedback</Form.Label>
+              <Form.Label as="legend">Feedback</Form.Label>
 
               <div>
                 <textarea
-                  name='feedback'
+                  name="feedback"
                   cols={50}
                   rows={6}
                   value={feedback}
@@ -138,7 +137,7 @@ const Portfoliodetails = (props: any) => {
           <Row>
             <Col>
               <div>
-                <Button type='submit' style={ButtonStyles}>
+                <Button type="submit" style={ButtonStyles}>
                   Submit
                 </Button>
               </div>

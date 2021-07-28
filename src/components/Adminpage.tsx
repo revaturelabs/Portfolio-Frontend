@@ -1,13 +1,12 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Table, Row, Col, Button } from "react-bootstrap";
-import "../css/HonorAwards.css";
-import { render } from "react-dom";
-import { Link } from "react-router-dom";
-import { CSSProperties } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { CSSProperties, useEffect, useState } from "react";
+import { Button, Container, Row, Table } from "react-bootstrap";
 import { useCookies } from "react-cookie";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
+import "../css/HonorAwards.css";
 
 const Adminpage = () => {
   // state variable for all portfolios
@@ -24,7 +23,7 @@ const Adminpage = () => {
     background: "rgb(242, 105, 38)",
     borderColor: "rgb(7242, 105, 38)",
     color: "white",
-    fontWeight: "bold"
+    fontWeight: "bold",
   };
 
   // function to display all portfolios that store in state variable "portfolios"
@@ -65,10 +64,9 @@ const Adminpage = () => {
       .then((response) => {
         setCookie("portfolio", response.data, { path: "/" });
         window.location.pathname = pathname;
-        console.log(portfolioUrl + id);
       })
       .catch((error) => {
-        alert(error);
+        toast.error(error.message);
       });
   };
 
