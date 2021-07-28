@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, OverlayTrigger, Popover, Row } from "react-bootstrap";
+import { Button, Col, Container, OverlayTrigger, Popover, Row, Form } from "react-bootstrap";
 import { useCookies } from 'react-cookie';
 import { useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
@@ -55,32 +55,33 @@ const ViewPortfolio = () => {
         history.push("/admin");
         console.log(cookie.user);
     });
+
+    const onApprove = handleSubmit((data) => {
+        axios.post(`${portfolioUrl}/${cookie.portfolio.id}`,{
+            id:cookie.portfolio.id,
+            name:cookie.portfolio.name,
+            submitted:true,
+            approved:true,
+            reviewed:true,
+            feedback:null,
+            flags:null,
+            user:cookie.user})
+            
+        history.push("/admin");
+        console.log(cookie.user);
+    });
         
-
-    // const onSubmit = (e:any) => {
-    //     e.preventDefault()
-
-    //     if (!approved && !feedback){
-
-    //        alert("Feedback must be provided if rejecting the portfolio. Your changes are not saved")
-    //     }
-    //     else{
-    //    // this will be axios put to update portfolios back end
-    // //    console.log ("update" + portId+name+submitted+approved+reviewed+feedback)
-    //        axios.post(`${portfolioUrl}/${cookie.portfolio.id}`,{
-    //        id:cookie.portfolio.id,
-    //        name:cookie.portfolio.name,
-    //        submitted:cookie.portfolio.submitted,
-    //        approved:cookie.portfolio.approved,
-    //        reviewed:cookie.portfolio.reviewed,
-    //        feedback:cookie.portfolio.feedback,
-    //        flags:data,
-    //        user:cookie.user
-    //    })
-    //     }
-
-      //props.history.push('/admin')
-//    }
+    if (!cookie.portfolio.flags) {
+        cookie.portfolio.flags = {
+            aboutMe: "",
+            certification: "",
+            education: "",
+            honorsAndAwards: "",
+            industryEquivalence: "",
+            project: "",
+            workExperience: ""
+        };
+      }
 
     useEffect(() => {
         axios.get(url + `/portfolios/${cookie['portfolio'].id}`).then(response => {
@@ -174,8 +175,13 @@ const ViewPortfolio = () => {
     
     if (isAdmin) {
         return (
-            <Container className="mb-5 mt-5">
+            <Container className="m-5 mx-auto">
+                
                 <form>
+                <h2 id = "port-details"><strong>Portfolio Name:</strong> {cookie.portfolio.name} | <strong>Employee Name:</strong> {cookie.portfolio.user.fname} {cookie.portfolio.user.lname}</h2>
+                <button onClick={onReject} id="view-port-button" className="btn btn-primary ">Submit Feedback</button>
+
+                <button onClick={onApprove} id="view-port-button" className="btn btn-primary ">Approve Portfolio</button>
                 <Row>
                     <Col sm={8}>
                         <IndustryEquivalencyView />
@@ -186,7 +192,7 @@ const ViewPortfolio = () => {
                             <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
-                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("industryEquivalence")}>{savedFlags.industryEquivalence}</textarea>
+                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("industryEquivalence")}>{cookie.portfolio.flags.industryEquivalence}</textarea>
                     </Col>
                 </Row>
                 
@@ -200,7 +206,7 @@ const ViewPortfolio = () => {
                             <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
-                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("aboutMe")}></textarea>
+                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("aboutMe")}>{cookie.portfolio.flags.aboutMe}</textarea>
                     </Col>
                 </Row>
                 <Row className="mt-5">
@@ -215,7 +221,7 @@ const ViewPortfolio = () => {
                             <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
-                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("workExperience")}></textarea>
+                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("workExperience")}>{cookie.portfolio.flags.workExperience}</textarea>
                     </Col>
                 </Row>
                 <Row className="mt-5">
@@ -228,7 +234,7 @@ const ViewPortfolio = () => {
                             <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
-                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("project")}></textarea>
+                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("project")}>{cookie.portfolio.flags.project}</textarea>
                     </Col>
                 </Row>
                 <Row className="mt-5">
@@ -241,7 +247,7 @@ const ViewPortfolio = () => {
                             <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
-                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("education")}></textarea>
+                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("education")}>{cookie.portfolio.flags.education}</textarea>
                     </Col>
                 </Row>
                 <Row className="mt-5">
@@ -254,7 +260,7 @@ const ViewPortfolio = () => {
                             <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
-                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("certification")}></textarea>
+                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("certification")}>{cookie.portfolio.flags.certification}</textarea>
                     </Col>
                 </Row>
                 <Row className="mt-5">
@@ -267,9 +273,8 @@ const ViewPortfolio = () => {
                             <Button className="flag" variant="error" size = "lg"><h3>⚑</h3></Button>
                         </OverlayTrigger>
                         }
-                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("honorsAndAwards")}></textarea>
+                        <textarea rows={5} cols={40} placeholder="Insert new feedback here..." {...register("honorsAndAwards")}>{cookie.portfolio.flags.honorsAndAwards}</textarea>
                         <br/><br/>
-                        <button onClick={onReject} className="btn btn-primary m-1">Submit Feedback</button>
                     </Col>
                 </Row>
                 </form>

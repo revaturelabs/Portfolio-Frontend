@@ -97,15 +97,16 @@ const PortfolioList = () => {
 
     const showTableBody = () => {
         return table.map((t: any) => {
+            console.log(t);
             return (
                 <tr key={t.id}>
                     <td>{t.id}</td>
                     <td>{t.name}</td>
-                    <td>{t.submitted}</td>
-                    <td>{t.approved}</td>
-                    <td>{t.feedback}</td>
-                    <td><Button variant="danger" onClick={() => handleDelete(t.id)}>Delete</Button></td>
-                    <td><Button variant="primary" onClick={() => handlePortfolioEdit(t.id, t.submitted)}>{t.submitted ? "View" : "Edit"}</Button></td>
+                    <td>{t.submitted ? "Submitted" : "Pending"}</td>
+                    <td>{t.reviewed ? "Review Completed" : "Yet to be reviewed"}</td>
+                    <td>{t.approved ? "Approved" : "Rejected"}</td>
+                    <td><Button variant="danger" style={{marginRight:"10px"}} onClick={() => handleDelete(t.id)}>Delete</Button>
+                    <Button variant="primary" onClick={() => handlePortfolioEdit(t.id, t.submitted)}>{t.submitted ? "View" : "Edit"}</Button></td>
                 </tr>
             )
         })
@@ -158,8 +159,8 @@ if (cookies['user']) {
                                         <th>#</th>
                                         <th>Portfolio Name</th>
                                         <th>Submitted</th>
+                                        <th>Reviewed</th>
                                         <th>Approved</th>
-                                        <th>Feedback</th>
                                         <th></th>
                                     </tr>
                                 </thead>

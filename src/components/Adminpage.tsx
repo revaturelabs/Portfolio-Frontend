@@ -37,12 +37,6 @@ const Adminpage = () => {
         <td>{p.submitted ? "Submitted" : "Pending"}</td>
         <td>{p.approved ? "Approved" : "Rejected"}</td>
         <td>{p.reviewed ? "Review Completed" : "Yet to be reviewed"}</td>
-        <td>{p.feedback}</td>
-        <td>
-          <Link className="btn btn-primary" style={ButtonStyles} to={portid}>
-            Edit
-          </Link>
-        </td>
         <td>
           {" "}
           <button
@@ -110,9 +104,7 @@ const Adminpage = () => {
                 <th>Portfolio Name</th>
                 <th>Submitted/Pending</th>
                 <th>Approved/Rejected </th>
-                <th>ReviewStatus </th>
-                <th>Feedback</th>
-                <th></th>
+                <th>Review Status </th>
                 <th></th>
               </tr>
             </thead>
