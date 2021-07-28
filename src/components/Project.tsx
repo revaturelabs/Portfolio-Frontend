@@ -8,6 +8,7 @@ import { url } from "../api/api";
 import "../css/Project.css";
 import { styleInvalidElementsByNameNotNull } from "./validation/InvalidFormHandling";
 import ProjectValidation from "./validation/ProjectValidation";
+import ValidationMsg from "./validation/ValidationMsg";
 
 const Project = () => {
   /**
@@ -123,10 +124,10 @@ const Project = () => {
    * Show/Hide Modal
    */
   const [showModal, setShowModal] = useState(false);
-  const handleHideModal = () => setShowModal(false);
+  const handleHideModal = () => { setShowModal(false); setValidationErrors([]); }
   const handleShowModal = () => setShowModal(true);
   const [showModalEdit, setShowModalEdit] = useState(false);
-  const handleHideModalEdit = () => setShowModalEdit(false);
+  const handleHideModalEdit = () => { setShowModalEdit(false); setValidationErrors([]); }
   const handleShowModalEdit = () => setShowModalEdit(true);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const handleHideModalDelete = () => setShowModalDelete(false);
@@ -244,7 +245,8 @@ const Project = () => {
         - iterate over HTML elements and style inccorect elements
         - do not close display
     */
-    console.log("Error: invalid fields in other work Experience form");
+    console.log("Error: invalid fields in Projects form");
+    console.log("Error elems: " + errorElems);
     Object.keys(projObj).map((key: string, keyIndex: number) => {
         styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
     });
@@ -417,6 +419,9 @@ const Project = () => {
                 onChange={(e) => setWorkProducts(e.target.value)}
               />
             </form>
+
+            <ValidationMsg errors={validationErrors}></ValidationMsg>
+
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleHideModal}>
@@ -533,6 +538,9 @@ const Project = () => {
                     onChange={(e) => setWorkProducts(e.target.value)}
                   />
                 </form>
+
+                    <ValidationMsg errors={validationErrors}></ValidationMsg>
+
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleHideModalEdit}>

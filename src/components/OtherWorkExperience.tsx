@@ -16,7 +16,7 @@ const OtherWorkExperience = () => {
     const [cookies] = useCookies();
 
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => { setShow(false); ; setValidationErrors([]); }
     const handleShow = () => setShow(true);
 
     const [employer, setEmployer] = useState("");
@@ -46,7 +46,7 @@ const OtherWorkExperience = () => {
     // Update Modal show and hide
     //**************************************************************************/
     const[showUpdateExperience, setShowUpdateExperience] = useState(false)
-    const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
+    const handleCloseUpdateExperience = () => { setShowUpdateExperience(false); setValidationErrors([]); }
     const handleShowUpdateExperience = () => setShowUpdateExperience(true)
     //**************************************************************************/
 

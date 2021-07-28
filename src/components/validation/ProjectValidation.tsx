@@ -29,7 +29,7 @@ function ProjectValidation(project: any): string[] {
 
     //Check to ensure no field is null via iteration
     const errorMsgs = new Array<string>();
-    let nullFieldWarning = "Fields must not be null";
+    let nullFieldWarning = "Fields may not be null";
 
     Object.keys(project).map((key: any, keyIndex: any) => {
         if(!Object.values(project)[keyIndex]) {
@@ -51,7 +51,7 @@ function ProjectValidation(project: any): string[] {
         if(key == rolesRspFieldName && !errorMsgs[keyIndex]) {
             errorMsgs[keyIndex] = 
                 checkEnoughBullets(Object.values(project)[keyIndex], minBullets) ?
-                "" : "Enter at least 8 bullet points in the Roles/Responsibilities section"
+                "" : "Enter at least 8 bullet points in the Responsibilities section"
         }
     });
 
