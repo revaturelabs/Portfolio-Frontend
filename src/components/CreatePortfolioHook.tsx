@@ -18,7 +18,7 @@ const useForm = (initialValues: any, portfolioValidate: any) => {
         const noErrors = Object.keys(validationErrors).length === 0
         setErrors(validationErrors)
         if (noErrors) {
-            axios.post(url + '/portfolios', inputs, cookies['user'])
+            axios.post(`${portfolioUrl}`, inputs, cookies['user'])
                 .then(response => {
                     setCookies('portfolio', response.data, {path: "/"})
                     toast.success("Portfolio created")
