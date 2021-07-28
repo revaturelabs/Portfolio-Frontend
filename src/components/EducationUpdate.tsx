@@ -3,8 +3,9 @@ import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../css/Project.css";
 import {url} from "../api/api";
-import educationValidation from "./validation/EducationValidation";
-import styleInvalidElements from "./validation/InvalidFormHandling";
+import educationValidation, { educationValidationErrors } from "./validation/EducationValidation";
+import styleInvalidElements, { styleInvalidElement } from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg';
 
 interface User {
     id: number;
@@ -42,9 +43,12 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
     const [graduationDate, setGraduationDate] = useState(props.editEducation.graduationDate);
     const [gpa, setGpa] = useState(props.editEducation.gpa);
     const [logoUrl, setLogoUrl] = useState(props.editEducation.logoUrl);
+    const [validationErrors, setValidationErrors] = useState(Array<string>());
 
     const handleUpdate= () => {
         const valid = educationValidation(university, degree, graduationDate, gpa);
+        const errorElems = educationValidationErrors(university, degree, graduationDate, gpa);
+
             if(valid){
                 axios
                     .post(backEndUrl+"/"+id, {
@@ -67,7 +71,13 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
             else{
                 console.log("INVALID");
                 const elements = document.getElementsByClassName("form-input");
+                let gpaElement = document.getElementById("gpa");
+                console.log(gpaElement)
+                if(gpaElement != null) {
+                    styleInvalidElement(gpaElement);
+                }
                 styleInvalidElements(elements);
+                setValidationErrors(errorElems);
             }       
     };
 
@@ -133,6 +143,9 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
                         onChange={(e) => setLogoUrl(e.target.value)}
                     />
                 </form>
+
+                <ValidationMsg errors={validationErrors}></ValidationMsg>
+
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => props.hideModal()}>
