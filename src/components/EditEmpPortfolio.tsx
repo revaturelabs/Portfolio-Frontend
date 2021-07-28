@@ -14,7 +14,6 @@ import CertificationContainer from './CertificationContainer';
 import axios from 'axios';
 import {url} from "../api/api";
 import { useEffect, useState } from 'react';
-import { log } from 'console';
 
 
 const EditEmpPortfolio = () => {
@@ -22,7 +21,7 @@ const EditEmpPortfolio = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookie, removeCookie] = useCookies();
 
-    //component info for submit validation
+    //component info for phase-based submit validation
     const [educations, setEducations] = useState([]);
     const [aboutMe, setAboutMe] = useState(null);
     const [projects, setProjects] = useState([]);
@@ -31,9 +30,6 @@ const EditEmpPortfolio = () => {
     console.log(cookies['portfolio']);
     
     useEffect( () => {
-        //grab component info for submit validation
-        console.log("Grabbing info from DB about submit validation");
-        
 
         //grab education info
         axios.get(url + "/education/portfolio/all/" + cookies['portfolio'].id)
@@ -80,6 +76,7 @@ const EditEmpPortfolio = () => {
                 axios.post(url + `/portfolios/${cookies['portfolio'].id}`, { ...obj }).catch(error => {
                     console.log(error);
                 });
+                window.location.replace("http://localhost:3000/list");
                 handleBack(); 
             }
             else{
@@ -112,6 +109,7 @@ const EditEmpPortfolio = () => {
                 axios.post(url + `/portfolios/${cookies['portfolio'].id}`, { ...obj }).catch(error => {
                     console.log(error);
                 });
+                window.location.replace("http://localhost:3000/list");
                 handleBack(); 
             }
             else{
@@ -134,9 +132,9 @@ const EditEmpPortfolio = () => {
                 <h1>{cookies['portfolio'].name}</h1>
             </div>
             <div className="container mb-5 mt-5" id="editPortfolioButtons">
-                <Link to="/list">
+                {/* <Link to={cookies['portfolio'].submitted ? "/list" : "/portfolio"}> */}
                     <button className="btn btn-primary m-1" onClick={() => handleSubmit()}>Submit for Review</button>
-                </Link>
+                {/* </Link> */}
                 <Link to="/view">
                     <button className="btn btn-primary m-1">View Portfolio</button>
                 </Link>

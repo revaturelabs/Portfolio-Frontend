@@ -49,7 +49,7 @@ const RevatureAboutMe = () => {
     //***************************************************/
 
     //COOKIES!
-    const [cookies, setCookies] = useCookies()
+    const [cookies] = useCookies()
     //*************************************************** */
 
     //Render about me on page
