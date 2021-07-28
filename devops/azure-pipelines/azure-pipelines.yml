@@ -28,6 +28,9 @@ parameters:
   - name: 'repository'
     type: string
     default: 'forge-frontend'
+  - name: 'secretName'
+    type: string
+    default: 'p3-team2-acr'
 
 stages:
   - stage: Build
