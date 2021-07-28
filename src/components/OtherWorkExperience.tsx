@@ -217,6 +217,7 @@ const OtherWorkExperience = () => {
                 styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
              });
 
+             //set our string error msg
              setValidationErrors(errorElems);
         }
         //Form stays open until they enter data correctly or cancel
