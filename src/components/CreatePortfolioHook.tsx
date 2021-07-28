@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import {url} from "../api/api";
 import {toast} from "react-toastify";
 import { useHistory } from "react-router-dom";
-
+import {portfolioUrl} from "../api/api";
 
 const useForm = (initialValues: any, portfolioValidate: any) => {
     const [inputs, setInputs] = useState(initialValues)

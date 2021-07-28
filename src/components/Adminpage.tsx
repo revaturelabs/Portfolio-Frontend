@@ -7,9 +7,8 @@ import { render } from 'react-dom'
 import {Link} from 'react-router-dom'
 import { CSSProperties } from 'react'
 import { useCookies } from 'react-cookie'
-import {url} from "../api/api";
 import {toast} from "react-toastify";
-
+import {portfolioUrl} from "../api/api";
 
 const Adminpage = () => {
     // state variable for all portfolios
@@ -43,7 +42,7 @@ const Adminpage = () => {
 
     const renderviewdetail = (id:any):void=>{
         let pathname = "./view";
-        axios.get(url + `/portfolios/${id}`)
+        axios.get(`${portfolioUrl}/portfolios/${id}`)
             .then(response => {
                 setCookie('portfolio', response.data, { path: "/" });
                 window.location.pathname = pathname;
@@ -68,7 +67,7 @@ const Adminpage = () => {
     
 
     const getData = async() => {
-        axios.get(url + "/portfolios")
+        axios.get(portfolioUrl)
          .then(response => {
 
             setPortfolios(response.data)

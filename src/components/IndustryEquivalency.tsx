@@ -6,8 +6,8 @@ import { useCookies } from 'react-cookie'
 import { Card, Button, Modal, ModalBody } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
-import {url} from "../api/api";
 import {toast} from "react-toastify";
+import {equivUrl} from "../api/api";
 
 // JSON INTERFACES
 
@@ -161,7 +161,7 @@ const IndustryEquivalency = () => {
     // GET EQUIVALENCY ARRAY
     /* ---------------------------------------------------------------- */
     const aquireSkillSet = (() => {
-        axios.get(url + '/equiv/portfolios/all/' + portfolio.id)
+        axios.get(`${equivUrl}/portfolios/all/${portfolio.id}`)
             .then(resp => {
                 console.log(resp.data);
                 let tempSkillSet: Array<Skill> = resp.data;
@@ -188,7 +188,7 @@ const IndustryEquivalency = () => {
             value: equivalency,
             portfolio: portfolio
         }
-        axios.post(url + '/equiv', newSkill)
+        axios.post(equivUrl, newSkill)
             .then(resp => {
                 // If POST is successful, add new Skill (with correct data) to the Skill Array
                 let tempSkillSet: Array<Skill> = [...skillSet];
@@ -208,7 +208,7 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const handleDelete = async (remSkill: Skill) => {
         // console.log('axios.delete(back_end_url + \'/equiv/' + remSkill.id + '\')');
-        axios.delete(url + '/equiv/' + remSkill.id)
+        axios.delete(`${equivUrl}/${remSkill.id}`)
             .then(resp => {
                 console.log(resp.data);
                 let tempSkillSet: Array<Skill> = [...skillSet];
@@ -224,7 +224,7 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const updateSkills = () => {
         skillSet.forEach(async (s) => {
-            await axios.post(url + '/equiv/' + s.id, s)
+            await axios.post(`${equivUrl}/${s.id}`, s)
                 .then((resp) => { })
                 .catch((error) => {
                     console.error(error);
