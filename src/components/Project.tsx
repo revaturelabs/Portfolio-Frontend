@@ -4,6 +4,7 @@ import { Button, Card, Modal, ModalBody } from "react-bootstrap";
 import { PlusCircle, QuestionCircle, XCircle } from "react-bootstrap-icons";
 import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
+import { projectUrl } from "../api/api";
 import "../css/Project.css";
 
 const Project = () => {
@@ -159,7 +160,7 @@ const Project = () => {
    */
   const getAllProjects = async () => {
     axios
-      .get("http://3.236.213.150:8081/projects/portfolio/all/"+cookie["portfolio"].id)
+      .get(`${projectUrl}/portfolio/all/${cookie["portfolio"].id}`)
       .then((response) => {
         console.log("got data");
         console.log(response.data);
@@ -188,7 +189,7 @@ const Project = () => {
     //let portfolio = cookie["portfolio"]
     axios
 
-      .post("http://3.236.213.150:8081/projects/", {
+      .post(projectUrl, {
         name,
         description,
         responsibilities,
@@ -218,7 +219,7 @@ const Project = () => {
    */
   const handleDelete = async (id: string) => {
     axios
-      .delete(`http://3.236.213.150:8081/projects/${id}`)
+      .delete(`${projectUrl}/${id}`)
       .then((response) => {
         console.log(response);
         console.log(response.data);
@@ -228,7 +229,7 @@ const Project = () => {
 
   const handleUpdate = async (id: string) => {
     axios
-      .post(`http://3.236.213.150:8081/projects/${id}`, {
+      .post( `${projectUrl}/${id}`, {
         name,
         description,
         responsibilities,

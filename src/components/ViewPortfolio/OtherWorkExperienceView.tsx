@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import '../../css/OtherWorkExperience.css'
+import {url} from "../../api/api";
 
 interface OtherWorkExperience {
     id: number;
@@ -25,7 +26,7 @@ const OtherWorkExperienceView = () => {
     const [experienceList,setList] = useState<OtherWorkExperience[]>();
 
     useEffect(() => {
-        axios.get<OtherWorkExperience[]>('http://3.236.213.150:8081/workhistory').then(response => {
+        axios.get<OtherWorkExperience[]>(url + '/workhistory').then(response => {
             setList(response.data)
         })
     }, [null]);

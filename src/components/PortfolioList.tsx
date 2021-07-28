@@ -4,8 +4,8 @@ import { Button, Collapse, Modal, Table } from 'react-bootstrap';
 import CreatePortfolio from './CreatePortfolio';
 import { useCookies } from 'react-cookie'
 import axios from 'axios';
-
-
+import {toast} from "react-toastify";
+import { portfolioUrl } from '../api/api';
 
 const PortfolioList = () => {
 
@@ -17,7 +17,7 @@ const PortfolioList = () => {
     const [table, setTable] = useState([])
 
     const handleTable = () => {
-        axios.get('http://3.236.213.150:8081/portfolios/users/all/' + cookies['user'].id)
+        axios.get(`${portfolioUrl}/users/all/${cookies['user'].id}`)
             .then(response => {
                 setTable(response.data)
                 console.log(table);
@@ -28,14 +28,14 @@ const PortfolioList = () => {
     }
 
     const handleDelete = (id: any) => {
-        axios.delete('http://3.236.213.150:8081/portfolios/' + id)
+        axios.delete(`${portfolioUrl}/${id}`)
             .then(response => {
                 removeCookie('portfolio', { maxAge: 0 })
-                alert('portfolio deleted')
-                window.location.reload()
+                toast.success("Portfolio deleted")
+                handleTable()
             })
             .catch(error => {
-                alert(error)
+                toast.error(error.message)
             })
     }
 
@@ -49,13 +49,13 @@ const PortfolioList = () => {
 
     const handlePortfolioEdit = (id: any, submitted: boolean) => {
         let pathname = submitted ? "./view" : "./portfolio";
-        axios.get('http://3.236.213.150:8081/portfolios/' + id)
+        axios.get(`${portfolioUrl}/${id}`)
             .then(response => {
                 setCookie('portfolio', response.data, { path: "/" });
                 window.location.pathname = pathname;
             })
             .catch(error => {
-                alert(error)
+                toast.error(error.message)
             })
     }
 

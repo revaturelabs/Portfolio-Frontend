@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import RevatureWorkExp from './RevatureWorkExperience';
 import "../css/EditEmpPortfolio.css"
 import { Link } from 'react-router-dom';
@@ -12,13 +12,12 @@ import { useCookies } from 'react-cookie';
 import { Button } from 'react-bootstrap';
 import CertificationContainer from './CertificationContainer';
 import axios from 'axios';
-
+import {portfolioUrl} from "../api/api";
 
 const EditEmpPortfolio = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookie, removeCookie] = useCookies();
-
     const handleBack = () => {
         removeCookie('portfolio', { maxAge: 0 })
     }
@@ -29,7 +28,7 @@ const EditEmpPortfolio = () => {
             submitted: true
         }
         setCookie('portfolio', obj, { path: '/' });
-        axios.post(`http://3.236.213.150:8081/portfolios/${cookies['portfolio'].id}`, { ...obj }).catch(error => {
+        axios.post(`${portfolioUrl}/${cookies['portfolio'].id}`, { ...obj }).catch(error => {
             console.log(error);
         });
         handleBack();

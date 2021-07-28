@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
+import {url} from "../../api/api";
 
 interface Education {
     id: number;
@@ -17,7 +18,7 @@ const EducationView = () => {
     const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get<Education[]>(`http://3.236.213.150:8081/education/portfolio/all/${cookie['portfolio'].id}`).then(response => {
+        axios.get<Education[]>(url + `/education/portfolio/all/${cookie['portfolio'].id}`).then(response => {
             setList(response.data);
         });
     }, [null]);

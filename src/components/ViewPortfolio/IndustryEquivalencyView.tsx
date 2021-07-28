@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 import '../../css/ViewPortfolio.css';
+import {url} from "../../api/api";
 
 interface Equivalency {
     id: number;
@@ -16,7 +17,7 @@ const IndustryEquivalencyView = () => {
     const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get<Equivalency[]>(`http://3.236.213.150:8081/equiv/portfolios/all/${cookie['portfolio'].id}`).then(response => {
+        axios.get<Equivalency[]>(url + `/equiv/portfolios/all/${cookie['portfolio'].id}`).then(response => {
             setList(response.data);
         })
     }, [null]);

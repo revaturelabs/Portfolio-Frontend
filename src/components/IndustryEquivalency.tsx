@@ -6,6 +6,8 @@ import { useCookies } from 'react-cookie'
 import { Card, Button, Modal, ModalBody } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
+import {toast} from "react-toastify";
+import {equivUrl} from "../api/api";
 
 // JSON INTERFACES
 
@@ -44,8 +46,6 @@ export interface Option {
 /* ------------------------ */
 
 // STATIC VARIABLES
-/* ---------------------------------------------------------------- */
-let back_end_url: string = 'http://3.236.213.150:8081';
 /* ---------------------------------------------------------------- */
 // OPTION DATA
 // question: should this be stored in the database and editable by staff/admin?
@@ -135,9 +135,9 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const handleAddShow = () => {
         if (skillSet.length >= 5) {
-            alert("No more than 5 skills can be added to the Industry Equivalency Section.");
+            toast.error("No more than 5 skills can be added to the Industry Equivalency Section.");
             return;
-        };
+        }
         setShowAdd(true);
     };
     const handleAddClose = () => {
@@ -161,7 +161,7 @@ const IndustryEquivalency = () => {
     // GET EQUIVALENCY ARRAY
     /* ---------------------------------------------------------------- */
     const aquireSkillSet = (() => {
-        axios.get(back_end_url + '/equiv/portfolios/all/' + portfolio.id)
+        axios.get(`${equivUrl}/portfolios/all/${portfolio.id}`)
             .then(resp => {
                 console.log(resp.data);
                 let tempSkillSet: Array<Skill> = resp.data;
@@ -188,7 +188,7 @@ const IndustryEquivalency = () => {
             value: equivalency,
             portfolio: portfolio
         }
-        axios.post(back_end_url + '/equiv', newSkill)
+        axios.post(equivUrl, newSkill)
             .then(resp => {
                 // If POST is successful, add new Skill (with correct data) to the Skill Array
                 let tempSkillSet: Array<Skill> = [...skillSet];
@@ -208,7 +208,7 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const handleDelete = async (remSkill: Skill) => {
         // console.log('axios.delete(back_end_url + \'/equiv/' + remSkill.id + '\')');
-        axios.delete(back_end_url + '/equiv/' + remSkill.id)
+        axios.delete(`${equivUrl}/${remSkill.id}`)
             .then(resp => {
                 console.log(resp.data);
                 let tempSkillSet: Array<Skill> = [...skillSet];
@@ -224,7 +224,7 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const updateSkills = () => {
         skillSet.forEach(async (s) => {
-            await axios.post(back_end_url + '/equiv/' + s.id, s)
+            await axios.post(`${equivUrl}/${s.id}`, s)
                 .then((resp) => { })
                 .catch((error) => {
                     console.error(error);
