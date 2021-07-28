@@ -5,6 +5,10 @@
     the form.
 */
 
+//CSS Imports
+import "../../css/StaticCriteriaValidation.css"
+
+//React Imports
 import React from "react";
 
 //component validation msg
@@ -16,13 +20,13 @@ const ValidationMsg = (props: any) => {
     const errMsgs = props.errors.filter( (error: string) => {return (error && error !="!") } );
 
     return (
-        <>
+        <div id="form-component-error-list">
             <ul>
                 {errMsgs.map((error: string, i: number) => {
                    return <li key={i}>{error}</li> }
                 )}
             </ul>
-        </>
+        </div>
     );
 }
 
