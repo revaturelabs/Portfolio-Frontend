@@ -326,7 +326,7 @@ const RevatureAboutMe = () => {
                                 <ValidationMsg errors={validationErrors}></ValidationMsg>
                             </Modal.Body>
                                 <Modal.Footer>
-                                <Button variant="secondary" onClick={() => {handleClose(); toggleValidationErrors();}}>
+                                <Button variant="secondary" onClick={() => {handleEditClose(); toggleValidationErrors();}}>
                                         Close
                                     </Button>
                                     <Button className="oButton" onClick={() => {handleUpdate(id);}}>Update</Button>
