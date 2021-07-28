@@ -62,3 +62,8 @@ form {
   background-color: rgb(210, 105, 3);
   border-color: rgb(210, 105, 3);
 }
+
+/* style form elements to keep their width 100% */
+form > * {
+  width: 100% !important;
+}

@@ -7,8 +7,9 @@ import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/RevatureWorkExperience.css'
 import { url } from '../api/api'
-import revWorkExpValidation from './validation/RevatureWorkExpValidation'
+import revWorkExpValidation, { revWorkExpErrors } from './validation/RevatureWorkExpValidation'
 import styleInvalidElements from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg';
 
 
 const RevatureWorkExperience = () => {
@@ -64,6 +65,7 @@ const RevatureWorkExperience = () => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [id, setId] = useState('')
+    const [validationErrors, setValidationErrors] = useState(Array<string>());
     //***************************************************/
 
     // Get data from data base
@@ -214,6 +216,8 @@ const RevatureWorkExperience = () => {
     //***********************************************************************/
     const handleUpdate = (input: any) => {
         const valid = revWorkExpValidation(employer, startDate, endDate, title, responsibilities, description, technologies);
+        const errorMsgs = revWorkExpErrors(employer, startDate, endDate, title, responsibilities, description, technologies);
+
         if(valid){
             axios.post(url + "/workexperience/" + input,{
                 portfolio,
@@ -238,6 +242,8 @@ const RevatureWorkExperience = () => {
             console.log("INVALID");
             const elements = document.getElementsByClassName("form-input");
             styleInvalidElements(elements);
+            setValidationErrors(errorMsgs);
+
         }
     }
     //***********************************************************************/
@@ -246,6 +252,8 @@ const RevatureWorkExperience = () => {
     //***************************************************/
     const handleSave = () => {
         const valid = revWorkExpValidation(employer, startDate, endDate, title, responsibilities, description, technologies);
+        const errorMsgs = revWorkExpErrors(employer, startDate, endDate, title, responsibilities, description, technologies);
+
         if(valid){
             axios.post(url + "/workexperience", {
                 portfolio,
@@ -274,6 +282,7 @@ const RevatureWorkExperience = () => {
             console.log("INVALID");
             const elements = document.getElementsByClassName("form-input");
             styleInvalidElements(elements);
+            setValidationErrors(errorMsgs);
         }
     }
     //***************************************************/
@@ -328,6 +337,9 @@ const RevatureWorkExperience = () => {
                             <h6 className="work-experience-form-headers">Problem Desciption</h6>
                             <textarea name="description" className="form-input" style={{height: "100px"}} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
+
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
@@ -355,6 +367,9 @@ const RevatureWorkExperience = () => {
                             <h6 className="work-experience-update-form-headers">Problem Desciption</h6>
                             <textarea name="description" className="form-input" style={{height: "100px"}} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
+
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
