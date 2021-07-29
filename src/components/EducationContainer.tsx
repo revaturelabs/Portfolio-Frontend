@@ -11,6 +11,7 @@ import EducationUpdate from './EducationUpdate';
 import {url} from "../api/api";
 import Education from "../interfaces/Education";
 
+
 const EducationContainer = () => {
     const backEndUrl = url + "/education";
     const [cookies] = useCookies();
@@ -53,6 +54,8 @@ const EducationContainer = () => {
             .then(json => setEducations(json));
     }, [])
 
+    
+
     return (
         <div className="container">
 
@@ -78,7 +81,7 @@ const EducationContainer = () => {
             </Modal>
 
             <Card id="card-container">
-                <Card.Header id="header">
+                <Card.Header id="header-project">
                     <h4>
                         Education
                         <PlusCircle id="add-education" onClick={handleShowCreationModal} />
@@ -103,3 +106,4 @@ const EducationContainer = () => {
 };
 
 export default EducationContainer;
+
