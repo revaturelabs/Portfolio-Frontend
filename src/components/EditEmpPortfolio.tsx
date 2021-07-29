@@ -74,83 +74,45 @@ const EditEmpPortfolio = () => {
     removeCookie("portfolio", { maxAge: 0 });
   };
 
+  const submitPortfolio = () => {
+    let obj = {
+      ...cookies['portfolio'],
+      submitted: true
+    }
+    console.log(obj);
+
+    setCookie('portfolio', obj, { path: '/' });
+    axios.post(`${portfolioUrl}/${cookies["portfolio"].id}`, { ...obj }).catch(error => {
+        console.log(error);
+    });
+
+    window.location.replace("http://localhost:3000/list");
+    handleBack();
+  }
+
+
     const handleSubmit = () => {
         const portfolioObj = {...cookies['portfolio']}
         console.log("Portfolio: " + portfolioObj);
 
+        //Phase 1 Validation
         if(!portfolioObj.reviewed){
-            //ensure about me, education, and project 1 exist
-            console.log("about me = " + aboutMe);
-            console.log("edu length = " + educations.length);
-            console.log("projects length =" + projects.length);
-
-            //Phase 1 Validation
             if(aboutMe && educations.length && projects.length){
-                let obj = {
-                    ...cookies['portfolio'],
-                    submitted: true
-                }
-                console.log(obj);
-
-                setCookie('portfolio', obj, { path: '/' });
-                axios.post(`${portfolioUrl}/${cookies["portfolio"].id}`, { ...obj }).catch(error => {
-                    console.log(error);
-                });
-
-                window.location.replace("http://localhost:3000/list");
-                handleBack(); 
+                 submitPortfolio();
             }
             else{
                 console.log("Insufficient work done for phase 1");
-                let toastMessage = new Array<string>();
-
-                if(!aboutMe){
-                    console.log("About me is incomplete");
-                    toastMessage.push("About Me");
-                    
-                }
-                if(!educations.length){
-                    console.log("Education is incomplete");
-                    toastMessage.push("Education");
-                    
-                }
-                if(!projects.length){
-                    console.log("Project 1 is incomplete");
-                    toastMessage.push("Project 1");
-                    
-                }
-            
                 //try to add toast w toastMessages....
             }
         }
         //Phase 2 Validation
         else{
             if(indEquiv.length == 5 && projects.length == 3){
-
-                let obj = {
-                    ...cookies['portfolio'],
-                    submitted: true
-                }
-                console.log(obj);
-                setCookie('portfolio', obj, { path: '/' });
-                axios.post(`${portfolioUrl}/${cookies["portfolio"].id}`, { ...obj }).catch(error => {
-                    console.log(error);
-                });
-                window.location.replace("http://localhost:3000/list");
-                handleBack(); 
+              submitPortfolio();
             }
             else{
                 console.log("Insufficient work done for phase 2");
-                if(indEquiv.length != 5){
-                    console.log("Need 5 skills for industry equilvalancy");
-                    
-                }
-                if(projects.length != 3){
-                    console.log("Need information for 3 projects");
-                    
-                }
-
-            
+                
             }
         } 
     };
