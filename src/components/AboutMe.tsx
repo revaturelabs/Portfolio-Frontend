@@ -140,7 +140,6 @@ const RevatureAboutMe = () => {
                 errorElems.push("The bio is too short, please write a bio at least 100 characters long.");
                 styleInvalidElementsByName(bioElement);
             }
-
             if(!isEmailValid){
                 //FIXME Update an array of strings for the error messages
                 let emailElement = document.getElementsByName("fromDate");
@@ -323,9 +322,9 @@ const RevatureAboutMe = () => {
                                     <h6>Phone #</h6>
                                     <input type="tel" name="toDate" className="form-input" id="" value={phone} onChange={e => setPhone(e.target.value)}/><br />
                                 </form>
-                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                             </Modal.Body>
                                 <Modal.Footer>
+                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                                 <Button variant="secondary" onClick={() => {handleEditClose(); toggleValidationErrors();}}>
                                         Close
                                     </Button>
