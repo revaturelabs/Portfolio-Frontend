@@ -1,5 +1,4 @@
 import axios from "axios";
-import React from "react";
 import {
     Button,
     Col,
@@ -10,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import { portfolioUrl } from "../api/api";
+import { portfolioUrl, url } from "../api/api";
 import "../css/EditEmpPortfolio.css";
 import AboutMe from "./RevatureAboutMe";
 import CertificationContainer from "./CertificationContainer";
@@ -20,7 +19,6 @@ import IndustryEquivalency from "./IndustryEquivalency";
 import OtherWorkExperience from "./OtherWorkExperience";
 import Project from "./Project";
 import RevatureWorkExp from "./RevatureWorkExperience";
-import {url} from "../api/api";
 import { useEffect, useState } from 'react';
 
 

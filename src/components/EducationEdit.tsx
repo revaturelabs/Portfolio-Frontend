@@ -1,13 +1,6 @@
-import axios from "axios";
-import React, { useState, FC, CSSProperties } from 'react'
-import { Button, Modal } from "react-bootstrap";
+import React, { FC } from 'react'
+import { Modal } from "react-bootstrap";
 import "../css/Project.css";
-import {url} from "../api/api";
-import educationValidation, { educationValidationErrors } from "./validation/EducationValidation";
-import styleInvalidElements, { styleInvalidElement } from "./validation/InvalidFormHandling";
-import ValidationMsg from './validation/ValidationMsg';
-import EducationData from "../interfaces/Education";
-import EducationUpdate from "./EducationUpdate";
 
 
 const EducationEdit: FC<{ hideModal: Function, university: string,

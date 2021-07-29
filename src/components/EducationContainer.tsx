@@ -9,7 +9,6 @@ import EducationDelete from './EducationDelete';
 import EducationDisplay from "./EducationDisplay";
 import EducationUpdate from './EducationUpdate';
 import {url} from "../api/api";
-import { Interface } from 'readline';
 import Education from "../interfaces/Education";
 
 
