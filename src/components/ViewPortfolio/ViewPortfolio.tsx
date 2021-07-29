@@ -69,7 +69,7 @@ const ViewPortfolio = () => {
     axios.post(`${portfolioUrl}/${cookie.portfolio.id}`, {
       id: cookie.portfolio.id,
       name: cookie.portfolio.name,
-      submitted: true,
+      submitted: false,
       approved: true,
       reviewed: true,
       feedback: null,

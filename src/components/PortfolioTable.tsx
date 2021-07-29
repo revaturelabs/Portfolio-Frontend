@@ -7,7 +7,14 @@ import { portfolioUrl } from "../api/api";
 
 function PortfolioTable(props: any) {
   const [cookies, setCookie, removeCookie] = useCookies();
-  const [sortConfig, setSortConfig]: any = useState("");
+  const [sortConfig, setSortConfig]: any = useState("approved");
+  const [directionArrows, setDirections] = useState( {
+    name:"—",
+    submitted:"—",
+    approved:"—",
+    reviewed:"—"
+  });
+
   let { portfolios } = props;
   let sortedPortfolios = [...portfolios];
   useMemo(() => {
@@ -22,7 +29,6 @@ function PortfolioTable(props: any) {
         return 0;
       });
     }
-
     return sortedPortfolios;
   }, [sortConfig]);
 
@@ -30,6 +36,54 @@ function PortfolioTable(props: any) {
     let direction = "ascending";
     if (sortConfig.key === key && sortConfig.direction === "ascending") {
       direction = "descending";
+    }
+    if (key === "name" && direction==="descending") {
+      setDirections({  name:"⯆",
+      submitted:"—",
+      approved:"—",
+      reviewed:"—"})
+    }
+    if (key === "name" && direction==="ascending") {
+      setDirections({  name:"⯅",
+      submitted:"—",
+      approved:"—",
+      reviewed:"—"})
+    }
+    if (key === "submitted" && direction==="descending") {
+      setDirections({  name:"—",
+      submitted:"⯆",
+      approved:"—",
+      reviewed:"—"})
+    }
+    if (key === "submitted" && direction==="ascending") {
+      setDirections({  name:"—",
+      submitted:"⯅",
+      approved:"—",
+      reviewed:"—"})
+    }
+    if (key === "approved" && direction==="descending") {
+      setDirections({  name:"—",
+      submitted:"—",
+      approved:"⯆",
+      reviewed:"—"})
+    }
+    if (key === "approved" && direction==="ascending") {
+      setDirections({  name:"—",
+      submitted:"—",
+      approved:"⯅",
+      reviewed:"—"})
+    }
+    if (key === "reviewed" && direction==="descending") {
+      setDirections({  name:"—",
+      submitted:"—",
+      approved:"—",
+      reviewed:"⯆"})
+    }
+    if (key === "reviewed" && direction==="ascending") {
+      setDirections({  name:"—",
+      submitted:"—",
+      approved:"—",
+      reviewed:"⯅"})
     }
     setSortConfig({ key, direction });
   };
@@ -47,14 +101,15 @@ function PortfolioTable(props: any) {
       });
   };
 
+
   return (
     <Table style={{margin:"10px"}} striped table-bordered hover>
       <thead>
         <tr>
-          <th onClick={() => requestSort("name")}>Portfolio Name</th>
-          <th onClick={() => requestSort("submitted")}>Submitted/Pending</th>
-          <th onClick={() => requestSort("approved")}>Approved/Rejected </th>
-          <th onClick={() => requestSort("reviewed")}>Review Status </th>
+          <th onClick={() => requestSort("name")}>Portfolio Name {directionArrows.name}</th>
+          <th onClick={() => requestSort("submitted")}>Submission Status {directionArrows.submitted}</th>
+          <th onClick={() => requestSort("approved")}>Approved Status {directionArrows.approved}</th>
+          <th onClick={() => requestSort("reviewed")}>Review Status {directionArrows.reviewed}</th>
           <th></th>
         </tr>
       </thead>
@@ -66,16 +121,16 @@ function PortfolioTable(props: any) {
               <td>{portfolio.submitted ? "Submitted" : "Pending"}</td>
               <td>{portfolio.approved ? "Approved" : "Rejected"}</td>
               <td>
-                {portfolio.reviewed ? "Review Completed" : "Yet to be reviewed"}
+                {portfolio.reviewed ? "Reviewed" : "Not Reviewed"}
               </td>
               <td>
                 {" "}
                 <button
                   className='btn btn-primary'
-                  id = {portfolio.submitted ? "admin-button" : "admin-button2"}
+                  id = {portfolio.submitted && !portfolio.approved ? "admin-button" : "admin-button2"}
                   onClick={() => renderviewdetail(portfolio.id)}
                 >
-                  {portfolio.submitted ? "Flag Portfolio" : "View Portfolio"}
+                  {portfolio.submitted  ? "Flag Portfolio" : "View Portfolio"}
                 </button>{" "}
               </td>
             </tr>
