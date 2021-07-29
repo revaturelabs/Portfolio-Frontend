@@ -19,12 +19,9 @@ import IndustryEquivalency from "./IndustryEquivalency";
 import OtherWorkExperience from "./OtherWorkExperience";
 import Project from "./Project";
 import RevatureWorkExp from "./RevatureWorkExperience";
-<<<<<<< HEAD
 import ScrollButton from './ScrollButton';
-=======
 import { useEffect, useState } from 'react';
 
->>>>>>> d60d7ad15ad9915c9d992e498eb7b92d15b5a730
 
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
