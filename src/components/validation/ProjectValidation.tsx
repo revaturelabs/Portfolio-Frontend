@@ -31,7 +31,7 @@ function ProjectValidation(project: any): string[] {
     const errorMsgs = new Array<string>();
     let nullFieldWarning = "Please populate the required fields";
 
-    Object.keys(project).map((key: any, keyIndex: any) => {
+    Object.keys(project).forEach((key: any, keyIndex: any) => {
         if(!Object.values(project)[keyIndex]) {
             errorMsgs.push(nullFieldWarning);
             nullFieldWarning= "!"; 
@@ -46,7 +46,7 @@ function ProjectValidation(project: any): string[] {
         //8 bp
     const minBullets = 8;
     const rolesRspFieldName = 'responsibilities';
-    Object.keys(project).map((key: any, keyIndex: any) => {
+    Object.keys(project).forEach((key: any, keyIndex: any) => {
         //console.log("FIELD NAME: " + key);
         if(key == rolesRspFieldName && !errorMsgs[keyIndex]) {
             errorMsgs[keyIndex] = 

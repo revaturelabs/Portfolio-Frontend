@@ -210,7 +210,7 @@ const Project = () => {
   //returns boolean *array* indicating which above state is valid, in above order
   const errorElems = ProjectValidation(projObj);
   let isValid = true;
-  errorElems.map((elem) => { isValid = isValid && !elem});
+  errorElems.forEach((elem) => { isValid = isValid && !elem});
 
   //Continue and save data if all fields are valid
   if(isValid) 
@@ -247,7 +247,7 @@ const Project = () => {
     */
     console.log("Error: invalid fields in Projects form");
     console.log("Error elems: " + errorElems);
-    Object.keys(projObj).map((key: string, keyIndex: number) => {
+    Object.keys(projObj).forEach((key: string, keyIndex: number) => {
         styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
     });
 
@@ -286,7 +286,7 @@ const Project = () => {
     //returns boolean *array* indicating which above state is valid, in above order
     const errorElems = ProjectValidation(projObj);
     let isValid = true;
-    errorElems.map((elem) => { isValid = isValid && !elem});
+    errorElems.forEach((elem) => { isValid = isValid && !elem});
 
     //Continue and update data if all fields are valid
         if(isValid) 
@@ -318,7 +318,7 @@ const Project = () => {
               - do not close display
           */
           //console.log("Error: invalid fields in other work Experience form");
-          Object.keys(projObj).map((key: string, keyIndex: number) => {
+          Object.keys(projObj).forEach((key: string, keyIndex: number) => {
               styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
           });
         }
