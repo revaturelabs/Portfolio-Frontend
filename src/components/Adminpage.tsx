@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
 import "../css/HonorAwards.css";
+import ScrollButton from './ScrollButton';
 
 const Adminpage = () => {
   // state variable for all portfolios
@@ -105,6 +106,7 @@ const Adminpage = () => {
           </Table>
         </Row>
       </Container>
+      <ScrollButton />
     </div>
   );
 };

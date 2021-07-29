@@ -20,6 +20,7 @@ import IndustryEquivalency from "./IndustryEquivalency";
 import OtherWorkExperience from "./OtherWorkExperience";
 import Project from "./Project";
 import RevatureWorkExp from "./RevatureWorkExperience";
+import ScrollButton from './ScrollButton';
 
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -290,6 +291,7 @@ const EditEmpPortfolio = () => {
             <EducationContainer /> <br />
             <CertificationContainer /> <br />
             <HonorAwards /> <br />
+            <ScrollButton />
         </div>
 
 

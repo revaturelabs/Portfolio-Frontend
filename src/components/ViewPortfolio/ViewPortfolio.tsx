@@ -13,6 +13,7 @@ import HonorAwardView from "./HonorAwardView";
 import IndustryEquivalencyView from './IndustryEquivalencyView';
 import ProjectView from "./ProjectView";
 import RevatureWorkExperienceView from "./RevatureWorkExperienceView";
+import ScrollButton from '../ScrollButton';
 
 type FeedbackData = {
     industryEquivalence: string;
@@ -175,6 +176,7 @@ const ViewPortfolio = () => {
     
     if (isAdmin&&cookie.portfolio.submitted) {
         return (
+            <>
             <Container className="m-5 mx-auto">
                 
                 <form>
@@ -279,6 +281,8 @@ const ViewPortfolio = () => {
                 </Row>
                 </form>
             </Container>
+            <ScrollButton/>
+            </>
         );
     } else {
         return (
@@ -389,6 +393,7 @@ const ViewPortfolio = () => {
                 </Row>
                 
             </Container>
+            <ScrollButton/>
             </div>
         );
     }
