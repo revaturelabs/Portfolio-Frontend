@@ -12,7 +12,7 @@ import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { portfolioUrl } from "../api/api";
 import "../css/EditEmpPortfolio.css";
-import AboutMe from "./AboutMe";
+import AboutMe from "./RevatureAboutMe";
 import CertificationContainer from "./CertificationContainer";
 import EducationContainer from "./EducationContainer";
 import HonorAwards from "./HonorAward";
