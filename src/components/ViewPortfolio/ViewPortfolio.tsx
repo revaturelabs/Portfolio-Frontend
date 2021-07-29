@@ -176,9 +176,7 @@ const ViewPortfolio = () => {
     
     if (isAdmin&&cookie.portfolio.submitted) {
         return (
-            <>
             <Container className="m-5 mx-auto">
-                
                 <form>
                 <h2 id = "port-details"><strong>Portfolio Name:</strong> {cookie.portfolio.name} | <strong>Employee Name:</strong> {cookie.portfolio.user.fname} {cookie.portfolio.user.lname}</h2>
                 <button onClick={onReject} id="view-port-button" className="btn btn-primary ">Submit Feedback</button>
@@ -280,9 +278,8 @@ const ViewPortfolio = () => {
                     </Col>
                 </Row>
                 </form>
+                <ScrollButton/>
             </Container>
-            <ScrollButton/>
-            </>
         );
     } else {
         return (
