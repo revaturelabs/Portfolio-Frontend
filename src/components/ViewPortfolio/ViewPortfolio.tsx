@@ -284,7 +284,7 @@ const ViewPortfolio = () => {
         return (
             <div>
                 <Container className="mb-5 mt-5">
-
+                <h2 id = "port-details"><strong>Portfolio Name:</strong> {cookie.portfolio.name} | <strong>Employee Name:</strong> {cookie.portfolio.user.fname} {cookie.portfolio.user.lname}</h2>
                 <Col sm={11}>
                 <div className="container mb-5 mt-5" id="editPortfolioButtons">
                     <Link to={pathname}>
