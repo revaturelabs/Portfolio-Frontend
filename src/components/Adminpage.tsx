@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
 import PortfolioTable from "./PortfolioTable";
 import "../css/HonorAwards.css";
-import ScrollButton from './ScrollButton';
+import ScrollButton from "./ScrollButton";
 
 const Adminpage = () => {
   // state variable for all portfolios
@@ -20,44 +20,6 @@ const Adminpage = () => {
   //   borderColor: "rgb(72, 76, 86)",
   //   color: "white",
   // };
-
-  // function to display all portfolios that store in state variable "portfolios"
-  const renderportfolio = (p: any, index: number) => {
-    //create a query string for url
-    const portid = "/Portfoliodetails?id=" + p.id;
-    //return jsx
-    return (
-      <tr id="table-rows">
-        <td>{p.name}</td>
-        <td>{p.submitted ? "Submitted" : "Pending"}</td>
-        <td>{p.approved ? "Approved" : "Rejected"}</td>
-        <td>{p.reviewed ? "Review Completed" : "Yet to be reviewed"}</td>
-        <td>
-          {" "}
-          <button
-            className="btn btn-primary"
-            id = {p.submitted ? "admin-button" : "admin-button2"}
-            onClick={() => renderviewdetail(p.id)}
-          >
-            {p.submitted ? "Flag Portfolio" : "View Portfolio"}
-          </button>{" "}
-        </td>
-      </tr>
-    );
-  };
-
-  const renderviewdetail = (id: any): void => {
-    let pathname = "./view";
-    axios
-      .get(`${portfolioUrl}/${id}`)
-      .then((response) => {
-        setCookie("portfolio", response.data, { path: "/" });
-        window.location.pathname = pathname;
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
-  };
 
   const handleLogOut = () => {
     removeCookie("user", { maxAge: 0 });
@@ -83,16 +45,14 @@ const Adminpage = () => {
   }, []);
   return (
     <div>
-      
       <Container>
-        <br/>
-       <div style={{textAlign:"right", margin:"10px -20px -40px -10px"}}>
-           <Button id="admin-button"  onClick={() => handleLogOut()}>
+        <br />
+        <div style={{ textAlign: "right", margin: "10px -20px -40px -10px" }}>
+          <Button id='admin-button' onClick={() => handleLogOut()}>
             Logout
           </Button>
-       </div>
-        
-        
+        </div>
+
         <h1>Welcome Back, {cookies.admin.fname}</h1>
         <Row>
           <PortfolioTable portfolios={portfolios} />
