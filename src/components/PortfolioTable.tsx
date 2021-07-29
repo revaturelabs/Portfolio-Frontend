@@ -1,10 +1,9 @@
-import React, { useState, useMemo } from "react";
-import { useCookies } from "react-cookie";
 import axios from "axios";
-import { portfolioUrl } from "../api/api";
-import PropTypes from "prop-types";
-import { toast } from "react-toastify";
+import React, { useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
+import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
+import { portfolioUrl } from "../api/api";
 
 function PortfolioTable(props: any) {
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -49,7 +48,7 @@ function PortfolioTable(props: any) {
   };
 
   return (
-    <Table striped table-bordered hover>
+    <Table style={{margin:"10px"}} striped table-bordered hover>
       <thead>
         <tr>
           <th onClick={() => requestSort("name")}>Portfolio Name</th>
@@ -62,7 +61,7 @@ function PortfolioTable(props: any) {
       <tbody>
         {sortedPortfolios.map((portfolio: any) => {
           return (
-            <tr key={portfolio.id}>
+            <tr key={portfolio.id}  id ="table-rows">
               <td>{portfolio.name}</td>
               <td>{portfolio.submitted ? "Submitted" : "Pending"}</td>
               <td>{portfolio.approved ? "Approved" : "Rejected"}</td>
@@ -73,9 +72,10 @@ function PortfolioTable(props: any) {
                 {" "}
                 <button
                   className='btn btn-primary'
+                  id = {portfolio.submitted ? "admin-button" : "admin-button2"}
                   onClick={() => renderviewdetail(portfolio.id)}
                 >
-                  Flag Portfolio
+                  {portfolio.submitted ? "Flag Portfolio" : "View Portfolio"}
                 </button>{" "}
               </td>
             </tr>
