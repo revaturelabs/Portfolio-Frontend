@@ -4,7 +4,7 @@ import { Button, Card, Modal, ModalBody } from "react-bootstrap";
 import { PlusCircle, QuestionCircle, XCircle } from "react-bootstrap-icons";
 import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
-import { url } from "../api/api";
+import { projectUrl } from "../api/api";
 import "../css/Project.css";
 import { styleInvalidElementsByNameNotNull } from "./validation/InvalidFormHandling";
 import ProjectValidation from "./validation/ProjectValidation";
@@ -168,7 +168,7 @@ const Project = () => {
    */
   const getAllProjects = async () => {
     axios
-      .get(url + "/projects/portfolio/all/"+cookie["portfolio"].id)
+      .get(`${projectUrl}/portfolio/all/${cookie["portfolio"].id}`)
       .then((response) => {
         console.log("got data");
         console.log(response.data);
@@ -215,7 +215,7 @@ const Project = () => {
   //Continue and save data if all fields are valid
   if(isValid) 
   {
-    axios.post(url + "/projects/", {
+    axios.post(projectUrl, {
       name,
       description,
       responsibilities,
@@ -263,7 +263,7 @@ const Project = () => {
    */
   const handleDelete = async (id: string) => {
     axios
-      .delete(url + `/projects/${id}`)
+      .delete(`${projectUrl}/${id}`)
       .then((response) => {
         console.log(response);
         console.log(response.data);
@@ -292,7 +292,7 @@ const Project = () => {
         if(isValid) 
         {
           axios
-            .post(url + `/projects/${id}`, {
+            .post( `${projectUrl}/${id}`, {
               name,
               description,
               responsibilities,
@@ -317,7 +317,7 @@ const Project = () => {
               - iterate over HTML elements and style inccorect elements
               - do not close display
           */
-          console.log("Error: invalid fields in other work Experience form");
+          //console.log("Error: invalid fields in other work Experience form");
           Object.keys(projObj).map((key: string, keyIndex: number) => {
               styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
           });
@@ -337,7 +337,7 @@ const Project = () => {
   return (
     <div className="container">
       <Card id="card-container">
-        <Card.Header id="header-project">
+        <Card.Header id="header">
           <h4>
             Project
             <QuestionCircle

@@ -10,6 +10,7 @@ import {url} from "../api/api";
 import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
 import ValidationMsg from './validation/ValidationMsg';
+import {aboutMeUrl} from "../api/api";
 
 const RevatureAboutMe = () => {
     // Model show and hide
@@ -213,7 +214,7 @@ const RevatureAboutMe = () => {
     //GET METHOD
 
     const handleGet = async () => {
-        axios.get(url + "/aboutMe/portfolio/" + cookies['portfolio'].id)
+        axios.get(`${aboutMeUrl}/portfolio/${cookies['portfolio'].id}`)
         .then(response => {
             console.log("got the data")
             console.log(response.data)
@@ -240,7 +241,7 @@ const RevatureAboutMe = () => {
     // DELETE METHOD
     const handleDelete = (id: any) => {
         console.log("this is the id " + id)
-        axios.delete(url + "/aboutMe/" + id)
+        axios.delete(`${aboutMeUrl}/${id}`)
         .then(response => {
             console.log(response)
             window.location.reload()

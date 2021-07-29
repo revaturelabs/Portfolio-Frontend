@@ -6,35 +6,10 @@ import {url} from "../api/api";
 import educationValidation, { educationValidationErrors } from "./validation/EducationValidation";
 import styleInvalidElements, { styleInvalidElement } from "./validation/InvalidFormHandling";
 import ValidationMsg from './validation/ValidationMsg';
+import EducationData from "../interfaces/Education";
 
-interface User {
-    id: number;
-    name: string;
-    password: string;
-    admin: boolean;
-}
 
-interface Portfolio {
-    id: number;
-    name: string;
-    user: User;
-    submitted: boolean;
-    approved: boolean;
-    reviewed: boolean;
-    feedback: string;
-}
-
-interface Education {
-    id: number;
-    portfolio: Portfolio;
-    university: string;
-    degree: string;
-    graduationDate: string;
-    gpa: number;
-    logoUrl: string;
-}
-
-const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (props) => {
+const EducationUpdate: FC<{ hideModal: Function, editEducation: EducationData}>= (props) => {
     const backEndUrl = url + "/education";
 
     const [id, setId] = useState(props.editEducation.id);
