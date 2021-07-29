@@ -158,15 +158,8 @@ const IndustryEquivalency = () => {
     // EDIT MODAL SHOW/CLOSE
     /* ---------------------------------------------------------------- */
     const handleEditShow = (() => {
-        //let valid = industrySkillEditValidation(skillSet);
-      //  if(valid) {
             setShowEdit(true);
-     //   } else {
-      //      console.log("No skills to edit");
-      //      alert("No skills to edit, please add an industry equivalency skill.");
-      //      return;
         });
-   // });
     const handleEditClose = (() => {
         aquireSkillSet();
         setShowEdit(false);
@@ -322,7 +315,6 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     useEffect(() => {
         setEquivalency(+previousExp + +currentExp);
-        // console.log('Equivalency Re-calculated (' + equivalency + ')');
     }, [previousExp, currentExp, equivalency]);
     /* ---------------------------------------------------------------- */
 

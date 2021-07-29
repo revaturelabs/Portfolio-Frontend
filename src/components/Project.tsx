@@ -313,11 +313,6 @@ const Project = () => {
           setValidationErrors([]);
           setShowModalEdit(false);
         }  else {
-          /* log error to the console
-              - iterate over HTML elements and style inccorect elements
-              - do not close display
-          */
-          //console.log("Error: invalid fields in other work Experience form");
           Object.keys(projObj).forEach((key: string, keyIndex: number) => {
               styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
           });
@@ -465,7 +460,6 @@ const Project = () => {
                   </button>
                   <button
                     className="btn btn-secondary"
-                    // style={{ margin: "0.25em 0.25em" }}
                     onClick={handleHideModalDelete}
                   >
                     Cancel
@@ -473,7 +467,6 @@ const Project = () => {
                 </div>
               </Modal.Body>
             </Modal>
-            {/* 'Edit' Modal */}
             <Modal
               show={showModalEdit}
               onHide={handleHideModalEdit}

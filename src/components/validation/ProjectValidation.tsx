@@ -20,7 +20,6 @@
 // if all states are valid
 //and calls other utility functions as necessary
 function ProjectValidation(project: any): string[] {
-    //console.log("Validating Project");
 
     ////Work Products is allowed to be null so we put a dummy value in there
     //to make sure it is never null, whatever we put in here wont override the value
@@ -47,7 +46,7 @@ function ProjectValidation(project: any): string[] {
     const minBullets = 8;
     const rolesRspFieldName = 'responsibilities';
     Object.keys(project).forEach((key: any, keyIndex: any) => {
-        //console.log("FIELD NAME: " + key);
+        
         if(key == rolesRspFieldName && !errorMsgs[keyIndex]) {
             errorMsgs[keyIndex] = 
                 checkEnoughBullets(Object.values(project)[keyIndex], minBullets) ?
