@@ -1,6 +1,10 @@
 // import { render } from "@testing-library/react";
 import styleInvalidElements from "../components/validation/InvalidFormHandling";
 
+test("test", () => {
+    console.log("test");
+});
+
 // test('ensure all empty elements are styled', () => {
 //     let e1 = document.createElement('input');
 //     e1.setAttribute('className', 'test');
