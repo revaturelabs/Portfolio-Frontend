@@ -1,16 +1,6 @@
 
 const styleInvalidElements = (inputElements: HTMLCollectionOf<Element>) => {
-    for(let i = 0; i < inputElements.length; i++){
-        
-        if(!inputElements.item(i)?.getAttribute('value')){
-            inputElements.item(i)?.setAttribute('style', 'border-left: 3px solid red');
-            
-            inputElements.item(i)?.setAttribute('placeholder', '!');
-        }
-        else{
-            inputElements.item(i)?.setAttribute('style', 'border-left: 1px solid black');
-        }
-    }
+    styleLoop(inputElements);
 }
 
 const styleInvalidElement = (element: HTMLElement) => {
@@ -19,17 +9,7 @@ const styleInvalidElement = (element: HTMLElement) => {
 }
 
 const styleInvalidElementsByName = (inputElements: NodeListOf<HTMLElement>) => {
-    for(let i = 0; i < inputElements.length; i++){
-        
-        if(!inputElements.item(i)?.getAttribute('value')){
-            inputElements.item(i)?.setAttribute('style', 'border-left: 3px solid red');
-            
-            inputElements.item(i)?.setAttribute('placeholder', '!');
-        }
-        else{
-            inputElements.item(i)?.setAttribute('style', 'border-left: 1px solid black');
-        }
-    }
+    styleLoop(inputElements);
 }
 
 
@@ -40,6 +20,20 @@ const styleInvalidElementsByNameNotNull = (inputElements: NodeListOf<HTMLElement
         if( !isValid) {
         inputElements.item(i)?.setAttribute('style', 'border-left: 3px solid red');   
         inputElements.item(i)?.setAttribute('placeholder', '!');
+        }
+        else{
+            inputElements.item(i)?.setAttribute('style', 'border-left: 1px solid black');
+        }
+    }
+}
+
+const styleLoop = (inputElements: any) => {
+    for(let i = 0; i < inputElements.length; i++){
+        
+        if(!inputElements.item(i)?.getAttribute('value')){
+            inputElements.item(i)?.setAttribute('style', 'border-left: 3px solid red');
+            
+            inputElements.item(i)?.setAttribute('placeholder', '!');
         }
         else{
             inputElements.item(i)?.setAttribute('style', 'border-left: 1px solid black');

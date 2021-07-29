@@ -261,7 +261,7 @@ const Project = () => {
   /**
    * Delete data from database
    */
-  const handleDelete = async (id: string) => {
+  const handleDelete = async () => {
     axios
       .delete(`${projectUrl}/${id}`)
       .then((response) => {
@@ -453,7 +453,7 @@ const Project = () => {
                     className="btn btn-danger"
                     style={{ marginRight: "10px" }}
                     onClick={() => {
-                      handleDelete(id);
+                      handleDelete();
                     }}
                   >
                     Yes, Permanently Delete

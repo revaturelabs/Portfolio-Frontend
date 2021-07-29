@@ -29,7 +29,6 @@ function otherWorkExpValidation(wrkExp: any): Array<string>
     //check if start date excedes endDate, an error, types are
     //coerced into numbers
     const startDateField = 'startDate';
-    const endDateField = 'endDate';
     if(!checkDatesInOrder(wrkExp.startDate, wrkExp.endDate)) {
         Object.keys(wrkExp).forEach((key: any, keyIndex: any) => { 
             if(key == startDateField) {
