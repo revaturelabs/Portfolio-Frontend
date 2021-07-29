@@ -22,7 +22,7 @@ const RevatureWorkExperience = () => {
     // Add work experience Modal show and hide
     //*************************************************************/
     const [showAddExperience, setShowExperience] = useState(false)
-    const handleCloseAddExperience = () => setShowExperience(false)
+    const handleCloseAddExperience = () => {setShowExperience(false); setValidationErrors([]);}
     const handleShowAddExperience = () => setShowExperience(true)
     //*************************************************************/
 

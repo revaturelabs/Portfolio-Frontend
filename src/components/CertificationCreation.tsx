@@ -47,7 +47,7 @@ const CertificationCreation: FC<{ hideModal: Function }> = (props) => {
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
-            setValidationErrors(["please fill out the indicated fields"]);
+            setValidationErrors(["Please populate the required fields"]);
         }
     };
 

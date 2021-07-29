@@ -9,11 +9,13 @@ import HonorAwards from './HonorAward';
 import IndustryEquivalency from './IndustryEquivalency';
 import EducationContainer from './EducationContainer';
 import { useCookies } from 'react-cookie';
-import { Button } from 'react-bootstrap';
+import { Button, Toast, Alert } from 'react-bootstrap';
 import CertificationContainer from './CertificationContainer';
 import axios from 'axios';
 import {url} from "../api/api";
 import { useEffect, useState } from 'react';
+import { render } from '@testing-library/react';
+import PhaseSubmissionToast from './validation/PhaseSubmissionToast';
 
 
 const EditEmpPortfolio = () => {
@@ -53,6 +55,7 @@ const EditEmpPortfolio = () => {
         removeCookie('portfolio', { maxAge: 0 })
     }
 
+
     //submit the portfolio for review
     const handleSubmit = () => {
         const portfolioObj = {...cookies['portfolio']}
@@ -81,18 +84,25 @@ const EditEmpPortfolio = () => {
             }
             else{
                 console.log("Insufficient work done for phase 1");
+                let toastMessage = new Array<string>();
+
                 if(!aboutMe){
                     console.log("About me is incomplete");
+                    toastMessage.push("About Me");
                     
                 }
                 if(!educations.length){
                     console.log("Education is incomplete");
+                    toastMessage.push("Education");
                     
                 }
                 if(!projects.length){
                     console.log("Project 1 is incomplete");
+                    toastMessage.push("Project 1");
                     
                 }
+               
+                //try to add toast w toastMessages....
             }
             
         }
@@ -122,12 +132,21 @@ const EditEmpPortfolio = () => {
                     console.log("Need information for 3 projects");
                     
                 }
+
+               
             }
         }              
     }
 
+    
+
     return (
         <div>
+
+            <div  id="toastDiv">
+
+            </div>
+
             <div className="container mt-4">
                 <h1>{cookies['portfolio'].name}</h1>
             </div>
@@ -153,5 +172,9 @@ const EditEmpPortfolio = () => {
         </div>
     );
 };
+
+
+
+
 
 export default EditEmpPortfolio;
