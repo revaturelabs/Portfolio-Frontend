@@ -173,7 +173,7 @@ const ViewPortfolio = () => {
         if (submitted) removeCookie('portfolio');
     }
     
-    if (isAdmin) {
+    if (isAdmin&&cookie.portfolio.submitted) {
         return (
             <Container className="m-5 mx-auto">
                 
@@ -288,7 +288,7 @@ const ViewPortfolio = () => {
                 <Col sm={11}>
                 <div className="container mb-5 mt-5" id="editPortfolioButtons">
                     <Link to={pathname}>
-                        <button className="btn btn-primary m-1" onClick={() => handleBack(cookie['portfolio'].submitted)}>Back</button>
+                        <button id="admin-button" className="btn btn-primary m-1" onClick={() => handleBack(cookie['portfolio'].submitted)}>Back</button>
                     </Link>
                 </div>
                 </Col>

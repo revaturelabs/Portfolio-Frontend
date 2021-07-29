@@ -13,18 +13,11 @@ const Adminpage = () => {
   const [portfolios, setPortfolios] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies();
 
-  let ButtonStyles: CSSProperties = {
-    background: "rgb(72, 76, 86)",
-    borderColor: "rgb(72, 76, 86)",
-    color: "white",
-  };
-
-  let LogOutButton: CSSProperties = {
-    background: "rgb(242, 105, 38)",
-    borderColor: "rgb(7242, 105, 38)",
-    color: "white",
-    fontWeight: "bold",
-  };
+  // let ButtonStyles: CSSProperties = {
+  //   background: "rgb(72, 76, 86)",
+  //   borderColor: "rgb(72, 76, 86)",
+  //   color: "white",
+  // };
 
   // function to display all portfolios that store in state variable "portfolios"
   const renderportfolio = (p: any, index: number) => {
@@ -32,7 +25,7 @@ const Adminpage = () => {
     const portid = "/Portfoliodetails?id=" + p.id;
     //return jsx
     return (
-      <tr>
+      <tr id="table-rows">
         <td>{p.name}</td>
         <td>{p.submitted ? "Submitted" : "Pending"}</td>
         <td>{p.approved ? "Approved" : "Rejected"}</td>
@@ -41,7 +34,7 @@ const Adminpage = () => {
           {" "}
           <button
             className="btn btn-primary"
-            style={ButtonStyles}
+            id = "admin-button2"
             onClick={() => renderviewdetail(p.id)}
           >
             Flag Portfolio
@@ -90,7 +83,7 @@ const Adminpage = () => {
     <div>
       <Container>
         <div className="container mb-1 mt-1" id="editPortfolioButtons">
-          <Button style={LogOutButton} onClick={() => handleLogOut()}>
+          <Button id="admin-button" onClick={() => handleLogOut()}>
             Logout
           </Button>
         </div>
