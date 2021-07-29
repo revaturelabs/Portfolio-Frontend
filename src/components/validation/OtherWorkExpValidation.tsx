@@ -14,7 +14,7 @@ function otherWorkExpValidation(wrkExp: any): Array<string>
     const errorMsgs = new Array<string>();
     let nullFieldWarning = "Please populate the required fields";
     
-    Object.keys(wrkExp).map((key: any, keyIndex: any) => {
+    Object.keys(wrkExp).forEach((key: any, keyIndex: any) => {
 
         if(!Object.values(wrkExp)[keyIndex]) {
             errorMsgs.push(nullFieldWarning);
@@ -33,7 +33,7 @@ function otherWorkExpValidation(wrkExp: any): Array<string>
     const startDateField = 'startDate';
     const endDateField = 'endDate';
     if(!checkDatesInOrder(wrkExp.startDate, wrkExp.endDate)) {
-        Object.keys(wrkExp).map((key: any, keyIndex: any) => { 
+        Object.keys(wrkExp).forEach((key: any, keyIndex: any) => { 
             if(key == startDateField) {
                 errorMsgs[keyIndex] = "Start date must precede end date";
                 errorMsgs[keyIndex+1] = "!";    //We want this to be styled but NOT display a message
