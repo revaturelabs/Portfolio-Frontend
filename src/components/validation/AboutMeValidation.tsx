@@ -16,7 +16,7 @@
     if(!bio){
         return false;
     //Check to see if the bio is at least a certain number of characters long.
-    } else if(bio.length < 100){ //FIXME, using 100 as a const here is bad practice. Having something to get a length would be better.
+    } else if(bio.length < 100){
         return false;
     //The bio meets bare minimum critieria to be submitted.
     } else {
