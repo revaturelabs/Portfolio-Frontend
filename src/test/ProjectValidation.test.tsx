@@ -1,5 +1,3 @@
-//Imports
-import { render } from "@testing-library/react";
 
 //Project imports
 import ProjectValidation from "../components/validation/ProjectValidation";
@@ -99,7 +97,7 @@ it('null work products is allowable', function() {
 it('All fields populated triggers valid response', function() {
     const isValid = ProjectValidation(p1);
     let allValid = true;
-    isValid.map((elem) => {allValid = allValid && !elem;});
+    isValid.forEach((elem) => {allValid = allValid && !elem;});
     expect(allValid).toBe(true);
 });
 

@@ -1,5 +1,4 @@
-//Imports
-import { render } from "@testing-library/react";
+
 
 //Project imports
 import OtherWorkExpValidation from "../components/validation/OtherWorkExpValidation";
@@ -112,7 +111,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('All fields populated triggers valid response', function() {
         const isValid = OtherWorkExpValidation(w1);
         let allValid = true;
-        isValid.map((elem) => {allValid = allValid && !elem;});
+        isValid.forEach((elem) => {allValid = allValid && !elem;});
         expect(allValid).toBe(true);
     });
 
