@@ -271,7 +271,7 @@ const Project = () => {
       });
   };
 
-  const handleUpdate = async (id: string) => 
+  const handleUpdate = async () => 
   {
     const projObj: any = {
       name: name,
@@ -543,7 +543,7 @@ const Project = () => {
                   variant="primary"
                   className="yes-button"
                   onClick={() => {
-                    handleUpdate(id);
+                    handleUpdate();
                   }}
                 >
                   Update
