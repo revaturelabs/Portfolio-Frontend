@@ -35,10 +35,10 @@ const Adminpage = () => {
           {" "}
           <button
             className="btn btn-primary"
-            id = "admin-button2"
+            id = {p.submitted ? "admin-button" : "admin-button2"}
             onClick={() => renderviewdetail(p.id)}
           >
-            Flag Portfolio
+            {p.submitted ? "Flag Portfolio" : "View Portfolio"}
           </button>{" "}
         </td>
       </tr>
@@ -82,17 +82,19 @@ const Adminpage = () => {
   }, []);
   return (
     <div>
+      
       <Container>
-        <div className="container mb-1 mt-1" id="editPortfolioButtons">
-          <Button id="admin-button" onClick={() => handleLogOut()}>
+        <br/>
+       <div style={{textAlign:"right", margin:"10px -20px -40px -10px"}}>
+           <Button id="admin-button"  onClick={() => handleLogOut()}>
             Logout
           </Button>
-        </div>
-
-        <h3> Portfolios </h3>
-
+       </div>
+        
+        
+        <h1>Welcome Back, {cookies.admin.fname}</h1>
         <Row>
-          <Table striped table-bordered hover>
+          <Table striped table-bordered hover style={{margin:"10px"}}>
             <thead>
               <tr>
                 <th>Portfolio Name</th>
