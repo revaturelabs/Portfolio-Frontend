@@ -21,8 +21,6 @@ const Adminpage = () => {
   //   color: "white",
   // };
 
-<<<<<<< HEAD
-=======
   // function to display all portfolios that store in state variable "portfolios"
   const renderportfolio = (p: any, index: number) => {
     //create a query string for url
@@ -61,7 +59,6 @@ const Adminpage = () => {
       });
   };
 
->>>>>>> b99c3a9292b2dd58b90c529a14ce518bc75fe2f3
   const handleLogOut = () => {
     removeCookie("user", { maxAge: 0 });
     removeCookie("admin");
@@ -88,14 +85,9 @@ const Adminpage = () => {
     <div>
       
       <Container>
-<<<<<<< HEAD
-        <div className='container mb-1 mt-1' id='editPortfolioButtons'>
-          <Button style={LogOutButton} onClick={() => handleLogOut()}>
-=======
         <br/>
        <div style={{textAlign:"right", margin:"10px -20px -40px -10px"}}>
            <Button id="admin-button"  onClick={() => handleLogOut()}>
->>>>>>> b99c3a9292b2dd58b90c529a14ce518bc75fe2f3
             Logout
           </Button>
        </div>
@@ -103,22 +95,7 @@ const Adminpage = () => {
         
         <h1>Welcome Back, {cookies.admin.fname}</h1>
         <Row>
-<<<<<<< HEAD
           <PortfolioTable portfolios={portfolios} />
-=======
-          <Table striped table-bordered hover style={{margin:"10px"}}>
-            <thead>
-              <tr>
-                <th>Portfolio Name</th>
-                <th>Submitted/Pending</th>
-                <th>Approved/Rejected </th>
-                <th>Review Status </th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>{portfolios.map(renderportfolio)}</tbody>
-          </Table>
->>>>>>> b99c3a9292b2dd58b90c529a14ce518bc75fe2f3
         </Row>
       </Container>
       <ScrollButton />
