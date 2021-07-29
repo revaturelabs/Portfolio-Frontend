@@ -82,3 +82,9 @@ form {
   border-color: rgb(210, 105, 3);
 }
 
+#admin-button {
+  background: rgb(242, 105, 38);
+  border-color: rgb(7242, 105, 38);
+  color: white;
+  font-weight: 600;
+}
