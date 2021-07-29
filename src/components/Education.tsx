@@ -176,7 +176,7 @@ const Education = () => {
     // Delete an Education Card
     const handleDelete = async (id:number) => {
     
-        axios.delete(`${educationUrl}/${id}`)
+        axios.delete(`${educationUrl}.id`)
             .then(res => {
             })
             .catch((err) => {
@@ -190,7 +190,7 @@ const Education = () => {
     const handleUpdate = (id:any) => {
     
         axios
-            .post(`${educationUrl}/${id}`, {
+            .post(`${educationUrl}.id`, {
                university,
                degree,
                graduationDate,
@@ -215,7 +215,7 @@ const Education = () => {
     return (
         <div className="container">
             <Card id="card-container">
-                <Card.Header id="header">
+                <Card.Header id="header-project">
                     <h4>
                         Education and Certifications
                         <QuestionCircle
