@@ -67,7 +67,7 @@ const RevatureAboutMe = () => {
     
     //Render about me on page
     //*********************************************************************/
-    const createAboutMe = (id: string, bio: string, email: string, phone: string) => {
+    const createAboutMe = (aboutMeId: string, aboutMeBio: string, aboutMeEmail: string, aboutMePhone: string) => {
 
         let aboutMe = document.querySelector('.about-me-content')
         let div = document.createElement('div')        
@@ -77,13 +77,13 @@ const RevatureAboutMe = () => {
             let emailHeader = document.createElement('h6')
             let phoneHeader = document.createElement('h6')
             
-            setID(id)
-            bioHeader.innerHTML = bio
-            setBio(bio)
-            emailHeader.innerHTML = "Email: " + email
-            setEmail(email)
-            phoneHeader.innerHTML = "Phone: " + phone
-            setPhone(phone)
+            setID(aboutMeId)
+            bioHeader.innerHTML = aboutMeBio
+            setBio(aboutMeBio)
+            emailHeader.innerHTML = "Email: " + aboutMeEmail
+            setEmail(aboutMeEmail)
+            phoneHeader.innerHTML = "Phone: " + aboutMePhone
+            setPhone(aboutMePhone)
             
             bioHeader.style.whiteSpace = "pre-wrap"
             bioHeader.style.marginBottom = "50px"
@@ -202,9 +202,9 @@ const RevatureAboutMe = () => {
     useEffect(()=> {handleGet()},[]);
 
     // DELETE METHOD
-    const handleDelete = (id: any) => {
-        console.log("this is the id " + id)
-        axios.delete(`${aboutMeUrl}/${id}`)
+    const handleDelete = (portfolioId: any) => {
+        console.log("this is the id " + portfolioId)
+        axios.delete(`${aboutMeUrl}/${portfolioId}`)
         .then(response => {
             console.log(response)
             window.location.reload()
@@ -215,10 +215,7 @@ const RevatureAboutMe = () => {
         setDeleteShow(false)
     }
     
-    // Information meassage
-    const editMessage: string = "this is the edit bio button"
     let rowLength = 10
-    let columnLength = 47
 
     return (
         <div className="container">
