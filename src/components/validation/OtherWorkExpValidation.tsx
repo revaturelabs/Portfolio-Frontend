@@ -5,8 +5,6 @@
      - All component fields contain data
 */
 
-import { stringify } from "query-string";
-
 //Default verify otherWorkExpValidation Section
 function otherWorkExpValidation(wrkExp: any): Array<string> 
 {
