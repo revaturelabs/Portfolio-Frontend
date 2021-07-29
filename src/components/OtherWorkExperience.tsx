@@ -111,7 +111,7 @@ const OtherWorkExperience = () => {
         //returns string *array* returning which above states have errors, in above order
         const errorElems = otherWorkExpValidation(wrkExpObj);
         let isValid = true;
-        errorElems.map((elem) => { isValid = isValid && !elem});
+        errorElems.forEach((elem) => { isValid = isValid && !elem});
 
         //Continue and save data if all fields are valid
         if(isValid) 
@@ -151,7 +151,7 @@ const OtherWorkExperience = () => {
                 - do not close display
             */
             console.log("Error: Invalid fields in other work Experience form");
-            Object.keys(wrkExpObj).map((key: string, keyIndex: number) => {
+            Object.keys(wrkExpObj).forEach((key: string, keyIndex: number) => {
                 styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
              });
             
@@ -182,7 +182,7 @@ const OtherWorkExperience = () => {
         //returns boolean *array* indicating which above state is valid, in above order
         const errorElems = otherWorkExpValidation(wrkExpObj);
         let isValid = true;
-        errorElems.map((elem) => { isValid = isValid && !elem});
+        errorElems.forEach((elem) => { isValid = isValid && !elem});
 
         //Continue and update data if all fields are valid
         if(isValid) 
@@ -213,7 +213,7 @@ const OtherWorkExperience = () => {
                 - do not close display
             */
             console.log("Error: invalid fields in other work Experience form UPDATE");
-            Object.keys(wrkExpObj).map((key: string, keyIndex: number) => {
+            Object.keys(wrkExpObj).forEach((key: string, keyIndex: number) => {
                 styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
              });
 

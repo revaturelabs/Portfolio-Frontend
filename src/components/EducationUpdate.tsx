@@ -21,6 +21,11 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: EducationData}>=
     const [logoUrl, setLogoUrl] = useState(props.editEducation.logoUrl);
     const [validationErrors, setValidationErrors] = useState(Array<string>());
 
+    let updateButtonStyle: CSSProperties = {
+        background: "rgb(242, 105, 3)",
+        borderColor: "rgb(242, 105, 3)"
+    }
+
     const handleUpdate= () => {
         const valid = educationValidation(university, degree, graduationDate, gpa);
         const errorElems = educationValidationErrors(university, degree, graduationDate, gpa);
@@ -57,10 +62,6 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: EducationData}>=
             }       
     };
 
-    let updateButtonStyles: CSSProperties = {
-        background: "rgb(242, 105, 3)",
-        borderColor: "rgb(242, 105, 3)"
-    }
 
     return (
         <div>
@@ -74,7 +75,7 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: EducationData}>=
                 <Button variant="secondary" onClick={() => props.hideModal()}>
                     Close
                 </Button>
-                <Button variant="primary" style={updateButtonStyles} onClick={() => handleUpdate()} >
+                <Button variant="primary" style={updateButtonStyle} onClick={() => handleUpdate()} >
                     Update
                 </Button>
             </Modal.Footer>
