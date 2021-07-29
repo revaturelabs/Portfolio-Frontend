@@ -1,5 +1,4 @@
-import { render, screen } from '@testing-library/react';
-import {aboutMeValidate,aboutMeValidateEmail, aboutMeValidateBio, aboutMeValidatePhone} from '../components/validation/AboutMeValidation';
+import {aboutMeValidateEmail, aboutMeValidateBio, aboutMeValidatePhone} from '../components/validation/AboutMeValidation';
 /**
  * Test file to test the proper functionality of the AboutMe validation
  * and page.
@@ -17,37 +16,6 @@ const validEmail3 = "email.is.valid@gmail.org";
 const validPhone1 = "909-123-4567";
 const validPhone2 = "9091234567";
 const validPhone3 = "(909)-123-4567";
-
-describe("Tests to ensure proper validation for the aboutMeValidate", () =>{
-    it("Returns false if all values are falsey", () => {
-        expect(aboutMeValidate("","","")).toBeFalsy();
-    });
-    it("Returns false if any of the values are falsey", () =>{
-        expect(aboutMeValidate(validBio,"",validEmail1)).toBeFalsy();
-        expect(aboutMeValidate(validBio,validPhone1,"")).toBeFalsy();
-        expect(aboutMeValidate("",validPhone1,validEmail1)).toBeFalsy();
-    });
-    it("Returns false if the bio is not a certain length", () =>{
-        expect(aboutMeValidate("bioTemp",validPhone1,validEmail1)).toBeFalsy();
-    });
-    it("Returns false if the email is not valid", () => {
-        expect(aboutMeValidate(validBio,validPhone1,"invalid")).toBeFalsy();
-        expect(aboutMeValidate(validBio,validPhone1,"alsoinvalid.com")).toBeFalsy();
-        expect(aboutMeValidate(validBio,validPhone1,"alsoinvalid@something")).toBeFalsy();
-    });
-    it("Returns false if the phone number is invalid", () => {
-        expect(aboutMeValidate(validBio,"invalid",validEmail1)).toBeFalsy();
-        expect(aboutMeValidate(validBio,"909123456789A",validEmail1)).toBeFalsy();
-    });
-    it("Returns true if all the inputs are valid", () => {
-        expect(aboutMeValidate(validBio,validPhone1,validEmail1)).toBe(true);
-    });
-    it("Returns true if the phone number is styled differently", () => {
-        expect(aboutMeValidate(validBio,validPhone1,validEmail1)).toBe(true);
-        expect(aboutMeValidate(validBio,validPhone2,validEmail1)).toBe(true);
-        expect(aboutMeValidate(validBio,validPhone3,validEmail1)).toBe(true);
-    })
-});
 
 describe("Tests to ensure proper validation for aboutMeValidateBio", () =>{
     it("Returns false if nothing was submitted", () =>{
