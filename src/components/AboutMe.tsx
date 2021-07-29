@@ -10,7 +10,6 @@ import {url} from "../api/api";
 import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
 import ValidationMsg from './validation/ValidationMsg';
-import {aboutMeUrl} from "../api/api";
 
 const RevatureAboutMe = () => {
     // Model show and hide
@@ -59,9 +58,13 @@ const RevatureAboutMe = () => {
     const [cookies] = useCookies()
     //*************************************************** */
 
+    // Placeholders for when the add/edit modules are brought up.
+    //**************************************************************************************************/
     const bioPlaceholder = "Input a brief bio here, the bio must be 100 characters long to be valid."
     const emailPlaceholder = "exampleEmail@gmail.com";
     const phonenumberPlaceholder = "123-456-7890";
+    //**************************************************************************************************/
+    
     //Render about me on page
     //*********************************************************************/
     const createAboutMe = (id: string, bio: string, email: string, phone: string) => {
@@ -108,113 +111,75 @@ const RevatureAboutMe = () => {
         div.style.marginBottom = "10px"
     }
 
-    // POST METHOD FOR CREATING
-
-    const handleSave = async () => {
+    /**
+     * Method to handle creation and saving of a portfolio. This method can handle both creation 
+     * and updating portfolio.
+     * @param id The id of the portfolio, if this is null then a new portfolio is being updated.
+     */
+    const handleSave = async (id:string) => {
         let portfolio = cookies['portfolio']
 
-        //Checking to see which parts of the about me information is valid.
+        // Checking to see which parts of the about me information is valid.
         const isBioValid = aboutMeValidateBio(bio);
         const isEmailValid = aboutMeValidateEmail(email);
         const isPhoneValid = aboutMeValidatePhone(phone);
 
-        //If the information provided is valid then update update.
+        // If the information provided is valid then update update.
         if(isBioValid && isEmailValid && isPhoneValid){
-        axios.post(url + "/aboutMe", { portfolio, bio, email, phone})
-        .then(response => {
+            // Request variable.
+            let req;
+            // If there is no ID present then a new portfolio is being updated.
+            if(id == ""){
+                req = axios.post(url + "/aboutMe", { portfolio, bio, email, phone});
+            // If there is an ID present then update the existing portfolio.
+            } else {
+                req = axios.post(url + "/aboutMe/" + id, { id, bio, email, phone});
+            }
+        
+        // Process the request and update the page or catch an error.
+        req.then(response => {
             console.log("success") 
             console.log(response.data)
             window.location.reload()
         })
+        // If there is an error on the server side, notify the user.
         .catch(error => {
             console.log("error")
+            let errorElems:string[] = ["An unknown error occured."];
+            setValidationErrors(errorElems)
         })
         setShow(false)
         setEditShow(false)
 
-        //If any of the following was false check and return which part was invalid.
+        // If any of the following was false check and return which part(s) is/are invalid.
         } else {
             let errorElems:string[] = [];
             if(!isBioValid){
-                //FIXME Update an array of strings for the error messages
                 let bioElement = document.getElementsByName("bioName");
                 errorElems.push("The bio is too short, please write a bio at least 100 characters long.");
                 styleInvalidElementsByName(bioElement);
-            }
 
+            }
             if(!isEmailValid){
-                //FIXME Update an array of strings for the error messages
                 let emailElement = document.getElementsByName("fromDate");
                 errorElems.push("The email is not valid, please input a valid email.");
                 styleInvalidElementsByName(emailElement);
             }
 
             if(!isPhoneValid){
-                //FIXME Update an array of strings for the error messages
                 let phoneElement = document.getElementsByName("toDate");
                 errorElems.push("The phone number is not valid, please input a valid phone number.");
                 styleInvalidElementsByName(phoneElement);
             }
+            // Populate the errors on the toast.
             setValidationErrors(errorElems);
         }
     }
 
-
-    //POST METHOD FOR UPDATING
-
-    const handleUpdate = async (id: string) => {
-
-        //Checking to see which parts of the about me information is valid.
-        const isBioValid = aboutMeValidateBio(bio);
-        const isEmailValid = aboutMeValidateEmail(email);
-        const isPhoneValid = aboutMeValidatePhone(phone);
-
-        //If the information provided is valid then update update.
-        if(isBioValid && isEmailValid && isPhoneValid){
-        axios.post(url + "/aboutMe/" + id, {id, bio, email, phone})
-        .then(response => {
-            console.log("success")
-            console.log(response.data)
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error")
-        })
-        setShow(false)
-        setEditShow(false)
-
-        //If any of the following was false check and return which part was invalid.
-        } else {
-            let errorElems:string[] = [];
-            if(!isBioValid){
-                //FIXME Update an array of strings for the error messages
-                let bioElement = document.getElementsByName("bioName");
-                errorElems.push("The bio is too short, please write a bio at least 100 characters long.");
-                styleInvalidElementsByName(bioElement);
-            }
-
-            if(!isEmailValid){
-                //FIXME Update an array of strings for the error messages
-                let emailElement = document.getElementsByName("fromDate");
-                errorElems.push("The email is not valid, please input a valid email.");
-                styleInvalidElementsByName(emailElement);
-            }
-
-            if(!isPhoneValid){
-                //FIXME Update an array of strings for the error messages
-                let phoneElement = document.getElementsByName("toDate");
-                errorElems.push("The phone number is not valid, please input a valid phone number.");
-                styleInvalidElementsByName(phoneElement);
-            }
-            setValidationErrors(errorElems);
-        }
-    } 
-
-
     //GET METHOD
 
     const handleGet = async () => {
-        axios.get(`${aboutMeUrl}/portfolio/${cookies['portfolio'].id}`)
+        axios.get(url + "/aboutMe/portfolio/" + cookies['portfolio'].id)
         .then(response => {
             console.log("got the data")
             console.log(response.data)
@@ -241,7 +206,7 @@ const RevatureAboutMe = () => {
     // DELETE METHOD
     const handleDelete = (id: any) => {
         console.log("this is the id " + id)
-        axios.delete(`${aboutMeUrl}/${id}`)
+        axios.delete(url + "/aboutMe/" + id)
         .then(response => {
             console.log(response)
             window.location.reload()
@@ -300,7 +265,7 @@ const RevatureAboutMe = () => {
                         <Button variant="secondary" onClick={() => {handleClose(); toggleValidationErrors();}}>
                             Close
                         </Button>
-                        <Button variant="primary" className="oButton" onClick={() => {handleSave();}}>Add</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {handleSave("");}}>Add</Button>
                     </Modal.Footer>
                
                 </Modal>
@@ -324,13 +289,13 @@ const RevatureAboutMe = () => {
                                     <h6>Phone #</h6>
                                     <input type="tel" name="toDate" className="form-input" id="" value={phone} onChange={e => setPhone(e.target.value)}/><br />
                                 </form>
-                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                             </Modal.Body>
                                 <Modal.Footer>
+                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                                 <Button variant="secondary" onClick={() => {handleEditClose(); toggleValidationErrors();}}>
                                         Close
                                     </Button>
-                                    <Button className="oButton" onClick={() => {handleUpdate(id);}}>Update</Button>
+                                    <Button className="oButton" onClick={() => {handleSave(id);}}>Update</Button>
                                 </Modal.Footer>
                         </Modal>
 
