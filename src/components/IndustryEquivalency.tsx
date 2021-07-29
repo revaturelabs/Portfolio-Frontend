@@ -226,12 +226,11 @@ const IndustryEquivalency = () => {
         } else if (equivalency === 0 && skillName == "") {
             let elements = document.getElementsByClassName("form-control");
             styleInvalidElements(elements);
-            const error = ["Please include a skill name and cannot add a skill with no total experience!"];
+            const error = ["Please include a skill name and cannot add a skill with zero total experience!"];
             setValidationErrors(error);
             return;
             
         } else if (equivalency > 0) {
-            console.log("INVALID");
             let elements = document.getElementsByName("skillTitle");
             styleInvalidElementsByName(elements);
             const error = ["Please include a skill name!"];
@@ -242,7 +241,7 @@ const IndustryEquivalency = () => {
             styleInvalidElementsByName(currentExperienceInput);
             let previousExperienceInput = document.getElementsByName("previousExperience");
             styleInvalidElementsByName(previousExperienceInput);
-            const error = ["Cannot have a skill with no experience!"];
+            const error = ["Cannot have a skill with zero experience!"];
             setValidationErrors(error); 
             return;
 
@@ -420,10 +419,12 @@ const IndustryEquivalency = () => {
                                         </td>
                                         <td>
                                             <input
+                                                className="form-control"
                                                 type="number"
                                                 step="1"
                                                 min="3"
-                                                value={s.value}
+                                                max = "24"
+                                                value={s.value}                                                
                                                 onChange={(ev) => { handleEditChange(2, s.id, ev.target.value) }} />
                                         </td>
                                     </tr>
