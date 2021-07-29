@@ -11,7 +11,7 @@ import EducationEdit from "./EducationEdit";
 
 const EducationCreation: FC<{hideModal: Function}>= (props) => {
     const backEndUrl = url + "/education";
-    const [cookies, setCookie] = useCookies();
+    const [cookies] = useCookies();
     const portfolio = cookies['portfolio'];
 
     const [university, setUniversity] = useState("");

@@ -4,7 +4,6 @@ import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { useCookies } from 'react-cookie';
 import { Tooltip } from "reactstrap";
 import "../css/Education.css";
-//import Education from './Education';
 import EducationCreation from './EducationCreation';
 import EducationDelete from './EducationDelete';
 import EducationDisplay from "./EducationDisplay";
@@ -16,7 +15,7 @@ import Education from "../interfaces/Education";
 
 const EducationContainer = () => {
     const backEndUrl = url + "/education";
-    const [cookies, setCookie] = useCookies();
+    const [cookies] = useCookies();
     const portfolioId = cookies['portfolio'].id;
 
     const [educations, setEducations] = useState(Array<Education>());
