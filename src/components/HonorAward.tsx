@@ -250,7 +250,7 @@ const HonorAwards = () => {
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
-            setValidationErrors(["please fill out the indicated fields"]);
+            setValidationErrors(["Please populate the required fields"]);
         }
     }
     //***********************************************************************/
@@ -276,7 +276,7 @@ const HonorAwards = () => {
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
-            setValidationErrors(["please fill out the indicated fields"]);
+            setValidationErrors(["Please populate the required fields"]);
         }
     }
 

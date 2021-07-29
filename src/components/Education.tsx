@@ -6,7 +6,8 @@ import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { Tooltip } from "reactstrap";
 import { NumberLiteralType } from "typescript";
 import "../css/Project.css";
-import {url} from "../api/api";
+import {toast} from "react-toastify";
+import {educationUrl} from "../api/api";
 
 const Education = () => {
     /**
@@ -56,7 +57,7 @@ const Education = () => {
     }, [])
 
     const fetchEducation = async () => {
-        const res = await fetch(url + "/education");
+        const res = await fetch(educationUrl);
         const data = await res.json();
         createAllEducation(data)
         return data;
@@ -154,7 +155,7 @@ const Education = () => {
     const handleSave = () => {
     
         axios
-            .post(url + "/education", {
+            .post(educationUrl, {
                 university,
                 degree,
                 graduationDate,
@@ -175,7 +176,7 @@ const Education = () => {
     // Delete an Education Card
     const handleDelete = async (id:number) => {
     
-        axios.delete(url + '/education/' + id)
+        axios.delete(`${educationUrl}.id`)
             .then(res => {
             })
             .catch((err) => {
@@ -189,7 +190,7 @@ const Education = () => {
     const handleUpdate = (id:any) => {
     
         axios
-            .post(url + "/education/"+ id, {
+            .post(`${educationUrl}.id`, {
                university,
                degree,
                graduationDate,
@@ -219,7 +220,7 @@ const Education = () => {
                         Education and Certifications
                         <QuestionCircle
                             id="card-info"
-                            onClick={() => alert(messageDetails)}
+                            onClick={() => toast.info(messageDetails)}
                         />
                         <PlusCircle id="add-project" onClick={handleShowModal} />
                         <Tooltip

@@ -17,7 +17,7 @@ h6 {
 }
 
 #header-project {
-  background: #F26925
+  background: rgb(242, 105, 38);
 }
 
 #add-project {
@@ -32,12 +32,6 @@ h6 {
 }
 
 .form-input {
-  width: 100%;
-  height: 40px;
-  margin-bottom: 20px;
-}
-
-.form-input-optional {
   width: 100%;
   height: 40px;
   margin-bottom: 20px;

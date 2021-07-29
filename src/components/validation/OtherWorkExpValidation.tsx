@@ -12,7 +12,8 @@ function otherWorkExpValidation(wrkExp: any): Array<string>
 {
     //check to ensure each field is not null
     const errorMsgs = new Array<string>();
-    let nullFieldWarning = "Fields must not be null";
+    let nullFieldWarning = "Please populate the required fields";
+    
     Object.keys(wrkExp).map((key: any, keyIndex: any) => {
 
         if(!Object.values(wrkExp)[keyIndex]) {
@@ -33,8 +34,9 @@ function otherWorkExpValidation(wrkExp: any): Array<string>
     const endDateField = 'endDate';
     if(!checkDatesInOrder(wrkExp.startDate, wrkExp.endDate)) {
         Object.keys(wrkExp).map((key: any, keyIndex: any) => { 
-            if(key == startDateField || key == endDateField) {
-                errorMsgs[keyIndex] = "Start Date must precede End Date";
+            if(key == startDateField) {
+                errorMsgs[keyIndex] = "Start date must precede end date";
+                errorMsgs[keyIndex+1] = "!";    //We want this to be styled but NOT display a message
             }
         });
     }

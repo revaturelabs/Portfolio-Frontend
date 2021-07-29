@@ -10,7 +10,12 @@ jobs:
         inputs:
           versionSpec: '${{ parameters.nodeVersion }}'
         displayName: 'Install Node.js'
+
       - script: npm ci
-        displayName: 'npm install'
+        displayName: npm ci
+      
       - script: npm run build
-        displayName: 'npm build'
+        displayName: npm build
+      
+      - script: npm test -- --watchAll=false
+        displayName: 'npm test'

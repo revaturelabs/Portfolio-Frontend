@@ -3,37 +3,14 @@ import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../css/Project.css";
 import {url} from "../api/api";
-import educationValidation from "./validation/EducationValidation";
-import styleInvalidElements from "./validation/InvalidFormHandling";
+import educationValidation, { educationValidationErrors } from "./validation/EducationValidation";
+import styleInvalidElements, { styleInvalidElement } from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg';
+import EducationData from "../interfaces/Education";
+import EducationEdit from "./EducationEdit";
 
-interface User {
-    id: number;
-    name: string;
-    password: string;
-    admin: boolean;
-}
 
-interface Portfolio {
-    id: number;
-    name: string;
-    user: User;
-    submitted: boolean;
-    approved: boolean;
-    reviewed: boolean;
-    feedback: string;
-}
-
-interface Education {
-    id: number;
-    portfolio: Portfolio;
-    university: string;
-    degree: string;
-    graduationDate: string;
-    gpa: number;
-    logoUrl: string;
-}
-
-const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (props) => {
+const EducationUpdate: FC<{ hideModal: Function, editEducation: EducationData}>= (props) => {
     const backEndUrl = url + "/education";
 
     const [id, setId] = useState(props.editEducation.id);
@@ -42,9 +19,12 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
     const [graduationDate, setGraduationDate] = useState(props.editEducation.graduationDate);
     const [gpa, setGpa] = useState(props.editEducation.gpa);
     const [logoUrl, setLogoUrl] = useState(props.editEducation.logoUrl);
+    const [validationErrors, setValidationErrors] = useState(Array<string>());
 
     const handleUpdate= () => {
         const valid = educationValidation(university, degree, graduationDate, gpa);
+        const errorElems = educationValidationErrors(university, degree, graduationDate, gpa);
+
             if(valid){
                 axios
                     .post(backEndUrl+"/"+id, {
@@ -67,7 +47,13 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
             else{
                 console.log("INVALID");
                 const elements = document.getElementsByClassName("form-input");
+                let gpaElement = document.getElementById("gpa");
+                console.log(gpaElement)
+                if(gpaElement != null) {
+                    styleInvalidElement(gpaElement);
+                }
                 styleInvalidElements(elements);
+                setValidationErrors(errorElems);
             }       
     };
 
@@ -78,62 +64,12 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: Education}>= (pr
 
     return (
         <div>
-            <Modal.Body>
-                <form method="post">
-                    <h6>University Name</h6>
-                    <input
-                        required
-                        type="text"
-                        name="university"
-                        className="form-input"
-                        value={university}
-                        onChange={(e) => setUniversity(e.target.value)}
-                    />
-                    <br />
-                    <h6>Degree Attained</h6>
-                    <input
-                        required
-                        type="text"
-                        name="degree"
-                        className="form-input"
-                        value={degree}
-                        onChange={(e) =>
-                            setDegree(e.target.value)
-                        }
-                    />
-                    <br />
-                    <h6>Graduation Date</h6>
-                    <input
-                        required
-                        type="date"
-                        name="graduationDate"
-                        className="form-input"
-                        value={graduationDate}
-                        onChange={(e) =>
-                            setGraduationDate(e.target.value)
-                        }
-                    />
-                    <br />
-                    <h6>GPA</h6>
-                    <input
-                        required
-                        type="number"
-                        name="gpa"
-                        className="form-input"
-                        value={gpa}
-                        onChange={(e) => setGpa(Number(e.target.value))}
-                    />
-                    <br />
-                    <h6 className="logoUrl">URL for University Logo (Optional)</h6>
-                    <input
-                        type="text"
-                        name="logoUrl"
-                        className="form-input-optional"
-                        value={logoUrl}
-                        onChange={(e) => setLogoUrl(e.target.value)}
-                    />
-                </form>
-            </Modal.Body>
+            <EducationEdit hideModal={props.hideModal} university={university} setUniversity={setUniversity} 
+            degree={degree} setDegree={setDegree} graduationDate={graduationDate} setGraduationDate={setGraduationDate} gpa={gpa} setGpa={setGpa}
+            logoUrl={logoUrl} setLogoUrl={setLogoUrl} />
+
+            <ValidationMsg errors={validationErrors}></ValidationMsg>
+
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => props.hideModal()}>
                     Close

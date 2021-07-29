@@ -40,7 +40,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('null employer triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
         w1.employer = "";
-        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        expect(!OtherWorkExpValidation(w1)[i++]).toBe(false);
         w1.employer = temp;
     });
 
@@ -49,7 +49,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('null title triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
         w1.title = "";
-        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        expect(!OtherWorkExpValidation(w1)[i++]).toBe(false);
         w1.title = temp;
     });
 
@@ -58,7 +58,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('null responsibilities triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
         w1.rspbts = "";
-        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        expect(!OtherWorkExpValidation(w1)[i++]).toBe(false);
         w1.rspbts = temp;
     });
 
@@ -67,7 +67,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('null description triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
         w1.desc = "";
-        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        expect(!OtherWorkExpValidation(w1)[i++]).toBe(false);
         w1.desc = temp;
     });
 
@@ -76,7 +76,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('null tools triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
         w1.tools = "";
-        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        expect(!OtherWorkExpValidation(w1)[i++]).toBe(false);
         w1.tools = temp;
     });
 
@@ -85,7 +85,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('null startDate triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
         w1.startDate = "";
-        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        expect(!OtherWorkExpValidation(w1)[i++]).toBe(false);
         w1.startDate = temp;
     });
 
@@ -94,7 +94,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('null endDate triggers invalid submission', function() {
         let temp = Object.values(w1)[i];
         w1.endDate = "";
-        expect(OtherWorkExpValidation(w1)[i++]).toBe(false);
+        expect(!OtherWorkExpValidation(w1)[i++]).toBe(false);
         w1.endDate = temp;
     });
 
@@ -102,7 +102,7 @@ describe('All Other Work Experience validation tests: ', function() {
     //end date may not precede start date chronologically
     it('End date may not precede start date', function() {
         w1.endDate = "1625374700000";
-        expect(OtherWorkExpValidation(w1)[6]).toBe(false);
+        expect(!OtherWorkExpValidation(w1)[6]).toBe(false);
         w1.endDate = "1645374700000";
     });
 
@@ -112,7 +112,7 @@ describe('All Other Work Experience validation tests: ', function() {
     it('All fields populated triggers valid response', function() {
         const isValid = OtherWorkExpValidation(w1);
         let allValid = true;
-        isValid.map((elem) => {allValid = allValid && elem;});
+        isValid.map((elem) => {allValid = allValid && !elem;});
         expect(allValid).toBe(true);
     });
 

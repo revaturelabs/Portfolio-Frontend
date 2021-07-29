@@ -4,43 +4,19 @@ import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { useCookies } from 'react-cookie';
 import { Tooltip } from "reactstrap";
 import "../css/Education.css";
-import Education from './Education';
+//import Education from './Education';
 import EducationCreation from './EducationCreation';
 import EducationDelete from './EducationDelete';
 import EducationDisplay from "./EducationDisplay";
 import EducationUpdate from './EducationUpdate';
 import {url} from "../api/api";
+import { Interface } from 'readline';
+import Education from "../interfaces/Education";
 
-interface User {
-    id: number;
-    name: string;
-    password: string;
-    admin: boolean;
-}
-
-interface Portfolio {
-    id: number;
-    name: string;
-    user: User;
-    submitted: boolean;
-    approved: boolean;
-    reviewed: boolean;
-    feedback: string;
-}
-
-interface Education {
-    id: number;
-    portfolio: Portfolio;
-    university: string;
-    degree: string;
-    graduationDate: string;
-    gpa: number;
-    logoUrl: string;
-}
 
 const EducationContainer = () => {
     const backEndUrl = url + "/education";
-    const [cookies] = useCookies();
+    const [cookies, setCookie] = useCookies();
     const portfolioId = cookies['portfolio'].id;
 
     const [educations, setEducations] = useState(Array<Education>());
@@ -79,6 +55,8 @@ const EducationContainer = () => {
             .then(response => response.json())
             .then(json => setEducations(json));
     }, [])
+
+    
 
     return (
         <div className="container">
@@ -130,3 +108,4 @@ const EducationContainer = () => {
 };
 
 export default EducationContainer;
+

@@ -19,17 +19,27 @@
 //Default Exported function that handles general validation - returns boolean array of 'true's
 // if all states are valid
 //and calls other utility functions as necessary
-function ProjectValidation(project: any): boolean[] {
+function ProjectValidation(project: any): string[] {
     //console.log("Validating Project");
 
     ////Work Products is allowed to be null so we put a dummy value in there
-    //to make sure it is never null, whatever we put in here wont override the true value
+    //to make sure it is never null, whatever we put in here wont override the value
+    //the user typed into the form since we are just performing error checking here
     project.workProducts = "lorem ipsum";   //dummy string
 
     //Check to ensure no field is null via iteration
-    const validElems = new Array<boolean>();
+    const errorMsgs = new Array<string>();
+    let nullFieldWarning = "Please populate the required fields";
+
     Object.keys(project).map((key: any, keyIndex: any) => {
-            validElems.push(!!Object.values(project)[keyIndex]);            
+        if(!Object.values(project)[keyIndex]) {
+            errorMsgs.push(nullFieldWarning);
+            nullFieldWarning= "!"; 
+        } else {
+            errorMsgs.push("");
+        }
+        //We only want null field warning printing once to the console, so we set it to '!'
+        //we will tell the error print function to ignore error messages with description "!"          
     });
 
     //validate roles/respnse
@@ -38,24 +48,14 @@ function ProjectValidation(project: any): boolean[] {
     const rolesRspFieldName = 'responsibilities';
     Object.keys(project).map((key: any, keyIndex: any) => {
         //console.log("FIELD NAME: " + key);
-        if(key == rolesRspFieldName) {
-            validElems[keyIndex] = validElems[keyIndex] &&
-             checkEnoughBullets(Object.values(project)[keyIndex], minBullets);
+        if(key == rolesRspFieldName && !errorMsgs[keyIndex]) {
+            errorMsgs[keyIndex] = 
+                checkEnoughBullets(Object.values(project)[keyIndex], minBullets) ?
+                "" : "Enter at least 8 bullet points in the Responsibilities section"
         }
     });
 
-    //validate github link
-        //valid github url
-        //public repo
-        const gitLinkFieldName = 'roles';
-        Object.keys(project).map((key: any, keyIndex: any) => {
-            if(key == gitLinkFieldName) {
-                validElems[keyIndex] = validElems[keyIndex] &&
-                 !checkGitHubIsPublic(Object.values(project)[keyIndex]);
-            }
-        });
-
-    return validElems;
+    return errorMsgs;
 }
 
 
@@ -71,11 +71,6 @@ function checkEnoughBullets(rspbts:any, minBullets: number) {
 
     return (numBullets >= minBullets);
 }
-
-function checkGitHubIsPublic(link: any) {
-    return true;
-}
-
 
 export default ProjectValidation;
 

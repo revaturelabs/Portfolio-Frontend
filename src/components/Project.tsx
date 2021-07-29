@@ -4,10 +4,11 @@ import { Button, Card, Modal, ModalBody } from "react-bootstrap";
 import { PlusCircle, QuestionCircle, XCircle } from "react-bootstrap-icons";
 import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
-import { url } from "../api/api";
+import { projectUrl } from "../api/api";
 import "../css/Project.css";
 import { styleInvalidElementsByNameNotNull } from "./validation/InvalidFormHandling";
 import ProjectValidation from "./validation/ProjectValidation";
+import ValidationMsg from "./validation/ValidationMsg";
 
 const Project = () => {
   /**
@@ -123,10 +124,10 @@ const Project = () => {
    * Show/Hide Modal
    */
   const [showModal, setShowModal] = useState(false);
-  const handleHideModal = () => setShowModal(false);
+  const handleHideModal = () => { setShowModal(false); setValidationErrors([]); }
   const handleShowModal = () => setShowModal(true);
   const [showModalEdit, setShowModalEdit] = useState(false);
-  const handleHideModalEdit = () => setShowModalEdit(false);
+  const handleHideModalEdit = () => { setShowModalEdit(false); setValidationErrors([]); }
   const handleShowModalEdit = () => setShowModalEdit(true);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const handleHideModalDelete = () => setShowModalDelete(false);
@@ -155,6 +156,11 @@ const Project = () => {
   const [technologies, setTechnologies] = useState("");
   const [respositoryUrl, setRespositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
+
+  //Render Error Messages
+    //*****************************************************/
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+    //*****************************************************/
   
   const [cookie] = useCookies();
   /**
@@ -162,7 +168,7 @@ const Project = () => {
    */
   const getAllProjects = async () => {
     axios
-      .get(url + "/projects/portfolio/all/"+cookie["portfolio"].id)
+      .get(`${projectUrl}/portfolio/all/${cookie["portfolio"].id}`)
       .then((response) => {
         console.log("got data");
         console.log(response.data);
@@ -202,14 +208,14 @@ const Project = () => {
   }
 
   //returns boolean *array* indicating which above state is valid, in above order
-  const validElems = ProjectValidation(projObj);
+  const errorElems = ProjectValidation(projObj);
   let isValid = true;
-  validElems.map((elem) => { isValid = isValid && elem});
+  errorElems.map((elem) => { isValid = isValid && !elem});
 
   //Continue and save data if all fields are valid
   if(isValid) 
   {
-    axios.post(url + "/projects/", {
+    axios.post(projectUrl, {
       name,
       description,
       responsibilities,
@@ -226,6 +232,7 @@ const Project = () => {
       setTechnologies("");
       setRespositoryUrl("");
       setWorkProducts("");
+      setValidationErrors([]);
       window.location.reload();
     })
     .catch((error) => {
@@ -238,10 +245,14 @@ const Project = () => {
         - iterate over HTML elements and style inccorect elements
         - do not close display
     */
-    console.log("Error: invalid fields in other work Experience form");
+    console.log("Error: invalid fields in Projects form");
+    console.log("Error elems: " + errorElems);
     Object.keys(projObj).map((key: string, keyIndex: number) => {
-        styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+        styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
     });
+
+    //set our string error message
+    setValidationErrors(errorElems);
   }
    
   };
@@ -252,7 +263,7 @@ const Project = () => {
    */
   const handleDelete = async (id: string) => {
     axios
-      .delete(url + `/projects/${id}`)
+      .delete(`${projectUrl}/${id}`)
       .then((response) => {
         console.log(response);
         console.log(response.data);
@@ -273,15 +284,15 @@ const Project = () => {
       }
 
     //returns boolean *array* indicating which above state is valid, in above order
-    const validElems = ProjectValidation(projObj);
+    const errorElems = ProjectValidation(projObj);
     let isValid = true;
-    validElems.map((elem) => { isValid = isValid && elem});
+    errorElems.map((elem) => { isValid = isValid && !elem});
 
     //Continue and update data if all fields are valid
         if(isValid) 
         {
           axios
-            .post(url + `/projects/${id}`, {
+            .post( `${projectUrl}/${id}`, {
               name,
               description,
               responsibilities,
@@ -298,20 +309,22 @@ const Project = () => {
             .catch((error) => {
               console.log("error");
             });
+            
+          setValidationErrors([]);
           setShowModalEdit(false);
         }  else {
           /* log error to the console
               - iterate over HTML elements and style inccorect elements
               - do not close display
           */
-          console.log("Error: invalid fields in other work Experience form");
+          //console.log("Error: invalid fields in other work Experience form");
           Object.keys(projObj).map((key: string, keyIndex: number) => {
-              styleInvalidElementsByNameNotNull(document.getElementsByName(key), validElems[keyIndex] );
+              styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
           });
         }
 
-
-          
+        //set our string error msg
+        setValidationErrors(errorElems);
     };
     //END HANDLE UPDATE METHOD
 
@@ -324,7 +337,7 @@ const Project = () => {
   return (
     <div className="container">
       <Card id="card-container">
-        <Card.Header id="header-project">
+        <Card.Header id="header">
           <h4>
             Project
             <QuestionCircle
@@ -406,6 +419,9 @@ const Project = () => {
                 onChange={(e) => setWorkProducts(e.target.value)}
               />
             </form>
+
+            <ValidationMsg errors={validationErrors}></ValidationMsg>
+
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleHideModal}>
@@ -522,6 +538,9 @@ const Project = () => {
                     onChange={(e) => setWorkProducts(e.target.value)}
                   />
                 </form>
+
+                    <ValidationMsg errors={validationErrors}></ValidationMsg>
+
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleHideModalEdit}>

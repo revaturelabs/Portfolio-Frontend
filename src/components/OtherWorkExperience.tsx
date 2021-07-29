@@ -16,7 +16,7 @@ const OtherWorkExperience = () => {
     const [cookies] = useCookies();
 
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => { setShow(false); ; setValidationErrors([]); }
     const handleShow = () => setShow(true);
 
     const [employer, setEmployer] = useState("");
@@ -46,7 +46,7 @@ const OtherWorkExperience = () => {
     // Update Modal show and hide
     //**************************************************************************/
     const[showUpdateExperience, setShowUpdateExperience] = useState(false)
-    const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
+    const handleCloseUpdateExperience = () => { setShowUpdateExperience(false); setValidationErrors([]); }
     const handleShowUpdateExperience = () => setShowUpdateExperience(true)
     //**************************************************************************/
 
@@ -217,6 +217,7 @@ const OtherWorkExperience = () => {
                 styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
              });
 
+             //set our string error msg
              setValidationErrors(errorElems);
         }
         //Form stays open until they enter data correctly or cancel

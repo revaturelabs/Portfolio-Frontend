@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: forge-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: forge-frontend
+  template:
+    metadata:
+      labels:
+        app: forge-frontend
+    spec:
+      containers:
+        - name: forge-frontend
+          image: may24devopscontainers.azurecr.io/forge-frontend:latest
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "200m"
+          ports:
+          - containerPort: 3000
+      ImagePullSecrets:
+        - name: p3-team2-acr
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: forge-frontend
+  ports:
+    - port: 3000
+      name: frontend
+      protocol: TCP
+

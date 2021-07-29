@@ -9,7 +9,8 @@ import { useCookies } from 'react-cookie'
 import {url} from "../api/api";
 import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
-
+import ValidationMsg from './validation/ValidationMsg';
+import {aboutMeUrl} from "../api/api";
 
 const RevatureAboutMe = () => {
     // Model show and hide
@@ -48,10 +49,19 @@ const RevatureAboutMe = () => {
     const [id, setID] = useState('')
     //***************************************************/
 
+    // Render error messages.
+    /****************************************************/
+     const [validationErrors, setValidationErrors] = useState<string[]>([]);
+     const toggleValidationErrors = () => setValidationErrors(([]))
+     /****************************************************/
+
     //COOKIES!
-    const [cookies, setCookies] = useCookies()
+    const [cookies] = useCookies()
     //*************************************************** */
 
+    const bioPlaceholder = "Input a brief bio here, the bio must be 100 characters long to be valid."
+    const emailPlaceholder = "exampleEmail@gmail.com";
+    const phonenumberPlaceholder = "123-456-7890";
     //Render about me on page
     //*********************************************************************/
     const createAboutMe = (id: string, bio: string, email: string, phone: string) => {
@@ -65,20 +75,6 @@ const RevatureAboutMe = () => {
             let bioHeader = document.createElement('p')
             let emailHeader = document.createElement('h6')
             let phoneHeader = document.createElement('h6')
-            // let deleteButton = document.createElement('button')
-            // let editButton = document.createElement('button')
-
-            let deleteButton = document.getElementById('delete-aboutMe')
-            let editButton = document.getElementById('edit-aboutMe')
-
-            if(deleteButton == null){
-                console.log("I didn't find a delete button")
-            }
-
-            if(editButton == null){
-                console.log("I didn't find an edit button")
-            }
-
             
             setID(id)
             bioHeader.innerHTML = bio
@@ -95,43 +91,6 @@ const RevatureAboutMe = () => {
 
             emailHeader.setAttribute("class", "afterStyle")
             phoneHeader.setAttribute("class", "afterStyle")
-
-            // editButton.setAttribute("class", "btn btn-secondary")
-            editButton!.setAttribute("id", id)
-            editButton!.style.float = "right"
-            editButton!.style.marginTop = "5px"
-            editButton!.style.marginLeft = "10px"
-            editButton!.style.opacity = "100"
-            // editButton!.innerHTML = "Edit"
-
-            // deleteButton.setAttribute("class", "btn btn-danger")
-            deleteButton!.setAttribute("id", id)
-            deleteButton!.style.float = "right"
-            deleteButton!.style.marginTop = "5px"
-            deleteButton!.style.marginLeft = "10px"
-            deleteButton!.style.opacity = "100"
-            // deleteButton.innerHTML = "Delete"
-
-            editButton!.addEventListener("click", () => {
-                setID(id)
-                setBio(bio)
-                setEmail(email)
-                setPhone(phone)
-                handleEditShow()
-            })
-
-            deleteButton!.addEventListener("click", () => {
-                setID(id)
-                handleDeleteShow()
-
-            })
-
-            // rowDiv.appendChild(deleteButton)
-            // rowDiv.appendChild(editButton)
-
-            
-            aboutMeHeader?.appendChild(editButton!)
-            aboutMeHeader?.appendChild(deleteButton!)
          
             div.setAttribute("class", "card")
             div.style.border = "none"
@@ -146,7 +105,6 @@ const RevatureAboutMe = () => {
 
         
         div.style.padding = "5px"
-        // div.style.border = "2px solid black"
         div.style.marginBottom = "10px"
     }
 
@@ -176,23 +134,28 @@ const RevatureAboutMe = () => {
 
         //If any of the following was false check and return which part was invalid.
         } else {
+            let errorElems:string[] = [];
             if(!isBioValid){
                 //FIXME Update an array of strings for the error messages
                 let bioElement = document.getElementsByName("bioName");
+                errorElems.push("The bio is too short, please write a bio at least 100 characters long.");
                 styleInvalidElementsByName(bioElement);
             }
 
             if(!isEmailValid){
                 //FIXME Update an array of strings for the error messages
                 let emailElement = document.getElementsByName("fromDate");
+                errorElems.push("The email is not valid, please input a valid email.");
                 styleInvalidElementsByName(emailElement);
             }
 
             if(!isPhoneValid){
                 //FIXME Update an array of strings for the error messages
                 let phoneElement = document.getElementsByName("toDate");
+                errorElems.push("The phone number is not valid, please input a valid phone number.");
                 styleInvalidElementsByName(phoneElement);
             }
+            setValidationErrors(errorElems);
         }
     }
 
@@ -222,25 +185,28 @@ const RevatureAboutMe = () => {
 
         //If any of the following was false check and return which part was invalid.
         } else {
+            let errorElems:string[] = [];
             if(!isBioValid){
                 //FIXME Update an array of strings for the error messages
                 let bioElement = document.getElementsByName("bioName");
+                errorElems.push("The bio is too short, please write a bio at least 100 characters long.");
                 styleInvalidElementsByName(bioElement);
-            } else {
-
             }
 
             if(!isEmailValid){
                 //FIXME Update an array of strings for the error messages
                 let emailElement = document.getElementsByName("fromDate");
+                errorElems.push("The email is not valid, please input a valid email.");
                 styleInvalidElementsByName(emailElement);
             }
 
             if(!isPhoneValid){
                 //FIXME Update an array of strings for the error messages
                 let phoneElement = document.getElementsByName("toDate");
+                errorElems.push("The phone number is not valid, please input a valid phone number.");
                 styleInvalidElementsByName(phoneElement);
             }
+            setValidationErrors(errorElems);
         }
     } 
 
@@ -248,7 +214,7 @@ const RevatureAboutMe = () => {
     //GET METHOD
 
     const handleGet = async () => {
-        axios.get(url + "/aboutMe/portfolio/" + cookies['portfolio'].id)
+        axios.get(`${aboutMeUrl}/portfolio/${cookies['portfolio'].id}`)
         .then(response => {
             console.log("got the data")
             console.log(response.data)
@@ -256,6 +222,12 @@ const RevatureAboutMe = () => {
                     let kd = document.querySelector('#add-aboutMe')
                     kd?.setAttribute("class", "hide") 
                     createAboutMe(response.data.id, response.data.bio, response.data.email, response.data.phone)
+                } else {
+                    let editButton = document.querySelector('#edit-aboutMe')
+                    let deleteButton = document.querySelector('#delete-aboutMe')
+
+                    editButton?.setAttribute("class","hide")
+                    deleteButton?.setAttribute("class","hide")
                 }
 
         })
@@ -266,12 +238,10 @@ const RevatureAboutMe = () => {
 
     useEffect(()=> {handleGet()},[]);
 
-    // DELTE METHOD
-
-
+    // DELETE METHOD
     const handleDelete = (id: any) => {
         console.log("this is the id " + id)
-        axios.delete(url + "/aboutMe/" + id)
+        axios.delete(`${aboutMeUrl}/${id}`)
         .then(response => {
             console.log(response)
             window.location.reload()
@@ -294,17 +264,17 @@ const RevatureAboutMe = () => {
                     <h4 id="aboutMe-header">
                         About Me
                         <QuestionCircle id="card-info" onClick={handleShowDetails} />
+                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+
                         <PlusCircle id="add-aboutMe" onClick={handleShow} />
                         <Tooltip target="add-aboutMe" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
-                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
                         
-                        {bio.length > 0 && <Pencil id="edit-aboutMe" onClick ={handleEditShow}>Edit</Pencil>}
-                        {bio.length == 0 && <div id="edit-aboutMe"></div>}
+                        <Pencil id="edit-aboutMe" onClick ={handleEditShow}>Edit</Pencil>
                         <Tooltip target="edit-aboutMe" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
                         
-                        {bio.length > 0 && <XCircle id="delete-aboutMe" onClick ={handleDeleteShow}>Delete</XCircle>}
-                        {bio.length == 0 && <div id="delete-aboutMe"></div>}
+                        <XCircle id="delete-aboutMe" onClick ={handleDeleteShow}>Delete</XCircle>
                         <Tooltip target="delete-aboutMe" isOpen={deleteToolTipOpen} toggle={toggleDelete}>Delete</Tooltip>
+                        
                     </h4>
                 </Card.Header>
 
@@ -317,15 +287,17 @@ const RevatureAboutMe = () => {
                     <Modal.Body className="modalBody">
                         <form method="post">
                             <h6>Bio</h6>
-                            <textarea className="form-textarea" name="bioName" rows={rowLength} onChange={e => setBio(e.target.value)}></textarea>
+                            <textarea className="form-textarea" placeholder={bioPlaceholder} name="bioName" rows={rowLength} onChange={e => setBio(e.target.value)}></textarea>
                             <h6>Email</h6>
-                            <input type="email" name="fromDate" className="form-input" id="" onChange={e => setEmail(e.target.value)}/><br />
+                            <input type="email" name="fromDate" placeholder={emailPlaceholder} className="form-input" id="" onChange={e => setEmail(e.target.value)}/><br />
                             <h6>Phone #</h6>
-                            <input type="text" name="toDate" className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
+                            <input type="text" name="toDate" placeholder={phonenumberPlaceholder} className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
                         </form>
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <div id="invalid-fields"></div>
+                        <Button variant="secondary" onClick={() => {handleClose(); toggleValidationErrors();}}>
                             Close
                         </Button>
                         <Button variant="primary" className="oButton" onClick={() => {handleSave();}}>Add</Button>
@@ -352,9 +324,10 @@ const RevatureAboutMe = () => {
                                     <h6>Phone #</h6>
                                     <input type="tel" name="toDate" className="form-input" id="" value={phone} onChange={e => setPhone(e.target.value)}/><br />
                                 </form>
+                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                             </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleEditClose}>
+                                <Button variant="secondary" onClick={() => {handleEditClose(); toggleValidationErrors();}}>
                                         Close
                                     </Button>
                                     <Button className="oButton" onClick={() => {handleUpdate(id);}}>Update</Button>
