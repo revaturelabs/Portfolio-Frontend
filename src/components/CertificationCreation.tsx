@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, FC, CSSProperties } from 'react'
+import React, { useState, FC } from 'react'
 import { useCookies } from "react-cookie";
 import "../css/Certification.css";
 import {url} from "../api/api";
