@@ -1,10 +1,11 @@
 .fill-box {
-    width: 7em;
-    text-align: center;
+  width: 7em;
+  text-align: center;
 }
 
 .ring- { background: radial-gradient(circle, rgba(0,0,0,0) 8%, rgba(0,0,0,0.5) 10%, rgba(0,0,0,0.5) 15%, rgba(0,0,0,0) 18%); }
-.ring-2 { background: radial-gradient(circle, rgba(160,0,224,0) 28%, rgba(160,0,224,1) 30%, rgba(160,0,224,1) 40%, rgba(160,0,224,0) 42%); }
+.ring-1 { background: radial-gradient(circle, rgba(160,0,224,0) 28%, rgba(160,0,224,1) 30%, rgba(160,0,224,1) 40%, rgba(160,0,224,0) 42%); }
+.ring-2 { background: radial-gradient(circle, rgba(150, 8, 223, 0) 28%, rgb(150, 6, 226) 30%, rgb(150, 8, 226) 40%, rgba(150,0,224,0) 42%); }
 .ring-3 { background: radial-gradient(circle, rgba(121,34,231,0) 31%, rgba(121,34,231,1) 33%, rgba(121,34,231,1) 43%, rgba(121,34,231,0) 45%); }
 .ring-4 { background: radial-gradient(circle, rgba(78,62,239,0) 33%, rgba(78,62,239,1) 35%, rgba(78,62,239,1) 45%, rgba(78,62,239,0) 47%); }
 .ring-5 { background: radial-gradient(circle, rgba(39,95,247,0) 36%, rgba(39,95,247,1) 38%, rgba(39,95,247,1) 48%, rgba(39,95,247,0) 50%); }
@@ -15,27 +16,29 @@
 .ring-10 { background: radial-gradient(circle, rgba(0,191,0,0) 48%, rgba(0,191,0,1) 50%, rgba(0,191,0,1) 60%, rgba(0,191,0,0) 62%); }
 
 .tall-text {
-    width: 7em;
-    line-height: 7em;
+  width: 7em;
+  line-height: 7em;
 }
 .eq-label-text {
-    width: 6.5em;
+  width: 6.5em;
 }
 
-#header-industry-equivalence { background: #F26925 }
+#header-industry-equivalence {
+  background: rgb(242, 105, 38);
+}
 
 #delete-equivalency:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #edit-equivalency {
-    float: right;
-    cursor: pointer;
-    margin-top: 5px;
+  float: right;
+  cursor: pointer;
+  margin-top: 5px;
 }
 
 #add-equivalency {
-    float: right;
-    cursor: pointer;
-    margin-top: 5px;
+  float: right;
+  cursor: pointer;
+  margin-top: 5px;
 }

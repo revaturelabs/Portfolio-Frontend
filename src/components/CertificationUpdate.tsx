@@ -3,36 +3,10 @@ import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../css/Certification.css";
 import {url} from "../api/api";
+import Certification from "../interfaces/Certification";
 import certificationValidation from "./validation/CertificationValidation";
 import styleInvalidElements from "./validation/InvalidFormHandling";
 import ValidationMsg from './validation/ValidationMsg'
-
-interface User {
-    id: number;
-    name: string;
-    password: string;
-    admin: boolean;
-}
-
-interface Portfolio {
-    id: number;
-    name: string;
-    user: User;
-    submitted: boolean;
-    approved: boolean;
-    reviewed: boolean;
-    feedback: string;
-}
-
-interface Certification {
-    id: number;
-    portfolio: Portfolio;
-    name: string;
-    certId: string;
-    issuedBy: string;
-    issuedOn: string;
-    publicUrl: string;
-}
 
 const EducationUpdate: FC<{ hideModal: Function, editCertification: Certification }> = (props) => {
     const backEndUrl = url + "/certifications";
@@ -47,6 +21,8 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
     const [validationErrors, setValidationErrors] =  useState<string[]>([]);
 
     const handleUpdate = () => {
+
+
         if (certificationValidation("true", name, certId, issuedBy, issuedOn)){
             axios
                 .post(backEndUrl + "/" + id, {
@@ -70,6 +46,7 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
             styleInvalidElements(inputElements);
             setValidationErrors(["Please populate the required fields"]);
         }
+
     };
 
     let updateButtonStyles: CSSProperties = {
@@ -125,7 +102,7 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
                     <input
                         type="text"
                         name="publicUrl"
-                        className="form-input-optional"
+                        className="form-input"
                         value={publicUrl}
                         onChange={(e) => setPublicUrl(e.target.value)}
                     />
