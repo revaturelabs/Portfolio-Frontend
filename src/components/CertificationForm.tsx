@@ -1,4 +1,4 @@
-import React, { useState, FC, CSSProperties } from 'react'
+import { CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../css/Certification.css";
 import ValidationMsg from './validation/ValidationMsg'

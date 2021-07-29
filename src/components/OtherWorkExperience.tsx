@@ -9,14 +9,14 @@ import { useCookies } from 'react-cookie';
 import '../css/OtherWorkExperience.css'
 import { url } from '../api/api';
 import otherWorkExpValidation from './validation/OtherWorkExpValidation';
-import { styleInvalidElement, styleInvalidElementsByNameNotNull } from './validation/InvalidFormHandling';
+import { styleInvalidElementsByNameNotNull } from './validation/InvalidFormHandling';
 import ValidationMsg from './validation/ValidationMsg'
 
 const OtherWorkExperience = () => {
     const [cookies] = useCookies();
 
     const [show, setShow] = useState(false);
-    const handleClose = () => { setShow(false); ; setValidationErrors([]); }
+    const handleClose = () => { setShow(false); setValidationErrors([]); }
     const handleShow = () => setShow(true);
 
     const [employer, setEmployer] = useState("");

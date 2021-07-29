@@ -1,4 +1,3 @@
-import { render } from "@testing-library/react";
 import industrySkillValidation from "../components/validation/IndustryEquivalencyValidation";
 
 
