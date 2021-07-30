@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
 import "../css/PortfolioTable.css";
 function PortfolioTable(props: any) {
-  const [cookies, setCookie, removeCookie] = useCookies();
+  const [, setCookie] = useCookies();
   const [sortConfig, setSortConfig]: any = useState("approved");
   const defaultArrows = {
     name: "—",

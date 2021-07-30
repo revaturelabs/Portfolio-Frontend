@@ -1,25 +1,17 @@
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { CSSProperties, useEffect, useState } from "react";
-import { Button, Container, Row, Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Container, Row } from "react-bootstrap";
 import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
-import PortfolioTable from "./PortfolioTable";
 import "../css/HonorAwards.css";
+import PortfolioTable from "./PortfolioTable";
 import ScrollButton from "./ScrollButton";
 
 const Adminpage = () => {
   // state variable for all portfolios
   const [portfolios, setPortfolios] = useState<any[]>([]);
-  const [cookies, setCookie, removeCookie] = useCookies();
-
-  // let ButtonStyles: CSSProperties = {
-  //   background: "rgb(72, 76, 86)",
-  //   borderColor: "rgb(72, 76, 86)",
-  //   color: "white",
-  // };
+  const [cookies, , removeCookie] = useCookies();
 
   const handleLogOut = () => {
     removeCookie("user", { maxAge: 0 });

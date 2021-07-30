@@ -137,19 +137,19 @@ export let fullPortfolioTestObj = { // test portfolio obj built for convenience
 
 
 export function AdminUserTestComponent() {
-    const [cookies, setCookies] = useCookies();
+    const [, setCookies] = useCookies();
     setCookies('admin', testAdminUser, {path: "/"});
     return <> </>;
 }
 
 export function GeneralUserTestComponent() {
-    const [cookies, setCookies] = useCookies();
+    const [, setCookies] = useCookies();
     setCookies('user', testGeneralUser, {path: "/"});
     return <> </>;
 }
 
 export function PortfolioTestComponent({portfolioIndex} : {portfolioIndex: number}) {
-    const [cookies, setCookies] = useCookies();
+    const [, setCookies] = useCookies();
     setCookies('portfolio', testPortfolioList[portfolioIndex], {path: "/"});
     return <> </>;
 }
