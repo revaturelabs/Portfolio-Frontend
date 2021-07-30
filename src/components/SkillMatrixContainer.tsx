@@ -5,6 +5,9 @@ import Matrix, { Skill } from "../interfaces/Matrix";
 import axios from "axios";
 import { Card } from "react-bootstrap";
 import createChart from "./SkillMatrixPieChart";
+import { Modal, Button, ModalBody } from "react-bootstrap";
+import { Tooltip } from 'reactstrap';
+import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 
 const SkillMatrixContainer = () => {
   // STATE VARIABLES
@@ -97,6 +100,32 @@ const SkillMatrixContainer = () => {
     getMatrices();
   }, []);
 
+  
+    /* ---------------------------------------------------------------- */
+    // ADD EQUIVALENCY Matrix
+    /* ---------------------------------------------------------------- */
+    const addMatrix = (async () => {
+      let newMatrix: Matrix = {
+          id: 0,
+          header: matrixName,
+          portfolio: portfolio,
+          skills: []
+      }
+      axios.post(matrixUrl, newMatrix)
+          .then(resp => {
+              // If POST is successful, add new Skill (with correct data) to the Skill Array
+              let tempMatrixSet: Array<Matrix> = [...matrices];
+              tempMatrixSet.push(resp.data);
+              setMatrices(tempMatrixSet);
+          })
+          .catch(error => {
+              console.error(error);
+          });
+      setShowAdd(false);
+      setMatrixName('');
+  });
+  /* ---------------------------------------------------------------- */
+
   const htmlText = matrices.map(s => <h1>{s.id}</h1>)
 
   const renderSkillMatrix = (matrices: Matrix[]) => {
@@ -104,6 +133,7 @@ const SkillMatrixContainer = () => {
       return (
         <>
          {createChart(data)}
+
         </> 
       );
     });
@@ -114,8 +144,48 @@ const SkillMatrixContainer = () => {
       <div className="container">
         <Card id="card-container">
           <Card.Header id="header">
-            <h4>Skill Matrix</h4>
+            <h4>
+              Skill Matrix
+              <QuestionCircle id="card-info" onClick={handleShowDetails} />
+              <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+              <PlusCircle id="add-equivalency" onClick={handleAddShow} style={{marginRight: "10px"}} />
+              <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Industry Equivalency</Tooltip>
+            </h4>
           </Card.Header>
+          <Modal show={showAdd} onHide={handleAddClose} backdrop="static">
+                    <Modal.Header>
+                        <Modal.Title>Add a Skill</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form>
+                            <div className="form-group">
+                                <label htmlFor="skillTitle"><h6>Skill Title</h6></label>
+                                <input
+                                    className="form-control"
+                                    name="skillTitle"
+                                    value={matrixName}
+                                    onChange={(ev) => { setMatrixName(ev.target.value); }}>
+                                </input>
+                            </div>
+                            <br />
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleAddClose}>Close</Button>
+                        <Button variant="primary" className="oButton" onClick={addMatrix}>Add</Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={showDetails} onHide={handleCloseDetails}>
+                    <Modal.Header>
+                        <Modal.Title>Details</Modal.Title>
+                        <XCircle id="work-experience-details" onClick={handleCloseDetails}/>
+                    </Modal.Header>
+                    <ModalBody>
+                        <p>
+                            Add your <b>top 5 key skills</b> and the equivalency in months for each skill.  
+                        </p>
+                    </ModalBody>
+                </Modal>
           <Card.Body id="industry">
             {matrices && renderSkillMatrix(matrices)}
           </Card.Body>
