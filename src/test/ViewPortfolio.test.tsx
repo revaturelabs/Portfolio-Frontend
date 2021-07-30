@@ -8,23 +8,12 @@ import {testPortfolioList, fullPortfolioTestObj, testAdminUser} from "./TestUser
 
 // Import Portfolio component viewers
 import AboutMeView from "../components/ViewPortfolio/AboutMeView";
-// import CertificationView from "../components/ViewPortfolio/CertificationView";
-// import EducationView from "../components/ViewPortfolio/EducationView";
-// import HonorAwardView from "../components/ViewPortfolio/HonorAwardView";
-// import IndustryEquivalencyView from '../components/ViewPortfolio/IndustryEquivalencyView';
-// import OtherWorkExperienceView from "../components/ViewPortfolio/OtherWorkExperienceView";
-// import ProjectView from "../components/ViewPortfolio/ProjectView";
-// import RevatureWorkExperienceView from "../components/ViewPortfolio/RevatureWorkExperienceView";
-// import ViewPortfolio from "../components/ViewPortfolio/ViewPortfolio";
 
 // amazing resource for understanding jest
 // https://dev.to/zaklaughton/the-only-3-steps-you-need-to-mock-an-api-call-in-jest-39mb
 
 const pIndex = 0; // select the index of the portfolio you want to view from testPortfolioList
 
-beforeAll(async () => {
-    
-})
 
 jest.mock('react-cookie', () => ({
     useCookies: jest.fn()
@@ -33,7 +22,7 @@ jest.mock('react-cookie', () => ({
 jest.mock('axios');
 
 beforeEach(() => {
-    const getCookie = jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
+    jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
         return [{
             id: 9999,
             admin: testAdminUser,
@@ -72,7 +61,6 @@ describe('Test AboutMe section on viewing portfolio', () => {
                 
         expect(await screen.findByText("About Me")).toBeVisible();
 
-        // expect(<h4>About Me</h4>).toBeVisible();
         expect(title).toHaveTextContent("About Me");
         expect(title).not.toHaveTextContent("About You");
 
