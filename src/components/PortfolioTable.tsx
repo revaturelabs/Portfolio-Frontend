@@ -5,15 +5,12 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
 import "../css/PortfolioTable.css";
+import { requestSort, defaultArrows } from "./PortfolioListTable";
+
 function PortfolioTable(props: any) {
   const [, setCookie] = useCookies();
   const [sortConfig, setSortConfig]: any = useState("approved");
-  const defaultArrows = {
-    name: "—",
-    submitted: "—",
-    approved: "—",
-    reviewed: "—",
-  };
+
   const [directionArrows, setDirections] = useState(defaultArrows);
 
   let { portfolios } = props;
@@ -33,38 +30,6 @@ function PortfolioTable(props: any) {
     return sortedPortfolios;
   }, [sortConfig]);
 
-  const requestSort = (key: any) => {
-    let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
-    }
-    if (key === "name" && direction === "descending") {
-      setDirections({ ...defaultArrows, name: "⯆" });
-    }
-    if (key === "name" && direction === "ascending") {
-      setDirections({ ...defaultArrows, name: "⯅" });
-    }
-    if (key === "submitted" && direction === "descending") {
-      setDirections({ ...defaultArrows, submitted: "⯆" });
-    }
-    if (key === "submitted" && direction === "ascending") {
-      setDirections({ ...defaultArrows, submitted: "⯅" });
-    }
-    if (key === "approved" && direction === "descending") {
-      setDirections({ ...defaultArrows, approved: "⯆" });
-    }
-    if (key === "approved" && direction === "ascending") {
-      setDirections({ ...defaultArrows, approved: "⯅" });
-    }
-    if (key === "reviewed" && direction === "descending") {
-      setDirections({ ...defaultArrows, reviewed: "⯆" });
-    }
-    if (key === "reviewed" && direction === "ascending") {
-      setDirections({ ...defaultArrows, reviewed: "⯅" });
-    }
-    setSortConfig({ key, direction });
-  };
-
   const renderviewdetail = (id: any): void => {
     let pathname = "./view";
     axios
@@ -82,16 +47,16 @@ function PortfolioTable(props: any) {
     <Table style={{ margin: "10px" }} striped table-bordered hover>
       <thead>
         <tr>
-          <th onClick={() => requestSort("name")}>
+          <th onClick={() => requestSort("name", sortConfig, setDirections, setSortConfig)}>
             Portfolio Name {directionArrows.name}
           </th>
-          <th onClick={() => requestSort("submitted")}>
+          <th onClick={() => requestSort("submitted", sortConfig, setDirections, setSortConfig)}>
             Submission Status {directionArrows.submitted}
           </th>
-          <th onClick={() => requestSort("approved")}>
+          <th onClick={() => requestSort("approved", sortConfig, setDirections, setSortConfig)}>
             Approved Status {directionArrows.approved}
           </th>
-          <th onClick={() => requestSort("reviewed")}>
+          <th onClick={() => requestSort("reviewed", sortConfig, setDirections, setSortConfig)}>
             Review Status {directionArrows.reviewed}
           </th>
           <th></th>

@@ -5,6 +5,14 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
 
+export const defaultArrows = {
+  id: "—",
+  name: "—",
+  submitted: "—",
+  approved: "—",
+  reviewed: "—",
+};
+
 function PortfolioListTable(props: any) {
   let { portfolios } = props;
   const [, setCookie, removeCookie] = useCookies();
@@ -12,13 +20,6 @@ function PortfolioListTable(props: any) {
   let sortedPortfolios = [...portfolios];
   console.log(portfolios);
 
-  const defaultArrows = {
-    id: "—",
-    name: "—",
-    submitted: "—",
-    approved: "—",
-    reviewed: "—",
-  };
   const [directionArrows, setDirections] = useState(defaultArrows);
 
   useMemo(() => {
@@ -35,44 +36,6 @@ function PortfolioListTable(props: any) {
     }
     return sortedPortfolios;
   }, [sortedPortfolios, sortConfig]);
-
-  const requestSort = (key: any) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
-    if (key === "id" && direction === "desc") {
-      setDirections({ ...defaultArrows, id: "⯆" });
-    }
-    if (key === "id" && direction === "asc") {
-      setDirections({ ...defaultArrows, id: "⯅" });
-    }
-    if (key === "name" && direction === "desc") {
-      setDirections({ ...defaultArrows, name: "⯆" });
-    }
-    if (key === "name" && direction === "asc") {
-      setDirections({ ...defaultArrows, name: "⯅" });
-    }
-    if (key === "submitted" && direction === "desc") {
-      setDirections({ ...defaultArrows, submitted: "⯆" });
-    }
-    if (key === "submitted" && direction === "asc") {
-      setDirections({ ...defaultArrows, submitted: "⯅" });
-    }
-    if (key === "approved" && direction === "desc") {
-      setDirections({ ...defaultArrows, approved: "⯆" });
-    }
-    if (key === "approved" && direction === "asc") {
-      setDirections({ ...defaultArrows, approved: "⯅" });
-    }
-    if (key === "reviewed" && direction === "desc") {
-      setDirections({ ...defaultArrows, reviewed: "⯆" });
-    }
-    if (key === "reviewed" && direction === "asc") {
-      setDirections({ ...defaultArrows, reviewed: "⯅" });
-    }
-    setSortConfig({ key, direction });
-  };
 
   const handlePortfolioEdit = (id: any, submitted: boolean) => {
     let pathname = submitted ? "./view" : "./portfolio";
@@ -103,17 +66,17 @@ function PortfolioListTable(props: any) {
     <Table style={{ margin: "10px" }} striped table-bordered hover>
       <thead>
         <tr>
-          <th onClick={() => requestSort("id")}># {directionArrows.id}</th>
-          <th onClick={() => requestSort("name")}>
+          <th onClick={() => requestSort("id", sortConfig, setDirections, setSortConfig)}># {directionArrows.id}</th>
+          <th onClick={() => requestSort("name", sortConfig, setDirections, setSortConfig)}>
             Portfolio Name {directionArrows.name}{" "}
           </th>
-          <th onClick={() => requestSort("submitted")}>
+          <th onClick={() => requestSort("submitted", sortConfig, setDirections, setSortConfig)}>
             Submitted {directionArrows.submitted}
           </th>
-          <th onClick={() => requestSort("reviewed")}>
+          <th onClick={() => requestSort("reviewed", sortConfig, setDirections, setSortConfig)}>
             Reviewed {directionArrows.reviewed}
           </th>
-          <th onClick={() => requestSort("approved")}>
+          <th onClick={() => requestSort("approved", sortConfig, setDirections, setSortConfig)}>
             Approved {directionArrows.approved}
           </th>
           <th></th>
@@ -122,7 +85,7 @@ function PortfolioListTable(props: any) {
       <tbody>
         {sortedPortfolios.map((portfolio: any) => {
           return (
-            <tr key={portfolio.id} id='table-rows'>
+            <tr key={portfolio.id} id="table-rows">
               <td>{portfolio.id}</td>
               <td>{portfolio.name}</td>
               <td>{portfolio.submitted ? "Submitted" : "Pending"}</td>
@@ -133,14 +96,14 @@ function PortfolioListTable(props: any) {
 
               <td>
                 <Button
-                  variant='danger'
+                  variant="danger"
                   style={{ marginRight: "10px" }}
                   onClick={() => handleDelete(portfolio.id)}
                 >
                   Delete
                 </Button>
                 <Button
-                  variant='primary'
+                  variant="primary"
                   onClick={() =>
                     handlePortfolioEdit(portfolio.id, portfolio.submitted)
                   }
@@ -156,4 +119,43 @@ function PortfolioListTable(props: any) {
   );
 }
 
+export function requestSort(key:string, sortConfig:any,setDirections:any, setSortConfig:any) {
+  let direction = "ascending";
+  if (sortConfig.key === key && sortConfig.direction === "ascending") {
+    direction = "descending";
+  }
+  if (key === "id" && direction === "descending") {
+    setDirections({ ...defaultArrows, id: "⯆" });
+  }
+  if (key === "id" && direction === "ascending") {
+    setDirections({ ...defaultArrows, id: "⯅" });
+  }
+  if (key === "name" && direction === "descending") {
+    setDirections({ ...defaultArrows, name: "⯆" });
+  }
+  if (key === "name" && direction === "ascending") {
+    setDirections({ ...defaultArrows, name: "⯅" });
+  }
+  if (key === "submitted" && direction === "descending") {
+    setDirections({ ...defaultArrows, submitted: "⯆" });
+  }
+  if (key === "submitted" && direction === "ascending") {
+    setDirections({ ...defaultArrows, submitted: "⯅" });
+  }
+  if (key === "approved" && direction === "descending") {
+    setDirections({ ...defaultArrows, approved: "⯆" });
+  }
+  if (key === "approved" && direction === "ascending") {
+    setDirections({ ...defaultArrows, approved: "⯅" });
+  }
+  if (key === "reviewed" && direction === "descending") {
+    setDirections({ ...defaultArrows, reviewed: "⯆" });
+  }
+  if (key === "reviewed" && direction === "ascending") {
+    setDirections({ ...defaultArrows, reviewed: "⯅" });
+  }
+  setSortConfig({ key, direction });
+};
+
 export default PortfolioListTable;
+
