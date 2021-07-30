@@ -4,16 +4,17 @@ import { Table } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
-
+import "../css/PortfolioTable.css";
 function PortfolioTable(props: any) {
   const [cookies, setCookie, removeCookie] = useCookies();
   const [sortConfig, setSortConfig]: any = useState("approved");
-  const [directionArrows, setDirections] = useState( {
-    name:"—",
-    submitted:"—",
-    approved:"—",
-    reviewed:"—"
-  });
+  const defaultArrows = {
+    name: "—",
+    submitted: "—",
+    approved: "—",
+    reviewed: "—",
+  };
+  const [directionArrows, setDirections] = useState(defaultArrows);
 
   let { portfolios } = props;
   let sortedPortfolios = [...portfolios];
@@ -37,53 +38,29 @@ function PortfolioTable(props: any) {
     if (sortConfig.key === key && sortConfig.direction === "ascending") {
       direction = "descending";
     }
-    if (key === "name" && direction==="descending") {
-      setDirections({  name:"⯆",
-      submitted:"—",
-      approved:"—",
-      reviewed:"—"})
+    if (key === "name" && direction === "descending") {
+      setDirections({ ...defaultArrows, name: "⯆" });
     }
-    if (key === "name" && direction==="ascending") {
-      setDirections({  name:"⯅",
-      submitted:"—",
-      approved:"—",
-      reviewed:"—"})
+    if (key === "name" && direction === "ascending") {
+      setDirections({ ...defaultArrows, name: "⯅" });
     }
-    if (key === "submitted" && direction==="descending") {
-      setDirections({  name:"—",
-      submitted:"⯆",
-      approved:"—",
-      reviewed:"—"})
+    if (key === "submitted" && direction === "descending") {
+      setDirections({ ...defaultArrows, submitted: "⯆" });
     }
-    if (key === "submitted" && direction==="ascending") {
-      setDirections({  name:"—",
-      submitted:"⯅",
-      approved:"—",
-      reviewed:"—"})
+    if (key === "submitted" && direction === "ascending") {
+      setDirections({ ...defaultArrows, submitted: "⯅" });
     }
-    if (key === "approved" && direction==="descending") {
-      setDirections({  name:"—",
-      submitted:"—",
-      approved:"⯆",
-      reviewed:"—"})
+    if (key === "approved" && direction === "descending") {
+      setDirections({ ...defaultArrows, approved: "⯆" });
     }
-    if (key === "approved" && direction==="ascending") {
-      setDirections({  name:"—",
-      submitted:"—",
-      approved:"⯅",
-      reviewed:"—"})
+    if (key === "approved" && direction === "ascending") {
+      setDirections({ ...defaultArrows, approved: "⯅" });
     }
-    if (key === "reviewed" && direction==="descending") {
-      setDirections({  name:"—",
-      submitted:"—",
-      approved:"—",
-      reviewed:"⯆"})
+    if (key === "reviewed" && direction === "descending") {
+      setDirections({ ...defaultArrows, reviewed: "⯆" });
     }
-    if (key === "reviewed" && direction==="ascending") {
-      setDirections({  name:"—",
-      submitted:"—",
-      approved:"—",
-      reviewed:"⯅"})
+    if (key === "reviewed" && direction === "ascending") {
+      setDirections({ ...defaultArrows, reviewed: "⯅" });
     }
     setSortConfig({ key, direction });
   };
@@ -101,36 +78,45 @@ function PortfolioTable(props: any) {
       });
   };
 
-
   return (
-    <Table style={{margin:"10px"}} striped table-bordered hover>
+    <Table style={{ margin: "10px" }} striped table-bordered hover>
       <thead>
         <tr>
-          <th onClick={() => requestSort("name")}>Portfolio Name {directionArrows.name}</th>
-          <th onClick={() => requestSort("submitted")}>Submission Status {directionArrows.submitted}</th>
-          <th onClick={() => requestSort("approved")}>Approved Status {directionArrows.approved}</th>
-          <th onClick={() => requestSort("reviewed")}>Review Status {directionArrows.reviewed}</th>
+          <th onClick={() => requestSort("name")}>
+            Portfolio Name {directionArrows.name}
+          </th>
+          <th onClick={() => requestSort("submitted")}>
+            Submission Status {directionArrows.submitted}
+          </th>
+          <th onClick={() => requestSort("approved")}>
+            Approved Status {directionArrows.approved}
+          </th>
+          <th onClick={() => requestSort("reviewed")}>
+            Review Status {directionArrows.reviewed}
+          </th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         {sortedPortfolios.map((portfolio: any) => {
           return (
-            <tr key={portfolio.id}  id ="table-rows">
+            <tr key={portfolio.id} id="table-rows">
               <td>{portfolio.name}</td>
               <td>{portfolio.submitted ? "Submitted" : "Pending"}</td>
               <td>{portfolio.approved ? "Approved" : "Rejected"}</td>
-              <td>
-                {portfolio.reviewed ? "Reviewed" : "Not Reviewed"}
-              </td>
+              <td>{portfolio.reviewed ? "Reviewed" : "Not Reviewed"}</td>
               <td>
                 {" "}
                 <button
-                  className='btn btn-primary'
-                  id = {portfolio.submitted && !portfolio.approved ? "admin-button" : "admin-button2"}
+                  className="btn btn-primary"
+                  id={
+                    portfolio.submitted && !portfolio.approved
+                      ? "admin-button"
+                      : "admin-button2"
+                  }
                   onClick={() => renderviewdetail(portfolio.id)}
                 >
-                  {portfolio.submitted  ? "Flag Portfolio" : "View Portfolio"}
+                  {portfolio.submitted ? "Flag Portfolio" : "View Portfolio"}
                 </button>{" "}
               </td>
             </tr>
