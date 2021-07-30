@@ -25,10 +25,10 @@ function PortfolioListTable(props: any) {
     if (sortConfig !== null) {
       sortedPortfolios.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === "ascending" ? -1 : 1;
+          return sortConfig.direction === "asc" ? -1 : 1;
         }
         if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === "ascending" ? 1 : -1;
+          return sortConfig.direction === "asc" ? 1 : -1;
         }
         return 0;
       });
@@ -37,38 +37,38 @@ function PortfolioListTable(props: any) {
   }, [sortedPortfolios, sortConfig]);
 
   const requestSort = (key: any) => {
-    let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
     }
-    if (key === "id" && direction === "descending") {
+    if (key === "id" && direction === "desc") {
       setDirections({ ...defaultArrows, id: "⯆" });
     }
-    if (key === "id" && direction === "ascending") {
+    if (key === "id" && direction === "asc") {
       setDirections({ ...defaultArrows, id: "⯅" });
     }
-    if (key === "name" && direction === "descending") {
+    if (key === "name" && direction === "desc") {
       setDirections({ ...defaultArrows, name: "⯆" });
     }
-    if (key === "name" && direction === "ascending") {
+    if (key === "name" && direction === "asc") {
       setDirections({ ...defaultArrows, name: "⯅" });
     }
-    if (key === "submitted" && direction === "descending") {
+    if (key === "submitted" && direction === "desc") {
       setDirections({ ...defaultArrows, submitted: "⯆" });
     }
-    if (key === "submitted" && direction === "ascending") {
+    if (key === "submitted" && direction === "asc") {
       setDirections({ ...defaultArrows, submitted: "⯅" });
     }
-    if (key === "approved" && direction === "descending") {
+    if (key === "approved" && direction === "desc") {
       setDirections({ ...defaultArrows, approved: "⯆" });
     }
-    if (key === "approved" && direction === "ascending") {
+    if (key === "approved" && direction === "asc") {
       setDirections({ ...defaultArrows, approved: "⯅" });
     }
-    if (key === "reviewed" && direction === "descending") {
+    if (key === "reviewed" && direction === "desc") {
       setDirections({ ...defaultArrows, reviewed: "⯆" });
     }
-    if (key === "reviewed" && direction === "ascending") {
+    if (key === "reviewed" && direction === "asc") {
       setDirections({ ...defaultArrows, reviewed: "⯅" });
     }
     setSortConfig({ key, direction });

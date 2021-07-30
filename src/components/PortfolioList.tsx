@@ -13,7 +13,7 @@ const PortfolioList = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [cookies, setCookie, removeCookie] = useCookies();
+  const [cookies, , removeCookie] = useCookies();
   const [table, setTable] = useState<any[]>([]);
 
   const handleTable = () => {
