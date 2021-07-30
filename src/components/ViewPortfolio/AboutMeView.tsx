@@ -5,7 +5,7 @@ import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 import {url} from "../../api/api";
 
-export interface AboutMe {
+interface AboutMe {
     id: number;
     bio: string;
     email: string;
@@ -18,13 +18,10 @@ const AboutMeView = () => {
 
     useEffect(() => {
         axios.get<AboutMe>(url + `/aboutMe/portfolio/${cookie['portfolio'].id}`).then(response => {
-            setAboutMe(response.data);
+            setAboutMe(response.data as AboutMe);
         })
-    }, [null]);
 
-    console.log(`ABOUT ME: ${JSON.stringify(aboutMe)}`);
-    console.log(`COOKIE: ${JSON.stringify(cookie)}`);
-    console.log(typeof aboutMe);
+    }, [null]);
 
     const renderAboutMe = (aboutMe: AboutMe) => {
         return (
