@@ -3,12 +3,12 @@ import Portfolio from "./Portfolio";
 export default interface Matrix {
     id: number;
     portfolio: Portfolio;
-    header: String;
+    header: string;
     skills: Array<Skill>;
 }
 
 export interface Skill {
     id: number;
-    name: String;
+    name: string;
     value: number;
 }

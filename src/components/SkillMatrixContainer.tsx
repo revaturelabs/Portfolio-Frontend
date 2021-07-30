@@ -23,9 +23,17 @@ const SkillMatrixContainer = () => {
   /* ---------------------------------------------------------------- */
   const [showAdd, setShowAdd] = useState<boolean>(false);
   const [showEdit, setShowEdit] = useState<boolean>(false);
+  const [showDetailMatrix, setShowDetailsMatrix] = useState(false);
+  const handleCloseDetails = () => setShowDetailsMatrix(false);
+  const [detailsModalMatrix, setDetailModalMatrix] = useState({ header: ""});
+  
+  const handleShowDetailsMatrix = (matrix: Matrix) =>{ 
+    setShowDetailsMatrix(true);
+    setDetailModalMatrix(matrix);
+  };
+
   const [showDetails, setShowDetails] = useState(false);
-  const handleCloseDetails = () => setShowDetails(false);
-  const handleShowDetails = () => setShowDetails(true);
+  const handleShowDetails = () =>{ setShowDetails(true) };
   /* ---------------------------------------------------------------- */
   // SKILL MATRIX STATES
   /* ---------------------------------------------------------------- */
@@ -126,15 +134,46 @@ const SkillMatrixContainer = () => {
   });
   /* ---------------------------------------------------------------- */
 
-  const htmlText = matrices.map(s => <h1>{s.id}</h1>)
+  
+    /* ---------------------------------------------------------------- */
+    // ADD Update Matrix
+    /* ---------------------------------------------------------------- */
+    /*const updateMatrix = (async (matrix: Matrix) => {
+      axios.post(`${matrixUrl}/${matrix.}`)
+          .then(resp => {
+              // If POST is successful, add new Skill (with correct data) to the Skill Array
+              let tempMatrixSet: Array<Matrix> = [...matrices];
+              tempMatrixSet.push(resp.data);
+              setMatrices(tempMatrixSet);
+          })
+          .catch(error => {
+              console.error(error);
+          });
+      setShowAdd(false);
+      setMatrixName('');
+  });*/
+  /* ---------------------------------------------------------------- */
 
   const renderSkillMatrix = (matrices: Matrix[]) => {
     return matrices.map(data => {
       return (
-        <>
+        <div key={data.id} className="container">
          {createChart(data)}
-
-        </> 
+         <Card>
+          <Card.Header>
+            <h4>
+              {data.header}
+              <QuestionCircle id={data.header} onClick={() => handleShowDetailsMatrix(data)} />
+            </h4>
+          </Card.Header>
+          
+           <Card.Body>
+             <ul>
+                {data.skills.map(s => <li>{s}</li> )} 
+             </ul>
+          </Card.Body>
+         </Card>             
+        </div> 
       );
     });
   }
@@ -186,6 +225,16 @@ const SkillMatrixContainer = () => {
                         </p>
                     </ModalBody>
                 </Modal>
+                <Modal show={showDetailMatrix} onHide={handleCloseDetails}>
+              <Modal.Header>
+                  <Modal.Title>Details</Modal.Title>
+              </Modal.Header>
+              <ModalBody>
+                  <p>
+                    Edit <b>{detailsModalMatrix.header}</b>
+                  </p>
+              </ModalBody>
+            </Modal>
           <Card.Body id="industry">
             {matrices && renderSkillMatrix(matrices)}
           </Card.Body>
