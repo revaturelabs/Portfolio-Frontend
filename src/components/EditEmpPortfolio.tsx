@@ -19,6 +19,7 @@ import IndustryEquivalency from "./IndustryEquivalency";
 import OtherWorkExperience from "./OtherWorkExperience";
 import Project from "./Project";
 import RevatureWorkExp from "./RevatureWorkExperience";
+import ScrollButton from './ScrollButton';
 import { useEffect, useState } from 'react';
 
 
@@ -349,6 +350,7 @@ const EditEmpPortfolio = () => {
             <EducationContainer /> <br />
             <CertificationContainer /> <br />
             <HonorAwards /> <br />
+            <ScrollButton />
         </div>
 
 
