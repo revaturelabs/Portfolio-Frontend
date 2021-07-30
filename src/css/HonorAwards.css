@@ -73,6 +73,16 @@ form {
   font-weight: 600;
 }
 
+#admin-button:active , #admin-button:focus {
+  outline:none !important;
+  box-shadow: none !important;
+}
+
+#admin-button2:active , #admin-button2:focus {
+  outline:none !important;
+  box-shadow: none !important;
+}
+
 #table-rows {
   vertical-align: middle;
 }
