@@ -12,7 +12,7 @@ h6::after {
 }
 
 #header-honoraward {
-  background: rgb(72,76,86)
+  background: rgb(72, 76, 86);
   /* background: rgb(242,105,38); */
 }
 
@@ -67,19 +67,21 @@ form {
 }
 
 #admin-button2 {
-  background: rgb(72,76,86);
-  border-color: rgb(72,76,86);
+  background: rgb(72, 76, 86);
+  border-color: rgb(72, 76, 86);
   color: white;
   font-weight: 600;
 }
 
-#admin-button:active , #admin-button:focus {
-  outline:none !important;
+#admin-button:active,
+#admin-button:focus {
+  outline: none !important;
   box-shadow: none !important;
 }
 
-#admin-button2:active , #admin-button2:focus {
-  outline:none !important;
+#admin-button2:active,
+#admin-button2:focus {
+  outline: none !important;
   box-shadow: none !important;
 }
 
