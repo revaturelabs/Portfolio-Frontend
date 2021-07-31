@@ -59,6 +59,13 @@ const SkillMatrixContainer = () => {
     setUdpateShowDetailsMatrix(false);
     getMatrices();
   };
+
+  const [deleteMatrixDetail, setDeleteMatrixDetail] = useState(newMatrix);
+  const deleteMatrixFunc = (matrix: Matrix) => {
+    setDeleteMatrixDetail(matrix)
+    getMatrices();
+  };
+
   /* ---------------------------------------------------------------- */
   // SKILL MATRIX STATES
   /* ---------------------------------------------------------------- */
@@ -143,9 +150,7 @@ const SkillMatrixContainer = () => {
       axios.post(matrixUrl, newMatrix)
           .then(resp => {
               // If POST is successful, add new Skill (with correct data) to the Skill Array
-              let tempMatrixSet: Array<Matrix> = [...matrices];
-              tempMatrixSet.push(resp.data);
-              setMatrices(tempMatrixSet);
+              console.log("Add")
           })
           .catch(error => {
               console.error(error);
@@ -173,6 +178,24 @@ const SkillMatrixContainer = () => {
   });
   /* ---------------------------------------------------------------- */
 
+   /* ---------------------------------------------------------------- */
+    // ADD Update Matrix
+    /* ---------------------------------------------------------------- */
+    const deleteMatrix = (async (id: number) => {
+      axios.delete(`${matrixUrl}/${id}`)
+          .then(resp => {
+              // If POST is successful, add new Skill (with correct data) to the Skill Array
+              console.log("Delete")
+              console.log(id)
+          })
+          .catch(error => {
+              console.error(error);
+          });
+      setShowEdit(false);
+      setMatrixName('');
+  });
+  /* ---------------------------------------------------------------- */
+
   const renderSkillMatrix = (matrices: Matrix[]) => {
     return matrices.map(data => {
       return (
@@ -184,6 +207,7 @@ const SkillMatrixContainer = () => {
               {data.header}
               <QuestionCircle id={data.header} onClick={() => handleShowDetailsMatrix(data)} />
               <Pencil onClick={()=>handleUpdateShowDetailsMatrix(data) } />
+              <XCircle onClick={() => { deleteMatrix(data.id); window.location.reload(true)}} />
             </h4>
           </Card.Header>
           
@@ -231,7 +255,7 @@ const SkillMatrixContainer = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
-                        <Button variant="primary" className="oButton" onClick={addMatrix}>Add</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {addMatrix(); getMatrices()}}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showDetails} onHide={handleCloseDetails}>
