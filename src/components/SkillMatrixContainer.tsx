@@ -27,8 +27,8 @@ const SkillMatrixContainer = () => {
   const handleCloseDetailsMatrix = () => setShowDetailsMatrix(false);
   const handleCloseDetails = () => setShowDetails(false);
   const [detailsModalMatrix, setDetailModalMatrix] = useState({ header: ""});
-  
-  const handleShowDetailsMatrix = (matrix: Matrix) =>{ 
+
+  const handleShowDetailsMatrix = (matrix: Matrix) =>{
     setShowDetailsMatrix(true);
     setDetailModalMatrix(matrix);
   };
@@ -50,7 +50,7 @@ const SkillMatrixContainer = () => {
 
   const [detailsUpdateModalMatrix, setUpdateDetailModalMatrix] = useState(newMatrix);
   const [showUpdateDetailMatrix, setUdpateShowDetailsMatrix] = useState(false);
-  const handleUpdateShowDetailsMatrix = (matrix: Matrix) =>{ 
+  const handleUpdateShowDetailsMatrix = (matrix: Matrix) =>{
     setUdpateShowDetailsMatrix(true);
     setUpdateDetailModalMatrix(matrix);
   };
@@ -71,7 +71,7 @@ const SkillMatrixContainer = () => {
   /* ---------------------------------------------------------------- */
   const [matrices, setMatrices] = useState<Array<Matrix>>([]);
   const [maxSkills, setMaxSkills] = useState<number>(0);
-  
+
   /* ---------------------------------------------------------------- */
   // ADD SKILL STATES
   /* ---------------------------------------------------------------- */
@@ -136,7 +136,7 @@ const SkillMatrixContainer = () => {
     getMatrices();
   }, []);
 
-  
+
     /* ---------------------------------------------------------------- */
     // ADD EQUIVALENCY Matrix
     /* ---------------------------------------------------------------- */
@@ -160,7 +160,7 @@ const SkillMatrixContainer = () => {
   });
   /* ---------------------------------------------------------------- */
 
-  
+
     /* ---------------------------------------------------------------- */
     // ADD Update Matrix
     /* ---------------------------------------------------------------- */
@@ -210,14 +210,14 @@ const SkillMatrixContainer = () => {
               <XCircle onClick={() => { deleteMatrix(data.id); window.location.reload(true)}} />
             </h4>
           </Card.Header>
-          
+
            <Card.Body>
              <ul>
-                {data.skills.map(s => <li>{s}</li> )} 
+                {data.skills.map(s => <li>{s}</li> )}
              </ul>
           </Card.Body>
-         </Card>             
-        </div> 
+         </Card>
+        </div>
       );
     });
   }
@@ -255,7 +255,7 @@ const SkillMatrixContainer = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
-                        <Button variant="primary" className="oButton" onClick={() => {addMatrix(); getMatrices()}}>Add</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {addMatrix(); getMatrices(); handleAddClose()}}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showDetails} onHide={handleCloseDetails}>
@@ -265,7 +265,7 @@ const SkillMatrixContainer = () => {
                     </Modal.Header>
                     <ModalBody>
                         <p>
-                            Add your <b>top 5 key skills</b> and the equivalency in months for each skill.  
+                            Add your <b>top 5 key skills</b> and the equivalency in months for each skill.
                         </p>
                     </ModalBody>
                 </Modal>
@@ -287,7 +287,7 @@ const SkillMatrixContainer = () => {
                     <Modal.Body>
                         <form>
                             <div className="form-group">
-                                <label htmlFor="skillTitle1"><h6>SKill Category Name</h6></label>
+                                <label htmlFor="skillTitle1"><h6>Skill Category Name</h6></label>
                                 <input
                                     className="form-control"
                                     name="skillTitle1"
@@ -299,7 +299,7 @@ const SkillMatrixContainer = () => {
                                         portfolio: portfolio,
                                         skills: detailsUpdateModalMatrix.skills
                                       }
-                                      setUpdateDetailModalMatrix(updateNewMatrix) 
+                                      setUpdateDetailModalMatrix(updateNewMatrix)
                                       }}>
                                 </input>
                             </div>
@@ -309,7 +309,8 @@ const SkillMatrixContainer = () => {
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleUpdateShowDetailsMatrixClose}>Close</Button>
                         <Button variant="primary" className="oButton" onClick={() => {
-                          updateMatrix(detailsUpdateModalMatrix);  
+                          updateMatrix(detailsUpdateModalMatrix);
+                          getMatrices();
                           handleUpdateShowDetailsMatrixClose();
                           }}>Update</Button>
                     </Modal.Footer>
