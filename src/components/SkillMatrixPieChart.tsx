@@ -20,7 +20,7 @@ export default function createChart(props: Matrix) {
             startAngle: 75,
             toolTipContent: "<b>{label}</b>: {y} months",
             showInLegend: "true",
-            legendText: "{label}",
+            legendText: "{label} ({y} months)",
             indexLabelPlacement: "inside",
             indexLabel: " ",
             dataPoints: elementData,

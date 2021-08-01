@@ -66,6 +66,31 @@ const SkillMatrixContainer = () => {
     getMatrices();
   };
 
+  
+
+  const [updateSkillName1, setUpdateSkillName1] = useState<string>("");
+  const [updateSkillValue1, setUpdateSkillValue1] = useState<number>(0);
+
+
+  const [updateSkillName2, setUpdateSkillName2] = useState<string>("");
+  const [updateSkillValue2, setUpdateSkillValue2] = useState<number>(0);
+
+
+  const [updateSkillName3, setUpdateSkillName3] = useState<string>("");
+  const [updateSkillValue3, setUpdateSkillValue3] = useState<number>(0);
+
+
+  const [updateSkillName4, setUpdateSkillName4] = useState<string>("");
+  const [updateSkillValue4, setUpdateSkillValue4] = useState<number>(0);
+
+
+  const [updateSkillName5, setUpdateSkillName5] = useState<string>("");
+  const [updateSkillValue5, setUpdateSkillValue5] = useState<number>(0);
+
+
+  const [updateSkillName6, setUpdateSkillName6] = useState<string>("");
+  const [updateSkillValue6, setUpdateSkillValue6] = useState<number>(0); 
+
   /* ---------------------------------------------------------------- */
   // SKILL MATRIX STATES
   /* ---------------------------------------------------------------- */
@@ -213,7 +238,7 @@ const SkillMatrixContainer = () => {
 
            <Card.Body>
              <ul>
-                {data.skills.map(s => <li>{s}</li> )}
+                {data.skills.map(s => <li>{s.name}</li> )}
              </ul>
           </Card.Body>
          </Card>
@@ -255,7 +280,7 @@ const SkillMatrixContainer = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
-                        <Button variant="primary" className="oButton" onClick={() => {addMatrix(); getMatrices(); handleAddClose()}}>Add</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {addMatrix(); window.location.reload(true);}}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showDetails} onHide={handleCloseDetails}>
@@ -302,6 +327,127 @@ const SkillMatrixContainer = () => {
                                       setUpdateDetailModalMatrix(updateNewMatrix)
                                       }}>
                                 </input>
+                                <label htmlFor="skillTitle11"><h6>Skill Name 1</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillTitle11"
+                                        value={updateSkillName1}
+                                        onChange={(ev) => {
+                                          setUpdateSkillName1(ev.target.value)
+                                          }}>
+                                    </input>
+                            <label htmlFor="skillValue11"><h6>Skill Value 1</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillValue11"
+                                        value={updateSkillValue1}
+                                        onChange={(ev) => {
+                                          !isNaN(parseInt(ev.target.value)) ?
+                                          setUpdateSkillValue1(parseInt(ev.target.value)) : setUpdateSkillValue1(0);
+                                          }}>
+                                    </input>        
+                              
+                            <label htmlFor="skillTitle12"><h6>Skill Name 2</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillTitle12"
+                                        value={updateSkillName2}
+                                        onChange={(ev) => {
+                                          setUpdateSkillName2(ev.target.value)
+                                          }}>
+                                    </input>
+                            <label htmlFor="skillValue12"><h6>Skill Value 2</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillValue12"
+                                        value={updateSkillValue2}
+                                        onChange={(ev) => {
+                                          !isNaN(parseInt(ev.target.value)) ?
+                                          setUpdateSkillValue2(parseInt(ev.target.value)) : setUpdateSkillValue2(0);
+                                          }}>
+                                    </input>        
+                              
+                            <label htmlFor="skillTitle13"><h6>Skill Name 3</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillTitle13"
+                                        value={updateSkillName3}
+                                        onChange={(ev) => {
+                                          setUpdateSkillName3(ev.target.value)
+                                          }}>
+                                    </input>
+                            <label htmlFor="skillValue13"><h6>Skill Value 3</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillValue13"
+                                        value={updateSkillValue3}
+                                        onChange={(ev) => {
+                                          !isNaN(parseInt(ev.target.value)) ?
+                                          setUpdateSkillValue3(parseInt(ev.target.value)) : setUpdateSkillValue3(0);
+                                          }}>
+                                    </input>        
+                              
+                            <label htmlFor="skillTitle14"><h6>Skill Name 4</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillTitle14"
+                                        value={updateSkillName4}
+                                        onChange={(ev) => {
+                                          setUpdateSkillName4(ev.target.value)
+                                          }}>
+                                    </input>
+                            <label htmlFor="skillValue14"><h6>Skill Value 4</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillValue14"
+                                        value={updateSkillValue4}
+                                        onChange={(ev) => {
+                                          !isNaN(parseInt(ev.target.value)) ?
+                                          setUpdateSkillValue4(parseInt(ev.target.value)) : setUpdateSkillValue4(0);
+                                          }}>
+                                    </input>        
+                              
+                            <label htmlFor="skillTitle15"><h6>Skill Name 5</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillTitle15"
+                                        value={updateSkillName5}
+                                        onChange={(ev) => {
+                                          setUpdateSkillName5(ev.target.value)
+                                          }}>
+                                    </input>
+                            <label htmlFor="skillValue15"><h6>Skill Value 5</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillValue15"
+                                        value={updateSkillValue5}
+                                        onChange={(ev) => {
+                                          !isNaN(parseInt(ev.target.value)) ?
+                                          setUpdateSkillValue5(parseInt(ev.target.value)) : setUpdateSkillValue5(0);
+                                          }}>
+                                    </input>        
+                              
+                            <label htmlFor="skillTitle16"><h6>Skill Name 6</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillTitle16"
+                                        value={updateSkillName6}
+                                        onChange={(ev) => {
+                                          setUpdateSkillName6(ev.target.value)
+                                          }}>
+                                    </input>
+                            <label htmlFor="skillValue16"><h6>Skill Value 6</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillValue16"
+                                        value={updateSkillValue6}
+                                        onChange={(ev) => {
+                                          !isNaN(parseInt(ev.target.value)) ?
+                                          setUpdateSkillValue6(parseInt(ev.target.value)) : setUpdateSkillValue6(0);
+                                          }}>
+                                    </input>        
+            
+
                             </div>
                             <br />
                         </form>
@@ -309,9 +455,34 @@ const SkillMatrixContainer = () => {
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleUpdateShowDetailsMatrixClose}>Close</Button>
                         <Button variant="primary" className="oButton" onClick={() => {
-                          updateMatrix(detailsUpdateModalMatrix);
-                          getMatrices();
-                          handleUpdateShowDetailsMatrixClose();
+                          const skill1:Skill =
+                           { name: updateSkillName1 , value: updateSkillValue1 }
+                           const skill2:Skill =
+                          { name: updateSkillName2 , value: updateSkillValue2 }
+                           const skill3:Skill =
+                          { name: updateSkillName3 , value: updateSkillValue3 }
+                           const skill4:Skill =
+                          { name: updateSkillName4 , value: updateSkillValue4 }
+                           const skill5:Skill =
+                          { name: updateSkillName5 , value: updateSkillValue5 }
+                           const skill6:Skill =
+                          { name: updateSkillName6 , value: updateSkillValue6 }
+                          
+                          const skill:Array<Skill> = []
+                          const intermidiateSkillList:Array<Skill> = [ skill1, skill2, skill3, skill4, skill5, skill6 ]
+                          for(let i=0; i<intermidiateSkillList.length; i++){
+                            if(intermidiateSkillList[i].name != ""){
+                              skill.push(intermidiateSkillList[i]);
+                            }
+                          }
+                          const newUpdateMatrix:Matrix = {
+                              id: detailsUpdateModalMatrix.id,
+                              header: detailsUpdateModalMatrix.header,
+                              portfolio: detailsUpdateModalMatrix.portfolio,
+                              skills: skill
+                          }
+                          updateMatrix(newUpdateMatrix);
+                          window.location.reload(true);
                           }}>Update</Button>
                     </Modal.Footer>
                 </Modal>
