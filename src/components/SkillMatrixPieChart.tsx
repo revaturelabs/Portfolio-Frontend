@@ -5,7 +5,7 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default function SkillMatrixPieChart(props: Matrix) {
 
-    const elementData: { y: number; label: String; }[] = [];
+    const elementData: { y: number; label: string; }[] = [];
     props.skills.forEach(skill => elementData.push({ y: skill.value, label: skill.name }));
 
     const options = {
