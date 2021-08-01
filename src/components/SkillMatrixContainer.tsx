@@ -284,13 +284,13 @@ const SkillMatrixContainer = () => {
         <div key={data.id} className="container">
          {createChart(data)}
          <Card>
-          <Card.Header>
+          <Card.Header id="header">
             <h4>
               {data.header}
               <QuestionCircle id={data.header} onClick={() => handleShowDetailsMatrix(data)} />
               <Pencil onClick={()=>handleUpdateShowDetailsMatrix(data) } />
               <PlusCircle onClick={()=> { handleShowSkillModalAdd(); setUpdateDetailModalMatrix(data);}} ></PlusCircle>
-              <XCircle onClick={() => { deleteMatrix(data.id); }} />
+              <XCircle style={{marginTop: "5px", float: "right",  cursor: "pointer"}} onClick={() => { deleteMatrix(data.id); }} />
             </h4>
           </Card.Header>
 
@@ -320,8 +320,8 @@ const SkillMatrixContainer = () => {
               Skill Matrix
               <QuestionCircle id="card-info" onClick={handleShowDetails} />
               <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
-              <PlusCircle id="add-equivalency" onClick={handleAddShow} style={{marginRight: "10px"}} />
-              <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Industry Equivalency</Tooltip>
+              <PlusCircle id="add-matrix" onClick={handleAddShow} style={{marginTop: "5px", float: "right",  cursor: "pointer"}} />
+              <Tooltip target="add-matrix" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Skill Category</Tooltip>
             </h4>
           </Card.Header>
           <Modal show={showAdd} onHide={handleAddClose} backdrop="static">
@@ -354,7 +354,7 @@ const SkillMatrixContainer = () => {
                     </Modal.Header>
                     <ModalBody>
                         <p>
-                            Add your <b>top 5 key skills</b> and the equivalency in months for each skill.
+                            Add your <b>6 major skill categories</b> and 6 skills within each category.
                         </p>
                     </ModalBody>
                 </Modal>
