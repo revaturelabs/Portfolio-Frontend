@@ -3,7 +3,7 @@ import CanvasJSReact from "../canvasjs.react.js";
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-export default function createChart(props: Matrix) {
+export default function SkillMatrixPieChart(props: Matrix) {
 
     const elementData: { y: number; label: String; }[] = [];
     props.skills.forEach(skill => elementData.push({ y: skill.value, label: skill.name }));
