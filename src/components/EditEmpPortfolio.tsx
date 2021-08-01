@@ -1,5 +1,4 @@
 import axios from "axios";
-import React from "react";
 import {
     Button,
     Col,
@@ -10,9 +9,9 @@ import {
 } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import { portfolioUrl } from "../api/api";
+import { portfolioUrl, url } from "../api/api";
 import "../css/EditEmpPortfolio.css";
-import AboutMe from "./AboutMe";
+import AboutMe from "./RevatureAboutMe";
 import CertificationContainer from "./CertificationContainer";
 import EducationContainer from "./EducationContainer";
 import HonorAwards from "./HonorAward";
@@ -20,6 +19,9 @@ import IndustryEquivalency from "./IndustryEquivalency";
 import OtherWorkExperience from "./OtherWorkExperience";
 import Project from "./Project";
 import RevatureWorkExp from "./RevatureWorkExperience";
+import ScrollButton from './ScrollButton';
+import { useEffect, useState } from 'react';
+
 
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,25 +38,83 @@ const EditEmpPortfolio = () => {
   if (cookies.portfolio.flags) {
     savedFlags = cookies.portfolio.flags;
   }
+
+
+  //component info for phase-based submit validation
+  const [educations, setEducations] = useState([]);
+  const [aboutMe, setAboutMe] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [indEquiv, setIndEquiv] = useState([]);
+
+  console.log(cookies['portfolio']);
+  
+  useEffect( () => {
+
+      //grab education info
+      axios.get(url + "/education/portfolio/all/" + cookies['portfolio'].id)
+          .then(response => setEducations(response.data));
+
+      //grab about me info
+      axios.get(url + "/aboutMe/portfolio/" + cookies['portfolio'].id)
+          .then(response => setAboutMe(response.data));
+
+      //grab project info
+      axios.get(url + "/projects/portfolio/all/" + cookies['portfolio'].id)
+      .then(response => setProjects(response.data));
+
+      //grab industry equivalance info
+      axios.get(url + "/equiv/portfolios/all/" + cookies['portfolio'].id)
+      .then(response => setIndEquiv(response.data));
+
+  }, []);
   
 
   const handleBack = () => {
     removeCookie("portfolio", { maxAge: 0 });
   };
 
-  const handleSubmit = () => {
+  const submitPortfolio = () => {
     let obj = {
-      ...cookies["portfolio"],
-      submitted: true,
-    };
-    setCookie("portfolio", obj, { path: "/" });
-    axios
-      .post(`${portfolioUrl}/${cookies["portfolio"].id}`, { ...obj })
-      .catch((error) => {
+      ...cookies['portfolio'],
+      submitted: true
+    }
+    console.log(obj);
+
+    setCookie('portfolio', obj, { path: '/' });
+    axios.post(`${portfolioUrl}/${cookies["portfolio"].id}`, { ...obj }).catch(error => {
         console.log(error);
-      });
+    });
+
+    window.location.replace("http://localhost:3000/list");
     handleBack();
-  };
+  }
+
+
+    const handleSubmit = () => {
+        const portfolioObj = {...cookies['portfolio']}
+        console.log("Portfolio: " + portfolioObj);
+
+        //Phase 1 Validation
+        if(!portfolioObj.reviewed){
+            if(aboutMe && educations.length && projects.length){
+                 submitPortfolio();
+            }
+            else{
+                console.log("Insufficient work done for phase 1");
+                //try to add toast w toastMessages....
+            }
+        }
+        //Phase 2 Validation
+        else{
+            if(indEquiv.length == 5 && projects.length == 3){
+              submitPortfolio();
+            }
+            else{
+                console.log("Insufficient work done for phase 2");
+                
+            }
+        } 
+    };
 
   const popoverIndustryEquivalency = (
     <Popover id="popover-basic">
@@ -126,14 +186,14 @@ const EditEmpPortfolio = () => {
         <h1>{cookies["portfolio"].name}</h1>
       </div>
       <div className="container mb-5 mt-5" id="editPortfolioButtons">
-        <Link to="/list">
+        {/* <Link to="/list"> */}
           <button
             className="btn btn-primary m-1"
             onClick={() => handleSubmit()}
           >
             Submit for Review
           </button>
-        </Link>
+        {/* </Link> */}
         <Link to="/view">
           <button className="btn btn-primary m-1">View Portfolio</button>
         </Link>
@@ -269,9 +329,9 @@ const EditEmpPortfolio = () => {
                 <h1>{cookies['portfolio'].name}</h1>
             </div>
             <div className="container mb-5 mt-5" id="editPortfolioButtons">
-                <Link to="/list">
+                {/* <Link to="/list"> */}
                     <button className="btn btn-primary m-1" onClick={() => handleSubmit()}>Submit for Review</button>
-                </Link>
+                {/* </Link> */}
                 <Link to="/view">
                     <button className="btn btn-primary m-1">View Portfolio</button>
                 </Link>
@@ -290,6 +350,7 @@ const EditEmpPortfolio = () => {
             <EducationContainer /> <br />
             <CertificationContainer /> <br />
             <HonorAwards /> <br />
+            <ScrollButton />
         </div>
 
 
