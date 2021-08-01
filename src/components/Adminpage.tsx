@@ -1,127 +1,58 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import {Container , Table , Row , Col} from 'react-bootstrap'
-import '../css/HonorAwards.css'
-import { render } from 'react-dom'
-import {Link} from 'react-router-dom'
-import { CSSProperties } from 'react'
-import { useCookies } from 'react-cookie'
-import {portfolioUrl} from "../api/api";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState } from "react";
+import { Button, Container, Row } from "react-bootstrap";
+import { useCookies } from "react-cookie";
+import { portfolioUrl } from "../api/api";
+import "../css/HonorAwards.css";
+import PortfolioTable from "./PortfolioTable";
+import ScrollButton from "./ScrollButton";
 
 const Adminpage = () => {
-    // state variable for all portfolios
-    const[portfolios,setPortfolios] = useState([])
-    const [cookies, setCookie, removeCookie] = useCookies()
+  // state variable for all portfolios
+  const [portfolios, setPortfolios] = useState<any[]>([]);
+  const [cookies, , removeCookie] = useCookies();
 
-
-    let ButtonStyles: CSSProperties = {
-        background: "rgb(115, 165, 194)",
-        borderColor: "rgb(242, 105, 3)",
-        color: "black"
+  const handleLogOut = () => {
+    removeCookie("user", { maxAge: 0 });
+    removeCookie("admin");
+    if (cookies["portfolio"]) {
+      removeCookie("portfolio", { maxAge: 0 });
     }
+    window.location.pathname = "./";
+  };
 
-    // function to display all portfolios that store in state variable "portfolios"
-    const renderportfolio = (p:any,index:number)=> {
-        //create a query string for url
-        const portid = "/Portfoliodetails?id=" + p.id
-        //return jsx 
-        return (
-            <tr>
-                <td>{p.name}</td>
-                <td>{p.submitted ? 'Submitted' : 'Pending'}</td>
-                <td>{p.approved ? 'Approved': 'Rejected'}</td>
-                <td>{p.reviewed ? 'Review Completed' : 'Yet to be reviewed'}</td>
-                <td>{p.feedback}</td>
-                <td><button className = "btn" style={ButtonStyles}><Link to = {portid}>Edit </Link></button></td>
-                <td> <button className = "btn" style={ButtonStyles} onClick={()=>renderviewdetail(p.id)}>View Portfolio Details</button> </td>            
-            </tr>
-        )
-    }
+  // function to fetch all portfolios from back end using axios
 
-    const renderviewdetail = (id:any):void=>{
-        let pathname = "./view";
-        axios.get(`${portfolioUrl}/portfolios/${id}`)
-            .then(response => {
-                setCookie('portfolio', response.data, { path: "/" });
-                window.location.pathname = pathname;
-            })
-            .catch(error => {
-                alert(error)
-            })
+  const getData = async () => {
+    axios.get(portfolioUrl).then((response) => {
+      setPortfolios(response.data);
+      console.log(response.data);
+    });
+  };
 
-    }
-
-    const handleLogOut = () => {
-        removeCookie('user', {maxAge: 0})
-        removeCookie('admin');
-        if (cookies['portfolio']) {
-            removeCookie('portfolio', {maxAge: 0})
-        }
-        window.location.pathname = "./"
-    }
-
-
-    // function to fetch all portfolios from back end using axios
-    
-
-    const getData = async() => {
-        axios.get(portfolioUrl)
-         .then(response => {
-
-            setPortfolios(response.data)
-            console.log (response.data)
-         })
-    }
-
-    // this will be call every time setState() is called
-    useEffect(() => {getData()}, [portfolios])
-
-    return (
-        
-        <div> 
-
-
-
-            <Container>  
-
-            <div className="container mb-1 mt-1" id="editPortfolioButtons">
-                
-                <button  style={ButtonStyles} onClick={() => handleLogOut()}>Logout</button>
-            
+  // this will be call every time setState() is called
+  useEffect(() => {
+    getData();
+  }, []);
+  return (
+    <div>
+      <Container>
+        <br />
+        <div style={{ textAlign: "right", margin: "10px -20px -40px -10px" }}>
+          <Button id='admin-button' onClick={() => handleLogOut()}>
+            Logout
+          </Button>
         </div>
 
+        <h1>Welcome Back, {cookies.admin.fname}</h1>
+        <Row>
+          <PortfolioTable portfolios={portfolios} />
+        </Row>
+      </Container>
+      <ScrollButton />
+    </div>
+  );
+};
 
-            <h3>   Portfolios  </h3>
-
-               
-                <Row>
-                    <Col lg={10}>
-                        <Table striped table-bordered hover  >
-                            <thead>
-                                <tr> 
-                                    <th>Portfolio Name</th>
-                                    <th>Submitted/Pending</th>
-                                    <th>Approved/Rejected </th>
-                                    <th>ReviewStatus </th>
-                                    <th>Feedback</th>
-                                    <th>Edit</th>
-                                    <th>View Portfolio Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                
-                                portfolios.map(renderportfolio)
-
-                                }
-                            </tbody>
-                        </Table>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
-    )
-}
- 
-export default Adminpage
+export default Adminpage;
