@@ -1,4 +1,4 @@
-# Geting Started
+# Getting Started
 ## Cloning the repo
 - Create a new folder
 - Within the new folder
