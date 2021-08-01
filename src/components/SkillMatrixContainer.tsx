@@ -3,9 +3,8 @@ import { matrixUrl } from "../api/api";
 import { useCookies } from "react-cookie";
 import Matrix, { Skill } from "../interfaces/Matrix";
 import axios from "axios";
-import { Card } from "react-bootstrap";
 import createChart from "./SkillMatrixPieChart";
-import { Modal, Button, ModalBody } from "react-bootstrap";
+import { Modal, Button, ModalBody, Card } from "react-bootstrap";
 import { Tooltip } from 'reactstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 
@@ -158,13 +157,13 @@ const SkillMatrixContainer = () => {
     // ADD EQUIVALENCY Matrix
     /* ---------------------------------------------------------------- */
     const addMatrix = (async () => {
-      let newMatrix: Matrix = {
+      let newAddMatrix: Matrix = {
           id: 0,
           header: matrixName,
           portfolio: portfolio,
           skills: []
       }
-      axios.post(matrixUrl, newMatrix)
+      axios.post(matrixUrl, newAddMatrix)
           .then(resp => {
               // If POST is successful, add new Skill (with correct data) to the Skill Array
               console.log("Add")
@@ -248,9 +247,39 @@ const SkillMatrixContainer = () => {
   // Render FUNCTIONS
 
   /* ---------------------------------------------------------------- */
+
+   const processSkillInput = () => {
+	return (
+	<div className="container">
+                          <form>
+                          <label htmlFor="skillTitle11"><h6>Add Skill Name</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillTitle11"
+                                        value={updateSkillName1}
+                                        onChange={(ev) => {
+                                          setUpdateSkillName1(ev.target.value)
+                                          }}>
+                                    </input>
+                            <label htmlFor="skillValue11"><h6>Add Skill Value</h6></label>
+                                    <input
+                                        className="form-control"
+                                        name="skillValue11"
+                                        value={updateSkillValue1}
+                                        onChange={(ev) => {
+                                          !isNaN(parseInt(ev.target.value)) ?
+                                          setUpdateSkillValue1(parseInt(ev.target.value)) : setUpdateSkillValue1(0);
+                                          }}>
+                                    </input>        
+                            <br />
+                        </form>
+                    </div>	
+	);
+   }
+	   
   
-   const renderSkillMatrix = (matrices: Matrix[]) => {
-    return matrices.map(data => {
+   const renderSkillMatrix = (matricesList: Matrix[]) => {
+    return matricesList.map(data => {
       return (
         <div key={data.id} className="container">
          {createChart(data)}
@@ -315,7 +344,7 @@ const SkillMatrixContainer = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
-                        <Button variant="primary" className="oButton" onClick={() => {addMatrix(); ;}}>Add</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {addMatrix();}}>Add</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={showDetails} onHide={handleCloseDetails}>
@@ -379,30 +408,7 @@ const SkillMatrixContainer = () => {
                     <Modal.Title>Add Skill</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <form>
-                          <div className="form-group">
-                          <label htmlFor="skillTitle11"><h6>Add Skill Name</h6></label>
-                                    <input
-                                        className="form-control"
-                                        name="skillTitle11"
-                                        value={updateSkillName1}
-                                        onChange={(ev) => {
-                                          setUpdateSkillName1(ev.target.value)
-                                          }}>
-                                    </input>
-                            <label htmlFor="skillValue11"><h6>Add Skill Value</h6></label>
-                                    <input
-                                        className="form-control"
-                                        name="skillValue11"
-                                        value={updateSkillValue1}
-                                        onChange={(ev) => {
-                                          !isNaN(parseInt(ev.target.value)) ?
-                                          setUpdateSkillValue1(parseInt(ev.target.value)) : setUpdateSkillValue1(0);
-                                          }}>
-                                    </input>
-                            </div>        
-                            <br />
-                      </form>      
+                     {processSkillInput()}      
                   </Modal.Body>
                   <Modal.Footer>
                   <Button variant="secondary" onClick={handleCloseSkillModalAdd}>Close</Button>
@@ -420,30 +426,7 @@ const SkillMatrixContainer = () => {
                     <Modal.Title>Edit Skill {detailMatrixSkill.name}</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <div className="container">
-                          <form>
-                          <label htmlFor="skillTitle11"><h6>Add Skill Name</h6></label>
-                                    <input
-                                        className="form-control"
-                                        name="skillTitle11"
-                                        value={updateSkillName1}
-                                        onChange={(ev) => {
-                                          setUpdateSkillName1(ev.target.value)
-                                          }}>
-                                    </input>
-                            <label htmlFor="skillValue11"><h6>Add Skill Value</h6></label>
-                                    <input
-                                        className="form-control"
-                                        name="skillValue11"
-                                        value={updateSkillValue1}
-                                        onChange={(ev) => {
-                                          !isNaN(parseInt(ev.target.value)) ?
-                                          setUpdateSkillValue1(parseInt(ev.target.value)) : setUpdateSkillValue1(0);
-                                          }}>
-                                    </input>        
-                            <br />
-                        </form>
-                    </div>    
+		      {processSkillInput()}   
                   </Modal.Body>
                   <Modal.Footer>
                     <Button variant="secondary" onClick={closeSkillModalEdit}>Close</Button>
