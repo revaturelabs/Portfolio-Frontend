@@ -1,7 +1,6 @@
 import Matrix from "../interfaces/Matrix";
 import CanvasJSReact from "../canvasjs.react.js";
 
-var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default function createChart(props: Matrix) {
@@ -17,7 +16,7 @@ export default function createChart(props: Matrix) {
         },
         data: [{
             type: "doughnut",
-            startAngle: 75,
+            startAngle: 270,
             toolTipContent: "<b>{label}</b>: {y} months",
             showInLegend: "true",
             legendText: "{label} ({y} months)",
