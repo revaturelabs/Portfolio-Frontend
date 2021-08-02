@@ -56,6 +56,7 @@ function PortfolioListTable(props: any) {
       .then((response) => {
         removeCookie("portfolio", { maxAge: 0 });
         toast.success("Portfolio deleted");
+        props.handleTable();
       })
       .catch((error) => {
         toast.error(error.message);
