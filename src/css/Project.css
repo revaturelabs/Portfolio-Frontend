@@ -51,6 +51,10 @@ form {
   padding: 15px;
 }
 
+textarea {
+  width: 100%;
+}
+
 .yes-button {
   background-color: rgb(242, 105, 3);
   border-color: rgb(242, 105, 3);
