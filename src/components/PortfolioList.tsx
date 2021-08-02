@@ -142,7 +142,7 @@ const PortfolioList = () => {
 
         <div className='mt-5' id='showList'>
           <div>
-            <PortfolioListTable portfolios={table} />
+            <PortfolioListTable portfolios={table} handleTable={handleTable}/>
           </div>
         </div>
       </div>
