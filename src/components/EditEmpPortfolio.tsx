@@ -21,6 +21,7 @@ import Project from "./Project";
 import RevatureWorkExp from "./RevatureWorkExperience";
 import ScrollButton from './ScrollButton';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 const EditEmpPortfolio = () => {
@@ -101,7 +102,7 @@ const EditEmpPortfolio = () => {
             }
             else{
                 console.log("Insufficient work done for phase 1");
-                //try to add toast w toastMessages....
+                toast.error(("Insufficient work done for phase 1"))
             }
         }
         //Phase 2 Validation
