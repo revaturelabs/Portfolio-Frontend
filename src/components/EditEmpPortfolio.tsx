@@ -57,7 +57,7 @@ const EditEmpPortfolio = () => {
     if(!savedFlags.project){
       toast.warn("FEEDBACK: Admin has provided feedback for Projects, please edit before submitting.");
     }
-    if(!savedFlags.workExperience){
+    if(!savedFlags.workExperience){ 
       toast.warn("FEEDBACK: Admin has provided feedback for Work Experience, please edit before submitting.");
     }
   }
@@ -138,9 +138,7 @@ const EditEmpPortfolio = () => {
         }
         //Phase 2 Validation
         else{
-            if(indEquiv.length == 5 && projects.length == 3 && feedbackValidation.aboutMe 
-              && feedbackValidation.certification && feedbackValidation.education && feedbackValidation.honorsAndAwards
-              && feedbackValidation.industryEquivalence && feedbackValidation.project && feedbackValidation.workExperience){
+            if(indEquiv.length == 5 && projects.length == 3){
               submitPortfolio();
             }
             else{
