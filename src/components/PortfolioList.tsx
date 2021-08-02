@@ -116,7 +116,7 @@ const PortfolioList = () => {
 
   useEffect(() => {
     handleTable();
-  }, [table]);
+  }, []);
 
   return (
     <div className='container mt-5'>
