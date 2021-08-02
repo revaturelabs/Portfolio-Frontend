@@ -150,7 +150,7 @@ const SkillMatrixContainer = () => {
 
   useEffect(() => {
     getMatrices();
-  }, );
+  }, []);
 
 
     /* ---------------------------------------------------------------- */
@@ -167,6 +167,7 @@ const SkillMatrixContainer = () => {
           .then(resp => {
               // If POST is successful, add new Skill (with correct data) to the Skill Array
               console.log("Add")
+              getMatrices();
           })
           .catch(error => {
               console.error(error);
@@ -184,7 +185,8 @@ const SkillMatrixContainer = () => {
       axios.put(matrixUrl, matrix)
           .then(resp => {
               // If POST is successful, add new Skill (with correct data) to the Skill Array
-              console.log("Update")
+              console.log("Update");
+              getMatrices();
           })
           .catch(error => {
               console.error(error);
@@ -201,7 +203,7 @@ const SkillMatrixContainer = () => {
           .then(resp => {
               // If POST is successful, add new Skill (with correct data) to the Skill Array
               console.log("Delete")
-              console.log(id)
+              getMatrices();
           })
           .catch(error => {
               console.error(error);
@@ -218,7 +220,7 @@ const SkillMatrixContainer = () => {
           .then(resp => {
               // If POST is successful, add new Skill (with correct data) to the Skill Array
               console.log("Delete")
-              console.log(id)
+              getMatrices();
           })
           .catch(error => {
               console.error(error);
@@ -235,7 +237,7 @@ const SkillMatrixContainer = () => {
           .then(resp => {
               // If POST is successful, add new Skill (with correct data) to the Skill Array
               console.log("Delete")
-              console.log(id)
+              getMatrices();
           })
           .catch(error => {
               console.error(error);
