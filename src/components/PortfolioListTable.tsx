@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
 
-export const defaultArrows = {
+export const defaultArrows:{[key: string]: string} = {
   id: "—",
   name: "—",
   submitted: "—",
@@ -35,7 +35,7 @@ function PortfolioListTable(props: any) {
       });
     }
     return sortedPortfolios;
-  }, [sortedPortfolios, sortConfig]);
+  }, [sortedPortfolios]);
 
   const handlePortfolioEdit = (id: any, submitted: boolean) => {
     let pathname = submitted ? "./view" : "./portfolio";
@@ -66,17 +66,39 @@ function PortfolioListTable(props: any) {
     <Table style={{ margin: "10px" }} striped table-bordered hover>
       <thead>
         <tr>
-          <th onClick={() => requestSort("id", sortConfig, setDirections, setSortConfig)}># {directionArrows.id}</th>
-          <th onClick={() => requestSort("name", sortConfig, setDirections, setSortConfig)}>
+          <th
+            onClick={() =>
+              requestSort("id", sortConfig, setDirections, setSortConfig)
+            }
+          >
+            # {directionArrows.id}
+          </th>
+          <th
+            onClick={() =>
+              requestSort("name", sortConfig, setDirections, setSortConfig)
+            }
+          >
             Portfolio Name {directionArrows.name}{" "}
           </th>
-          <th onClick={() => requestSort("submitted", sortConfig, setDirections, setSortConfig)}>
+          <th
+            onClick={() =>
+              requestSort("submitted", sortConfig, setDirections, setSortConfig)
+            }
+          >
             Submitted {directionArrows.submitted}
           </th>
-          <th onClick={() => requestSort("reviewed", sortConfig, setDirections, setSortConfig)}>
+          <th
+            onClick={() =>
+              requestSort("reviewed", sortConfig, setDirections, setSortConfig)
+            }
+          >
             Reviewed {directionArrows.reviewed}
           </th>
-          <th onClick={() => requestSort("approved", sortConfig, setDirections, setSortConfig)}>
+          <th
+            onClick={() =>
+              requestSort("approved", sortConfig, setDirections, setSortConfig)
+            }
+          >
             Approved {directionArrows.approved}
           </th>
           <th></th>
@@ -119,43 +141,24 @@ function PortfolioListTable(props: any) {
   );
 }
 
-export function requestSort(key:string, sortConfig:any,setDirections:any, setSortConfig:any) {
+export function requestSort(
+  key: string,
+  sortConfig: any,
+  setDirections: any,
+  setSortConfig: any
+) {
   let direction = "ascending";
   if (sortConfig.key === key && sortConfig.direction === "ascending") {
     direction = "descending";
   }
-  if (key === "id" && direction === "descending") {
-    setDirections({ ...defaultArrows, id: "⯆" });
+  let newArrows = {...defaultArrows};
+  if (direction==="descending") {
+    newArrows[key] = "⯆";
+  } else if (direction === "ascending") {
+    newArrows[key] = "⯅";
   }
-  if (key === "id" && direction === "ascending") {
-    setDirections({ ...defaultArrows, id: "⯅" });
-  }
-  if (key === "name" && direction === "descending") {
-    setDirections({ ...defaultArrows, name: "⯆" });
-  }
-  if (key === "name" && direction === "ascending") {
-    setDirections({ ...defaultArrows, name: "⯅" });
-  }
-  if (key === "submitted" && direction === "descending") {
-    setDirections({ ...defaultArrows, submitted: "⯆" });
-  }
-  if (key === "submitted" && direction === "ascending") {
-    setDirections({ ...defaultArrows, submitted: "⯅" });
-  }
-  if (key === "approved" && direction === "descending") {
-    setDirections({ ...defaultArrows, approved: "⯆" });
-  }
-  if (key === "approved" && direction === "ascending") {
-    setDirections({ ...defaultArrows, approved: "⯅" });
-  }
-  if (key === "reviewed" && direction === "descending") {
-    setDirections({ ...defaultArrows, reviewed: "⯆" });
-  }
-  if (key === "reviewed" && direction === "ascending") {
-    setDirections({ ...defaultArrows, reviewed: "⯅" });
-  }
+  setDirections(newArrows);
   setSortConfig({ key, direction });
-};
+}
 
 export default PortfolioListTable;
-
