@@ -38,6 +38,28 @@ const EditEmpPortfolio = () => {
 
   if (cookies.portfolio.flags) {
     savedFlags = cookies.portfolio.flags;
+
+    if(!savedFlags.aboutMe){
+      toast.warn("FEEDBACK: Admin has provided feedback for About Me, please edit before submitting.");
+    }
+    if(!savedFlags.certification){
+      toast.warn("FEEDBACK: Admin has provided feedback for Certification, please edit before submitting.");
+    }
+    if(!savedFlags.education){
+      toast.warn("FEEDBACK: Admin has provided feedback for Education, please edit before submitting.");
+    }
+    if(!savedFlags.honorsAndAwards){
+      toast.warn("FEEDBACK: Admin has provided feedback for Honors & Awards, please edit before submitting.");
+    }
+    if(!savedFlags.industryEquivalence){
+      toast.warn("FEEDBACK: Admin has provided feedback for Industry Equivalency, please edit before submitting.");
+    }
+    if(!savedFlags.project){
+      toast.warn("FEEDBACK: Admin has provided feedback for Projects, please edit before submitting.");
+    }
+    if(!savedFlags.workExperience){
+      toast.warn("FEEDBACK: Admin has provided feedback for Work Experience, please edit before submitting.");
+    }
   }
 
 
@@ -116,7 +138,9 @@ const EditEmpPortfolio = () => {
         }
         //Phase 2 Validation
         else{
-            if(indEquiv.length == 5 && projects.length == 3){
+            if(indEquiv.length == 5 && projects.length == 3 && feedbackValidation.aboutMe 
+              && feedbackValidation.certification && feedbackValidation.education && feedbackValidation.honorsAndAwards
+              && feedbackValidation.industryEquivalence && feedbackValidation.project && feedbackValidation.workExperience){
               submitPortfolio();
             }
             else{
