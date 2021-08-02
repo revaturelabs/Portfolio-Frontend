@@ -6,14 +6,16 @@ import { useCookies } from 'react-cookie'
 import { Card, Button, Modal, ModalBody } from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
+import {url} from "../api/api";
 import {toast} from "react-toastify";
-import {equivUrl} from "../api/api";
-
+import industrySkillValidation from './validation/IndustryEquivalencyValidation';
+import styleInvalidElements, { styleInvalidElementsByName } from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg'
 // JSON INTERFACES
 
 /* ------------------------ */
 // EQUIVALENCY DATA TYPE
-/* ------------------------ */
+/* ----------------  -------- */
 export interface Skill {
     id: number;
     header: string;
@@ -120,6 +122,11 @@ const IndustryEquivalency = () => {
     const [equivalency, setEquivalency] = useState<number>(0);
     /* ---------------------------------------------------------------- */
 
+    //Render Error Messages
+    //*****************************************************/
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+    //*****************************************************/
+
     // TOOLTIP FUNCTIONS
 
     /* ---------------------------------------------------------------- */
@@ -137,18 +144,22 @@ const IndustryEquivalency = () => {
         if (skillSet.length >= 5) {
             toast.error("No more than 5 skills can be added to the Industry Equivalency Section.");
             return;
-        }
+        };
         setShowAdd(true);
     };
     const handleAddClose = () => {
-        setShowAdd(false);
+       setShowAdd(false);
+       setSkillName('');
+       setPreviousExp('0');
+       setCurrentExp('0');
+       setValidationErrors([]);
     };
     /* ---------------------------------------------------------------- */
     // EDIT MODAL SHOW/CLOSE
     /* ---------------------------------------------------------------- */
     const handleEditShow = (() => {
-        setShowEdit(true);
-    });
+            setShowEdit(true);
+        });
     const handleEditClose = (() => {
         aquireSkillSet();
         setShowEdit(false);
@@ -161,7 +172,7 @@ const IndustryEquivalency = () => {
     // GET EQUIVALENCY ARRAY
     /* ---------------------------------------------------------------- */
     const aquireSkillSet = (() => {
-        axios.get(`${equivUrl}/portfolios/all/${portfolio.id}`)
+        axios.get(url + '/equiv/portfolios/all/' + portfolio.id)
             .then(resp => {
                 console.log(resp.data);
                 let tempSkillSet: Array<Skill> = resp.data;
@@ -182,13 +193,15 @@ const IndustryEquivalency = () => {
     // ADD EQUIVALENCY SKILL
     /* ---------------------------------------------------------------- */
     const addSkill = (async () => {
+        let valid: any = industrySkillValidation(skillName, equivalency);
+        if(valid) {
         let newSkill: Skill = {
             id: 0,
             header: skillName,
             value: equivalency,
             portfolio: portfolio
-        }
-        axios.post(equivUrl, newSkill)
+        }         
+        axios.post(url + '/equiv', newSkill)
             .then(resp => {
                 // If POST is successful, add new Skill (with correct data) to the Skill Array
                 let tempSkillSet: Array<Skill> = [...skillSet];
@@ -202,13 +215,40 @@ const IndustryEquivalency = () => {
         setSkillName('');
         setPreviousExp('0');
         setCurrentExp('0');
+        setValidationErrors([]);
+        } else if (equivalency === 0 && skillName == "") {
+            let elements = document.getElementsByClassName("form-control");
+            styleInvalidElements(elements);
+            const error = ["Please include a skill name and cannot add a skill with zero total experience!"];
+            setValidationErrors(error);
+            return;
+            
+        } else if (equivalency > 0) {
+            let elements = document.getElementsByName("skillTitle");
+            styleInvalidElementsByName(elements);
+            const error = ["Please include a skill name!"];
+            setValidationErrors(error);     
+            return;
+        } else {
+            let currentExperienceInput = document.getElementsByName("currentExperience");
+            styleInvalidElementsByName(currentExperienceInput);
+            let previousExperienceInput = document.getElementsByName("previousExperience");
+            styleInvalidElementsByName(previousExperienceInput);
+            const error = ["Cannot have a skill with zero experience!"];
+            setValidationErrors(error); 
+            return;
+
+        }
+            setSkillName('');
+            setPreviousExp('0');
+            setCurrentExp('0');
     });
     /* ---------------------------------------------------------------- */
     // DELETE EQUIVALENCY SKILL
     /* ---------------------------------------------------------------- */
     const handleDelete = async (remSkill: Skill) => {
         // console.log('axios.delete(back_end_url + \'/equiv/' + remSkill.id + '\')');
-        axios.delete(`${equivUrl}/${remSkill.id}`)
+        axios.delete(url + '/equiv/' + remSkill.id)
             .then(resp => {
                 console.log(resp.data);
                 let tempSkillSet: Array<Skill> = [...skillSet];
@@ -224,7 +264,7 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     const updateSkills = () => {
         skillSet.forEach(async (s) => {
-            await axios.post(`${equivUrl}/${s.id}`, s)
+            await axios.post(url + '/equiv/' + s.id, s)
                 .then((resp) => { })
                 .catch((error) => {
                     console.error(error);
@@ -261,7 +301,7 @@ const IndustryEquivalency = () => {
     // RE-CALCULATE MAX EQUIVALENCY
     /* ---------------------------------------------------------------- */
     useEffect(() => {
-        // Re-Calculate Max Equivalency Whenever skillSet is changed
+        // Re-Calculate Max Equivalency Whenever skillSet is changed  
         let tempMax: number = 0;
         skillSet.forEach((s) => {
             if (s.value > tempMax) {
@@ -275,19 +315,19 @@ const IndustryEquivalency = () => {
     /* ---------------------------------------------------------------- */
     useEffect(() => {
         setEquivalency(+previousExp + +currentExp);
-        // console.log('Equivalency Re-calculated (' + equivalency + ')');
     }, [previousExp, currentExp, equivalency]);
     /* ---------------------------------------------------------------- */
 
     return (
         <div className="container">
             <Card id="card-container">
-                <Card.Header id="header-industry-equivalence">
+                <Card.Header id="header">
                     <h4>
                         Industry Equivalency
                         <QuestionCircle id="card-info" onClick={handleShowDetails} />
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
-                        <Pencil id="edit-equivalency" onClick={handleEditShow} />
+                        {skillSet.length > 0 && <Pencil id="edit-equivalency" onClick={handleEditShow}/>} 
+                        {skillSet.length == 0 && <div id="edit-equivalency"></div>}
                         <Tooltip target="edit-equivalency" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
                         <PlusCircle id="add-equivalency" onClick={handleAddShow} style={{marginRight: "10px"}} />
                         <Tooltip target="add-equivalency" isOpen={addTooltipOpen} toggle={toggleAdd}>Add Industry Equivalency</Tooltip>
@@ -339,6 +379,7 @@ const IndustryEquivalency = () => {
                             </div>
                             <div className="form-group"><input type="hidden" className="form-control" name="equivalencyValue" value={equivalency} readOnly /></div>
                         </form>
+                        <ValidationMsg errors={validationErrors}></ValidationMsg> 
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
@@ -370,10 +411,12 @@ const IndustryEquivalency = () => {
                                         </td>
                                         <td>
                                             <input
+                                                className="form-control"
                                                 type="number"
                                                 step="1"
                                                 min="3"
-                                                value={s.value}
+                                                max = "24"
+                                                value={s.value}                                                
                                                 onChange={(ev) => { handleEditChange(2, s.id, ev.target.value) }} />
                                         </td>
                                     </tr>
