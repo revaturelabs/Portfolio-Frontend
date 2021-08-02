@@ -81,7 +81,7 @@ const EducationContainer = () => {
             </Modal>
 
             <Card id="card-container">
-                <Card.Header id="header-project">
+                <Card.Header id="header">
                     <h4>
                         Education
                         <PlusCircle id="add-education" onClick={handleShowCreationModal} />
