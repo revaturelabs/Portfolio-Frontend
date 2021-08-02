@@ -404,13 +404,11 @@ const Project = () => {
                 onChange={(e) => setRespositoryUrl(e.target.value)}
               />
               <br />
-              <h6 className="project-create-form-header">
-                Project Work Products
-              </h6>
+              <h6 className="not-required-input">Project Work Products</h6>
               <input
                 type="text"
                 name="workProducts"
-                className="form-input"
+                className="form-input not-required-input"
                 onChange={(e) => setWorkProducts(e.target.value)}
               />
             </form>
@@ -522,7 +520,7 @@ const Project = () => {
                     onChange={(e) => setRespositoryUrl(e.target.value)}
                   />
                   <br />
-                  <h6>Project Work Products</h6>
+                  <h6 className="not-required-input">Project Work Products</h6>
                   <input
                     type="text"
                     name="workProducts"
