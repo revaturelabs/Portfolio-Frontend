@@ -214,7 +214,7 @@ const RevatureAboutMe = () => {
         })
         setDeleteShow(false)
     }
-    
+
     let rowLength = 10
 
     return (
@@ -253,10 +253,10 @@ const RevatureAboutMe = () => {
                             <h6>Phone #</h6>
                             <input type="text" name="toDate" placeholder={phonenumberPlaceholder} className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
                         </form>
+                        <br></br>
                         <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
-                        <div id="invalid-fields"></div>
                         <Button variant="secondary" onClick={() => {handleClose(); toggleValidationErrors();}}>
                             Close
                         </Button>
@@ -284,9 +284,10 @@ const RevatureAboutMe = () => {
                                     <h6>Phone #</h6>
                                     <input type="tel" name="toDate" className="form-input" id="" value={phone} onChange={e => setPhone(e.target.value)}/><br />
                                 </form>
+                                <br></br>
+                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                             </Modal.Body>
                                 <Modal.Footer>
-                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                                 <Button variant="secondary" onClick={() => {handleEditClose(); toggleValidationErrors();}}>
                                         Close
                                     </Button>
@@ -301,7 +302,7 @@ const RevatureAboutMe = () => {
                                 <Modal.Title>Delete Warning</Modal.Title>
                             </Modal.Header>
                             <Modal.Body >
-                                <h3>This will permanantly delete this info. Are you Sure?</h3>
+                                <p>This will permanantly delete this info. Are you sure?</p>
                             </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="danger" onClick={() => {handleDelete(id);}}>Yes, Permanantly Delete</Button>
