@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 
 export let testAdminUser = {id: 22, name: "Jurgen Holls", password: "pass", admin: true};
 export let testGeneralUser = {id: 25, name: "John Doe", password: "pass", admin: false};
+export let testAdminFname = {id: 25, fname: "John Doe", password: "pass", admin: false};
 export let testPortfolioList = [{
     id: 2,
     name: "Stack Full Engineer",
@@ -14,7 +15,7 @@ export let testPortfolioList = [{
 },{
     id: 3,
     name: "DevOps Engineer",
-    user: "Jane Doe",
+    user: "John Doe",
     submitted: true,
     approved: false,
     reviewed: false,
@@ -131,7 +132,16 @@ export let fullPortfolioTestObj = { // test portfolio obj built for convenience
         responsibilities: "Write tests, attend meetings, find bugs",
         tools: "Computer",
         title: "Software Tester"
-    }]
+    }],
+    flags: {
+        aboutMe: "Your About Me Section could use some work...",
+        industryEquivalence: "",
+        workExperience: "",
+        project: "",
+        education: "",
+        certification: "",
+        honorsAndAwards: ""
+    }
 
 }
 
