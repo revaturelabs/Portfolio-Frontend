@@ -108,7 +108,15 @@ const Project = () => {
       setDeleteId(id);
       handleShowModalDelete();
     });
+
     editButton.addEventListener("click", () => {
+      setId(id);
+      setName(name);
+      setDescription(description);
+      setResponsibilities(responsibilities);
+      setTechnologies(technologies);
+      setRespositoryUrl(respositoryUrl);
+      setWorkProducts(workProducts);
       handleShowModalEdit();
     });
   };
@@ -131,7 +139,8 @@ const Project = () => {
    */
   const [showModal, setShowModal] = useState(false);
   const handleHideModal = () => { setShowModal(false); setValidationErrors([]); }
-  const handleShowModal = () => setShowModal(true);
+  const handleShowModal = () => { setShowModal(true); resetFormStates(); }
+
   const [showModalEdit, setShowModalEdit] = useState(false);
   const handleHideModalEdit = () => { setShowModalEdit(false); setValidationErrors([]); }
   const handleShowModalEdit = () => setShowModalEdit(true);
