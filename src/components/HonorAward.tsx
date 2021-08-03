@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useState, useEffect } from 'react'
 import { useCookies } from 'react-cookie'
-import { Card, Button, Modal, ModalBody } from 'react-bootstrap'
-import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons'
+import { Card, Button, Modal } from 'react-bootstrap'
+import { PlusCircle } from 'react-bootstrap-icons'
 import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/HonorAwards.css'
@@ -320,15 +320,15 @@ const HonorAwards = () => {
                 </Modal>
                 <Modal show={showUpdateExperience} onHide={handleCloseUpdateExperience} backdrop="static">
                     <Modal.Header>
-                        <Modal.Title>Edit Awards&Honors</Modal.Title>
+                        <Modal.Title>Edit Awards & Honors</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <form>
-                        <h6>AwardTitle</h6>
+                        <h6>Award Title</h6>
                             <input type="text" name="awardtitle" className="form-input"  required value ={title} onChange={e => setAwardTitle(e.target.value)}/>
                             <h6>Description</h6>
                             <input type="text" name="description" className="form-input honoraward-textarea" required value ={description} onChange={e => setDesc(e.target.value)}/>
-                            <h6>ReceivedFrom</h6>
+                            <h6>Received From</h6>
                             <input type="text" name="receivedFrom" className="form-input"  required value ={receivedFrom} onChange={e => setRecefrom(e.target.value)}/>
                             <h6>Received On</h6>
                             <input type="date" name="Received On" className="form-input"  required value ={dateReceived} onChange={e => setReceon(e.target.value)}/>

@@ -283,7 +283,7 @@ const EditEmpPortfolio = () => {
   const popoverSkillMatrices = (
     <Popover id="popover-basic">
       <Popover.Title className="flagPopover" as="h3">
-        Honors & Awards Feedback
+        Skill Matrix Feedback
       </Popover.Title>
       <Popover.Content>{savedFlags.skillMatrix}</Popover.Content>
     </Popover>

@@ -13,6 +13,7 @@ import {
   Pencil,
   XCircle,
 } from "react-bootstrap-icons";
+import { useEffect } from "react";
 
 const SkillMatrixContainer = () => {
   /* ---------------------------------------------------------------- */
@@ -35,6 +36,10 @@ const SkillMatrixContainer = () => {
   // Modal STATES AND FUNCTIONS
   /* ---------------------------------------------------------------- */
 
+  useEffect(() => {
+    getMatrices();
+  }, []);
+
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
   const handleAddShow = () => {
@@ -46,6 +51,7 @@ const SkillMatrixContainer = () => {
     }
     setShowAdd(true);
   };
+
   const handleAddClose = () => {
     setShowAdd(false);
   };
@@ -157,7 +163,7 @@ const SkillMatrixContainer = () => {
   };
 
   /* ---------------------------------------------------------------- */
-  // ADD EQUIVALENCY Matrix
+  // ADD SKILL MATRIX
   /* ---------------------------------------------------------------- */
   const addMatrix = async () => {
     let newAddMatrix: Matrix = {
@@ -300,10 +306,6 @@ const SkillMatrixContainer = () => {
             <Card.Header id="header">
               <h4>
                 {data.header}
-                <QuestionCircle
-                  id={data.header}
-                  onClick={() => handleShowDetailsMatrix(data)}
-                />
                 <Pencil onClick={() => handleUpdateShowDetailsMatrix(data)} />
                 <PlusCircle
                   onClick={() => {
