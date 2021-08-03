@@ -22,6 +22,7 @@ import RevatureWorkExp from "./RevatureWorkExperience";
 import ScrollButton from './ScrollButton';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import SkillMatrixContainer from "./SkillMatrixContainer";
 
 
 const EditEmpPortfolio = () => {
@@ -351,7 +352,8 @@ const EditEmpPortfolio = () => {
             <EducationContainer /> <br />
             <CertificationContainer /> <br />
             <HonorAwards /> <br />
-            <ScrollButton />
+            <ScrollButton /> <br />
+            <SkillMatrixContainer />
         </div>
 
 
