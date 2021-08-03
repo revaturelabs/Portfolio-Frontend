@@ -200,7 +200,7 @@ const IndustryEquivalency = () => {
             header: skillName,
             value: equivalency,
             portfolio: portfolio
-        }         
+        }
         axios.post(url + '/equiv', newSkill)
             .then(resp => {
                 // If POST is successful, add new Skill (with correct data) to the Skill Array
@@ -222,12 +222,12 @@ const IndustryEquivalency = () => {
             const error = ["Please include a skill name and cannot add a skill with zero total experience!"];
             setValidationErrors(error);
             return;
-            
+
         } else if (equivalency > 0) {
             let elements = document.getElementsByName("skillTitle");
             styleInvalidElementsByName(elements);
             const error = ["Please include a skill name!"];
-            setValidationErrors(error);     
+            setValidationErrors(error);
             return;
         } else {
             let currentExperienceInput = document.getElementsByName("currentExperience");
@@ -235,7 +235,7 @@ const IndustryEquivalency = () => {
             let previousExperienceInput = document.getElementsByName("previousExperience");
             styleInvalidElementsByName(previousExperienceInput);
             const error = ["Cannot have a skill with zero experience!"];
-            setValidationErrors(error); 
+            setValidationErrors(error);
             return;
 
         }
@@ -301,7 +301,7 @@ const IndustryEquivalency = () => {
     // RE-CALCULATE MAX EQUIVALENCY
     /* ---------------------------------------------------------------- */
     useEffect(() => {
-        // Re-Calculate Max Equivalency Whenever skillSet is changed  
+        // Re-Calculate Max Equivalency Whenever skillSet is changed
         let tempMax: number = 0;
         skillSet.forEach((s) => {
             if (s.value > tempMax) {
@@ -326,7 +326,7 @@ const IndustryEquivalency = () => {
                         Industry Equivalency
                         <QuestionCircle id="card-info" onClick={handleShowDetails} />
                         <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
-                        {skillSet.length > 0 && <Pencil id="edit-equivalency" onClick={handleEditShow}/>} 
+                        {skillSet.length > 0 && <Pencil id="edit-equivalency" onClick={handleEditShow}/>}
                         {skillSet.length == 0 && <div id="edit-equivalency"></div>}
                         <Tooltip target="edit-equivalency" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
                         <PlusCircle id="add-equivalency" onClick={handleAddShow} style={{marginRight: "10px"}} />
@@ -379,7 +379,7 @@ const IndustryEquivalency = () => {
                             </div>
                             <div className="form-group"><input type="hidden" className="form-control" name="equivalencyValue" value={equivalency} readOnly /></div>
                         </form>
-                        <ValidationMsg errors={validationErrors}></ValidationMsg> 
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleAddClose}>Close</Button>
@@ -416,7 +416,7 @@ const IndustryEquivalency = () => {
                                                 step="1"
                                                 min="3"
                                                 max = "24"
-                                                value={s.value}                                                
+                                                value={s.value}
                                                 onChange={(ev) => { handleEditChange(2, s.id, ev.target.value) }} />
                                         </td>
                                     </tr>
