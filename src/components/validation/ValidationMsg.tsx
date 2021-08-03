@@ -22,7 +22,6 @@ const ValidationMsg = (props: any) => {
         return b.length - a.length;
     })
 
-    console.log("Hello from Val msg");
 
     return (
         <div id="form-component-error-list">
