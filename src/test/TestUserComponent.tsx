@@ -162,4 +162,4 @@ export function PortfolioTestComponent({portfolioIndex} : {portfolioIndex: numbe
     const [, setCookies] = useCookies();
     setCookies('portfolio', testPortfolioList[portfolioIndex], {path: "/"});
     return <> </>;
-}''
+}
