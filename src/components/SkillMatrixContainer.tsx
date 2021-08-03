@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { matrixUrl } from "../api/api";
 import { useCookies } from "react-cookie";
 import Matrix, { Skill } from "../interfaces/Matrix";
@@ -13,7 +13,6 @@ import {
   Pencil,
   XCircle,
 } from "react-bootstrap-icons";
-import { useEffect } from "react";
 
 const SkillMatrixContainer = () => {
   /* ---------------------------------------------------------------- */
@@ -68,11 +67,6 @@ const SkillMatrixContainer = () => {
   const handleCloseDetails = () => setShowDetails(false);
 
   const [detailsModalMatrix, setDetailModalMatrix] = useState({ header: "" });
-
-  const handleShowDetailsMatrix = (matrix: Matrix) => {
-    setShowDetailsMatrix(true);
-    setDetailModalMatrix(matrix);
-  };
 
   const newMatrix: Matrix = {
     id: 0,
