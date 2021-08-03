@@ -8,7 +8,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import validate from "../components/FormValidation";
 
 
-import {testPortfolioList, fullPortfolioTestObj,  testGeneralUser, testAdminFname} from "./TestUserComponent";
+import {testPortfolioList, fullPortfolioTestObj, testGeneralUser, testAdminFname} from "./TestUserComponent";
 import PortfolioList from "../components/PortfolioList";
 import HonorAwards from "../components/HonorAward";
 import Adminpage from "../components/Adminpage";
