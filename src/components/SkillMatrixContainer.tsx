@@ -62,11 +62,7 @@ const SkillMatrixContainer = () => {
   const [matrices, setMatrices] = useState<Array<Matrix>>([]);
   const [matrixName, setMatrixName] = useState<string>("");
 
-  const [showDetailMatrix, setShowDetailsMatrix] = useState(false);
-  const handleCloseDetailsMatrix = () => setShowDetailsMatrix(false);
   const handleCloseDetails = () => setShowDetails(false);
-
-  const [detailsModalMatrix, setDetailModalMatrix] = useState({ header: "" });
 
   const newMatrix: Matrix = {
     id: 0,
@@ -424,20 +420,6 @@ const SkillMatrixContainer = () => {
               <p>
                 Add your <b>5 major skill categories</b> and 6 skills within
                 each category.
-              </p>
-            </ModalBody>
-          </Modal>
-          <Modal show={showDetailMatrix} onHide={handleCloseDetailsMatrix}>
-            <Modal.Header>
-              <Modal.Title>Details</Modal.Title>
-              <XCircle
-                id="work-experience-details"
-                onClick={handleCloseDetailsMatrix}
-              />
-            </Modal.Header>
-            <ModalBody>
-              <p>
-                Edit <b>{detailsModalMatrix.header}</b>
               </p>
             </ModalBody>
           </Modal>
