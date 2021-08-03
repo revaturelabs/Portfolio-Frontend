@@ -17,7 +17,7 @@ const ValidationMsg = (props: any) => {
     //filter error messges to those that are NOT blank and those
     //that have an actual message, i.e. not an "!" (this is used elsewhere in the code)
     //This "!" is not associated with the "!" printed to the empty boxes to indicate errors
-    const errMsgs = props.errors.filter( (error: string) => {return (error && error !="!") } );
+    const errMsgs = props.errors.filter( (error: string) => {return (error && error !=="!") } );
     errMsgs.sort( (a: string, b: string) => {
         return b.length - a.length;
     });

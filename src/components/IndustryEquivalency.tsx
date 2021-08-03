@@ -279,11 +279,12 @@ const IndustryEquivalency = () => {
         let tempSkillSet = [...skillSet];
         tempSkillSet.forEach((s) => {
             if (s.id == changeSkill) {
-                if (changeType == 1) {
+                if (changeType === 1) {
                     s.header = newValue;
                 }
-                if (changeType == 2) {
+                if (changeType === 2) {
                     s.value = +newValue;
+                    
                 }
             }
         });
