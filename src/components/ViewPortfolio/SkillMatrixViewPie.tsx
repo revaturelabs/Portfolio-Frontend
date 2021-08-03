@@ -5,8 +5,9 @@ import { useCookies } from "react-cookie";
 import "../../css/ViewPortfolio.css";
 import Matrix from "../../interfaces/Matrix";
 import { matrixUrl } from "../../api/api";
+import SkillMatrixPieChart from "../SkillMatrixPieChart";
 
-const SkillMatrixView = () => {
+const SkillMatrixViewPie = () => {
   const [matrices, setMatrices] = useState<Matrix[]>();
   const [cookie] = useCookies();
 
@@ -19,23 +20,8 @@ const SkillMatrixView = () => {
   }, [cookie]);
 
   const renderMatrices = (matList: Matrix[]) => {
-    return matList.map((data) => {
-      return (
-        <div className="card" key={data.id} data-testid="card">
-          <div className="card-header" id="bottom-border">
-            <h1>{data.header}</h1>
-          </div>
-          <div className="card-body">
-            {data.skills.map((skill) => {
-              return (
-                <p>
-                  {skill.name}: {skill.value} months
-                </p>
-              );
-            })}
-          </div>
-        </div>
-      );
+    return matList.map((data: Matrix) => {
+      return SkillMatrixPieChart(data);
     });
   };
 
@@ -51,4 +37,4 @@ const SkillMatrixView = () => {
   );
 };
 
-export default SkillMatrixView;
+export default SkillMatrixViewPie;
