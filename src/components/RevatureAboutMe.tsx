@@ -10,6 +10,8 @@ import {aboutMeUrl, url} from "../api/api";
 import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
 import ValidationMsg from './validation/ValidationMsg';
+import { wait } from '@testing-library/react';
+// import sanitizeHtml from 'sanitize-html';
 
 const RevatureAboutMe = () => {
     // Model show and hide
@@ -214,7 +216,7 @@ const RevatureAboutMe = () => {
         })
         setDeleteShow(false)
     }
-    
+
     let rowLength = 10
 
     return (
@@ -253,10 +255,10 @@ const RevatureAboutMe = () => {
                             <h6>Phone #</h6>
                             <input type="text" name="toDate" placeholder={phonenumberPlaceholder} className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
                         </form>
+                        <br></br>
                         <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
-                        <div id="invalid-fields"></div>
                         <Button variant="secondary" onClick={() => {handleClose(); toggleValidationErrors();}}>
                             Close
                         </Button>
@@ -284,9 +286,10 @@ const RevatureAboutMe = () => {
                                     <h6>Phone #</h6>
                                     <input type="tel" name="toDate" className="form-input" id="" value={phone} onChange={e => setPhone(e.target.value)}/><br />
                                 </form>
+                                <br></br>
+                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                             </Modal.Body>
                                 <Modal.Footer>
-                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                                 <Button variant="secondary" onClick={() => {handleEditClose(); toggleValidationErrors();}}>
                                         Close
                                     </Button>
