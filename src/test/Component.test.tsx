@@ -1,24 +1,16 @@
-import { fireEvent, getAllByText, getByTestId, render, screen, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom';
-
-import axios from 'axios';
+import { render, screen, waitFor } from "@testing-library/react";
 import * as rcookies from 'react-cookie';
-import {BrowserRouter, Route} from "react-router-dom";
-
-import validate from "../components/FormValidation";
-
-
-import {testPortfolioList, fullPortfolioTestObj, testGeneralUser, testAdminFname} from "./TestUserComponent";
-import PortfolioList from "../components/PortfolioList";
-import HonorAwards from "../components/HonorAward";
+import { BrowserRouter, Route } from "react-router-dom";
 import Adminpage from "../components/Adminpage";
-
+import validate from "../components/FormValidation";
+import HonorAwards from "../components/HonorAward";
+import PortfolioList from "../components/PortfolioList";
 import ViewPortfolio from "../components/ViewPortfolio/ViewPortfolio";
+import { fullPortfolioTestObj, testAdminFname, testGeneralUser, testPortfolioList } from "./TestUserComponent";
 
 var pIndex = 0;
-beforeAll(async () => {
-    const axios = require('axios');
-})
+
 
 jest.mock('react-cookie', () => ({
     useCookies: jest.fn()
@@ -52,8 +44,8 @@ describe('Test PortfolioList', () => {
         })
 
         const axios = require('axios');
-        axios.get.mockImplementationOnce((longUrl: string)  => {
-            return Promise.resolve({data: testPortfolioList});
+        axios.get.mockImplementationOnce((longUrl: string) => {
+            return Promise.resolve({ data: testPortfolioList });
         })
         const { getByText } = render(<PortfolioList />);
         const title = getByText("List of Portfolios");
@@ -88,8 +80,8 @@ describe(`Testing HonorAward.tsx`, () => {
         })
 
         const axios = require('axios');
-        axios.get.mockImplementationOnce((longUrl: string)  => {
-            return Promise.resolve({data: fullPortfolioTestObj.honor});
+        axios.get.mockImplementationOnce((longUrl: string) => {
+            return Promise.resolve({ data: fullPortfolioTestObj.honor });
         })
         const { getByText } = render(<HonorAwards />);
         const title = getByText("Honors & Awards");
@@ -122,7 +114,7 @@ describe(`test admin page cookie functionality`, () => {
             }];
         })
 
-        const {getByText} = render(<Adminpage />);
+        const { getByText } = render(<Adminpage />);
         const adminWelcome = getByText(`Welcome Back, John Doe`);
         expect(adminWelcome).toHaveTextContent(`Welcome Back, John Doe`);
 
@@ -147,7 +139,7 @@ describe(`test ViewPortfolio`, () => {
             }];
         })
 
-        let {getByText} = render(<BrowserRouter><Route path="/view" component={ViewPortfolio} /></BrowserRouter>);
+        let { getByText } = render(<BrowserRouter><Route path="/view" component={ViewPortfolio} /></BrowserRouter>);
         const adminWelcome = screen.queryByText(`Portfolio Name:`);
         expect(adminWelcome).toBeNull();
 
@@ -162,41 +154,41 @@ describe(`test ViewPortfolio`, () => {
 //test form validation
 describe('Test FormValidation', () => {
     it('makes sure first name cannot be blank', () => {
-        const test = {fname:'First Name cannot be left blank'}
+        const test = { fname: 'First Name cannot be left blank' }
 
-        expect(validate({fname:"", lname:'lastName', email:'test@mail.com', password:'password', confirmPassword:'password'})).toEqual(test);
+        expect(validate({ fname: "", lname: 'lastName', email: 'test@mail.com', password: 'password', confirmPassword: 'password' })).toEqual(test);
     })
     it('check last name validation', () => {
-        const test = {lname:'Last Name connot be left blank'}
+        const test = { lname: 'Last Name connot be left blank' }
 
-        expect(validate({fname:"firstName", lname:'', email:'test@mail.com', password:'password', confirmPassword:'password'})).toEqual(test);
+        expect(validate({ fname: "firstName", lname: '', email: 'test@mail.com', password: 'password', confirmPassword: 'password' })).toEqual(test);
     })
     it('check email not blank', () => {
-        const test = {email:'Email connot be left blank'}
+        const test = { email: 'Email connot be left blank' }
 
-        expect(validate({fname:"FirstName", lname:'lastName', email:'', password:'password', confirmPassword:'password'})).toEqual(test);
+        expect(validate({ fname: "FirstName", lname: 'lastName', email: '', password: 'password', confirmPassword: 'password' })).toEqual(test);
     })
     it('check email is valid', () => {
-        const test = {email:'Please enter a vailed email address'}
+        const test = { email: 'Please enter a vailed email address' }
 
-        expect(validate({fname:"firstname", lname:'lastName', email:'testmailcom', password:'password', confirmPassword:'password'})).toEqual(test);
+        expect(validate({ fname: "firstname", lname: 'lastName', email: 'testmailcom', password: 'password', confirmPassword: 'password' })).toEqual(test);
     })
     it('check password not blank', () => {
-        const test = {password:'Password cannot be left blank'}
+        const test = { password: 'Password cannot be left blank' }
 
-        expect(validate({fname:"firstname", lname:'lastName', email:'test@mail.com', password:'', confirmPassword:'password'})).toEqual(test);
+        expect(validate({ fname: "firstname", lname: 'lastName', email: 'test@mail.com', password: '', confirmPassword: 'password' })).toEqual(test);
     })
     it('check password length', () => {
-        const test = {password:'Password must be at least 8 characters long'}
+        const test = { password: 'Password must be at least 8 characters long' }
 
-        expect(validate({fname:"FirstName", lname:'lastName', email:'test@mail.com', password:'pass', confirmPassword:'password'})).toEqual(test);
+        expect(validate({ fname: "FirstName", lname: 'lastName', email: 'test@mail.com', password: 'pass', confirmPassword: 'password' })).toEqual(test);
     })
     it('check password confirmation', () => {
-        const test = {confirmPassword:'Passwords must match'}
+        const test = { confirmPassword: 'Passwords must match' }
 
-        expect(validate({fname:"firstname", lname:'lastName', email:'test@mail.com', password:'password', confirmPassword:'pword'})).toEqual(test);
+        expect(validate({ fname: "firstname", lname: 'lastName', email: 'test@mail.com', password: 'password', confirmPassword: 'pword' })).toEqual(test);
     })
-    
+
 })
 
 
