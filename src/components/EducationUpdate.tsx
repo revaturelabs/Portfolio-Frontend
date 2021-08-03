@@ -53,11 +53,13 @@ const EducationUpdate: FC<{ hideModal: Function, editEducation: EducationData}>=
                 console.log("INVALID");
                 const elements = document.getElementsByClassName("form-input");
                 let gpaElement = document.getElementById("gpa");
-                console.log(gpaElement)
+                
+                styleInvalidElements(elements);
+                
+                //style gpa, because gpa has default value of 0
                 if(gpaElement != null) {
                     styleInvalidElement(gpaElement);
                 }
-                styleInvalidElements(elements);
                 setValidationErrors(errorElems);
             }       
     };

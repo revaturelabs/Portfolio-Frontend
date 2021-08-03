@@ -20,9 +20,7 @@ const ValidationMsg = (props: any) => {
     const errMsgs = props.errors.filter( (error: string) => {return (error && error !="!") } );
     errMsgs.sort( (a: string, b: string) => {
         return b.length - a.length;
-    })
-
-    //console.log("Hello from Val msg");
+    });
 
     return (
         <div id="form-component-error-list">
