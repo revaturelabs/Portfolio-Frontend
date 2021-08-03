@@ -182,7 +182,6 @@ const IndustryEquivalency = () => {
                         tempMax = skill.value;
                     }
                 });
-                // console.log("Highest Equivalency is " + tempMax);
                 setSkillSet(resp.data);
             })
             .catch(error => {
@@ -247,7 +246,6 @@ const IndustryEquivalency = () => {
     // DELETE EQUIVALENCY SKILL
     /* ---------------------------------------------------------------- */
     const handleDelete = async (remSkill: Skill) => {
-        // console.log('axios.delete(back_end_url + \'/equiv/' + remSkill.id + '\')');
         axios.delete(url + '/equiv/' + remSkill.id)
             .then(resp => {
                 console.log(resp.data);
