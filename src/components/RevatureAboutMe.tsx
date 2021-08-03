@@ -304,7 +304,7 @@ const RevatureAboutMe = () => {
                                 <Modal.Title>Delete Warning</Modal.Title>
                             </Modal.Header>
                             <Modal.Body >
-                                <h3>This will permanantly delete this info. Are you Sure?</h3>
+                                <p>This will permanantly delete this info. Are you sure?</p>
                             </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="danger" onClick={() => {handleDelete(id);}}>Yes, Permanantly Delete</Button>

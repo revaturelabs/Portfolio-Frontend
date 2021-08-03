@@ -58,8 +58,6 @@ const Project = () => {
     cardBody.setAttribute("class", "card-body");
     respositoryUrlContent.setAttribute("href", respositoryUrl);
     respositoryUrlContent.setAttribute("target", "_blank");
-
-    setId(id);
     
     nameHeader.innerHTML = name;
     descriptionContent.innerHTML = description;
@@ -107,6 +105,7 @@ const Project = () => {
     nameHeader.style.fontWeight = "bold";
 
     deleteButton.addEventListener("click", () => {
+      setDeleteId(id);
       handleShowModalDelete();
     });
     editButton.addEventListener("click", () => {
@@ -163,6 +162,8 @@ const Project = () => {
   const [technologies, setTechnologies] = useState("");
   const [respositoryUrl, setRespositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
+
+  const [deleteId, setDeleteId] = useState("");
 
   //Render Error Messages
     //*****************************************************/
@@ -239,6 +240,7 @@ const Project = () => {
     .catch((error) => {
       console.log("error");
     });
+
   resetFormStates();
   setShowModal(false);
   }
@@ -266,7 +268,7 @@ const Project = () => {
    */
   const handleDelete = async () => {
     axios
-      .delete(`${projectUrl}/${id}`)
+      .delete(`${projectUrl}/${deleteId}`)
       .then((response) => {
         console.log(response);
         console.log(response.data);
@@ -307,7 +309,7 @@ const Project = () => {
             .then((response) => {
               console.log("update: success");
               console.log(response.data.name);
-              //window.location.reload();
+              window.location.reload();
             })
             .catch((error) => {
               console.log("error");
