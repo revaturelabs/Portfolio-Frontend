@@ -53,6 +53,7 @@ const EducationEdit: FC<{ hideModal: Function, university: string,
                         required
                         type="number"
                         name="gpa"
+                        id="gpa"
                         className="form-input"
                         value={props.gpa}
                         onChange={(e) => props.setGpa(Number(e.target.value))}
