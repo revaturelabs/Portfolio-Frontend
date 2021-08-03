@@ -27,6 +27,7 @@ import { toast } from 'react-toastify';
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie, removeCookie] = useCookies();
+  const [feedbackToastsThrown, updateFeedbackToastsThrown] = useState(false);
   let savedFlags = {aboutMe: "",
   certification: "",
   education: "",
@@ -38,28 +39,6 @@ const EditEmpPortfolio = () => {
 
   if (cookies.portfolio.flags) {
     savedFlags = cookies.portfolio.flags;
-
-    if(!savedFlags.aboutMe){
-      toast.warn("FEEDBACK: Admin has provided feedback for About Me, please edit before submitting.");
-    }
-    if(!savedFlags.certification){
-      toast.warn("FEEDBACK: Admin has provided feedback for Certification, please edit before submitting.");
-    }
-    if(!savedFlags.education){
-      toast.warn("FEEDBACK: Admin has provided feedback for Education, please edit before submitting.");
-    }
-    if(!savedFlags.honorsAndAwards){
-      toast.warn("FEEDBACK: Admin has provided feedback for Honors & Awards, please edit before submitting.");
-    }
-    if(!savedFlags.industryEquivalence){
-      toast.warn("FEEDBACK: Admin has provided feedback for Industry Equivalency, please edit before submitting.");
-    }
-    if(!savedFlags.project){
-      toast.warn("FEEDBACK: Admin has provided feedback for Projects, please edit before submitting.");
-    }
-    if(!savedFlags.workExperience){ 
-      toast.warn("FEEDBACK: Admin has provided feedback for Work Experience, please edit before submitting.");
-    }
   }
 
 
@@ -88,6 +67,32 @@ const EditEmpPortfolio = () => {
       //grab industry equivalance info
       axios.get(url + "/equiv/portfolios/all/" + cookies['portfolio'].id)
       .then(response => setIndEquiv(response.data));
+
+      if(!feedbackToastsThrown) {
+        
+        if(savedFlags.aboutMe){
+          toast.warn("FEEDBACK: Admin has provided feedback for About Me, please edit before submitting.");
+        }
+        if(savedFlags.certification){
+          toast.warn("FEEDBACK: Admin has provided feedback for Certification, please edit before submitting.");
+        }
+        if(savedFlags.education){
+          toast.warn("FEEDBACK: Admin has provided feedback for Education, please edit before submitting.");
+        }
+        if(savedFlags.honorsAndAwards){
+          toast.warn("FEEDBACK: Admin has provided feedback for Honors & Awards, please edit before submitting.");
+        }
+        if(savedFlags.industryEquivalence){
+          toast.warn("FEEDBACK: Admin has provided feedback for Industry Equivalency, please edit before submitting.");
+        }
+        if(savedFlags.project){
+          toast.warn("FEEDBACK: Admin has provided feedback for Projects, please edit before submitting.");
+        }
+        if(savedFlags.workExperience){ 
+          toast.warn("FEEDBACK: Admin has provided feedback for Work Experience, please edit before submitting.");
+        }
+        updateFeedbackToastsThrown(true);
+      }
 
   }, []);
   
