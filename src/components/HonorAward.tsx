@@ -342,7 +342,7 @@ const HonorAwards = () => {
                 </Modal>
                 <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static">
                     <Modal.Header>Delete Warning</Modal.Header>
-                    <Modal.Body><p>This will  permanantly delete this info. Are you Sure?</p></Modal.Body>
+                    <Modal.Body><p>This will  permanantly delete this info. Are you sure?</p></Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={() => {handleDelete(id)}}>Yes, Permanantly Delete</Button>
                         <Button variant="secondary" onClick={handleCloseDelete}>Close</Button>
