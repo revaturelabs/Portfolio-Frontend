@@ -88,7 +88,13 @@ const EditEmpPortfolio = () => {
       .then((response) => setSkillMat(response.data));
 
     if (!feedbackToastsThrown) {
-      if (savedFlags.aboutMe) {
+      checkForFeedback();
+      updateFeedbackToastsThrown(true);
+    }
+  }, []);
+  
+  const checkForFeedback = () => {
+    if (savedFlags.aboutMe) {
         toast.warn(
           "FEEDBACK: Admin has provided feedback for About Me, please edit before submitting."
         );
@@ -128,9 +134,7 @@ const EditEmpPortfolio = () => {
           "FEEDBACK: Admin has provided feedback for Skill Matrices, please edit before submitting."
         );
       }
-      updateFeedbackToastsThrown(true);
-    }
-  }, []);
+  };
 
   const handleBack = () => {
     removeCookie("portfolio", { maxAge: 0 });
