@@ -22,6 +22,7 @@ import IndustryEquivalencyView from "./IndustryEquivalencyView";
 import ProjectView from "./ProjectView";
 import RevatureWorkExperienceView from "./RevatureWorkExperienceView";
 import SkillMatrixView from "./SkillMatrixView";
+import SkillMatrixViewPie from "./SkillMatrixViewPie";
 
 type FeedbackData = {
   industryEquivalence: string;
@@ -485,7 +486,7 @@ const ViewPortfolio = () => {
                   placement="right"
                   overlay={popoverIndustryEquivalency}
                 >
-                  <Button variant="error" size="lg">
+                  <Button className="flag" variant="error" size="lg">
                     ⚑
                   </Button>
                 </OverlayTrigger>
@@ -504,7 +505,7 @@ const ViewPortfolio = () => {
                   placement="right"
                   overlay={popoverAboutMe}
                 >
-                  <Button variant="error" size="lg">
+                  <Button className="flag" variant="error" size="lg">
                     ⚑
                   </Button>
                 </OverlayTrigger>
@@ -525,7 +526,7 @@ const ViewPortfolio = () => {
                   placement="right"
                   overlay={popoverWorkExperience}
                 >
-                  <Button variant="error" size="lg">
+                  <Button className="flag" variant="error" size="lg">
                     ⚑
                   </Button>
                 </OverlayTrigger>
@@ -543,7 +544,7 @@ const ViewPortfolio = () => {
                   placement="right"
                   overlay={popoverProject}
                 >
-                  <Button variant="error" size="lg">
+                  <Button className="flag" variant="error" size="lg">
                     ⚑
                   </Button>
                 </OverlayTrigger>
@@ -561,7 +562,7 @@ const ViewPortfolio = () => {
                   placement="right"
                   overlay={popoverEducation}
                 >
-                  <Button variant="error" size="lg">
+                  <Button className="flag" variant="error" size="lg">
                     ⚑
                   </Button>
                 </OverlayTrigger>
@@ -579,7 +580,7 @@ const ViewPortfolio = () => {
                   placement="right"
                   overlay={popoverCertification}
                 >
-                  <Button variant="error" size="lg">
+                  <Button className="flag" variant="error" size="lg">
                     ⚑
                   </Button>
                 </OverlayTrigger>
@@ -597,7 +598,7 @@ const ViewPortfolio = () => {
                   placement="right"
                   overlay={popoverHonorsAndAwards}
                 >
-                  <Button variant="error" size="lg">
+                  <Button className="flag" variant="error" size="lg">
                     ⚑
                   </Button>
                 </OverlayTrigger>
@@ -606,7 +607,7 @@ const ViewPortfolio = () => {
           </Row>
           <Row className="mt-5">
             <Col sm={11}>
-              <SkillMatrixView />
+              <SkillMatrixViewPie />
             </Col>
             <Col sm={1}>
               {savedFlags.skillMatrices !== "" && (
@@ -615,7 +616,7 @@ const ViewPortfolio = () => {
                   placement="right"
                   overlay={popoverSkillMatrices}
                 >
-                  <Button variant="error" size="lg">
+                  <Button className="flag" variant="error" size="lg">
                     ⚑
                   </Button>
                 </OverlayTrigger>

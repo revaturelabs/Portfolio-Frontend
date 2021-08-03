@@ -6,6 +6,7 @@ import axios from "axios";
 import createChart from "./SkillMatrixPieChart";
 import { Modal, Button, ModalBody, Card } from "react-bootstrap";
 import { Tooltip } from "reactstrap";
+import { toast } from "react-toastify";
 import {
   QuestionCircle,
   PlusCircle,
@@ -37,9 +38,9 @@ const SkillMatrixContainer = () => {
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
   const handleAddShow = () => {
-    if (matrices.length >= 6) {
-      alert(
-        "No more than 6 Matrices can be added to the Skill Matrix Section."
+    if (matrices.length >= 5) {
+      toast.warn(
+        "No more than 5 Matrices can be added to the Skill Matrix Section."
       );
       return;
     }
@@ -425,7 +426,7 @@ const SkillMatrixContainer = () => {
             </Modal.Header>
             <ModalBody>
               <p>
-                Add your <b>6 major skill categories</b> and 6 skills within
+                Add your <b>5 major skill categories</b> and 6 skills within
                 each category.
               </p>
             </ModalBody>
