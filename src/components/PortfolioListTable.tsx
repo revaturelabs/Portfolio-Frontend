@@ -4,6 +4,7 @@ import { Table, Button } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 export const defaultArrows:{[key: string]: string} = {
   id: "—",
@@ -14,6 +15,20 @@ export const defaultArrows:{[key: string]: string} = {
 };
 
 function PortfolioListTable(props: any) {
+
+  const [id, setId] = useState(null);
+  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
+  const deleteMessage = "Are you sure you want to delete this portfolio?";
+
+  const showDeleteModal = (passedId: any) => {
+    setId(passedId);
+    setDisplayConfirmationModal(true);
+  };
+
+  const hideConfirmationModal = () => {
+    setDisplayConfirmationModal(false);
+  };
+
   let { portfolios } = props;
   const [, setCookie, removeCookie] = useCookies();
   const [sortConfig, setSortConfig]: any = useState("approved");
@@ -37,10 +52,10 @@ function PortfolioListTable(props: any) {
     return sortedPortfolios;
   }, [sortedPortfolios]);
 
-  const handlePortfolioEdit = (id: any, submitted: boolean) => {
+  const handlePortfolioEdit = (passedId: any, submitted: boolean) => {
     let pathname = submitted ? "./view" : "./portfolio";
     axios
-      .get(`${portfolioUrl}/${id}`)
+      .get(`${portfolioUrl}/${passedId}`)
       .then((response) => {
         setCookie("portfolio", response.data, { path: "/" });
         window.location.pathname = pathname;
@@ -50,9 +65,9 @@ function PortfolioListTable(props: any) {
       });
   };
 
-  const handleDelete = (id: any) => {
+  const handleDelete = (passedId: any) => {
     axios
-      .delete(`${portfolioUrl}/${id}`)
+      .delete(`${portfolioUrl}/${passedId}`)
       .then((response) => {
         removeCookie("portfolio", { maxAge: 0 });
         toast.success("Portfolio deleted");
@@ -61,6 +76,7 @@ function PortfolioListTable(props: any) {
       .catch((error) => {
         toast.error(error.message);
       });
+      setDisplayConfirmationModal(false);
   };
 
   return (
@@ -121,7 +137,7 @@ function PortfolioListTable(props: any) {
                 <Button
                   variant="danger"
                   style={{ marginRight: "10px" }}
-                  onClick={() => handleDelete(portfolio.id)}
+                  onClick={() => showDeleteModal(portfolio.id)}
                 >
                   Delete
                 </Button>
@@ -138,6 +154,7 @@ function PortfolioListTable(props: any) {
           );
         })}
       </tbody>
+      <DeleteConfirmation showModal={displayConfirmationModal} confirmModal={handleDelete} hideModal={hideConfirmationModal} id={id} message={deleteMessage}  />
     </Table>
   );
 }

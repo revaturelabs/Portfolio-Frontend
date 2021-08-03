@@ -25,9 +25,11 @@ import { toast } from 'react-toastify';
 import SkillMatrixContainer from "./SkillMatrixContainer";
 
 
+
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie, removeCookie] = useCookies();
+  const [feedbackToastsThrown, updateFeedbackToastsThrown] = useState(false);
   let savedFlags = {aboutMe: "",
   certification: "",
   education: "",
@@ -68,6 +70,32 @@ const EditEmpPortfolio = () => {
       axios.get(url + "/equiv/portfolios/all/" + cookies['portfolio'].id)
       .then(response => setIndEquiv(response.data));
 
+      if(!feedbackToastsThrown) {
+        
+        if(savedFlags.aboutMe){
+          toast.warn("FEEDBACK: Admin has provided feedback for About Me, please edit before submitting.");
+        }
+        if(savedFlags.certification){
+          toast.warn("FEEDBACK: Admin has provided feedback for Certification, please edit before submitting.");
+        }
+        if(savedFlags.education){
+          toast.warn("FEEDBACK: Admin has provided feedback for Education, please edit before submitting.");
+        }
+        if(savedFlags.honorsAndAwards){
+          toast.warn("FEEDBACK: Admin has provided feedback for Honors & Awards, please edit before submitting.");
+        }
+        if(savedFlags.industryEquivalence){
+          toast.warn("FEEDBACK: Admin has provided feedback for Industry Equivalency, please edit before submitting.");
+        }
+        if(savedFlags.project){
+          toast.warn("FEEDBACK: Admin has provided feedback for Projects, please edit before submitting.");
+        }
+        if(savedFlags.workExperience){ 
+          toast.warn("FEEDBACK: Admin has provided feedback for Work Experience, please edit before submitting.");
+        }
+        updateFeedbackToastsThrown(true);
+      }
+
   }, []);
   
 
@@ -103,7 +131,8 @@ const EditEmpPortfolio = () => {
             }
             else{
                 console.log("Insufficient work done for phase 1");
-                toast.error(("Insufficient work done for phase 1"))
+                toast.error("Insufficient work done for Phase 1 Portfolio Submission");
+                phase1Validation();
             }
         }
         //Phase 2 Validation
@@ -113,10 +142,33 @@ const EditEmpPortfolio = () => {
             }
             else{
                 console.log("Insufficient work done for phase 2");
+                toast.error("Insufficient work done for Phase 2 Portfolio Submission");
+                phase2Validation();
                 
             }
         } 
     };
+
+    const phase1Validation = () => {
+      if(!aboutMe){
+        toast.error("REQUIRED: About Me")
+      }
+      if(!educations.length){
+        toast.error("REQUIRED: Education")
+      }
+      if(!projects.length){
+        toast.error("REQUIRED: Project 1 Information")
+      }
+    }
+
+    const phase2Validation = () => {
+      if(indEquiv.length != 5){
+        toast.info("REQUIRED: 5 Skills for Industry Equivalency")
+      }
+      if(projects.length != 3){
+        toast.info("REQUIRED: Project 2 & Project 3 Information")
+      }
+    }
 
   const popoverIndustryEquivalency = (
     <Popover id="popover-basic">
