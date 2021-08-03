@@ -133,15 +133,7 @@ const EditEmpPortfolio = () => {
             else{
                 console.log("Insufficient work done for phase 1");
                 toast.error("Insufficient work done for Phase 1 Portfolio Submission");
-                if(!aboutMe){
-                  toast.error("REQUIRED: About Me")
-                }
-                if(!educations.length){
-                  toast.error("REQUIRED: Education")
-                }
-                if(!projects.length){
-                  toast.error("REQUIRED: Project 1 Information")
-                }
+                phase1Validation();
             }
         }
         //Phase 2 Validation
@@ -152,16 +144,32 @@ const EditEmpPortfolio = () => {
             else{
                 console.log("Insufficient work done for phase 2");
                 toast.error("Insufficient work done for Phase 2 Portfolio Submission");
-                if(indEquiv.length != 5){
-                  toast.error("REQUIRED: 5 Skills for Industry Equivalency")
-                }
-                if(projects.length != 3){
-                  toast.error("REQUIRED: Project 2 & Project 3 Information")
-                }
+                phase2Validation();
                 
             }
         } 
     };
+
+    const phase1Validation = () => {
+      if(!aboutMe){
+        toast.error("REQUIRED: About Me")
+      }
+      if(!educations.length){
+        toast.error("REQUIRED: Education")
+      }
+      if(!projects.length){
+        toast.error("REQUIRED: Project 1 Information")
+      }
+    }
+
+    const phase2Validation = () => {
+      if(indEquiv.length != 5){
+        toast.info("REQUIRED: 5 Skills for Industry Equivalency")
+      }
+      if(projects.length != 3){
+        toast.info("REQUIRED: Project 2 & Project 3 Information")
+      }
+    }
 
   const popoverIndustryEquivalency = (
     <Popover id="popover-basic">
