@@ -10,8 +10,6 @@ import {aboutMeUrl, url} from "../api/api";
 import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
 import ValidationMsg from './validation/ValidationMsg';
-import { wait } from '@testing-library/react';
-// import sanitizeHtml from 'sanitize-html';
 
 const RevatureAboutMe = () => {
     // Model show and hide
@@ -304,7 +302,7 @@ const RevatureAboutMe = () => {
                                 <Modal.Title>Delete Warning</Modal.Title>
                             </Modal.Header>
                             <Modal.Body >
-                                <h3>This will permanantly delete this info. Are you Sure?</h3>
+                                <p>This will permanantly delete this info. Are you sure?</p>
                             </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="danger" onClick={() => {handleDelete(id);}}>Yes, Permanantly Delete</Button>

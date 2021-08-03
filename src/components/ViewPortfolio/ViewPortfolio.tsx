@@ -21,6 +21,7 @@ import HonorAwardView from "./HonorAwardView";
 import IndustryEquivalencyView from "./IndustryEquivalencyView";
 import ProjectView from "./ProjectView";
 import RevatureWorkExperienceView from "./RevatureWorkExperienceView";
+import SkillMatrixView from "./SkillMatrixView";
 
 type FeedbackData = {
   industryEquivalence: string;
@@ -30,6 +31,7 @@ type FeedbackData = {
   education: string;
   certification: string;
   honorsAndAwards: string;
+  skillMatrices: string;
 };
 
 const ViewPortfolio = () => {
@@ -45,6 +47,7 @@ const ViewPortfolio = () => {
     industryEquivalence: "",
     project: "",
     workExperience: "",
+    skillMatrices: ""
   });
 
   let history = useHistory();
@@ -90,6 +93,7 @@ const ViewPortfolio = () => {
       industryEquivalence: "",
       project: "",
       workExperience: "",
+      skillMatrices: ""
     };
   }
 
@@ -175,6 +179,15 @@ const ViewPortfolio = () => {
         Honors & Awards Feedback
       </Popover.Title>
       <Popover.Content>{savedFlags.honorsAndAwards}</Popover.Content>
+    </Popover>
+  );
+
+  const popoverSkillMatrices = (
+    <Popover id="popover-basic">
+      <Popover.Title className="flagPopover" as="h3">
+        Skill Matrices Feedback
+      </Popover.Title>
+      <Popover.Content>{savedFlags.skillMatrices}</Popover.Content>
     </Popover>
   );
 
@@ -406,6 +419,34 @@ const ViewPortfolio = () => {
               <br />
             </Col>
           </Row>
+          <Row className="mt-5">
+            <Col sm={8}>
+              <SkillMatrixView />
+            </Col>
+            <Col sm={4}>
+              {savedFlags.skillMatrices !== "" && (
+                <OverlayTrigger
+                  trigger="click"
+                  placement="right"
+                  overlay={popoverSkillMatrices}
+                >
+                  <Button className="flag" variant="error" size="lg">
+                    <h3>⚑</h3>
+                  </Button>
+                </OverlayTrigger>
+              )}
+              <textarea
+                rows={5}
+                cols={40}
+                placeholder="Insert new feedback here..."
+                {...register("skillMatrices")}
+              >
+                {cookie.portfolio.flags.skillMatrices}
+              </textarea>
+              <br />
+              <br />
+            </Col>
+          </Row>
         </form>
         <ScrollButton />
       </Container>
@@ -555,6 +596,24 @@ const ViewPortfolio = () => {
                   trigger="click"
                   placement="right"
                   overlay={popoverHonorsAndAwards}
+                >
+                  <Button variant="error" size="lg">
+                    ⚑
+                  </Button>
+                </OverlayTrigger>
+              )}
+            </Col>
+          </Row>
+          <Row className="mt-5">
+            <Col sm={11}>
+              <SkillMatrixView />
+            </Col>
+            <Col sm={1}>
+              {savedFlags.skillMatrices !== "" && (
+                <OverlayTrigger
+                  trigger="click"
+                  placement="right"
+                  overlay={popoverSkillMatrices}
                 >
                   <Button variant="error" size="lg">
                     ⚑

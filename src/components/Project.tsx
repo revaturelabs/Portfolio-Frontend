@@ -58,15 +58,7 @@ const Project = () => {
     cardBody.setAttribute("class", "card-body");
     respositoryUrlContent.setAttribute("href", respositoryUrl);
     respositoryUrlContent.setAttribute("target", "_blank");
-
-    setId(id);
-    setName(name);
-    setDescription(description);
-    setResponsibilities(responsibilities);
-    setTechnologies(technologies);
-    setRespositoryUrl(respositoryUrl);
-    setWorkProducts(workProducts);
-
+    
     nameHeader.innerHTML = name;
     descriptionContent.innerHTML = description;
     responsibilitiesHeader.innerHTML = "Responsibilities";
@@ -113,19 +105,42 @@ const Project = () => {
     nameHeader.style.fontWeight = "bold";
 
     deleteButton.addEventListener("click", () => {
+      setDeleteId(id);
       handleShowModalDelete();
     });
+
     editButton.addEventListener("click", () => {
+      setId(id);
+      setName(name);
+      setDescription(description);
+      setResponsibilities(responsibilities);
+      setTechnologies(technologies);
+      setRespositoryUrl(respositoryUrl);
+      setWorkProducts(workProducts);
       handleShowModalEdit();
     });
   };
+
+
+  //Reset the form states to null after each new project is 
+  function resetFormStates() {
+    setName("");
+    setDescription("");
+    setResponsibilities("");
+    setTechnologies("");
+    setRespositoryUrl("");
+    setWorkProducts("");
+    setValidationErrors([]);
+}
+
 
   /**
    * Show/Hide Modal
    */
   const [showModal, setShowModal] = useState(false);
   const handleHideModal = () => { setShowModal(false); setValidationErrors([]); }
-  const handleShowModal = () => setShowModal(true);
+  const handleShowModal = () => { setShowModal(true); resetFormStates(); }
+
   const [showModalEdit, setShowModalEdit] = useState(false);
   const handleHideModalEdit = () => { setShowModalEdit(false); setValidationErrors([]); }
   const handleShowModalEdit = () => setShowModalEdit(true);
@@ -156,6 +171,8 @@ const Project = () => {
   const [technologies, setTechnologies] = useState("");
   const [respositoryUrl, setRespositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
+
+  const [deleteId, setDeleteId] = useState("");
 
   //Render Error Messages
     //*****************************************************/
@@ -208,6 +225,7 @@ const Project = () => {
   }
 
   //returns boolean *array* indicating which above state is valid, in above order
+  console.log("Properties in projObj: " + projObj);
   const errorElems = ProjectValidation(projObj);
   let isValid = true;
   errorElems.forEach((elem) => { isValid = isValid && !elem});
@@ -226,18 +244,13 @@ const Project = () => {
     })
     .then((response) => {
       console.log("success");
-      setName("");
-      setDescription("");
-      setResponsibilities("");
-      setTechnologies("");
-      setRespositoryUrl("");
-      setWorkProducts("");
-      setValidationErrors([]);
       window.location.reload();
     })
     .catch((error) => {
       console.log("error");
     });
+
+  resetFormStates();
   setShowModal(false);
   }
   else {
@@ -245,8 +258,9 @@ const Project = () => {
         - iterate over HTML elements and style inccorect elements
         - do not close display
     */
-    console.log("Error: invalid fields in Projects form");
-    console.log("Error elems: " + errorElems);
+
+    //console.log("Error: invalid fields in Projects form");
+    //console.log("Error elems: " + errorElems);
     Object.keys(projObj).forEach((key: string, keyIndex: number) => {
         styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
     });
@@ -263,7 +277,7 @@ const Project = () => {
    */
   const handleDelete = async () => {
     axios
-      .delete(`${projectUrl}/${id}`)
+      .delete(`${projectUrl}/${deleteId}`)
       .then((response) => {
         console.log(response);
         console.log(response.data);
@@ -310,7 +324,8 @@ const Project = () => {
               console.log("error");
             });
             
-          setValidationErrors([]);
+          //console.log("\n\n\n\ RESETTING FORM STATES IN update \n\n\n");
+          resetFormStates();
           setShowModalEdit(false);
         }  else {
           Object.keys(projObj).forEach((key: string, keyIndex: number) => {
@@ -585,6 +600,7 @@ const Project = () => {
       </Card>
     </div>
   );
+
 };
 
 export default Project;
