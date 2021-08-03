@@ -225,7 +225,6 @@ const Project = () => {
   }
 
   //returns boolean *array* indicating which above state is valid, in above order
-  console.log("Properties in projObj: " + projObj);
   const errorElems = ProjectValidation(projObj);
   let isValid = true;
   errorElems.forEach((elem) => { isValid = isValid && !elem});
@@ -259,8 +258,6 @@ const Project = () => {
         - do not close display
     */
 
-    //console.log("Error: invalid fields in Projects form");
-    //console.log("Error elems: " + errorElems);
     Object.keys(projObj).forEach((key: string, keyIndex: number) => {
         styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
     });
@@ -324,7 +321,6 @@ const Project = () => {
               console.log("error");
             });
             
-          //console.log("\n\n\n\ RESETTING FORM STATES IN update \n\n\n");
           resetFormStates();
           setShowModalEdit(false);
         }  else {
