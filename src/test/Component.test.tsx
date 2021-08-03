@@ -19,6 +19,20 @@ jest.mock('react-cookie', () => ({
 jest.mock('axios');
 
 
+beforeEach(() => {
+    const getCookie = jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
+        return [{
+            id: 2,
+            user: testGeneralUser,
+            portfolio: testPortfolioList[pIndex]
+        }, function () {
+            console.log('updateCookie function called.')
+        }, function () {
+            console.log('removeCookie function called.')
+        }];
+    })
+})
+
 afterEach(() => {
     jest.resetAllMocks();
 })
@@ -31,18 +45,6 @@ afterEach(() => {
 describe('Test PortfolioList', () => {
     it('checks if portfolio table show up in the portfolio list', async () => {
 
-        const getCookie = jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
-            return [{
-                id: 2,
-                user: testGeneralUser,
-                portfolio: testPortfolioList[pIndex]
-            }, function () {
-                console.log('updateCookie function called.')
-            }, function () {
-                console.log('removeCookie function called.')
-            }];
-        })
-
         const axios = require('axios');
         axios.get.mockImplementationOnce((longUrl: string) => {
             return Promise.resolve({ data: testPortfolioList });
@@ -51,12 +53,12 @@ describe('Test PortfolioList', () => {
         const title = getByText("List of Portfolios");
         expect(await screen.findByText("List of Portfolios")).toBeVisible();
         expect(title).toHaveTextContent("List of Portfolios");
-        expect(title).not.toHaveTextContent("About me");
+        expect(title).not.toHaveTextContent("No content found here");
 
         await waitFor(() => {
             const name = getByText("DevOps Engineer");
             expect(name).toHaveTextContent("DevOps Engineer");
-            expect(name).not.toHaveTextContent("I Don't Have This Text");
+            expect(name).not.toHaveTextContent("this text does not exist");
             expect(name).toBeVisible();
         })
 
@@ -66,18 +68,6 @@ describe('Test PortfolioList', () => {
 //test HonorAward
 describe(`Testing HonorAward.tsx`, () => {
     it(`checks if honors are being displayed from the axios get call`, async () => {
-
-        const getCookie = jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
-            return [{
-                id: 2,
-                user: testGeneralUser,
-                portfolio: testPortfolioList[pIndex]
-            }, function () {
-                console.log('updateCookie function called.')
-            }, function () {
-                console.log('removeCookie function called.')
-            }];
-        })
 
         const axios = require('axios');
         axios.get.mockImplementationOnce((longUrl: string) => {
@@ -127,17 +117,6 @@ describe(`test admin page cookie functionality`, () => {
 describe(`test ViewPortfolio`, () => {
     it(`Test that only admins can view another user's portfolio`, () => {
 
-        const getCookie = jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
-            return [{
-                id: 2,
-                user: testGeneralUser,
-                portfolio: testPortfolioList[pIndex]
-            }, function () {
-                console.log('updateCookie function called.')
-            }, function () {
-                console.log('removeCookie function called.')
-            }];
-        })
 
         let { getByText } = render(<BrowserRouter><Route path="/view" component={ViewPortfolio} /></BrowserRouter>);
         const adminWelcome = screen.queryByText(`Portfolio Name:`);
