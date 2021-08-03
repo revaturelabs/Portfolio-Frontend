@@ -20,8 +20,8 @@ function PortfolioListTable(props: any) {
   const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
   const deleteMessage = "Are you sure you want to delete this portfolio?";
 
-  const showDeleteModal = (id: any) => {
-    setId(id);
+  const showDeleteModal = (passedId: any) => {
+    setId(passedId);
     setDisplayConfirmationModal(true);
   };
 
@@ -52,10 +52,10 @@ function PortfolioListTable(props: any) {
     return sortedPortfolios;
   }, [sortedPortfolios]);
 
-  const handlePortfolioEdit = (id: any, submitted: boolean) => {
+  const handlePortfolioEdit = (passedId: any, submitted: boolean) => {
     let pathname = submitted ? "./view" : "./portfolio";
     axios
-      .get(`${portfolioUrl}/${id}`)
+      .get(`${portfolioUrl}/${passedId}`)
       .then((response) => {
         setCookie("portfolio", response.data, { path: "/" });
         window.location.pathname = pathname;
@@ -65,9 +65,9 @@ function PortfolioListTable(props: any) {
       });
   };
 
-  const handleDelete = (id: any) => {
+  const handleDelete = (passedId: any) => {
     axios
-      .delete(`${portfolioUrl}/${id}`)
+      .delete(`${portfolioUrl}/${passedId}`)
       .then((response) => {
         removeCookie("portfolio", { maxAge: 0 });
         toast.success("Portfolio deleted");
