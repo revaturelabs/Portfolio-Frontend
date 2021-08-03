@@ -41,6 +41,7 @@ stages:
           nodeVersion: '14.x'
   
   - stage: Analyze
+    dependsOn: []
     jobs:
       - template: ./code-coverage-analysis-template.yml
         parameters:
@@ -50,6 +51,7 @@ stages:
           projectName: 'Portfolio-Frontend'
   
   - stage: Notify
+    dependsOn: ["Build", "Analyze"]
     condition: always()
     jobs:
       - template: ./discord-job-template.yml

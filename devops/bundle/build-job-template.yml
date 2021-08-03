@@ -17,3 +17,8 @@ jobs:
       - script: npm run-script build
         displayName: npm build
       
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Build.Repository.LocalPath)/build/'
+          artifact: 'static'
+          publishLocation: 'pipeline'
