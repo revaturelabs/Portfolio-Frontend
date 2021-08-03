@@ -21,15 +21,10 @@ import Project from "./Project";
 import RevatureWorkExp from "./RevatureWorkExperience";
 import ScrollButton from './ScrollButton';
 import { useEffect, useState } from 'react';
-<<<<<<< HEAD
-import { toast } from 'react-toastify';
-import SkillMatrixContainer from "./SkillMatrixContainer";
-=======
 
 import { toast } from 'react-toastify';
 import SkillMatrixContainer from "./SkillMatrixContainer";
 
->>>>>>> 0294e528978a7ddad1473b1a2c0abb6b05bf339c
 
 
 const EditEmpPortfolio = () => {
