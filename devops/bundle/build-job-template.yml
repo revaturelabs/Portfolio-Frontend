@@ -17,6 +17,11 @@ jobs:
       - script: npm run-script build
         displayName: npm build
       
+      - script: |
+          npm test -- --watchAll=false
+          find
+        displayName: npm test
+
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(Build.Repository.LocalPath)/build/'
