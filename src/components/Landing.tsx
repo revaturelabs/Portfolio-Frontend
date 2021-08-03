@@ -4,13 +4,23 @@ import '../css/Landing.css';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AccountRegistration from './AccountRegistration';
-import revlogo from '../images/rev-logo.png'
+import { useCookies } from "react-cookie";
 
 const Landing = () => {
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [cookies, , removeCookie] = useCookies();
+
+    //Clean up cookies
+    useEffect(() => {
+        removeCookie("user", { maxAge: 0 });
+        removeCookie("admin");
+        if (cookies["portfolio"]) {
+          removeCookie("portfolio", { maxAge: 0 });
+        }
+    }, []);
 
     return (
         <div className="centering">
