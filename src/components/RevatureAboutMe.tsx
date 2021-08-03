@@ -10,8 +10,6 @@ import {aboutMeUrl, url} from "../api/api";
 import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
 import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
 import ValidationMsg from './validation/ValidationMsg';
-import { wait } from '@testing-library/react';
-// import sanitizeHtml from 'sanitize-html';
 
 const RevatureAboutMe = () => {
     // Model show and hide
