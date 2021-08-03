@@ -11,7 +11,7 @@ import {
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
-import { portfolioUrl, url } from "../../api/api";
+import { portfolioUrl, workExperienceUrl, url } from "../../api/api";
 import "../../css/ViewPortfolio.css";
 import ScrollButton from "../ScrollButton";
 import AboutMeView from "./AboutMeView";
@@ -36,7 +36,7 @@ type FeedbackData = {
 };
 
 const ViewPortfolio = () => {
-  const [cookie, setCookie, removeCookie] = useCookies();
+  const [cookie, , removeCookie] = useCookies();
   const [pathname, setPath] = useState("/list");
   const [isAdmin, setAdmin] = useState(false);
   const { register, handleSubmit } = useForm<FeedbackData>();
@@ -48,7 +48,7 @@ const ViewPortfolio = () => {
     industryEquivalence: "",
     project: "",
     workExperience: "",
-    skillMatrices: ""
+    skillMatrices: "",
   });
 
   let history = useHistory();
@@ -94,7 +94,7 @@ const ViewPortfolio = () => {
       industryEquivalence: "",
       project: "",
       workExperience: "",
-      skillMatrices: ""
+      skillMatrices: "",
     };
   }
 
@@ -515,7 +515,7 @@ const ViewPortfolio = () => {
           <Row className="mt-5">
             <Col sm={11}>
               <RevatureWorkExperienceView
-                url={url + "/workexperience/portfolio/all/"}
+                url={workExperienceUrl + "/portfolio/all/"}
                 title="Work Experience"
               />
             </Col>
