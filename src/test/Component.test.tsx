@@ -20,7 +20,7 @@ jest.mock('axios');
 
 
 beforeEach(() => {
-    const getCookie = jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
+    jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
         return [{
             id: 2,
             user: testGeneralUser,
@@ -92,7 +92,7 @@ describe(`Testing HonorAward.tsx`, () => {
 describe(`test admin page cookie functionality`, () => {
     it(`makes sure the admin name displays from the cookie`, () => {
 
-        const getCookie = jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
+        jest.spyOn(rcookies, 'useCookies').mockImplementation(() => {
             return [{
                 id: 2,
                 admin: testAdminFname,
@@ -118,7 +118,7 @@ describe(`test ViewPortfolio`, () => {
     it(`Test that only admins can view another user's portfolio`, () => {
 
 
-        let { getByText } = render(<BrowserRouter><Route path="/view" component={ViewPortfolio} /></BrowserRouter>);
+        render(<BrowserRouter><Route path="/view" component={ViewPortfolio} /></BrowserRouter>);
         const adminWelcome = screen.queryByText(`Portfolio Name:`);
         expect(adminWelcome).toBeNull();
 
