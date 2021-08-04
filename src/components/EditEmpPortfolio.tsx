@@ -485,7 +485,7 @@ const EditEmpPortfolio = () => {
             to={{ pathname: `${portfolioUrl}/full/${cookies["portfolio"].id}` }}
             target="_blank"
           >
-            <button className="btn btn-primary m-1">Export</button>
+            <button className="btn btn-primary m-1">Export as JSON</button>
           </Link>
           <Link to="/list">
             <Button

@@ -309,10 +309,10 @@ const RevatureWorkExperience = () => {
                     <XCircle id="work-experience-details" onClick={handleCloseDetails}/>
                 </Modal.Header>
                 <ModalBody>
-                    <p>This section is used to mention your work experience with the Revature’s Client after placement. As of now, the Work Experiences section should be blank.
+                    <p>This section is used to mention your work experience with Revature clients after placement. As of now, the Work Experience section should be blank.
                         <br/>
                         <br/>
-                        If you any previous work experience, you can mention them under the Other Experiences section.
+                        If you have any other previous work experiences, you can mention them under the Other Experience section.
                     </p>
                 </ModalBody>
             </Modal>
@@ -334,7 +334,7 @@ const RevatureWorkExperience = () => {
                             <textarea name="responsibilites" className="form-input" style={{height: "100px"}} onChange={e => setResponsibilities(e.target.value)}></textarea>
                             <h6 className="work-experience-form-headers">Tools / Technologies</h6>
                             <textarea name="technologies" className="form-input" style={{height: "100px"}} onChange={e => setTechnologies(e.target.value)}></textarea>
-                            <h6 className="work-experience-form-headers">Problem Desciption</h6>
+                            <h6 className="work-experience-form-headers">Problem Description</h6>
                             <textarea name="description" className="form-input" style={{height: "100px"}} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
 
@@ -364,7 +364,7 @@ const RevatureWorkExperience = () => {
                             <textarea name="responsibilites" className="form-input" style={{height: "100px"}} value={responsibilities} onChange={e => setResponsibilities(e.target.value)}></textarea>
                             <h6 className="work-experience-update-form-headers">Tools / Technologies</h6>
                             <textarea name="technologies" className="form-input" style={{height: "100px"}} value={technologies} onChange={e => setTechnologies(e.target.value)}></textarea>
-                            <h6 className="work-experience-update-form-headers">Problem Desciption</h6>
+                            <h6 className="work-experience-update-form-headers">Problem Description</h6>
                             <textarea name="description" className="form-input" style={{height: "100px"}} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
 
