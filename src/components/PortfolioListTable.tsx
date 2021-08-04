@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
 import DeleteConfirmation from "./DeleteConfirmation";
+import { useHistory } from "react-router-dom";
 
 export const defaultArrows:{[key: string]: string} = {
   id: "—",
@@ -16,6 +17,7 @@ export const defaultArrows:{[key: string]: string} = {
 
 function PortfolioListTable(props: any) {
 
+  const history = useHistory();
   const [id, setId] = useState(null);
   const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
   const deleteMessage = "Are you sure you want to delete this portfolio?";
@@ -53,12 +55,12 @@ function PortfolioListTable(props: any) {
   }, [sortedPortfolios]);
 
   const handlePortfolioEdit = (passedId: any, submitted: boolean) => {
-    let pathname = submitted ? "./view" : "./portfolio";
+    let pathname = submitted ? "/view" : "/portfolio";
     axios
       .get(`${portfolioUrl}/${passedId}`)
       .then((response) => {
         setCookie("portfolio", response.data, { path: "/" });
-        window.location.pathname = pathname;
+        history.push(pathname);
       })
       .catch((error) => {
         toast.error(error.message);
