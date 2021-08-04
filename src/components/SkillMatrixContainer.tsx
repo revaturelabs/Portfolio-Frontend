@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { matrixUrl } from "../api/api";
 import { useCookies } from "react-cookie";
 import Matrix, { Skill } from "../interfaces/Matrix";
@@ -6,6 +6,7 @@ import axios from "axios";
 import createChart from "./SkillMatrixPieChart";
 import { Modal, Button, ModalBody, Card } from "react-bootstrap";
 import { Tooltip } from "reactstrap";
+import { toast } from "react-toastify";
 import {
   QuestionCircle,
   PlusCircle,
@@ -34,17 +35,22 @@ const SkillMatrixContainer = () => {
   // Modal STATES AND FUNCTIONS
   /* ---------------------------------------------------------------- */
 
+  useEffect(() => {
+    getMatrices();
+  }, []);
+
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
   const handleAddShow = () => {
-    if (matrices.length >= 6) {
-      alert(
-        "No more than 6 Matrices can be added to the Skill Matrix Section."
+    if (matrices.length >= 5) {
+      toast.warn(
+        "No more than 5 Matrices can be added to the Skill Matrix Section."
       );
       return;
     }
     setShowAdd(true);
   };
+
   const handleAddClose = () => {
     setShowAdd(false);
   };
@@ -56,16 +62,7 @@ const SkillMatrixContainer = () => {
   const [matrices, setMatrices] = useState<Array<Matrix>>([]);
   const [matrixName, setMatrixName] = useState<string>("");
 
-  const [showDetailMatrix, setShowDetailsMatrix] = useState(false);
-  const handleCloseDetailsMatrix = () => setShowDetailsMatrix(false);
   const handleCloseDetails = () => setShowDetails(false);
-
-  const [detailsModalMatrix, setDetailModalMatrix] = useState({ header: "" });
-
-  const handleShowDetailsMatrix = (matrix: Matrix) => {
-    setShowDetailsMatrix(true);
-    setDetailModalMatrix(matrix);
-  };
 
   const newMatrix: Matrix = {
     id: 0,
@@ -156,7 +153,7 @@ const SkillMatrixContainer = () => {
   };
 
   /* ---------------------------------------------------------------- */
-  // ADD EQUIVALENCY Matrix
+  // ADD SKILL MATRIX
   /* ---------------------------------------------------------------- */
   const addMatrix = async () => {
     let newAddMatrix: Matrix = {
@@ -299,10 +296,6 @@ const SkillMatrixContainer = () => {
             <Card.Header id="header">
               <h4>
                 {data.header}
-                <QuestionCircle
-                  id={data.header}
-                  onClick={() => handleShowDetailsMatrix(data)}
-                />
                 <Pencil onClick={() => handleUpdateShowDetailsMatrix(data)} />
                 <PlusCircle
                   onClick={() => {
@@ -425,22 +418,8 @@ const SkillMatrixContainer = () => {
             </Modal.Header>
             <ModalBody>
               <p>
-                Add your <b>6 major skill categories</b> and 6 skills within
+                Add your <b>5 major skill categories</b> and 6 skills within
                 each category.
-              </p>
-            </ModalBody>
-          </Modal>
-          <Modal show={showDetailMatrix} onHide={handleCloseDetailsMatrix}>
-            <Modal.Header>
-              <Modal.Title>Details</Modal.Title>
-              <XCircle
-                id="work-experience-details"
-                onClick={handleCloseDetailsMatrix}
-              />
-            </Modal.Header>
-            <ModalBody>
-              <p>
-                Edit <b>{detailsModalMatrix.header}</b>
               </p>
             </ModalBody>
           </Modal>
