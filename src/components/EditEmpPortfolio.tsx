@@ -30,10 +30,17 @@ import Project from "./Project";
 import AboutMe from "./RevatureAboutMe";
 import RevatureWorkExp from "./RevatureWorkExperience";
 import ScrollButton from "./ScrollButton";
+
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+
+import { toast } from "react-toastify";
+
 import SkillMatrixContainer from "./SkillMatrixContainer";
 
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const history = useHistory();
   const [cookies, setCookie, removeCookie] = useCookies();
   const [feedbackToastsThrown, updateFeedbackToastsThrown] = useState(false);
   let savedFlags = {
@@ -153,7 +160,7 @@ const EditEmpPortfolio = () => {
         console.log(error);
       });
 
-    window.location.replace("http://localhost:3000/list");
+    history.push("/list");
     handleBack();
   };
 
