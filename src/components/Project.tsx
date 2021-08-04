@@ -345,7 +345,7 @@ const Project = () => {
       <Card id="card-container">
         <Card.Header id="header">
           <h4>
-            Project
+            Projects
             <QuestionCircle
               id="card-info"
               onClick={handleShowDetails}
@@ -566,28 +566,23 @@ const Project = () => {
                 </Modal.Header>
                 <ModalBody>
                     <p>
-                      <b>Roles/Responsibilities</b> - Mention your Roles in the Project and add at least 8 bulleted responsibilities
-                      Talk about how you used different libraries, tools, and APIs (e.g. “Used the Collections framework and Stream API to store unique users and filter them by status”)
-                      Include any metrics you have, like code coverage, code quality grades, build time, lines of code, etc (“Added unit tests to increase code coverage from 20% to 70%”)
-                      Also, start your bullet points with the active past verbs (“built, created, implemented, etc…”).
+                      <b>Roles/Responsibilities</b>
+                      <br/>List at least 8 responsibilities for each project.
+                      <br/>Talk about how you used different libraries, tools, and APIs (“Used the Collections framework and Stream API to store unique users and filter them by status”).
+                      <br/>Include any metrics you have, like code coverage, code quality grades, build time, lines of code, etc (“Added unit tests to increase code coverage from 20% to 70%”).
+                      <br/>Also, start your bullet points with the active past verbs (“built, created, implemented, etc…”).<br/>
                       <br/>
+                      <b>Project Repo URL</b>
+                      <br/>Include Github repo links for your projects.
+                      <br/>Your project repo should be public and the repo name should be your project name.
+                      <br/>Push your properly documented project code to the repo.
                       <br/>
-                      <b>Project Repo URL</b> - Include Github Repo Links for your projects.
-                      <br/>
-                      <br/>
-                      Your Project Repo Should be Public and the Repo name should be your Project Name.
-                      <br/>
-                      <br/>
-                      Push your properly documented project code to the repo.
-                      <br/>
-                      <br/>
-                      <b>Repo must have a README file with at least with</b> - Title of the Project, An Explanation and Overview of the project, List of features implemented, Technologies used, How to set up / get started using it, Usage of the project, Contributors, and License information.
-                      <br/>
-                      <br/>
-                      Project architecture should be documented in a wiki.
-                      <br/>
-                      <br/>
-                      You can have a look at the Sample README.md file template for your project documentation.
+                      <br/><b>Repo must have a README file with the following:</b>
+                      <br/> - Title of the Project.
+                      <br/> - An Explanation and Overview of the Project.
+                      <br/> - List of Features Implemented and Technologies Used.
+                      <br/> - Usage Guide.
+                      <br/> - Contributors and License Information.
                     </p>
                 </ModalBody>
             </Modal>

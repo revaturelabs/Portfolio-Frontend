@@ -43,7 +43,7 @@ const EducationUpdate: FC<{ hideModal: Function, editCertification: Certificatio
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
-            setValidationErrors(["Please populate the required fields"]);
+            setValidationErrors(["Populate the required fields"]);
         }
 
     };

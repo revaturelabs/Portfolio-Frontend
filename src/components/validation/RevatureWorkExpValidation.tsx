@@ -12,25 +12,25 @@ function revWorkExpErrors(employer: string, startDate: string, endDate: string, 
     const errorMsgs = new Array<string>();
 
     if(!employer){
-        errorMsgs.push("Please populate the required fields")
+        errorMsgs.push("Populate the required fields")
     }
     else if(!startDate){
-        errorMsgs.push("Please populate the required fields")
+        errorMsgs.push("Populate the required fields")
     }
     else if(!endDate){
-        errorMsgs.push("Please populate the required fields")
+        errorMsgs.push("Populate the required fields")
     }
     else if(!title){
-        errorMsgs.push("Please populate the required fields")
+        errorMsgs.push("Populate the required fields")
     }
     else if(!responsibilities){
-        errorMsgs.push("Please populate the required fields")
+        errorMsgs.push("Populate the required fields")
     }
     else if(!description){
-        errorMsgs.push("Please populate the required fields")
+        errorMsgs.push("Populate the required fields")
     }
     else if(!technologies){
-        errorMsgs.push("Please populate the required fields")
+        errorMsgs.push("Populate the required fields")
     }
     else{
         errorMsgs.push("");

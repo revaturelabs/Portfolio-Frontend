@@ -12,16 +12,16 @@ const educationValidation = (university: string, degree: string, graduationDate:
 function educationValidationErrors(university: string, degree: string, graduationDate: string, gpa: number) : Array<string> {
     const errorMsgs = new Array<string>();
     if(!university){
-        errorMsgs.push("Please populate the required fields");
+        errorMsgs.push("Populate the required fields");
     }
     else if(!degree){
-        errorMsgs.push("Please populate the required fields");
+        errorMsgs.push("Populate the required fields");
     }
     else if(!graduationDate){
-        errorMsgs.push("Please populate the required fields");
+        errorMsgs.push("Populate the required fields");
     }
     else if(!gpa){
-        errorMsgs.push("Please populate the required fields");
+        errorMsgs.push("Populate the required fields");
     }
     else{
         errorMsgs.push("");

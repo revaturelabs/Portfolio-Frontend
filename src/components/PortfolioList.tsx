@@ -78,19 +78,19 @@ const PortfolioList = () => {
   let h1Tag = <h1>Portfolio List</h1>;
   let callModal = (
     <Button variant='primary' disabled>
-      Create new Portfolio
+      Create New Portfolio
     </Button>
   );
 
   let logout = (
     <Button variant='primary' className='ms-2' disabled>
-      Log out
+      Log Out
     </Button>
   );
   let upload = (
     <label htmlFor='upload' className='ms-2 btn btn-primary'>
       <span className='glyphicon glyphicon-folder-open' aria-hidden='true'>
-        Upload JSON portfolio
+        Upload JSON Portfolio
       </span>
       <input type='file' id='upload' onChange={handleUpload} />
     </label>
@@ -104,12 +104,12 @@ const PortfolioList = () => {
     );
     callModal = (
       <button onClick={handleShow} className='btn btn-primary'>
-        Create new Portfolio
+        Create New Portfolio
       </button>
     );
     logout = (
       <Button variant='primary' className='ms-2' onClick={() => handleLogOut()}>
-        Log out
+        Log Out
       </Button>
     );
   }
@@ -138,8 +138,6 @@ const PortfolioList = () => {
       {upload}
       {logout}
       <div className='mt-5'>
-        <h5>List of Portfolios</h5>
-
         <div className='mt-5' id='showList'>
           <div>
             <PortfolioListTable portfolios={table} handleTable={handleTable}/>

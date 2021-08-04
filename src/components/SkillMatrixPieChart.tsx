@@ -12,6 +12,8 @@ export default function SkillMatrixPieChart(props: Matrix) {
         exportEnabled: true,
         animationEnabled: true,
         title: {
+            fontFamily:"'Segoe UI'",
+            fontWeight: 700,
             text: props.header
         },
         data: [{

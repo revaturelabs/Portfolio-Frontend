@@ -35,8 +35,12 @@ const useForm = (initialValues: any, loginValidate: any) => {
                     }
                 })
                 .catch(error => {
-                    toast.error("" + error)
-                    console.log(error)
+                    if (error.response && error.response.status === 401) {
+                        toast.error("Invalid Login Credentials");
+                    } else {
+                        toast.error("" + error);
+                    }
+                    console.log(error.response.status);
                 })
 
         } else {
