@@ -218,14 +218,14 @@ const IndustryEquivalency = () => {
         } else if (equivalency === 0 && skillName == "") {
             let elements = document.getElementsByClassName("form-control");
             styleInvalidElements(elements);
-            const error = ["Please include a skill name and cannot add a skill with zero total experience!"];
+            const error = ["You must select a skill"];
             setValidationErrors(error);
             return;
 
         } else if (equivalency > 0) {
             let elements = document.getElementsByName("skillTitle");
             styleInvalidElementsByName(elements);
-            const error = ["Please include a skill name!"];
+            const error = ["You must select a skill"];
             setValidationErrors(error);
             return;
         } else {
@@ -233,7 +233,7 @@ const IndustryEquivalency = () => {
             styleInvalidElementsByName(currentExperienceInput);
             let previousExperienceInput = document.getElementsByName("previousExperience");
             styleInvalidElementsByName(previousExperienceInput);
-            const error = ["Cannot have a skill with zero experience!"];
+            const error = ["You cannot have a skill with zero experience"];
             setValidationErrors(error);
             return;
 
@@ -352,7 +352,7 @@ const IndustryEquivalency = () => {
                             </div>
                             <br />
                             <div className="form-group">
-                                <label htmlFor="previousExperience"><h6>How much experience would you say you had with this before starting with Revature?</h6></label>
+                                <label htmlFor="previousExperience"><h6>How much experience did you have with this skill before starting at Revature?</h6></label>
                                 <select
                                     className="form-control"
                                     name="previousExperience"
@@ -365,7 +365,7 @@ const IndustryEquivalency = () => {
                             </div>
                             <br />
                             <div className="form-group">
-                                <label htmlFor="currentExperience"><h6>How much project work involved this subject during your training at Revature?</h6></label>
+                                <label htmlFor="currentExperience"><h6>How much project work involved this skill during your training at Revature?</h6></label>
                                 <select
                                     className="form-control"
                                     name="currentExperience"
@@ -435,10 +435,10 @@ const IndustryEquivalency = () => {
                     </Modal.Header>
                     <ModalBody>
                         <p>
-                            This section will show your industry equivalent level of experience in certain skills."
+                            This section will show your industry equivalency in certain skills.
                             <br/>
                             <br/>
-                            "Select a skill and answer two questions to generate values for the section.
+                            Select a skill and answer two questions to generate values for the section.
                         </p>
                     </ModalBody>
                 </Modal>

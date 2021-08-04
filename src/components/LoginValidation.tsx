@@ -3,7 +3,7 @@ const loginValidate = (inputs: any) => {
 
   //Email errors
   if (!inputs.email) {
-    errors.email = "Email connot be left blank";
+    errors.email = "Email cannot be left blank";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(inputs.email)) {
     errors.email = "Please enter a vaild email address";
   }
