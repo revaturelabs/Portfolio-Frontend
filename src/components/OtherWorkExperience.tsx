@@ -405,7 +405,7 @@ const OtherWorkExperience = () => {
                     <p>This section is used to mention your relevant work experience prior to Revature.
                         <br/>
                         <br/>
-                        Please, ensure that your previous work experience relate to your curriculum at Revature.
+                        Ensure that your previous work experience relates to your curriculum at Revature.
                     </p>
                 </Modal.Body>
             </Modal>
@@ -429,7 +429,7 @@ const OtherWorkExperience = () => {
                             <textarea name="responsibilites" className="form-input work-experience-textarea" style={{height: "100px"}} value={responsibilities} onChange={e => setResponsibilities(e.target.value)}></textarea>
                             <h6>Tools / Technologies</h6>
                             <textarea name="technologies" className="form-input work-experience-textarea" style={{height: "100px"}} value={tools} onChange={e => setTools(e.target.value)}></textarea>
-                            <h6>Problem Desciption</h6>
+                            <h6>Problem Description</h6>
                             <textarea name="description" className="form-input work-experience-textarea" style={{height: "100px"}} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
 

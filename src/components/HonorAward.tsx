@@ -250,7 +250,7 @@ const HonorAwards = () => {
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
-            setValidationErrors(["Please populate the required fields"]);
+            setValidationErrors(["Populate the required fields"]);
         }
     }
     //***********************************************************************/
@@ -276,7 +276,7 @@ const HonorAwards = () => {
         }else{
             let inputElements = document.getElementsByClassName("form-input");
             styleInvalidElements(inputElements);
-            setValidationErrors(["Please populate the required fields"]);
+            setValidationErrors(["Populate the required fields"]);
         }
     }
 
@@ -300,12 +300,12 @@ const HonorAwards = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <form onSubmit={handleSave}>
-                            <h6>AwardTitle</h6>
+                            <h6>Award Title</h6>
 
                             <input type="text" name="title" className="form-input" required value ={title} onChange={e => setAwardTitle(e.target.value)}/>
                             <h6>Description</h6>
                             <input type="text" name="description" className="form-input honoraward-textarea" required value ={description} onChange={e => setDesc(e.target.value)}/>
-                            <h6>ReceivedFrom</h6>
+                            <h6>Received From</h6>
                             <input type="text" name="receivedFrom" className="form-input"  required value ={receivedFrom} onChange={e => setRecefrom(e.target.value)}/>
                             <h6>Received On</h6>
                             <input type="date" name="dateReceived" className="form-input" required value ={dateReceived} onChange={e => setReceon(e.target.value)}/>

@@ -10,7 +10,7 @@ function otherWorkExpValidation(wrkExp: any): Array<string>
 {
     //check to ensure each field is not null
     const errorMsgs = new Array<string>();
-    let nullFieldWarning = "Please populate the required fields";
+    let nullFieldWarning = "Populate the required fields";
     
     Object.keys(wrkExp).forEach((key: any, keyIndex: any) => {
 
@@ -49,3 +49,4 @@ function checkDatesInOrder(start: number, end: number) {
 }
 
 export default otherWorkExpValidation
+export {checkDatesInOrder}
