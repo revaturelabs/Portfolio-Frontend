@@ -60,8 +60,8 @@ const RevatureAboutMe = () => {
 
     // Placeholders for when the add/edit modules are brought up.
     //**************************************************************************************************/
-    const bioPlaceholder = "Input a brief bio here, the bio must be 100 characters long to be valid."
-    const emailPlaceholder = "exampleEmail@gmail.com";
+    const bioPlaceholder = "Input a bio of at least 100 characters."
+    const emailPlaceholder = "exampleEmail@mail.com";
     const phonenumberPlaceholder = "123-456-7890";
     //**************************************************************************************************/
     
@@ -154,19 +154,19 @@ const RevatureAboutMe = () => {
             let errorElems:string[] = [];
             if(!isBioValid){
                 let bioElement = document.getElementsByName("bioName");
-                errorElems.push("The bio is too short, please write a bio at least 100 characters long.");
+                errorElems.push("Bio must be at least 100 characters.");
                 styleInvalidElementsByName(bioElement);
 
             }
             if(!isEmailValid){
                 let emailElement = document.getElementsByName("fromDate");
-                errorElems.push("The email is not valid, please input a valid email.");
+                errorElems.push("Input a valid email.");
                 styleInvalidElementsByName(emailElement);
             }
 
             if(!isPhoneValid){
                 let phoneElement = document.getElementsByName("toDate");
-                errorElems.push("The phone number is not valid, please input a valid phone number.");
+                errorElems.push("Input a valid phone number.");
                 styleInvalidElementsByName(phoneElement);
             }
             // Populate the errors on the toast.
@@ -319,10 +319,7 @@ const RevatureAboutMe = () => {
                     </Modal.Header>
                     <ModalBody>
                         <p>
-                            This section is used to focus on your personal story and career goals.
-                            <br/>
-                            <br/>
-                            Focus on your personal story and educational background information, 
+                            In this section, focus on your personal story and educational background information, 
                             career goals, relevant work experience, professional experience and skills, 
                             and a summary of your Revature experience.
                             <br/>
@@ -331,7 +328,7 @@ const RevatureAboutMe = () => {
                             presentation skills, communication skills, and teamplayer skills.
                             <br/>
                             <br/>
-                            Don’t mention your hobbies or other non-relevant information.
+                            Do not mention your hobbies or other non-relevant information.
                         </p>
                     </ModalBody>
                 </Modal>
