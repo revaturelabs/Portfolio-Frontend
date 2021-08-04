@@ -1,3 +1,5 @@
+import { checkDatesInOrder } from "./OtherWorkExpValidation";
+
 const revWorkExpValidation = (employer: string, startDate: string, endDate: string, title: string, responsibilities: string, description: string, technologies: string) => {
     if(employer && startDate && endDate && title && responsibilities && description && technologies){
         return true;
@@ -34,6 +36,12 @@ function revWorkExpErrors(employer: string, startDate: string, endDate: string, 
     }
     else{
         errorMsgs.push("");
+    }
+
+    //check if start date excedes endDate
+    if(!checkDatesInOrder(Number(startDate.replaceAll("-", "")), Number(endDate.replaceAll("-", "")))) {
+        console.log("dates not in order")
+        errorMsgs.push("Start date must precede end date")
     }
 
 
