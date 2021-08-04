@@ -49,3 +49,4 @@ function checkDatesInOrder(start: number, end: number) {
 }
 
 export default otherWorkExpValidation
+export {checkDatesInOrder}
