@@ -1,38 +1,42 @@
 import axios from "axios";
+
 import {
   Button,
   Col,
   Container,
   OverlayTrigger,
   Popover,
-  Row,
+  Row
 } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
+
 import {
   aboutMeUrl,
   educationUrl,
   equivUrl,
   matrixUrl,
   portfolioUrl,
-  projectUrl,
+  projectUrl
 } from "../api/api";
 import "../css/EditEmpPortfolio.css";
-import AboutMe from "./RevatureAboutMe";
+import Matrix from "../interfaces/Matrix";
 import CertificationContainer from "./CertificationContainer";
 import EducationContainer from "./EducationContainer";
 import HonorAwards from "./HonorAward";
 import IndustryEquivalency from "./IndustryEquivalency";
 import OtherWorkExperience from "./OtherWorkExperience";
 import Project from "./Project";
+import AboutMe from "./RevatureAboutMe";
 import RevatureWorkExp from "./RevatureWorkExperience";
 import ScrollButton from "./ScrollButton";
+
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { toast } from "react-toastify";
+
 import SkillMatrixContainer from "./SkillMatrixContainer";
-import Matrix from "../interfaces/Matrix";
 
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
