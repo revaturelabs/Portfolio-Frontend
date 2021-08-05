@@ -8,14 +8,14 @@ const validate = (inputs: any) => {
 
     //Last Name errors
     if (!inputs.lname) {
-        errors.lname = 'Last Name connot be left blank'
+        errors.lname = 'Last Name cannot be left blank'
     }
 
     //Email errors
     if (!inputs.email) {
-        errors.email = 'Email connot be left blank'
+        errors.email = 'Email cannot be left blank'
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(inputs.email)) {
-        errors.email = 'Please enter a vailed email address'
+        errors.email = 'Please enter a valid email address'
     }
 
     //Password errors

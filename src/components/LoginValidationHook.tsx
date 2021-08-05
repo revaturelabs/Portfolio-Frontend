@@ -30,13 +30,17 @@ const useForm = (initialValues: any, loginValidate: any) => {
                         history.push("/list")
                     } else if (response.data.admin === true) {
                         setCookies('admin', response.data, {path: "/"})
-                        toast.success(("Admin login was successful. Welcome " + response.data.fname + " " + response.data.fname))
+                        toast.success(("Admin login was successful. Welcome " + response.data.fname + " " + response.data.lname))
                         history.push("/admin")
                     }
                 })
                 .catch(error => {
-                    toast.error("" + error)
-                    console.log(error)
+                    if (error.response && error.response.status === 401) {
+                        toast.error("Invalid Login Credentials");
+                    } else {
+                        toast.error("" + error);
+                    }
+                    console.log(error.response.status);
                 })
 
         } else {
