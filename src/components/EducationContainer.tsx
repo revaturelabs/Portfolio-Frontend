@@ -4,41 +4,16 @@ import { PlusCircle, QuestionCircle } from "react-bootstrap-icons";
 import { useCookies } from 'react-cookie';
 import { Tooltip } from "reactstrap";
 import "../css/Education.css";
-import Education from './Education';
 import EducationCreation from './EducationCreation';
 import EducationDelete from './EducationDelete';
 import EducationDisplay from "./EducationDisplay";
 import EducationUpdate from './EducationUpdate';
+import {url} from "../api/api";
+import Education from "../interfaces/Education";
 
-interface User {
-    id: number;
-    name: string;
-    password: string;
-    admin: boolean;
-}
-
-interface Portfolio {
-    id: number;
-    name: string;
-    user: User;
-    submitted: boolean;
-    approved: boolean;
-    reviewed: boolean;
-    feedback: string;
-}
-
-interface Education {
-    id: number;
-    portfolio: Portfolio;
-    university: string;
-    degree: string;
-    graduationDate: string;
-    gpa: number;
-    logoUrl: string;
-}
 
 const EducationContainer = () => {
-    const backEndUrl = "http://3.236.213.150:8081/education";
+    const backEndUrl = url + "/education";
     const [cookies] = useCookies();
     const portfolioId = cookies['portfolio'].id;
 
@@ -79,6 +54,8 @@ const EducationContainer = () => {
             .then(json => setEducations(json));
     }, [])
 
+    
+
     return (
         <div className="container">
 
@@ -104,7 +81,7 @@ const EducationContainer = () => {
             </Modal>
 
             <Card id="card-container">
-                <Card.Header id="header-project">
+                <Card.Header id="header">
                     <h4>
                         Education
                         <PlusCircle id="add-education" onClick={handleShowCreationModal} />
@@ -129,3 +106,4 @@ const EducationContainer = () => {
 };
 
 export default EducationContainer;
+

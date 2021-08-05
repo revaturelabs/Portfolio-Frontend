@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { url } from '../api/api';
+import { toast } from 'react-toastify';
+import {useHistory} from "react-router-dom";
 
 
 const useForm = (initialValues: any, loginValidate: any) => {
@@ -8,6 +11,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
     const [errors, setErrors] = useState({})
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookies] = useCookies()
+    const history = useHistory();
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -18,20 +22,25 @@ const useForm = (initialValues: any, loginValidate: any) => {
         if (noErrors) {
             let email = inputs.email
             let password = inputs.password
-            axios.post('http://3.236.213.150:8081/users/login', null, { headers: { email, password} })
+            axios.post(url + '/users/login', null, { headers: { email, password} })
                 .then(response => {
                     if (response.data.admin !== true) {
                         setCookies('user', response.data, { path: '/' })
-                        alert("Login was successful. Welcome " + response.data.fname + " " + response.data.lname)
-                        window.location.pathname = "./list"
+                        toast.success(("Login was successful. Welcome " + response.data.fname + " " + response.data.lname))
+                        history.push("/list")
                     } else if (response.data.admin === true) {
                         setCookies('admin', response.data, {path: "/"})
-                        alert("Admin login was successful. Welcome " + response.data.fname + " " + response.data.fname)
-                        window.location.pathname = "./admin"
+                        toast.success(("Admin login was successful. Welcome " + response.data.fname + " " + response.data.lname))
+                        history.push("/admin")
                     }
                 })
                 .catch(error => {
-                    alert(error)
+                    if (error.response && error.response.status === 401) {
+                        toast.error("Invalid Login Credentials");
+                    } else {
+                        toast.error("" + error);
+                    }
+                    console.log(error.response.status);
                 })
 
         } else {

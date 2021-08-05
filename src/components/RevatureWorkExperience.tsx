@@ -6,6 +6,10 @@ import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons'
 import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/RevatureWorkExperience.css'
+import { url } from '../api/api'
+import revWorkExpValidation, { revWorkExpErrors } from './validation/RevatureWorkExpValidation'
+import styleInvalidElements from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg';
 
 
 const RevatureWorkExperience = () => {
@@ -18,7 +22,7 @@ const RevatureWorkExperience = () => {
     // Add work experience Modal show and hide
     //*************************************************************/
     const [showAddExperience, setShowExperience] = useState(false)
-    const handleCloseAddExperience = () => setShowExperience(false)
+    const handleCloseAddExperience = () => {setShowExperience(false); setValidationErrors([]);}
     const handleShowAddExperience = () => setShowExperience(true)
     //*************************************************************/
 
@@ -61,12 +65,13 @@ const RevatureWorkExperience = () => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [id, setId] = useState('')
+    const [validationErrors, setValidationErrors] = useState(Array<string>());
     //***************************************************/
 
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
-        axios.get("http://3.236.213.150:8081/workexperience/portfolio/" + cookies['portfolio'].id)
+        axios.get(url +"/workexperience/portfolio/" + cookies['portfolio'].id)
         .then(resp => {
             createWorkExperience(resp.data)
         })
@@ -196,7 +201,7 @@ const RevatureWorkExperience = () => {
     // Delete work experience from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete("http://3.236.213.150:8081/workexperience/" + input)
+        axios.delete(url + "/workexperience/" + input)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -210,59 +215,82 @@ const RevatureWorkExperience = () => {
     // Update work experience
     //***********************************************************************/
     const handleUpdate = (input: any) => {
+        const valid = revWorkExpValidation(employer, startDate, endDate, title, responsibilities, description, technologies);
+        const errorMsgs = revWorkExpErrors(employer, startDate, endDate, title, responsibilities, description, technologies);
 
-        axios.post("http://3.236.213.150:8081/workexperience/" + input,{
-            portfolio,
-            employer,
-            startDate,
-            endDate,
-            title,
-            description,
-            responsibilities,
-            technologies
-        })
-        .then(resp => {
-            console.log("work experience was updates");
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error")
-        })
+        if(valid){
+            axios.post(url + "/workexperience/" + input,{
+                portfolio,
+                employer,
+                startDate,
+                endDate,
+                title,
+                description,
+                responsibilities,
+                technologies
+            })
+            .then(resp => {
+                console.log("work experience was updates");
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log("error")
+            })
+        
+        }
+        else{
+            console.log("INVALID");
+            const elements = document.getElementsByClassName("form-input");
+            styleInvalidElements(elements);
+            setValidationErrors(errorMsgs);
+
+        }
     }
     //***********************************************************************/
 
     // Save data to database
     //***************************************************/
     const handleSave = () => {
-        axios.post("http://3.236.213.150:8081/workexperience", {
-            portfolio,
-            employer,
-            startDate,
-            endDate,
-            title,
-            description,
-            responsibilities,
-            technologies
-        })
-        .then(resp => {
-            console.log("work experience was saved successfully")
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error")
-        })
-        setEmployer('');
-        setStartDate('');
-        setEndDate('');
-        setTitle('');
-        setShowExperience(false)
+        const valid = revWorkExpValidation(employer, startDate, endDate, title, responsibilities, description, technologies);
+        const errorMsgs = revWorkExpErrors(employer, startDate, endDate, title, responsibilities, description, technologies);
+
+        if(valid){
+            axios.post(url + "/workexperience", {
+                portfolio,
+                employer,
+                startDate,
+                endDate,
+                title,
+                description,
+                responsibilities,
+                technologies
+            })
+            .then(resp => {
+                console.log("work experience was saved successfully")
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log("error")
+            })
+            setEmployer('');
+            setStartDate('');
+            setEndDate('');
+            setTitle('');
+            setShowExperience(false)
+        }
+        else{
+            console.log("INVALID");
+            const elements = document.getElementsByClassName("form-input");
+            styleInvalidElements(elements);
+            setValidationErrors(errorMsgs);
+        }
     }
     //***************************************************/
 
     return (
         <div className="container">
             <Card id="card-container">
-                <Card.Header id="header-work-experience">
+                <Card.Header id="header">
                     <h4>
                         Work Experience
                         <QuestionCircle id="card-info" onClick={handleShowDetails}/>
@@ -281,10 +309,10 @@ const RevatureWorkExperience = () => {
                     <XCircle id="work-experience-details" onClick={handleCloseDetails}/>
                 </Modal.Header>
                 <ModalBody>
-                    <p>This section is used to mention your work experience with the Revature’s Client after placement. As of now, the Work Experiences section should be blank.
+                    <p>This section is used to mention your work experience with Revature clients after placement. As of now, the Work Experience section should be blank.
                         <br/>
                         <br/>
-                        If you any previous work experience, you can mention them under the Other Experiences section.
+                        If you have any other previous work experiences, you can mention them under the Other Experience section.
                     </p>
                 </ModalBody>
             </Modal>
@@ -306,9 +334,12 @@ const RevatureWorkExperience = () => {
                             <textarea name="responsibilites" className="form-input" style={{height: "100px"}} onChange={e => setResponsibilities(e.target.value)}></textarea>
                             <h6 className="work-experience-form-headers">Tools / Technologies</h6>
                             <textarea name="technologies" className="form-input" style={{height: "100px"}} onChange={e => setTechnologies(e.target.value)}></textarea>
-                            <h6 className="work-experience-form-headers">Problem Desciption</h6>
+                            <h6 className="work-experience-form-headers">Problem Description</h6>
                             <textarea name="description" className="form-input" style={{height: "100px"}} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
+
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
@@ -333,9 +364,12 @@ const RevatureWorkExperience = () => {
                             <textarea name="responsibilites" className="form-input" style={{height: "100px"}} value={responsibilities} onChange={e => setResponsibilities(e.target.value)}></textarea>
                             <h6 className="work-experience-update-form-headers">Tools / Technologies</h6>
                             <textarea name="technologies" className="form-input" style={{height: "100px"}} value={technologies} onChange={e => setTechnologies(e.target.value)}></textarea>
-                            <h6 className="work-experience-update-form-headers">Problem Desciption</h6>
+                            <h6 className="work-experience-update-form-headers">Problem Description</h6>
                             <textarea name="description" className="form-input" style={{height: "100px"}} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
+
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
@@ -344,7 +378,7 @@ const RevatureWorkExperience = () => {
                 </Modal>
                 <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static">
                     <Modal.Header>Delete Warning</Modal.Header>
-                    <Modal.Body><p>This will permanantly delete this info. Are you Sure?</p></Modal.Body>
+                    <Modal.Body><p>This will permanantly delete this info. Are you sure?</p></Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={() => {handleDelete(id)}}>Yes, Permanantly Delete</Button>
                         <Button variant="secondary" onClick={handleCloseDelete}>Close</Button>

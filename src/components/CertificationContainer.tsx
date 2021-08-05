@@ -8,36 +8,11 @@ import CertificationDelete from './CertificationDelete';
 import CertificationDisplay from './CertificationDisplay';
 import CertificationUpdate from './CertificationUpdate';
 import "../css/Certification.css";
-
-interface User {
-    id: number;
-    name: string;
-    password: string;
-    admin: boolean;
-}
-
-interface Portfolio {
-    id: number;
-    name: string;
-    user: User;
-    submitted: boolean;
-    approved: boolean;
-    reviewed: boolean;
-    feedback: string;
-}
-
-interface Certification {
-    id: number;
-    portfolio: Portfolio;
-    name: string;
-    certId: string;
-    issuedBy: string;
-    issuedOn: string;
-    publicUrl: string;
-}
+import {url} from "../api/api";
+import Certification from "../interfaces/Certification";
 
 const CertificationContainer = () => {
-    const backEndUrl = "http://3.236.213.150:8081/certifications";
+    const backEndUrl = url + "/certifications";
     const [cookies] = useCookies();
     const portfolioId = cookies['portfolio'].id;
 
@@ -97,7 +72,7 @@ const CertificationContainer = () => {
             </Modal>
 
             <Card id="card-container">
-                <Card.Header id="header-project">
+                <Card.Header id="header">
                     <h4>
                         Certification
                         <PlusCircle id="add-certification" onClick={handleShowCreationModal} />

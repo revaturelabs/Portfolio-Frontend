@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 import '../../css/ViewPortfolio.css';
+import {url} from "../../api/api";
 
 interface Equivalency {
     id: number;
@@ -16,7 +17,7 @@ const IndustryEquivalencyView = () => {
     const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get<Equivalency[]>(`http://3.236.213.150:8081/equiv/portfolios/all/${cookie['portfolio'].id}`).then(response => {
+        axios.get<Equivalency[]>(url + `/equiv/portfolios/all/${cookie['portfolio'].id}`).then(response => {
             setList(response.data);
         })
     }, [null]);
@@ -32,9 +33,9 @@ const IndustryEquivalencyView = () => {
     const renderIndustry = (industryList: Equivalency[]) => {
         return industryList.map(data => {
             return (
-                <div className="col-sm m-2 fill-box justify-content-center" key={data.id}>
-                    <h5 className={"tall-text p-2 ring-" + Math.round(data.value * 10 / maxValue)}>{data.value}</h5>
-                    <h5 className="eq-label-text-view">{data.header}</h5>
+                <div data-testid="equivCircle" className="col-sm m-2 fill-box justify-content-center" key={data.id}>
+                    <h5 data-testid="value" className={"tall-text p-2 ring-" + Math.round(data.value * 10 / maxValue)}>{data.value}</h5>
+                    <h5 data-testid="header" className="eq-label-text-view">{data.header}</h5>
                 </div>
             );
         });

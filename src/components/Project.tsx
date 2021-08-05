@@ -4,7 +4,11 @@ import { Button, Card, Modal, ModalBody } from "react-bootstrap";
 import { PlusCircle, QuestionCircle, XCircle } from "react-bootstrap-icons";
 import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
+import { projectUrl } from "../api/api";
 import "../css/Project.css";
+import { styleInvalidElementsByNameNotNull } from "./validation/InvalidFormHandling";
+import ProjectValidation from "./validation/ProjectValidation";
+import ValidationMsg from "./validation/ValidationMsg";
 
 const Project = () => {
   /**
@@ -54,15 +58,7 @@ const Project = () => {
     cardBody.setAttribute("class", "card-body");
     respositoryUrlContent.setAttribute("href", respositoryUrl);
     respositoryUrlContent.setAttribute("target", "_blank");
-
-    setId(id);
-    setName(name);
-    setDescription(description);
-    setResponsibilities(responsibilities);
-    setTechnologies(technologies);
-    setRespositoryUrl(respositoryUrl);
-    setWorkProducts(workProducts);
-
+    
     nameHeader.innerHTML = name;
     descriptionContent.innerHTML = description;
     responsibilitiesHeader.innerHTML = "Responsibilities";
@@ -109,21 +105,44 @@ const Project = () => {
     nameHeader.style.fontWeight = "bold";
 
     deleteButton.addEventListener("click", () => {
+      setDeleteId(id);
       handleShowModalDelete();
     });
+
     editButton.addEventListener("click", () => {
+      setId(id);
+      setName(name);
+      setDescription(description);
+      setResponsibilities(responsibilities);
+      setTechnologies(technologies);
+      setRespositoryUrl(respositoryUrl);
+      setWorkProducts(workProducts);
       handleShowModalEdit();
     });
   };
+
+
+  //Reset the form states to null after each new project is 
+  function resetFormStates() {
+    setName("");
+    setDescription("");
+    setResponsibilities("");
+    setTechnologies("");
+    setRespositoryUrl("");
+    setWorkProducts("");
+    setValidationErrors([]);
+}
+
 
   /**
    * Show/Hide Modal
    */
   const [showModal, setShowModal] = useState(false);
-  const handleHideModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
+  const handleHideModal = () => { setShowModal(false); setValidationErrors([]); }
+  const handleShowModal = () => { setShowModal(true); resetFormStates(); }
+
   const [showModalEdit, setShowModalEdit] = useState(false);
-  const handleHideModalEdit = () => setShowModalEdit(false);
+  const handleHideModalEdit = () => { setShowModalEdit(false); setValidationErrors([]); }
   const handleShowModalEdit = () => setShowModalEdit(true);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const handleHideModalDelete = () => setShowModalDelete(false);
@@ -152,6 +171,13 @@ const Project = () => {
   const [technologies, setTechnologies] = useState("");
   const [respositoryUrl, setRespositoryUrl] = useState("");
   const [workProducts, setWorkProducts] = useState("");
+
+  const [deleteId, setDeleteId] = useState("");
+
+  //Render Error Messages
+    //*****************************************************/
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+    //*****************************************************/
   
   const [cookie] = useCookies();
   /**
@@ -159,7 +185,7 @@ const Project = () => {
    */
   const getAllProjects = async () => {
     axios
-      .get("http://3.236.213.150:8081/projects/portfolio/all/"+cookie["portfolio"].id)
+      .get(`${projectUrl}/portfolio/all/${cookie["portfolio"].id}`)
       .then((response) => {
         console.log("got data");
         console.log(response.data);
@@ -186,39 +212,69 @@ const Project = () => {
    */
   const handleSave = async () => {
     //let portfolio = cookie["portfolio"]
-    axios
 
-      .post("http://3.236.213.150:8081/projects/", {
-        name,
-        description,
-        responsibilities,
-        technologies,
-        respositoryUrl,
-        workProducts,
-        portfolio: cookie["portfolio"]
-      })
-      .then((response) => {
-        console.log("success");
-        setName("");
-        setDescription("");
-        setResponsibilities("");
-        setTechnologies("");
-        setRespositoryUrl("");
-        setWorkProducts("");
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log("error");
-      });
-    setShowModal(false);
+  //Validate field contents from validation/OtherWorkExpValidation.tsx
+  const projObj: any = {
+      name: name,
+      description: description,
+      responsibilities: responsibilities,
+      technologies: technologies,
+      respositoryUrl: respositoryUrl,
+      workProducts: workProducts
+      
+  }
+
+  //returns boolean *array* indicating which above state is valid, in above order
+  const errorElems = ProjectValidation(projObj);
+  let isValid = true;
+  errorElems.forEach((elem) => { isValid = isValid && !elem});
+
+  //Continue and save data if all fields are valid
+  if(isValid) 
+  {
+    axios.post(projectUrl, {
+      name,
+      description,
+      responsibilities,
+      technologies,
+      respositoryUrl,
+      workProducts,
+      portfolio: cookie["portfolio"]
+    })
+    .then((response) => {
+      console.log("success");
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.log("error");
+    });
+
+  resetFormStates();
+  setShowModal(false);
+  }
+  else {
+    /* log error to the console
+        - iterate over HTML elements and style inccorect elements
+        - do not close display
+    */
+
+    Object.keys(projObj).forEach((key: string, keyIndex: number) => {
+        styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
+    });
+
+    //set our string error message
+    setValidationErrors(errorElems);
+  }
+   
   };
+  //End function handle save
 
   /**
    * Delete data from database
    */
-  const handleDelete = async (id: string) => {
+  const handleDelete = async () => {
     axios
-      .delete(`http://3.236.213.150:8081/projects/${id}`)
+      .delete(`${projectUrl}/${deleteId}`)
       .then((response) => {
         console.log(response);
         console.log(response.data);
@@ -226,27 +282,57 @@ const Project = () => {
       });
   };
 
-  const handleUpdate = async (id: string) => {
-    axios
-      .post(`http://3.236.213.150:8081/projects/${id}`, {
-        name,
-        description,
-        responsibilities,
-        technologies,
-        respositoryUrl,
-        workProducts,
-        portfolio: cookie["portfolio"]
-      })
-      .then((response) => {
-        console.log("update: success");
-        console.log(response.data.name);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log("error");
-      });
-    setShowModalEdit(false);
-  };
+  const handleUpdate = async () => 
+  {
+    const projObj: any = {
+      name: name,
+      description: description,
+      responsibilities: responsibilities,
+      technologies: technologies,
+      respositoryUrl: respositoryUrl,
+      workProducts: workProducts
+      
+      }
+
+    //returns boolean *array* indicating which above state is valid, in above order
+    const errorElems = ProjectValidation(projObj);
+    let isValid = true;
+    errorElems.forEach((elem) => { isValid = isValid && !elem});
+
+    //Continue and update data if all fields are valid
+        if(isValid) 
+        {
+          axios
+            .post( `${projectUrl}/${id}`, {
+              name,
+              description,
+              responsibilities,
+              technologies,
+              respositoryUrl,
+              workProducts,
+              portfolio: cookie["portfolio"]
+            })
+            .then((response) => {
+              console.log("update: success");
+              console.log(response.data.name);
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.log("error");
+            });
+            
+          resetFormStates();
+          setShowModalEdit(false);
+        }  else {
+          Object.keys(projObj).forEach((key: string, keyIndex: number) => {
+              styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
+          });
+        }
+
+        //set our string error msg
+        setValidationErrors(errorElems);
+    };
+    //END HANDLE UPDATE METHOD
 
   /**
    * Details message
@@ -257,9 +343,9 @@ const Project = () => {
   return (
     <div className="container">
       <Card id="card-container">
-        <Card.Header id="header-project">
+        <Card.Header id="header">
           <h4>
-            Project
+            Projects
             <QuestionCircle
               id="card-info"
               onClick={handleShowDetails}
@@ -306,10 +392,10 @@ const Project = () => {
               />
               <br />
               <h6 className="project-create-form-header">Responsibilities</h6>
-              <input
-                type="text"
+              <textarea
+                style={{ width: "100%" }}
+                rows={rowLength}
                 name="responsibilities"
-                className="form-input"
                 onChange={(e) => setResponsibilities(e.target.value)}
               />
               <br />
@@ -329,16 +415,17 @@ const Project = () => {
                 onChange={(e) => setRespositoryUrl(e.target.value)}
               />
               <br />
-              <h6 className="project-create-form-header">
-                Project Work Products
-              </h6>
+              <h6 className="not-required-input">Project Work Products</h6>
               <input
                 type="text"
                 name="workProducts"
-                className="form-input"
+                className="form-input not-required-input"
                 onChange={(e) => setWorkProducts(e.target.value)}
               />
             </form>
+
+            <ValidationMsg errors={validationErrors}></ValidationMsg>
+
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleHideModal}>
@@ -375,14 +462,13 @@ const Project = () => {
                     className="btn btn-danger"
                     style={{ marginRight: "10px" }}
                     onClick={() => {
-                      handleDelete(id);
+                      handleDelete();
                     }}
                   >
                     Yes, Permanently Delete
                   </button>
                   <button
                     className="btn btn-secondary"
-                    // style={{ margin: "0.25em 0.25em" }}
                     onClick={handleHideModalDelete}
                   >
                     Cancel
@@ -390,7 +476,6 @@ const Project = () => {
                 </div>
               </Modal.Body>
             </Modal>
-            {/* 'Edit' Modal */}
             <Modal
               show={showModalEdit}
               onHide={handleHideModalEdit}
@@ -420,11 +505,11 @@ const Project = () => {
                   />
                   <br />
                   <h6>Responsibilities</h6>
-                  <input
-                    type="text"
+                  <textarea
+                    style={{ width: "100%" }}
+                    rows={rowLength}
                     name="responsibilities"
                     value={responsibilities}
-                    className="form-input"
                     onChange={(e) => setResponsibilities(e.target.value)}
                   />
                   <br />
@@ -446,7 +531,7 @@ const Project = () => {
                     onChange={(e) => setRespositoryUrl(e.target.value)}
                   />
                   <br />
-                  <h6>Project Work Products</h6>
+                  <h6 className="not-required-input">Project Work Products</h6>
                   <input
                     type="text"
                     name="workProducts"
@@ -455,6 +540,9 @@ const Project = () => {
                     onChange={(e) => setWorkProducts(e.target.value)}
                   />
                 </form>
+
+                    <ValidationMsg errors={validationErrors}></ValidationMsg>
+
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleHideModalEdit}>
@@ -464,7 +552,7 @@ const Project = () => {
                   variant="primary"
                   className="yes-button"
                   onClick={() => {
-                    handleUpdate(id);
+                    handleUpdate();
                   }}
                 >
                   Update
@@ -478,28 +566,23 @@ const Project = () => {
                 </Modal.Header>
                 <ModalBody>
                     <p>
-                      <b>Roles/Responsibilities</b> - Mention your Roles in the Project and add at least 8 bulleted responsibilities
-                      Talk about how you used different libraries, tools, and APIs (e.g. “Used the Collections framework and Stream API to store unique users and filter them by status”)
-                      Include any metrics you have, like code coverage, code quality grades, build time, lines of code, etc (“Added unit tests to increase code coverage from 20% to 70%”)
-                      Also, start your bullet points with the active past verbs (“built, created, implemented, etc…”).
+                      <b>Roles/Responsibilities</b>
+                      <br/>List at least 8 responsibilities for each project.
+                      <br/>Talk about how you used different libraries, tools, and APIs (“Used the Collections framework and Stream API to store unique users and filter them by status”).
+                      <br/>Include any metrics you have, like code coverage, code quality grades, build time, lines of code, etc (“Added unit tests to increase code coverage from 20% to 70%”).
+                      <br/>Also, start your bullet points with the active past verbs (“built, created, implemented, etc…”).<br/>
                       <br/>
+                      <b>Project Repo URL</b>
+                      <br/>Include Github repo links for your projects.
+                      <br/>Your project repo should be public and the repo name should be your project name.
+                      <br/>Push your properly documented project code to the repo.
                       <br/>
-                      <b>Project Repo URL</b> - Include Github Repo Links for your projects.
-                      <br/>
-                      <br/>
-                      Your Project Repo Should be Public and the Repo name should be your Project Name.
-                      <br/>
-                      <br/>
-                      Push your properly documented project code to the repo.
-                      <br/>
-                      <br/>
-                      <b>Repo must have a README file with at least with</b> - Title of the Project, An Explanation and Overview of the project, List of features implemented, Technologies used, How to set up / get started using it, Usage of the project, Contributors, and License information.
-                      <br/>
-                      <br/>
-                      Project architecture should be documented in a wiki.
-                      <br/>
-                      <br/>
-                      You can have a look at the Sample README.md file template for your project documentation.
+                      <br/><b>Repo must have a README file with the following:</b>
+                      <br/> - Title of the Project.
+                      <br/> - An Explanation and Overview of the Project.
+                      <br/> - List of Features Implemented and Technologies Used.
+                      <br/> - Usage Guide.
+                      <br/> - Contributors and License Information.
                     </p>
                 </ModalBody>
             </Modal>
@@ -508,6 +591,7 @@ const Project = () => {
       </Card>
     </div>
   );
+
 };
 
 export default Project;

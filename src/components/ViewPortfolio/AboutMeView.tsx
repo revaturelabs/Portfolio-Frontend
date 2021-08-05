@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import '../../css/RevatureAboutMe.css';
 import { Card } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
+import {url} from "../../api/api";
 
 interface AboutMe {
     id: number;
@@ -16,9 +17,10 @@ const AboutMeView = () => {
     const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get<AboutMe>(`http://3.236.213.150:8081/aboutMe/portfolio/${cookie['portfolio'].id}`).then(response => {
-            setAboutMe(response.data);
+        axios.get<AboutMe>(url + `/aboutMe/portfolio/${cookie['portfolio'].id}`).then(response => {
+            setAboutMe(response.data as AboutMe);
         })
+
     }, [null]);
 
     const renderAboutMe = (aboutMe: AboutMe) => {

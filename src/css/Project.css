@@ -17,12 +17,7 @@ h6 {
 }
 
 #header-project {
-  background: linear-gradient(
-    to right,
-    rgb(242, 105, 3),
-    rgb(115, 165, 194),
-    rgb(253, 181, 21)
-  );
+  background: rgb(242, 105, 38);
 }
 
 #add-project {
@@ -42,6 +37,10 @@ h6 {
   margin-bottom: 20px;
 }
 
+.not-required-input::after {
+  content: "" !important;
+}
+
 #card-body {
   max-height: 500px;
   overflow-y: auto;
@@ -50,6 +49,11 @@ h6 {
 form {
   margin: 20px;
   padding: 15px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
 }
 
 .yes-button {

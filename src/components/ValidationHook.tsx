@@ -1,10 +1,12 @@
 import axios from 'axios';
 import {useState} from 'react';
+import {url} from '../api/api';
+import {toast} from 'react-toastify';
+import {useHistory} from "react-router-dom";
 
-const useForm = (initialValues: any, validate: any) => {
+const useForm = (initialValues: any, validate: any, hideModal: any) => {
     const [inputs, setInputs] = useState(initialValues)
     const [errors, setErrors] = useState({})
-    
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -12,14 +14,14 @@ const useForm = (initialValues: any, validate: any) => {
         const noErros = Object.keys(validationErrors).length === 0
         setErrors(validationErrors)
         if(noErros) {
-            axios.post('http://3.236.213.150:8081/users', inputs)
+            axios.post(url + '/users', inputs)
             .then(response => {
                 console.log(inputs)
-                alert("Registered")
-                window.location.reload()
+                toast.success("You have been registered! Please login.")
+                hideModal()
             })
             .catch(error => {
-                alert("Error " + error)
+                toast.error("" + error)
                 console.log(error)
             })
         } else {

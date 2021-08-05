@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import '../../css/ViewPortfolio.css';
 import { useCookies } from 'react-cookie'
+import {url} from "../../api/api";
 
 interface Certification {
     id: number;
@@ -18,7 +19,7 @@ const CertificationView = () => {
     const [cookie] = useCookies();
 
     useEffect(() => {
-        axios.get<Certification[]>(`http://3.236.213.150:8081/certifications/portfolio/all/${cookie['portfolio'].id}`).then(response => {
+        axios.get<Certification[]>(url + `/certifications/portfolio/all/${cookie['portfolio'].id}`).then(response => {
             setCertifications(response.data);
         });
     }, [null])
@@ -27,7 +28,7 @@ const CertificationView = () => {
         return certifications.map(data => {
             let date = data.issuedOn.substring(5, 7) + "/" + data.issuedOn.substring(8) + "/" + data.issuedOn.substring(0, 4);
             return (
-                <div className="card">
+                <div className="card" data-testid="card">
                     <div className="card-header" id="bottom-border">
                         <h1>Certification Name: {data.name}</h1>
                     </div>
