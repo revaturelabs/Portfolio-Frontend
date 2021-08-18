@@ -4,7 +4,7 @@ import { Table, Button } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
-import DeleteConfirmation from "./DeleteConfirmation";
+import DeleteConfirmation from "./createOrDeletePortfolio/DeleteConfirmation";
 import { useHistory } from "react-router-dom";
 
 export const defaultArrows:{[key: string]: string} = {
