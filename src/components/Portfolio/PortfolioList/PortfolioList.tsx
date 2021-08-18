@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
-import { portfolioUrl } from "../api/api";
-import "../css/PortfolioList.css";
-import CreatePortfolio from "./CreateOrDeletePortfolio/CreatePortfolio";
+import { portfolioUrl } from "../../../api/api";
+import "../../../css/PortfolioList.css";
+import CreatePortfolio from "../PortfolioEdit/CreatePortfolio";
 import PortfolioListTable from "./PortfolioListTable";
 
 const PortfolioList = () => {

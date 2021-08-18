@@ -18,25 +18,25 @@ import {
   matrixUrl,
   portfolioUrl,
   projectUrl
-} from "../api/api";
-import "../css/EditEmpPortfolio.css";
-import Matrix from "../interfaces/Matrix";
-import CertificationContainer from "./Certifications/CertificationContainer";
-import EducationContainer from "./Education/EducationContainer";
-import HonorAwards from "./Honors/HonorAward";
-import IndustryEquivalency from "./IndustryEquivalency";
-import OtherWorkExperience from "./OtherWorkExperience";
-import Project from "./Project";
-import AboutMe from "./RevatureAboutMe";
-import RevatureWorkExp from "./RevatureWorkExperience";
-import ScrollButton from "./ScrollButton";
+} from "../../../api/api";
+import "../../../css/EditEmpPortfolio.css";
+import Matrix from "../../../interfaces/Matrix";
+import CertificationContainer from "../../Certifications/CertificationContainer";
+import EducationContainer from "../../Education/EducationContainer";
+import HonorAwards from "../../Honors/HonorAward";
+import IndustryEquivalency from "../../IndustryEquivalency";
+import OtherWorkExperience from "../../OtherWorkExperience";
+import Project from "../../Project";
+import AboutMe from "../../RevatureAboutMe";
+import RevatureWorkExp from "../../RevatureWorkExperience";
+import ScrollButton from "../../ScrollButton";
 
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
-import SkillMatrixContainer from "./SkillMatrix/SkillMatrixContainer";
+import SkillMatrixContainer from "../../SkillMatrix/SkillMatrixContainer";
 
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

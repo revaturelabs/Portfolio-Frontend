@@ -3,8 +3,8 @@ import React, { useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
-import { portfolioUrl } from "../api/api";
-import "../css/PortfolioTable.css";
+import { portfolioUrl } from "../../../api/api";
+import "../../../css/PortfolioTable.css";
 import { requestSort, defaultArrows } from "./PortfolioListTable";
 
 function PortfolioTable(props: any) {
