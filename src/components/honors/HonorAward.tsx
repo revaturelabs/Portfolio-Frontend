@@ -8,9 +8,9 @@ import axios from 'axios'
 import '../../css/HonorAwards.css'
 import { CSSProperties } from 'react'
 import {url} from "../../api/api";
-import awardValidation from '../validation/AwardValidation'
-import styleInvalidElements from "../validation/InvalidFormHandling";
-import ValidationMsg from '../validation/ValidationMsg'
+import awardValidation from '../Validation/AwardValidation'
+import styleInvalidElements from "../Validation/InvalidFormHandling";
+import ValidationMsg from '../Validation/ValidationMsg'
 
 const HonorAwards = () => {
     // Cookies

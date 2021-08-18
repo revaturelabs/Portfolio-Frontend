@@ -4,9 +4,9 @@ import { Button, Modal } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import "../../css/Project.css";
 import {url} from "../../api/api";
-import educationValidation, { educationValidationErrors } from "../validation/EducationValidation";
-import styleInvalidElements, { styleInvalidElement } from "../validation/InvalidFormHandling";
-import ValidationMsg from '../validation/ValidationMsg';
+import educationValidation, { educationValidationErrors } from "../Validation/EducationValidation";
+import styleInvalidElements, { styleInvalidElement } from "../Validation/InvalidFormHandling";
+import ValidationMsg from '../Validation/ValidationMsg';
 import EducationEdit from "./EducationEdit";
 
 const EducationCreation: FC<{hideModal: Function}>= (props) => {

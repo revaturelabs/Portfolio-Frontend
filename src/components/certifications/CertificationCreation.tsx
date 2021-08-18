@@ -3,8 +3,8 @@ import React, { useState, FC } from 'react'
 import { useCookies } from "react-cookie";
 import "../../css/Certification.css";
 import {url} from "../../api/api";
-import certificationValidation from "../validation/CertificationValidation";
-import styleInvalidElements from "../validation/InvalidFormHandling";
+import certificationValidation from "../Validation/CertificationValidation";
+import styleInvalidElements from "../Validation/InvalidFormHandling";
 import CertificationForm from "./CertificationForm";
 
 const CertificationCreation: FC<{ hideModal: Function }> = (props) => {

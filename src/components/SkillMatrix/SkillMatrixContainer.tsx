@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { matrixUrl } from "../api/api";
+import { matrixUrl } from "../../api/api";
 import { useCookies } from "react-cookie";
-import Matrix, { Skill } from "../interfaces/Matrix";
+import Matrix, { Skill } from "../../interfaces/Matrix";
 import axios from "axios";
 import createChart from "./SkillMatrixPieChart";
 import { Modal, Button, ModalBody, Card } from "react-bootstrap";

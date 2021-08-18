@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../../css/Certification.css";
-import ValidationMsg from '../validation/ValidationMsg'
+import ValidationMsg from '../Validation/ValidationMsg'
 
 let ButtonStyles: CSSProperties = {
     background: "rgb(242, 105, 3)",

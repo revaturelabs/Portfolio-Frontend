@@ -3,8 +3,8 @@ import { useState, FC } from 'react'
 import "../../css/Certification.css";
 import {url} from "../../api/api";
 import Certification from "../../interfaces/Certification";
-import certificationValidation from "../validation/CertificationValidation";
-import styleInvalidElements from "../validation/InvalidFormHandling";
+import certificationValidation from "../Validation/CertificationValidation";
+import styleInvalidElements from "../Validation/InvalidFormHandling";
 import CertificationForm from "./CertificationForm";
 
 const EducationUpdate: FC<{ hideModal: Function, editCertification: Certification }> = (props) => {

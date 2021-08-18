@@ -1,5 +1,5 @@
-import Matrix from "../interfaces/Matrix";
-import CanvasJSReact from "../canvasjs.react.js";
+import Matrix from "../../interfaces/Matrix";
+import CanvasJSReact from "../../canvasjs.react.js";
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 

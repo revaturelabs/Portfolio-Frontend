@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../api/api";
 import "../css/PortfolioList.css";
-import CreatePortfolio from "./createOrDeletePortfolio/CreatePortfolio";
+import CreatePortfolio from "./CreateOrDeletePortfolio/CreatePortfolio";
 import PortfolioListTable from "./PortfolioListTable";
 
 const PortfolioList = () => {
