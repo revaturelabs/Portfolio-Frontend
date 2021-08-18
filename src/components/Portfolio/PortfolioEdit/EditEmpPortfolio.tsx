@@ -26,7 +26,7 @@ import EducationContainer from "../../Education/EducationContainer";
 import HonorAwards from "../../Honors/HonorAward";
 import IndustryEquivalency from "../../IndustryEquivalency/IndustryEquivalency";
 import OtherWorkExperience from "../../OtherWorkExp/OtherWorkExperience";
-import Project from "../../Project";
+import Project from "../../Project/Project";
 import AboutMe from "../../AboutMe/RevatureAboutMe";
 import RevatureWorkExp from "../../RevatureWorkExp/RevatureWorkExperience";
 import ScrollButton from "../../ScrollButton";
