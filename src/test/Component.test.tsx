@@ -4,7 +4,7 @@ import * as rcookies from 'react-cookie';
 import { BrowserRouter, Route } from "react-router-dom";
 import Adminpage from "../components/Adminpage";
 import validate from "../components/Account/FormValidation";
-import HonorAwards from "../components/HonorsQ/HonorAward";
+import HonorAwards from "../components/Honors/HonorAward"; 
 import PortfolioList from "../components/Portfolio/PortfolioList/PortfolioList";
 import ViewPortfolio from "../components/ViewPortfolio/ViewPortfolio";
 import { fullPortfolioTestObj, testAdminFname, testGeneralUser, testPortfolioList } from "./TestUserComponent";

@@ -3,7 +3,7 @@ import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Modal } from "react-bootstrap";
 import "../../css/Certification.css";
 import {url} from "../../api/api";
-import Certification from "../../interfaces/Certification";
+import Certification from "../../interfaces/Certification"; 
 
 const CertificationDelete: FC<{ hideModal: Function, editCertification: Certification }> = (props) => {
     const backEndUrl = url + "/certifications";
