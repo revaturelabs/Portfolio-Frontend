@@ -5,7 +5,7 @@ import ViewPortfolio from './ViewPortfolio/ViewPortfolio';
 import EditEmpPortfolio from './Portfolio/PortfolioEdit/EditEmpPortfolio';
 import PortfolioList from "./Portfolio/PortfolioList/PortfolioList";
 import Adminpage from "./Admin/Adminpage";
-import Portfoliodetails from "./Portfoliodetails";
+import Portfoliodetails from "./Portfolio/Portfoliodetails";
 
 function Layout() {
     return (
