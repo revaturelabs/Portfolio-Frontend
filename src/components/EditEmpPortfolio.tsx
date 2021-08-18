@@ -21,8 +21,8 @@ import {
 } from "../api/api";
 import "../css/EditEmpPortfolio.css";
 import Matrix from "../interfaces/Matrix";
-import CertificationContainer from "./CertificationContainer";
-import EducationContainer from "./EducationContainer";
+import CertificationContainer from "./certifications/CertificationContainer";
+import EducationContainer from "./education/EducationContainer";
 import HonorAwards from "./HonorAward";
 import IndustryEquivalency from "./IndustryEquivalency";
 import OtherWorkExperience from "./OtherWorkExperience";

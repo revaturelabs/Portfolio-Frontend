@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { Modal } from "react-bootstrap";
-import "../css/Project.css";
+import "../../css/Project.css";
 
 
 const EducationEdit: FC<{ hideModal: Function, university: string,

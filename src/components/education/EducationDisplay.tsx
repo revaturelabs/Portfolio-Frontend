@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Card } from "react-bootstrap";
-import "../css/Education.css";
+import "../../css/Education.css";
 
 interface User {
     id: number;

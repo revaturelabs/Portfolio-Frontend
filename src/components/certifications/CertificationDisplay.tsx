@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useState, FC, CSSProperties } from 'react'
 import { Button, Card } from "react-bootstrap";
-import "../css/Certification.css";
-import Certification from "../interfaces/Certification";
+import "../../css/Certification.css";
+import Certification from "../../interfaces/Certification";
 
 const CertificationDisplay: FC<{ getEditCertification: Function, showEditModal: Function, showDeleteModal: Function, currentCertification: Certification, index: number }> = (props) => {
     const [id, setId] = useState(props.currentCertification.id);

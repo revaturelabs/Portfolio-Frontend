@@ -7,7 +7,7 @@ import { Tooltip } from "reactstrap";
 import { NumberLiteralType } from "typescript";
 import "../css/Project.css";
 import {toast} from "react-toastify";
-import {educationUrl} from "../api/api";
+import {educationUrl} from "../../api/api";
 
 const Education = () => {
     /**
