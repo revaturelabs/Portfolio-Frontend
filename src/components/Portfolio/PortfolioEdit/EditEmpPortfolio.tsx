@@ -23,7 +23,7 @@ import "../../../css/EditEmpPortfolio.css";
 import Matrix from "../../../interfaces/Matrix";
 import CertificationContainer from "../../Certifications/CertificationContainer";
 import EducationContainer from "../../Education/EducationContainer";
-import HonorAwards from "../../Honors/HonorAward";
+import HonorAwards from "../../HonorsQ/HonorAward";
 import IndustryEquivalency from "../../IndustryEquivalency";
 import OtherWorkExperience from "../../OtherWorkExperience";
 import Project from "../../Project";
